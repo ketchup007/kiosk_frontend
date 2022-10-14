@@ -1,0 +1,66 @@
+{
+    "touchScreenInfo": "Touch Screen, to Order",
+    "@touchScreenInfo": {
+        "description": "Information how to change Screen from Home Screen to Order Screen"
+    },
+
+    "pizzaItemLabel": "Pizza",
+    "@pizzaItemLabel": {
+        "description": "Label of Pizza item category"
+    },
+
+    "drinksItemLabel": "Drinks",
+    "@drinksItemLabel": {
+        "description": "Label of Drinks item category"
+    },
+
+    "boxesItemLabel": "Boxes",
+    "@boxesItemLabel": {
+        "description": "Label of Boxes item category"
+    },
+
+    "saucesItemLabel": "Sauces",
+    "@saucesItemLabel": {
+        "description": "Label of Sauces item category"
+    },
+
+    "cancelButtonLabel": "Cancel",
+    "@cancelButtonLabel": {
+        "description": "Label of Cancel button"
+    },
+
+    "confirmButtonLabel": "Confirm",
+    "@confirmButtonLabel": {
+        "description": "Label of Confirm Button"
+    },
+
+    "priceToPayInfo": "Total order Price",
+    "@priceToPayInfo": {
+        "description": "Information about total order price"
+    },
+
+    "conformationInfo": "System do not provide transaction conformation",
+    "@conformationInfo": {
+        "description": " "
+    },
+
+    "paymentButtonLabel": "Start Payment",
+    "@paymentButtonLabel": {
+        "description": " "
+    },
+
+    "summaryInfo": "Order Summary",
+    "@summaryInfo": {
+        "description": " "
+    },
+
+    "cancelOrderButtonLabel": "Cancel Order",
+    "@cancelOrderButtonLabel": {
+        "description": " "
+    },
+
+    "editOrderButtonLabel": "Edit Order",
+    "@editOrderButtonLabel": {
+        "description": " "
+    }
+}
