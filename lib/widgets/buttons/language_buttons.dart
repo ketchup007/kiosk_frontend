@@ -24,36 +24,40 @@ class LanguageButtons extends StatelessWidget {
       children: [
         Container(
             padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-            child: Material(
-                type: MaterialType.transparency,
-                child: InkWell(
-                    onTap: () {
-                      MyApp.of(context)?.setLocale(
-                          const Locale.fromSubtags(languageCode: 'pl'));
-                      provider.changeLanguage(context);
-                    },
-                    child: Ink.image(
-                      image: const SVG.Svg('assets/images/polandFlag.svg'),
-                      height: ribbonHeight,
-                      width: ribbonWidth,
-                      fit: BoxFit.cover,
-                    )))),
+            child: Container(
+                width: ribbonWidth,
+                height: ribbonHeight,
+                child: IconButton(
+                  onPressed: () {},
+                  alignment: Alignment.bottomCenter,
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
+                  icon: Image.asset('assets/images/plFlag.png',
+                    width: ribbonWidth * 0.85,
+                    height: ribbonWidth * 0.85,),
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 0, 122, 166),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(ribbonWidth *0.5),
+                        bottomRight: Radius.circular(ribbonWidth *0.5))))))),
         Container(
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: Material(
-                type: MaterialType.transparency,
-                child: InkWell(
-                    onTap: () {
-                      MyApp.of(context)?.setLocale(
-                          const Locale.fromSubtags(languageCode: 'en'));
-                      provider.changeLanguage(context);
-                    },
-                    child: Ink.image(
-                      image: const SVG.Svg('assets/images/angFlag.svg'),
-                      height: ribbonHeight,
-                      width: ribbonWidth,
-                      fit: BoxFit.cover,
-                    )))),
+            child: Container(
+                width: ribbonWidth,
+                height: ribbonHeight,
+                child: IconButton(
+                    onPressed: () {},
+                    alignment: Alignment.bottomCenter,
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
+                    icon: Image.asset('assets/images/angFlag.png',
+                      width: ribbonWidth * 0.85,
+                      height: ribbonWidth * 0.85,),
+                    style: IconButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 0, 122, 166),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(ribbonWidth *0.5),
+                                bottomRight: Radius.circular(ribbonWidth *0.5))))))),
       ],
     );
   }

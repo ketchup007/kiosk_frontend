@@ -7,6 +7,7 @@ import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/widgets/lists/order_list_view.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
 import 'package:kiosk_flutter/widgets/card/phone_popup_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SummaryCard extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class SummaryCardState extends State<SummaryCard> {
 
     return Card(
         shape: RoundedRectangleBorder(
-            side: BorderSide(
+            side: const BorderSide(
               color: Color.fromARGB(255, 151, 203, 98),
             ),
             borderRadius: BorderRadius.circular(20)),
@@ -33,8 +34,8 @@ class SummaryCardState extends State<SummaryCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Center(
-                child: Text('Podsumowanie zamówienia',
-                    style: TextStyle(
+                child: Text(AppLocalizations.of(context)!.orderSummaryText,
+                    style: const TextStyle(
                         fontFamily: 'GloryExtraBold',
                         fontSize: 30,
                         color: Color.fromARGB(255, 86, 197, 208)))),
@@ -45,23 +46,26 @@ class SummaryCardState extends State<SummaryCard> {
             ),
             _paymentState == 0
                 ? Container(
-                    alignment: AlignmentDirectional.centerEnd,
+                    alignment: AlignmentDirectional.center,
                     padding: EdgeInsets.fromLTRB(
                         0,
-                        MediaQuery.of(context).size.height * 0.05,
-                        MediaQuery.of(context).size.width * 0.04,
+                        MediaQuery.of(context).size.height * 0.05,  //0.05
+                        MediaQuery.of(context).size.width * 0,   //0.04
                         0),
-                    child: ElevatedButton(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.86,
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 151, 203, 100),
+                          backgroundColor: const Color.fromARGB(255, 151, 203, 100),
                           foregroundColor: Colors.black),
                       onPressed: () {
                         if (provider.sum != 0) {
                           showDialog(
                             context: context,
                             builder: (context){
-                              return PhonePopupCard(onPress: () {
-                                print(provider.order.client_name);
+                              return PhonePopupCard(onPress: (isPromotionChecked) {
+                                provider.setOrderClientNumber(provider.order.client_name, isPromotionChecked);
                                 setState(() {
                                   _paymentState = 1;
                                 });
@@ -71,17 +75,12 @@ class SummaryCardState extends State<SummaryCard> {
                               },);
                             });
                         }
-                        /*if (provider.sum != 0) {
-                          setState(() {
-                            _paymentState = 1;
-                          });
-                          provider.changeOrderStatus(1);
-                          provider.inPayment = true;
-                          provider.notifyListeners();
-                        } */
                       },
-                      child: Text('Dokonaj Płatności'),
-                    ))
+                      child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
+                          style: const TextStyle(
+                              fontFamily: 'GloryBold',
+                              fontSize: 30)),
+                    )))
                 : Container(
                     child: FutureBuilder(
                         future: provider.payment.startTransaction(provider.sum),
@@ -96,23 +95,22 @@ class SummaryCardState extends State<SummaryCard> {
                                     width: MediaQuery.of(context).size.width *
                                         0.86,
                                     child: Card(
-                                      color: Color.fromARGB(255, 151, 203, 98),
+                                      color: const Color.fromARGB(255, 151, 203, 98),
                                       child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(
-                                              'Płatność Rozpoczęta'
+                                          Text(AppLocalizations.of(context)!.paymentStartedText
                                                   .toUpperCase(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontFamily: 'GloryExtraBold',
                                                   fontSize: 25)),
                                           Text(
-                                              'Postępuj zgodnie z instrukcjami wyświetlonymi na terminalu poniżej',
-                                              style: TextStyle(
+                                              AppLocalizations.of(context)!.paymentInfoText,
+                                              style: const TextStyle(
                                                   fontFamily: 'GloryMedium',
                                                   fontSize: 20)),
-                                          CircularProgressIndicator(
+                                          const CircularProgressIndicator(
                                               color: Color.fromARGB(
                                                   255, 89, 162, 38))
                                         ],
@@ -138,17 +136,17 @@ class SummaryCardState extends State<SummaryCard> {
                                             MediaQuery.of(context).size.width *
                                                 0.86,
                                         child: Card(
-                                            color: Color.fromARGB(
+                                            color: const Color.fromARGB(
                                                 255, 151, 203, 98),
                                             child: Center(
                                                 child: Text(
-                                                    'Płatność Zaakceptowana'
+                                                    AppLocalizations.of(context)!.paymentAcceptedText
                                                         .toUpperCase(),
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontFamily:
                                                             'GloryExtraBold',
                                                         fontSize: 25))))),
-                                    Container(
+                                    SizedBox(
                                         height:
                                             MediaQuery.of(context).size.height *
                                                 0.03,
@@ -157,9 +155,9 @@ class SummaryCardState extends State<SummaryCard> {
                                                 0.2,
                                         child: OutlinedButton(
                                             style: OutlinedButton.styleFrom(
-                                                foregroundColor: Color.fromARGB(
+                                                foregroundColor: const Color.fromARGB(
                                                     255, 218, 49, 62),
-                                                side: BorderSide(
+                                                side: const BorderSide(
                                                     color: Color.fromARGB(
                                                         255, 218, 49, 62),
                                                     width: 1)),
@@ -177,8 +175,8 @@ class SummaryCardState extends State<SummaryCard> {
                                                       builder: (context) =>
                                                           const StartScreen()));
                                             },
-                                            child: Text('Powrót',
-                                                style: TextStyle(
+                                            child: Text(AppLocalizations.of(context)!.returnButtonLabel,
+                                                style: const TextStyle(
                                                     fontSize: 17,
                                                     fontFamily:
                                                         'GloryMedium'))))
@@ -197,15 +195,15 @@ class SummaryCardState extends State<SummaryCard> {
                                                 0.86,
                                         child: Card(
                                           color:
-                                              Color.fromARGB(255, 218, 49, 62),
+                                              const Color.fromARGB(255, 218, 49, 62),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
                                             children: [
                                               Text(
-                                                  'Płatność Anulowana'
+                                                  AppLocalizations.of(context)!.paymentCancelledText
                                                       .toUpperCase(),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontFamily:
                                                           'GloryExtraBold',
                                                       fontSize: 25,
@@ -231,7 +229,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                     0,
                                                     0,
                                                     0),
-                                                child: Container(
+                                                child: SizedBox(
                                                     height: MediaQuery.of(context)
                                                             .size
                                                             .height *
@@ -243,9 +241,9 @@ class SummaryCardState extends State<SummaryCard> {
                                                     child: OutlinedButton(
                                                         style: OutlinedButton.styleFrom(
                                                             foregroundColor:
-                                                                Color.fromARGB(
+                                                                const Color.fromARGB(
                                                                     255, 218, 49, 62),
-                                                            side: BorderSide(
+                                                            side: const BorderSide(
                                                                 color: Color.fromARGB(
                                                                     255, 218, 49, 62),
                                                                 width: 1)),
@@ -256,8 +254,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                               .changeToPizza();
                                                           provider.inPayment =
                                                               false;
-                                                          provider
-                                                              .notifyListeners();
+                                                          provider.notifyListeners();
                                                           setState(() {
                                                             _paymentState = 0;
                                                           });
@@ -268,7 +265,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                                       (context) =>
                                                                           const StartScreen()));
                                                         },
-                                                        child: Text('Powrót', style: TextStyle(fontSize: 17, fontFamily: 'GloryMedium'))))),
+                                                        child: Text(AppLocalizations.of(context)!.returnButtonLabel, style: TextStyle(fontSize: 17, fontFamily: 'GloryMedium'))))),
                                             Container(
                                                 padding: EdgeInsets.fromLTRB(
                                                     MediaQuery.of(context)
@@ -278,7 +275,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                     0,
                                                     0,
                                                     0),
-                                                child: Container(
+                                                child: SizedBox(
                                                     height:
                                                         MediaQuery.of(context)
                                                                 .size
@@ -293,7 +290,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                         style: ElevatedButton
                                                             .styleFrom(
                                                           backgroundColor:
-                                                              Color.fromARGB(
+                                                              const Color.fromARGB(
                                                                   255,
                                                                   151,
                                                                   203,
@@ -310,8 +307,8 @@ class SummaryCardState extends State<SummaryCard> {
                                                           });
                                                         },
                                                         child: Text(
-                                                            'Spróbuj ponownie',
-                                                            style: TextStyle(
+                                                            AppLocalizations.of(context)!.tryAgainButtonLabel,
+                                                            style: const TextStyle(
                                                                 fontSize: 17,
                                                                 fontFamily:
                                                                     'GloryMedium')))))
@@ -325,7 +322,7 @@ class SummaryCardState extends State<SummaryCard> {
                               return const Text('Empty data');
                             }
                           } else {
-                            return Text('snapshot.connectionState');
+                            return const Text('snapshot.connectionState');
                           }
                         }))
           ],

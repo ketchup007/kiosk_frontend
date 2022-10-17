@@ -16,6 +16,13 @@ class _OrderListState extends State<OrderList> {
     return ListView.builder(
         itemCount: widget.storage.length,
         itemBuilder: (context, index) {
+          String name = widget.storage[index].namePl;
+          String ingredients = widget.storage[index].ingredientsPl;
+
+          if (Localizations.localeOf(context).toString() == 'en') {
+            name = widget.storage[index].nameEn;
+            ingredients = widget.storage[index].ingredientsEn;
+          }
           return Row(children: [
             Container(
                 padding: EdgeInsets.fromLTRB(
@@ -23,13 +30,13 @@ class _OrderListState extends State<OrderList> {
                 child: Container(
                     width: MediaQuery.of(context).size.width * 0.05,
                     height: MediaQuery.of(context).size.width * 0.05,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Color.fromARGB(255, 86, 197, 208),
                     ),
                     child: Center(
                         child: Text('${widget.storage[index].number}x',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontFamily: 'GloryLight',
                                 fontSize: 30,
                                 color: Colors.white))))),
@@ -42,19 +49,19 @@ class _OrderListState extends State<OrderList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.storage[index].namePl,
-                      style: TextStyle(fontFamily: 'GloryBold', fontSize: 20),
+                      name,
+                      style: const TextStyle(fontFamily: 'GloryBold', fontSize: 20),
                     ),
                     Text(
-                      widget.storage[index].ingredientsPl,
-                      style: TextStyle(
+                      ingredients,
+                      style: const TextStyle(
                           fontFamily: 'GloryLightItalic', fontSize: 15),
                     )
                   ],
                 )),
             Text(
               '${widget.storage[index].price.toStringAsFixed(2)} zł',
-              style: TextStyle(fontFamily: 'GloryLightItalic', fontSize: 15),
+              style: const TextStyle(fontFamily: 'GloryLightItalic', fontSize: 15),
             ),
             Container(
               padding: EdgeInsets.fromLTRB(
@@ -65,20 +72,20 @@ class _OrderListState extends State<OrderList> {
               child: Container(
                   width: MediaQuery.of(context).size.width * 0.02,
                   height: MediaQuery.of(context).size.width * 0.02,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Color.fromARGB(255, 86, 197, 208),
                   ),
                   child: Center(
                       child: Text('${widget.storage[index].number}x',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'GloryLight',
                               fontSize: 12,
                               color: Colors.white)))),
             ),
             Text(
               '${(widget.storage[index].number * widget.storage[index].price).toStringAsFixed(2)} zł',
-              style: TextStyle(fontFamily: 'GloryBold', fontSize: 20),
+              style: const TextStyle(fontFamily: 'GloryBold', fontSize: 20),
             )
           ]);
         });

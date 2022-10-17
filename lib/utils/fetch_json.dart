@@ -37,3 +37,4 @@ Future<int> fetchProductState(String product) async {
     throw Exception('Failed to fetch');
   }
 }
+

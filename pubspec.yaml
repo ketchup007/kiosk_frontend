@@ -81,6 +81,10 @@ flutter:
     - assets/images/robotAnimation/orderMenuRobot/new_robot_back.svg
     - assets/images/robotAnimation/orderMenuRobot/newRobotArms.png
     - assets/images/robotAnimation/orderMenuRobot/newRobotBack.png
+    - assets/images/flagOfPoland.png
+    - assets/images/plFlag.png
+    - assets/images/angFlag.png
+
 
   fonts:
     - family: GloryBold

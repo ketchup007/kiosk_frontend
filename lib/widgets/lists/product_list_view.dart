@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductList extends StatefulWidget {
   final List<StorageModel> storage;
@@ -18,6 +19,7 @@ class _ProductListState extends State<ProductList> {
 
   @override
   void initState() {
+    super.initState();
     isVisiblePlus = List<bool>.filled(widget.storage.length, true);
     isVisibleMinus = List<bool>.filled(widget.storage.length, false);
   }
@@ -33,7 +35,7 @@ class _ProductListState extends State<ProductList> {
 
     print(widget.storage.length);
     return ListView.builder(
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         itemCount: widget.storage.length,
         itemBuilder: (context, index) {
           print(index);
@@ -72,7 +74,7 @@ class _ProductListState extends State<ProductList> {
                       decoration: BoxDecoration(
                         border: Border.all(
                             width: 5,
-                            color: Color.fromARGB(255, 248, 220, 173)),
+                            color: const Color.fromARGB(255, 248, 220, 173)),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: ClipRRect(
@@ -87,16 +89,16 @@ class _ProductListState extends State<ProductList> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${name}",
-                      style: TextStyle(fontFamily: 'GloryBold', fontSize: 25),
+                      name,
+                      style: const TextStyle(fontFamily: 'GloryBold', fontSize: 25),
                     ),
-                    Container(
+                    SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
                         child: Text(
-                          "${ingredients}",
+                          ingredients,
                           maxLines: 2,
                           overflow: TextOverflow.clip,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: 'GloryLightItalic', fontSize: 15),
                         ))
                   ],
@@ -107,7 +109,7 @@ class _ProductListState extends State<ProductList> {
                       0, MediaQuery.of(context).size.height * 0.017, 5, 0),
                   child: Text(
                       "${widget.storage[index].price.toStringAsFixed(2)} zł",
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'GloryLightItalic', fontSize: 15))),
               Container(
                   padding: EdgeInsets.fromLTRB(
@@ -117,13 +119,13 @@ class _ProductListState extends State<ProductList> {
                       decoration: BoxDecoration(
                           border: Border.all(
                               width: 2,
-                              color: Color.fromARGB(255, 86, 197, 208)),
+                              color: const Color.fromARGB(255, 86, 197, 208)),
                           borderRadius: BorderRadius.circular(20)),
                       child: Center(
                           child: Text(
-                        "${widget.storage[index].number} szt.",
+                        "${widget.storage[index].number} ${AppLocalizations.of(context)!.pcs}",
                         style:
-                            TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
+                            const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                       )))),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -168,10 +170,10 @@ class _ProductListState extends State<ProductList> {
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                            shape: CircleBorder(),
-                                            backgroundColor: Color.fromARGB(
+                                            shape: const CircleBorder(),
+                                            backgroundColor: const Color.fromARGB(
                                                 255, 218, 49, 62)),
-                                        child: Text(
+                                        child: const Text(
                                           "-",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -214,10 +216,10 @@ class _ProductListState extends State<ProductList> {
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                            shape: CircleBorder(),
-                                            backgroundColor: Color.fromARGB(
+                                            shape: const CircleBorder(),
+                                            backgroundColor: const Color.fromARGB(
                                                 255, 86, 197, 208)),
-                                        child: Text(
+                                        child: const Text(
                                           "+",
                                           style: TextStyle(
                                               color: Colors.white,
@@ -226,7 +228,7 @@ class _ProductListState extends State<ProductList> {
                       ]),
                   Text(
                     "${(widget.storage[index].price * widget.storage[index].number).toStringAsFixed(2)} zł",
-                    style: TextStyle(fontFamily: "GloryMedium", fontSize: 20),
+                    style: const TextStyle(fontFamily: "GloryMedium", fontSize: 20),
                   )
                 ],
               )

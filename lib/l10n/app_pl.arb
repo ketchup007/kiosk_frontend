@@ -11,5 +11,18 @@
     "paymentButtonLabel": "Dokonaj płatnośc",
     "summaryInfo": "Podsumowanie zamówienia",
     "cancelOrderButtonLabel": "Anuluj zamówienie",
-    "editOrderButtonLabel": "Edytuj zamówienie"
+    "editOrderButtonLabel": "Edytuj zamówienie",
+
+    "summaryButtonLabel": "Podsumowanie",
+    "orderTotalText": "Suma zamówienia",
+    "paymentConformationText": "System nie wydaje potwierdzeń płatności",
+    "orderSummaryText": "Podsumowanie zamówienia",
+    "makePaymentButtonLabel": "Dokonaj płatności",
+    "paymentStartedText": "Płatność rozpoczęta",
+    "paymentInfoText": "Postępuj zgodnie z instrukcjami wyświetlonymi na terminalu poniżej",
+    "paymentCancelledText": "Płatność anulowana",
+    "returnButtonLabel": "Powrót",
+    "tryAgainButtonLabel": "Spróbuj ponownie",
+    "paymentAcceptedText": "Płatność zaakceptowana",
+    "pcs": "szt."
 }

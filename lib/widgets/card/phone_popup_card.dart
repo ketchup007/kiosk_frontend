@@ -22,12 +22,12 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
   bool isCheckedA = false;
   bool isCheckedB = false;
   bool isCheckedC = false;
+  final TextEditingController _myController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    final TextEditingController _myController = TextEditingController();
     return Center(
       child: Container(
         height: MediaQuery.of(context).size.height * 0.9,
@@ -65,10 +65,14 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     onChanged: (bool? value) {
                       setState(() {
                         isCheckedMain = value!;
-                        if(value! == true){
+                        if(value == true){
                           isCheckedA = true;
                           isCheckedB = true;
                           isCheckedC = true;
+                        }else{
+                          isCheckedA = false;
+                          isCheckedB = false;
+                          isCheckedC = false;
                         }
                       });
                     },
@@ -85,6 +89,11 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     onChanged: (bool? value) {
                       setState(() {
                         isCheckedA = value!;
+                        if(isCheckedA == true && isCheckedB == true && isCheckedC == true){
+                          isCheckedMain = true;
+                        }else{
+                          isCheckedMain = false;
+                        }
                       });
                     },
                   ),
@@ -100,6 +109,12 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     onChanged: (bool? value) {
                       setState(() {
                         isCheckedB = value!;
+
+                        if(isCheckedA == true && isCheckedB == true && isCheckedC == true){
+                          isCheckedMain = true;
+                        }else{
+                          isCheckedMain = false;
+                        }
                       });
                     },
                   ),
@@ -115,6 +130,12 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     onChanged: (bool? value) {
                       setState(() {
                         isCheckedC = value!;
+
+                        if(isCheckedA == true && isCheckedB == true && isCheckedC == true){
+                          isCheckedMain = true;
+                        }else{
+                          isCheckedMain = false;
+                        }
                       });
                     },
                   ),
@@ -126,7 +147,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     if(isCheckedA == true && _myController.text.length == 9){
                       Navigator.of(context).pop();
                       provider.order.client_name = _myController.text;
-                      widget.onPress();
+                      widget.onPress(isCheckedB);
                     }
                   },
                   child: Text('Potwierdź '))

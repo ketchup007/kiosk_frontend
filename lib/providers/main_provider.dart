@@ -111,8 +111,17 @@ class MainProvider extends ChangeNotifier {
   changeOrder(String orderName, int value) async {
     changeOrderProduct(order.id, orderName, value);
   }
+
   changeOrderStatus(int value) async{
     changeOrderProduct(order.id, "status", value);
+  }
+
+  changOrderName(String value) async {
+    changeOrderName(order.id, value);
+  }
+
+  setOrderClientNumber(String number, bool promoPermission) async {
+    setClientNumber(order.id, number, promoPermission);
   }
 
   getSum() {

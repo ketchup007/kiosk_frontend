@@ -62,5 +62,66 @@
     "editOrderButtonLabel": "Edit Order",
     "@editOrderButtonLabel": {
         "description": " "
+    },
+
+    "summaryButtonLabel": "Summary",
+    "@summaryOrderButtonLabel": {
+        "description": " "
+    },
+
+    "orderTotalText": "Order total",
+    "@orderTotalText": {
+        "description": " "
+    },
+
+    "paymentConformationText": "System do not provide transaction conformation",
+    "@paymentConformationText": {
+        "description": " "
+    },
+
+    "orderSummaryText": "Order summary",
+    "@orderSummaryText": {
+        "description": " "
+    },
+
+    "makePaymentButtonLabel": "Make Payment",
+    "@makePaymentButtonLabel": {
+        "description": " "
+    },
+
+    "paymentStartedText": "Payment Started",
+    "@paymentStartedText": {
+        "description": " "
+    },
+
+    "paymentInfoText": "Follow instructions shown on the terminal bellow",
+    "@paymentInfoText": {
+        "description": " "
+    },
+
+    "paymentCancelledText": "Payment Cancelled",
+    "@paymentCancelledText": {
+        "description": " "
+    },
+
+    "returnButtonLabel": "Return",
+    "@returnButtonLabel": {
+        "description": " "
+    },
+
+    "tryAgainButtonLabel": "Try again",
+    "@tryAgainButtonLabel": {
+        "description": " "
+    },
+
+    "paymentAcceptedText": "Payment Accepted",
+    "@paymentAcceptedText": {
+        "description": " "
+    },
+
+    "pcs": "pcs",
+    "@pcs": {
+        "description": " "
     }
+
 }

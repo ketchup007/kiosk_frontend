@@ -429,7 +429,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                             Container(
                                                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                                                 height: 35,
-                                                child:  Text('Podsumowanie',
+                                                child:  Text(AppLocalizations.of(context)!.summaryButtonLabel,
                                                     textAlign: TextAlign.start,
                                                     textHeightBehavior: const TextHeightBehavior(
                                                         applyHeightToFirstAscent: false
@@ -533,8 +533,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                     child:Column(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        const Text('Suma zamówienia:',
-                                          style: TextStyle(
+                                        Text(AppLocalizations.of(context)!.orderTotalText,
+                                          style: const TextStyle(
                                               fontSize: 20,
                                               fontFamily: 'GloryLight'
                                           )
@@ -550,8 +550,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                               leadingDistribution: TextLeadingDistribution.even
                                           ),
                                         ),
-                                        const Text('System nie wydaje potwierdzeń płatności',
-                                          style: TextStyle(
+                                        Text(AppLocalizations.of(context)!.paymentConformationText,
+                                          style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'GloryLightItalic'
                                           )
@@ -583,8 +583,8 @@ class _OrderScreenState extends State<OrderScreen> {
                                             child: Container(
                                               alignment: Alignment.bottomCenter,
                                               padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                              child:const Text('Podsumowanie',
-                                                style: TextStyle(
+                                              child:Text(AppLocalizations.of(context)!.summaryButtonLabel,
+                                                style: const TextStyle(
                                                     fontFamily: 'GloryExtraBold',
                                                     fontSize: 18
                                                 )))
