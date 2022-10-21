@@ -24,5 +24,11 @@
     "returnButtonLabel": "Powrót",
     "tryAgainButtonLabel": "Spróbuj ponownie",
     "paymentAcceptedText": "Płatność zaakceptowana",
-    "pcs": "szt."
+    "pcs": "szt.",
+
+    "enterPhoneNumberText": "Wprowadź numer telefonu",
+    "selectAllCheckText": "Zaznacz wszystkie",
+    "requiredCheckText": "Wymagane",
+    "promotionCheckText": "Promocje",
+    "optionalCheckText": "Opcjonalne"
 }

@@ -124,6 +124,10 @@ class MainProvider extends ChangeNotifier {
     setClientNumber(order.id, number, promoPermission);
   }
 
+  Future<int> getOrderNumber() async{
+    return await fetchOrderNumber(order.id);
+  }
+
   getSum() {
     sum = 0.0;
     for(var i= 0; i<storage.length; i++){
@@ -132,9 +136,18 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getlimit(String product, int number){
+  getLimit(String product, int number){
     fetchProductState(product).then((data){
       limits[product] = data + number;
+    });
+  }
+
+  getLimits(){
+    fetchStorageLimits().then( (data) {
+      print("tick");
+      for(int i = 0; i < data.length; i++){
+        limits[data[i].orderName] = data[i].quantity;
+      }
     });
   }
 

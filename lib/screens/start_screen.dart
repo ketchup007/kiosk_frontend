@@ -5,6 +5,10 @@ import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
+import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
+import 'package:lottie/lottie.dart';
+import 'package:rive/rive.dart';
+import 'package:kiosk_flutter/themes/color.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -31,35 +35,29 @@ class _StartScreenState extends State<StartScreen> {
                       ribbonHeight: MediaQuery.of(context).size.height * 0.1,
                       ribbonWidth: MediaQuery.of(context).size.width * 0.1)),
               Container(
-                  padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height * 0.15, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
                   child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
                       width: MediaQuery.of(context).size.width * 0.65)),
               Container(
-                  padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height * 0.1, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
                   child: ConstrainedBox(
                       constraints: BoxConstraints.tightFor(
                           width: MediaQuery.of(context).size.width * 0.65),
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 151, 203, 100),
-                            foregroundColor: Colors.black,
-                          ),
+                            backgroundColor: AppColors.green,
+                            foregroundColor: Colors.black),
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const OrderScreen()));
                           },
-                          child: Text(
-                            AppLocalizations.of(context)!.touchScreenInfo,
+                          child: Text(AppLocalizations.of(context)!.touchScreenInfo,
                             style: const TextStyle(
-                                fontSize: 36, fontFamily: 'GloryMedium'),
-                          )))),
+                                fontSize: 36, fontFamily: 'GloryMedium'))))),
               Container(
-                  padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
                   child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
@@ -68,26 +66,12 @@ class _StartScreenState extends State<StartScreen> {
                             image: const SVG.Svg('assets/images/touch.svg'),
                             height: MediaQuery.of(context).size.height * 0.2,
                             width: MediaQuery.of(context).size.width * 0.32,
-                            fit: BoxFit.cover,
-                          )))),
+                            fit: BoxFit.cover,)))),
               Container(
                 height: MediaQuery.of(context).size.height * 0.22 + 6,
                 padding: EdgeInsets.fromLTRB(
                     0, 0, MediaQuery.of(context).size.width * 0.03, 0),
                 alignment: Alignment.bottomRight,
-                child: Material(
-                  type: MaterialType.transparency,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Ink.image(
-                        alignment: Alignment.bottomRight,
-                        image: const SVG.Svg(
-                            'assets/images/robotAnimation/robot_frame_1.svg'),
-                        height: MediaQuery.of(context).size.height * 0.21,
-                        fit: BoxFit.fitHeight),
-                  ),
-                ),
-              )
-            ],
-          )));
+                child: const RiveAnimation.asset('assets/animations/robot1.riv',
+                alignment: Alignment.bottomRight))])));
 }

@@ -122,6 +122,30 @@
     "pcs": "pcs",
     "@pcs": {
         "description": " "
-    }
+    },
 
+    "enterPhoneNumberText": "Enter phone number",
+    "@enterPhoneNumberText": {
+     "description": " "
+    },
+
+    "selectAllCheckText": "Select all",
+    "@selectAllCheckText": {
+         "description": " "
+    },
+
+    "requiredCheckText": "Required",
+    "@requiredCheckText": {
+         "description": " "
+    },
+
+    "promotionCheckText": "PromotionCheckText",
+    "@PromotionCheckText": {
+         "description": " "
+    },
+
+    "optionalCheckText": "Optional",
+    "@optionalCheckText": {
+         "description": " "
+    }
 }

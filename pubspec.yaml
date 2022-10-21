@@ -43,6 +43,8 @@ dependencies:
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
   web_socket_channel: ^2.2.0
+  lottie: ^1.4.3
+  rive: ^0.9.1
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +79,12 @@ flutter:
     - assets/images/touch.svg
     - assets/Logo.png
     - assets/images/robotAnimation/robot_frame_1.svg
+    - assets/images/robotAnimation/robot_frame_2.svg
+    - assets/images/robotAnimation/robot_frame_3.svg
+    - assets/images/robotAnimation/robot_frame_4.svg
+    - assets/images/robotAnimation/robot_frame_6.svg
+    - assets/images/robotAnimation/robot_frame_7.svg
+    - assets/images/robotAnimation/robot_frame_8.svg
     - assets/images/robotAnimation/orderMenuRobot/new_robot_arms.svg
     - assets/images/robotAnimation/orderMenuRobot/new_robot_back.svg
     - assets/images/robotAnimation/orderMenuRobot/newRobotArms.png
@@ -84,6 +92,8 @@ flutter:
     - assets/images/flagOfPoland.png
     - assets/images/plFlag.png
     - assets/images/angFlag.png
+    - assets/animations/robotTest.json
+    - assets/animations/robot1.riv
 
 
   fonts:

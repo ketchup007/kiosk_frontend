@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/themes/color.dart';
 
-class numPad extends StatelessWidget{
+class NumPad extends StatelessWidget{
   final TextEditingController controller;
 
-  const numPad({
+  const NumPad({
     Key? key,
     required this.controller
   }): super(key: key);
@@ -11,58 +12,75 @@ class numPad extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return
-      Container(
-        width: MediaQuery.of(context).size.width * 0.25,
+      SizedBox(
+          width: MediaQuery.of(context).size.width * 0.45,
           child: Column(
-        children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            numberButton(number: 1, controller: controller),
-            numberButton(number: 2, controller: controller),
-            numberButton(number: 3, controller: controller),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            numberButton(number: 4, controller: controller),
-            numberButton(number: 5, controller: controller),
-            numberButton(number: 6, controller: controller),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            numberButton(number: 7, controller: controller),
-            numberButton(number: 8, controller: controller),
-            numberButton(number: 9, controller: controller),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ElevatedButton(
-                onPressed: () {
-                  if(controller.text.length > 0){
-                    controller.text = controller.text.substring(0, controller.text.length -1);
-                  }
-                },
-                child: Text("X")),
-            numberButton(number: 0, controller: controller)
-          ],
-        )
-      ],
-    ));
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                  child:NumberButton(number: 1, controller: controller)),
+                Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                  child: NumberButton(number: 2, controller: controller)),
+                NumberButton(number: 3, controller: controller)]),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.01, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                    child: NumberButton(number: 4, controller: controller)),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                    child: NumberButton(number: 5, controller: controller)),
+                  NumberButton(number: 6, controller: controller)])),
+            Container(
+                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width *0.01, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                      child: NumberButton(number: 7, controller: controller)),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
+                      child: NumberButton(number: 8, controller: controller)),
+                    NumberButton(number: 9, controller: controller)])),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.01, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width*0.01, 0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.14,
+                      width: MediaQuery.of(context).size.width * 0.14,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if(controller.text.isNotEmpty){
+                            controller.text = controller.text.substring(0, controller.text.length -1);
+                          }},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                        child: const Icon(Icons.backspace_outlined,
+                          color: Colors.white,
+                          size: 60)))),
+                  NumberButton(number: 0, controller: controller)]))]));
   }
-
 }
 
-class numberButton extends StatelessWidget {
+class NumberButton extends StatelessWidget {
   final int number;
   final TextEditingController controller;
 
-  const numberButton({
+  const NumberButton({
     Key? key,
     required this.number,
     required this.controller
@@ -70,13 +88,26 @@ class numberButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return SizedBox(
+      height: MediaQuery.of(context).size.width * 0.14,
+      width: MediaQuery.of(context).size.width * 0.14,
+      child: ElevatedButton(
         onPressed: () {
-          if(controller.text.length < 9){
+          if(controller.text.length < 11){
+            if(controller.text.length == 3 || controller.text.length == 7){
+              controller.text += " ";
+            }
             controller.text += number.toString();
           }
         },
-        child: Text(number.toString()));
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.blue,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20))),
+        child: Text(number.toString(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontFamily: "GloryBold",
+            fontSize: 60))));
   }
-
 }

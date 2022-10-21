@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
+import 'package:kiosk_flutter/themes/color.dart';
 
 class OrderList extends StatefulWidget {
   final List<StorageModel> storage;
@@ -32,8 +33,7 @@ class _OrderListState extends State<OrderList> {
                     height: MediaQuery.of(context).size.width * 0.05,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Color.fromARGB(255, 86, 197, 208),
-                    ),
+                      color: AppColors.mediumBlue),
                     child: Center(
                         child: Text('${widget.storage[index].number}x',
                             style: const TextStyle(
@@ -41,53 +41,42 @@ class _OrderListState extends State<OrderList> {
                                 fontSize: 30,
                                 color: Colors.white))))),
             Container(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
+                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
                 width: MediaQuery.of(context).size.width * 0.62,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: const TextStyle(fontFamily: 'GloryBold', fontSize: 20),
-                    ),
-                    Text(
-                      ingredients,
+                    Text(name,
                       style: const TextStyle(
-                          fontFamily: 'GloryLightItalic', fontSize: 15),
-                    )
-                  ],
-                )),
-            Text(
-              '${widget.storage[index].price.toStringAsFixed(2)} zł',
-              style: const TextStyle(fontFamily: 'GloryLightItalic', fontSize: 15),
-            ),
+                          fontFamily: 'GloryBold',
+                          fontSize: 20)),
+                    Text(ingredients,
+                      style: const TextStyle(
+                          fontFamily: 'GloryLightItalic',
+                          fontSize: 15))])),
+            Text('${widget.storage[index].price.toStringAsFixed(2)} zł',
+              style: const TextStyle(
+                  fontFamily: 'GloryLightItalic',
+                  fontSize: 15)),
             Container(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.01,
-                  0,
-                  MediaQuery.of(context).size.width * 0.01,
-                  0),
+              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, 0, MediaQuery.of(context).size.width * 0.01, 0),
               child: Container(
                   width: MediaQuery.of(context).size.width * 0.02,
                   height: MediaQuery.of(context).size.width * 0.02,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color.fromARGB(255, 86, 197, 208),
-                  ),
+                    color: AppColors.mediumBlue,),
                   child: Center(
                       child: Text('${widget.storage[index].number}x',
                           style: const TextStyle(
                               fontFamily: 'GloryLight',
                               fontSize: 12,
-                              color: Colors.white)))),
-            ),
-            Text(
-              '${(widget.storage[index].number * widget.storage[index].price).toStringAsFixed(2)} zł',
-              style: const TextStyle(fontFamily: 'GloryBold', fontSize: 20),
-            )
-          ]);
+                              color: Colors.white))))),
+            Text('${(widget.storage[index].number * widget.storage[index].price).toStringAsFixed(2)} zł',
+              style: const TextStyle(
+                  fontFamily: 'GloryBold',
+                  fontSize: 20))]);
         });
   }
 }
