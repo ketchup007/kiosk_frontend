@@ -22,7 +22,6 @@ Future<List<StorageLimitsModel>> fetchStorageLimits() async {
       .get(Uri.parse('http://10.3.15.98:8000/api/storage/getStorageState'));
 
   if (response.statusCode == 200) {
-    print(response.body);
     return compute(parseStorageLimits, response.body);
   } else {
     throw Exception('failed to fetch');

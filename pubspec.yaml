@@ -94,6 +94,7 @@ flutter:
     - assets/images/angFlag.png
     - assets/animations/robotTest.json
     - assets/animations/robot1.riv
+    - assets/animations/robotArms.riv
 
 
   fonts:

@@ -5,6 +5,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 
+const List<String> countryCodesList = <String>[
+  '+48', //Poland
+  '+49', //Germany
+  '+420', //Czech
+  '+421', //Slovenia
+  '+43', //Austria
+  '+41', //Swiss
+  '+40', //Romania
+  '+423', //Liechtenstein
+  '+45', //Denmark
+  '+46', //Sweden
+  '+47', //Norway
+  '+44'  //UK
+];
+
 class PhonePopupCard extends StatefulWidget{
   final Function onPress;
   final Function onInteraction;
@@ -26,6 +41,9 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
   bool isCheckedB = false;
   bool isCheckedC = false;
   final TextEditingController _myController = TextEditingController();
+
+  String _dropdownValue = countryCodesList.first;
+
 
   void onPointerDown(PointerEvent){
     print("dumpc");
@@ -54,16 +72,31 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                   style: const TextStyle(
                     fontSize: 30,
                     fontFamily: "GloryMedium"))),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.45,
-                child:  TextField(
-                  controller: _myController,
-                  showCursor: false,
-                  keyboardType: TextInputType.none,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontFamily: 'GloryBold'))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DropdownButton(
+                      value: _dropdownValue,
+                      items: countryCodesList.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem(
+                            value: value,
+                            child: Text(value));
+                      }).toList(),
+                      onChanged: (String? value) {
+                        setState(() {
+                          _dropdownValue = value!;
+                        });
+                      }),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      child:  TextField(
+                          controller: _myController,
+                          showCursor: false,
+                          keyboardType: TextInputType.none,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                              fontSize: 30,
+                              fontFamily: 'GloryBold')))]),
               Container(
                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, MediaQuery.of(context).size.height*0.02),
                 child: NumPad(controller: _myController)),
@@ -189,9 +222,10 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: ElevatedButton(
                         onPressed: () {
+                          print(_dropdownValue + _myController.text.substring(0,3) + _myController.text.substring(4,7) + _myController.text.substring(8));
                           if(isCheckedA == true && _myController.text.length == 11){
                             Navigator.of(context).pop();
-                            provider.order.client_name = _myController.text.substring(0,3) + _myController.text.substring(4,7) + _myController.text.substring(8);
+                            provider.order.client_name = _dropdownValue +  _myController.text.substring(0,3) + _myController.text.substring(4,7) + _myController.text.substring(8);
                             widget.onPress(isCheckedB);
                           }},
                         style: ElevatedButton.styleFrom(

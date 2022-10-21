@@ -72,6 +72,8 @@ class _StartScreenState extends State<StartScreen> {
                 padding: EdgeInsets.fromLTRB(
                     0, 0, MediaQuery.of(context).size.width * 0.03, 0),
                 alignment: Alignment.bottomRight,
-                child: const RiveAnimation.asset('assets/animations/robot1.riv',
+                child: const RiveAnimation.asset(
+                    'assets/animations/robotArms.riv',
+                    //'assets/animations/robot1.riv',
                 alignment: Alignment.bottomRight))])));
 }

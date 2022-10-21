@@ -83,6 +83,7 @@ class _OrderScreenState extends State<OrderScreen> {
         const Duration(seconds: 60),
             () {
           print('Done');
+          _periodicTimerStop();
           provider.orderCancel();
           provider.changeToPizza();
           Navigator.push(
@@ -178,6 +179,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if(provider.inPayment != true) {
+                                    _periodicTimerStart();
                                     _timerStart();
                                     provider.changeToPizza();
                                     setState(() {
@@ -244,6 +246,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     child: ElevatedButton(
                                         onPressed: () {
                                           if(provider.inPayment != true) {
+                                            _periodicTimerStart();
                                             provider.changeToDrinks();
                                             setState(() {
                                               _timerStart();
@@ -296,6 +299,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     child: ElevatedButton(
                                         onPressed: () {
                                           if(provider.inPayment != true) {
+                                            _periodicTimerStart();
                                             _timerStart();
                                             provider.changeToBox();
                                             setState(() {
@@ -348,6 +352,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     child: ElevatedButton(
                                         onPressed: () {
                                           if(provider.inPayment != true) {
+                                            _periodicTimerStart();
                                             _timerStart();
                                             provider.changeToSauces();
                                             setState(() {
@@ -403,6 +408,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         child: ElevatedButton(
                                             onPressed: () {
                                               if(provider.inPayment != true) {
+                                                _periodicTimerStop();
                                                 _startTimerLong();
                                                 provider.changeToPizza();
                                                 setState(() {
@@ -494,6 +500,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                             maintainAnimation: true,
                                             child: ElevatedButton(
                                                 onPressed: () {
+                                                  _periodicTimerStop();
                                                   _timerStop();
                                                   provider.orderCancel();
                                                   provider.changeToPizza();
@@ -558,6 +565,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                             maintainAnimation: true,
                                             child:ElevatedButton(
                                               onPressed: () {
+                                                _periodicTimerStop();
                                                 _startTimerLong();
                                                 provider.getOrderList();
                                                 setState(() {

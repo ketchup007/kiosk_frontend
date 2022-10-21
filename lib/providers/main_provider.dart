@@ -34,12 +34,14 @@ class MainProvider extends ChangeNotifier {
       loading = true;
       storage = await fetchStorage();
       initMap();
+      await fetchStorageLimits().then( (data) {
+        for(int i = 0; i < data.length; i++){
+          limits[data[i].orderName] = data[i].quantity;
+        }});
       breakStorage();
       storageCurrent = storagePizza;
       loading = false;
       isDone = true;
-
-      print("size: ${limits.length}");
 
       notifyListeners();
     }
@@ -53,30 +55,25 @@ class MainProvider extends ChangeNotifier {
 
   changeToPizza(){
     storageCurrent = storagePizza;
-    print("P current Storage: ${storageCurrent.length}");
     notifyListeners();
   }
 
   changeToDrinks(){
     storageCurrent = storageDrinks;
-    print("D current Storage: ${storageCurrent.length}");
     notifyListeners();
   }
 
   changeToBox(){
     storageCurrent = storageBox;
-    print("B current Storage: ${storageCurrent.length}");
     notifyListeners();
   }
 
   changeToSauces(){
     storageCurrent = storageSauce;
-    print("S current Storage: ${storageCurrent.length}");
     notifyListeners();
   }
 
   breakStorage(){
-    print(storage.length);
     for(int i= 0; i<storage.length; i++){
       switch(storage[i].type){
         case 1:{
@@ -98,10 +95,7 @@ class MainProvider extends ChangeNotifier {
           storageBox.add(storage[i]);
         }
         break;
-      }
-    }
-    print("pizza: ${storagePizza.length}, drinks: ${storageDrinks.length}, sauces: ${storageSauce.length}, box: ${storageBox.length}");
-  }
+      }}}
 
   getFirstOrder(String orderName, int value) async {
     order.id = await createFirstOrder();
@@ -143,13 +137,13 @@ class MainProvider extends ChangeNotifier {
   }
 
   getLimits(){
+    print("tick");
     fetchStorageLimits().then( (data) {
-      print("tick");
       for(int i = 0; i < data.length; i++){
         limits[data[i].orderName] = data[i].quantity;
-      }
-    });
+      }});
   }
+
 
   orderCancel() {
     changeOrder("status", 5);
