@@ -22,6 +22,7 @@ import 'package:kiosk_flutter/themes/color.dart';
 
 import 'dart:async';
 import 'package:async/async.dart';
+import 'package:rive/rive.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -162,9 +163,17 @@ class _OrderScreenState extends State<OrderScreen> {
                 Container(
                   alignment: Alignment.topRight,
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
-                  child: Image.asset(
-                    'assets/images/robotAnimation/orderMenuRobot/newRobotBack.png',
-                    height: MediaQuery.of(context).size.height * 0.11)),
+                  child:  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.11,
+                    child: RiveAnimation.asset(
+                      'assets/animations/newBody.riv',
+                      alignment: Alignment.bottomRight,
+                    )
+                  )),
+
+                  //Image.asset(
+                    //assets/images/robotAnimation/orderMenuRobot/newRobotBack.png',
+                    //height: MediaQuery.of(context).size.height * 0.11)),
                 Container(
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),
                   child: Row(
@@ -474,9 +483,16 @@ class _OrderScreenState extends State<OrderScreen> {
                       Container(
                           alignment: Alignment.topRight,
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
-                          child: Image.asset(
-                              'assets/images/robotAnimation/orderMenuRobot/newRobotArms.png',
-                              height: MediaQuery.of(context).size.height * 0.11)),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.11,
+                              child: RiveAnimation.asset(
+                            'assets/animations/newArms.riv',
+                                alignment: Alignment.bottomRight,
+                          ))),
+
+                            //Image.asset(
+                            //  'assets/images/robotAnimation/orderMenuRobot/newRobotArms.png',
+                            //  height: MediaQuery.of(context).size.height * 0.11)),
                       Center(
                           child:
                             Container(

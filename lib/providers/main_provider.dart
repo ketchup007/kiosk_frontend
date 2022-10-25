@@ -8,6 +8,9 @@ import 'package:kiosk_flutter/utils/fetch_json.dart';
 import 'package:kiosk_flutter/utils/post_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
+import 'package:kiosk_flutter/utils/read_json.dart';
+
+import '../models/country_model.dart';
 
 class MainProvider extends ChangeNotifier {
   List<StorageModel> storage = <StorageModel>[];
@@ -28,6 +31,7 @@ class MainProvider extends ChangeNotifier {
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
+  List<CountryModel> countryList = [];
 
   getStorageData() async {
     if(loading != true && isDone != true) {
@@ -172,7 +176,6 @@ class MainProvider extends ChangeNotifier {
         storageOrders.add(storage[i]);
       }
     }
-
   }
 
   changeLanguage(context) {
@@ -180,4 +183,12 @@ class MainProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  getCountryCodes() async {
+    if(countryList.isEmpty){
+      countryList = await readCountries();
+      notifyListeners();
+    }
+  }
+
 }

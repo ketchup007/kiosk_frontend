@@ -95,6 +95,10 @@ flutter:
     - assets/animations/robotTest.json
     - assets/animations/robot1.riv
     - assets/animations/robotArms.riv
+    - assets/animations/robotBack.riv
+    - assets/animations/newBody.riv
+    - assets/animations/newArms.riv
+    - assets/data/countries.json
 
 
   fonts:
