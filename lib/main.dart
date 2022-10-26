@@ -10,15 +10,18 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
+  //setting up immersive view
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(ChangeNotifierProvider(
-        create: (context) => MainProvider(), child: MyApp()));
+        create: (context) => MainProvider(), child: const MyApp()));
   });
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 

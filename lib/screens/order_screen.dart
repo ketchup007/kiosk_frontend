@@ -6,6 +6,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/main.dart';
 
@@ -487,8 +488,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             height: MediaQuery.of(context).size.height * 0.11,
                               child: RiveAnimation.asset(
                             'assets/animations/newArms.riv',
-                                alignment: Alignment.bottomRight,
-                          ))),
+                                alignment: Alignment.bottomRight))),
 
                             //Image.asset(
                             //  'assets/images/robotAnimation/orderMenuRobot/newRobotArms.png',
@@ -587,6 +587,18 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 setState(() {
                                                   _cardState = 4;
                                                 });
+                                                provider.begStorageSetup();
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return BuyMorePopup(
+                                                        onPress: (number) {
+                                                          setState(() {
+                                                            _cardState = number;
+                                                          });
+                                                        },
+                                                      );
+                                                    });
                                               },
                                               style: ButtonStyle(
                                                 foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),

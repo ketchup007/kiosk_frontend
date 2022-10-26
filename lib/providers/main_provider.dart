@@ -22,6 +22,7 @@ class MainProvider extends ChangeNotifier {
   List<StorageModel> storageSauce = <StorageModel>[];
   List<StorageModel> storageCurrent = <StorageModel>[];
   List<StorageModel> storageOrders = <StorageModel>[];
+  List<StorageModel> storageBeg = <StorageModel>[];
 
   Map<String, int> limits = HashMap();
 
@@ -75,6 +76,42 @@ class MainProvider extends ChangeNotifier {
   changeToSauces(){
     storageCurrent = storageSauce;
     notifyListeners();
+  }
+
+  begStorageSetup(){
+    storageBeg.clear();
+    for(int i= 0; i<storagePizza.length; i++){
+      if(storagePizza[i].number> 0) {
+        break;
+      }else if(i == storagePizza.length-1){
+        storageBeg.add(storagePizza.first);
+      }
+    }
+
+    for(int i= 0; i<storageDrinks.length; i++){
+      if(storageDrinks[i].number> 0) {
+        break;
+      }else if(i == storageDrinks.length-1){
+        storageBeg.add(storageDrinks.first);
+      }
+    }
+
+    for(int i= 0; i<storageBox.length; i++){
+      if(storageBox[i].number> 0) {
+        break;
+      }else if(i == storageBox.length-1){
+        storageBeg.add(storageBox.first);
+      }
+    }
+
+    for(int i= 0; i<storageSauce.length; i++){
+      if(storageSauce[i].number> 0) {
+        break;
+      }else if(i == storageSauce.length-1){
+        storageBeg.add(storageSauce.first);
+      }
+    }
+
   }
 
   breakStorage(){
@@ -155,6 +192,7 @@ class MainProvider extends ChangeNotifier {
     for(int i = 0; i < storage.length; i++){
       storage[i].number = 0;
     }
+    storageBeg.clear();
     getSum();
   }
 
