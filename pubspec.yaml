@@ -99,6 +99,7 @@ flutter:
     - assets/animations/newBody.riv
     - assets/animations/newArms.riv
     - assets/data/countries.json
+    - assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png
 
 
   fonts:

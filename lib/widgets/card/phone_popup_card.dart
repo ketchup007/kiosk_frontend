@@ -260,7 +260,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                               width: MediaQuery.of(context).size.width * 0.3,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    if (isCheckedA == true && _myController.text.length > _dropdownValue.minNumber) {
+                                    if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
                                       Navigator.of(context).pop();
                                       provider.order.client_name = _dropdownValue.dialCode + _myController.text.substring(0, 3) + _myController.text.substring(4, 7) + _myController.text.substring(8);
                                       widget.onPress(isCheckedB);

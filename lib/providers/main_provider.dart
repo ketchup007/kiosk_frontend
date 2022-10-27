@@ -29,6 +29,8 @@ class MainProvider extends ChangeNotifier {
   bool loading = false;
   bool isDone = false;
   bool inPayment = false;
+  bool popupDone = false;
+
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
@@ -193,6 +195,7 @@ class MainProvider extends ChangeNotifier {
       storage[i].number = 0;
     }
     storageBeg.clear();
+    popupDone = false;
     getSum();
   }
 
@@ -201,6 +204,8 @@ class MainProvider extends ChangeNotifier {
     for(int i = 0; i < storage.length; i++){
       storage[i].number = 0;
     }
+    storageBeg.clear();
+    popupDone = false;
     getSum();
   }
 
@@ -214,6 +219,8 @@ class MainProvider extends ChangeNotifier {
         storageOrders.add(storage[i]);
       }
     }
+
+    notifyListeners();
   }
 
   changeLanguage(context) {

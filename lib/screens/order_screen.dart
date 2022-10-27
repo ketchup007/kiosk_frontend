@@ -99,7 +99,7 @@ class _OrderScreenState extends State<OrderScreen> {
     print("start Long");
     timer?.cancel();
     timer = RestartableTimer(
-        const Duration(minutes: 3),
+        const Duration(minutes: 30),
             () {
               print('Done long');
               provider.orderCancel();
@@ -425,6 +425,23 @@ class _OrderScreenState extends State<OrderScreen> {
                                                   provider.getOrderList();
                                                   _cardState = 4;
                                                 });
+                                                if(!provider.popupDone){
+                                                  if(provider.sum != 0){
+                                                    provider.begStorageSetup();
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return BuyMorePopup(
+                                                            onPress: (number) {
+                                                              setState(() {
+                                                                _cardState = number;
+                                                              });
+                                                            },
+                                                          );
+                                                        });
+                                                  }
+                                                }
+
                                             }},
                                             style: ButtonStyle(
                                                 foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
@@ -587,18 +604,22 @@ class _OrderScreenState extends State<OrderScreen> {
                                                 setState(() {
                                                   _cardState = 4;
                                                 });
-                                                provider.begStorageSetup();
-                                                showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return BuyMorePopup(
-                                                        onPress: (number) {
-                                                          setState(() {
-                                                            _cardState = number;
-                                                          });
-                                                        },
-                                                      );
-                                                    });
+                                                if(!provider.popupDone){
+                                                  if(provider.sum != 0){
+                                                    provider.begStorageSetup();
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return BuyMorePopup(
+                                                            onPress: (number) {
+                                                              setState(() {
+                                                                _cardState = number;
+                                                              });
+                                                            },
+                                                          );
+                                                        });
+                                                  }
+                                                }
                                               },
                                               style: ButtonStyle(
                                                 foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),

@@ -22,14 +22,22 @@ class BuyMorePopup extends StatefulWidget{
 }
 
 class _BuyMorePopupState extends State<BuyMorePopup> {
+  late MainProvider provider;
 
   void onPointerDown(PointerEvent){
     print("au");
   }
+
+  @override
+  void dispose(){
+    super.dispose();
+    provider.popupDone = true;
+    print("popup dispose");
+  }
   
   @override
   Widget build(BuildContext context){
-    final provider = Provider.of<MainProvider>(context, listen:true);
+    provider = Provider.of<MainProvider>(context, listen:true);
 
     return Listener(
       onPointerDown: onPointerDown,
@@ -49,39 +57,56 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.04, 0),
+                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.03, 0),
                           child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.06,
+                            height: MediaQuery.of(context).size.width * 0.06,
                             child:ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text("x")))),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColors.red),
+                              child: Text("x",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30))))),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0, 0, 0),
+                                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0, 0),
                                 child: Text("Hej! Tylko tyle?",
+                                    textHeightBehavior: TextHeightBehavior(
+                                        applyHeightToFirstAscent: false,
+                                        applyHeightToLastDescent: false,
+                                        leadingDistribution: TextLeadingDistribution.even),
                                   style: TextStyle(
                                    fontFamily: "GloryBold",
-                                   fontSize: 60))),
+                                   fontSize: 77))),
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.5,
-                                  child: Text("Sprawdź jeszcze naszą pozostałą część oferty i dokończ składanie zamówienia, bądź przejdź do  podsumowania zakupów",
+                                  width: MediaQuery.of(context).size.width * 0.54,
+                                  child: Text("Sprawdź jeszcze naszą pozostałą część oferty i dokończ składanie zamówienia, bądź przejdź do podsumowania zakupów",
                                     maxLines: 3,
                                     overflow: TextOverflow.clip,
+                                    textHeightBehavior: TextHeightBehavior(
+                                      applyHeightToFirstAscent: false,
+                                      applyHeightToLastDescent: false,
+                                      leadingDistribution: TextLeadingDistribution.even),
                                     style: TextStyle(
                                       fontFamily: "GloryMedium",
-                                      fontSize: 20
+                                      fontSize: 22
                                     ))))]),
                       ]),
-                    Row(
+                    Container(
+                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.01, 0, 0),
+                        child: Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1, 0, MediaQuery.of(context).size.width * 0.01, 0),
+                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, 0, MediaQuery.of(context).size.width * 0.01, 0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.17,
@@ -279,9 +304,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                                                         style: TextStyle(
                                                             color: AppColors.darkBlue,
                                                             fontFamily: 'GloryMedium',
-                                                            fontSize: 21)))]))))
-                      ],
-                    ),
+                                                            fontSize: 21)))]))))])),
                   Center(
                     child: Text("Proponowane Produkty",
                     style: TextStyle(
@@ -292,22 +315,39 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child:SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.29,
                         child:ProductList(storage: provider.storageBeg))),
-                    Center(
+                    Container(
+                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
+                        child: Center(
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
                       child: ElevatedButton(
                         onPressed: () {
+
                           Navigator.of(context).pop();
+                          provider.getOrderList();
                         },
-                        child: Text("Przejdź do Podsumowania"),
-                      ))])))),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.green,
+                            foregroundColor: Colors.black),
+                        child: Text("Przejdź do Podsumowania",
+                            style: const TextStyle(
+                                fontFamily: 'GloryMedium',
+                                fontSize: 25)),
+                      ))))])))),
             Container(
-                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.65, MediaQuery.of(context).size.height * 0.19, 0, 0),
+                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.72, MediaQuery.of(context).size.height * 0.195, 0, 0),
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.15,
-                    child: RiveAnimation.asset(
-                        'assets/animations/robot1.riv',
-                        alignment: Alignment.bottomLeft,
-                        fit: BoxFit.fitHeight)))]));
+                    child:
+                    Image.asset('assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png',
+                    alignment: Alignment.bottomLeft,
+                    fit: BoxFit.fitHeight)
+                    //RiveAnimation.asset(
+                    //    'assets/animations/robot1.riv',
+                    //    alignment: Alignment.bottomLeft,
+                    //    fit: BoxFit.fitHeight)
+        ))]));
   }
 }
