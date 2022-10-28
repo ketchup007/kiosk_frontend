@@ -1,151 +1,39 @@
 {
     "touchScreenInfo": "Touch Screen, to Order",
-    "@touchScreenInfo": {
-        "description": "Information how to change Screen from Home Screen to Order Screen"
-    },
-
     "pizzaItemLabel": "Pizza",
-    "@pizzaItemLabel": {
-        "description": "Label of Pizza item category"
-    },
-
     "drinksItemLabel": "Drinks",
-    "@drinksItemLabel": {
-        "description": "Label of Drinks item category"
-    },
-
     "boxesItemLabel": "Boxes",
-    "@boxesItemLabel": {
-        "description": "Label of Boxes item category"
-    },
-
     "saucesItemLabel": "Sauces",
-    "@saucesItemLabel": {
-        "description": "Label of Sauces item category"
-    },
-
     "cancelButtonLabel": "Cancel",
-    "@cancelButtonLabel": {
-        "description": "Label of Cancel button"
-    },
-
     "confirmButtonLabel": "Confirm",
-    "@confirmButtonLabel": {
-        "description": "Label of Confirm Button"
-    },
-
     "priceToPayInfo": "Total order Price",
-    "@priceToPayInfo": {
-        "description": "Information about total order price"
-    },
-
     "conformationInfo": "System do not provide transaction conformation",
-    "@conformationInfo": {
-        "description": " "
-    },
-
     "paymentButtonLabel": "Start Payment",
-    "@paymentButtonLabel": {
-        "description": " "
-    },
-
     "summaryInfo": "Order Summary",
-    "@summaryInfo": {
-        "description": " "
-    },
-
     "cancelOrderButtonLabel": "Cancel Order",
-    "@cancelOrderButtonLabel": {
-        "description": " "
-    },
-
     "editOrderButtonLabel": "Edit Order",
-    "@editOrderButtonLabel": {
-        "description": " "
-    },
 
     "summaryButtonLabel": "Summary",
-    "@summaryOrderButtonLabel": {
-        "description": " "
-    },
-
     "orderTotalText": "Order total",
-    "@orderTotalText": {
-        "description": " "
-    },
-
     "paymentConformationText": "System do not provide transaction conformation",
-    "@paymentConformationText": {
-        "description": " "
-    },
-
     "orderSummaryText": "Order summary",
-    "@orderSummaryText": {
-        "description": " "
-    },
-
     "makePaymentButtonLabel": "Make Payment",
-    "@makePaymentButtonLabel": {
-        "description": " "
-    },
-
     "paymentStartedText": "Payment Started",
-    "@paymentStartedText": {
-        "description": " "
-    },
-
     "paymentInfoText": "Follow instructions shown on the terminal bellow",
-    "@paymentInfoText": {
-        "description": " "
-    },
-
     "paymentCancelledText": "Payment Cancelled",
-    "@paymentCancelledText": {
-        "description": " "
-    },
-
     "returnButtonLabel": "Return",
-    "@returnButtonLabel": {
-        "description": " "
-    },
-
     "tryAgainButtonLabel": "Try again",
-    "@tryAgainButtonLabel": {
-        "description": " "
-    },
-
     "paymentAcceptedText": "Payment Accepted",
-    "@paymentAcceptedText": {
-        "description": " "
-    },
-
     "pcs": "pcs",
-    "@pcs": {
-        "description": " "
-    },
 
     "enterPhoneNumberText": "Enter phone number",
-    "@enterPhoneNumberText": {
-     "description": " "
-    },
-
     "selectAllCheckText": "Select all",
-    "@selectAllCheckText": {
-         "description": " "
-    },
-
     "requiredCheckText": "Required",
-    "@requiredCheckText": {
-         "description": " "
-    },
-
     "promotionCheckText": "PromotionCheckText",
-    "@PromotionCheckText": {
-         "description": " "
-    },
-
     "optionalCheckText": "Optional",
-    "@optionalCheckText": {
-         "description": " "
-    }
+
+    "begPopupTitle": "Hey! That's all?",
+    "begPopupInformation": "Look at the rest of our products to finish the order or go straight to the order summary",
+    "productPropositionText": "Proposed Products",
+    "goToSummaryButtonLabel": "Go to Summary"
 }

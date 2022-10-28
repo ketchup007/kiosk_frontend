@@ -241,14 +241,14 @@ class _OrderScreenState extends State<OrderScreen> {
                                         maintainSize: true,
                                         maintainAnimation: true,
                                         child: Container(
-                                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.07, 0, 0),
-                                        child: Container(
-                                        width: MediaQuery.of(context).size.width * 0.17,
-                                        height: MediaQuery.of(context).size.height * 0.05,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(18))))))]),
+                                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.07, 0, 0),
+                                          child: Container(
+                                            width: MediaQuery.of(context).size.width * 0.17,
+                                            height: MediaQuery.of(context).size.height * 0.05,
+                                            decoration: const BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(18))))))]),
                                 Container(
                                     height: _cardState == 1 ? MediaQuery.of(context).size.height * 0.10 : MediaQuery.of(context).size.height * 0.07,
                                     width: MediaQuery.of(context).size.width * 0.18,

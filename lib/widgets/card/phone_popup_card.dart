@@ -262,7 +262,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   onPressed: () {
                                     if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
                                       Navigator.of(context).pop();
-                                      provider.order.client_name = _dropdownValue.dialCode + _myController.text.substring(0, 3) + _myController.text.substring(4, 7) + _myController.text.substring(8);
+                                      provider.order.client_name = _dropdownValue.dialCode + _myController.text;
                                       widget.onPress(isCheckedB);
                                     }
                                   },

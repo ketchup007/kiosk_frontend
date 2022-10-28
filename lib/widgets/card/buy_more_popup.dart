@@ -77,7 +77,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             children: [
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0, 0),
-                                child: Text("Hej! Tylko tyle?",
+                                child: Text(AppLocalizations.of(context)!.begPopupTitle,
                                     textHeightBehavior: TextHeightBehavior(
                                         applyHeightToFirstAscent: false,
                                         applyHeightToLastDescent: false,
@@ -89,7 +89,8 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                                 padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.54,
-                                  child: Text("Sprawdź jeszcze naszą pozostałą część oferty i dokończ składanie zamówienia, bądź przejdź do podsumowania zakupów",
+                                  height: MediaQuery.of(context).size.height * 0.06,
+                                  child: Text(AppLocalizations.of(context)!.begPopupInformation,
                                     maxLines: 3,
                                     overflow: TextOverflow.clip,
                                     textHeightBehavior: TextHeightBehavior(
@@ -306,7 +307,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                                                             fontFamily: 'GloryMedium',
                                                             fontSize: 21)))]))))])),
                   Center(
-                    child: Text("Proponowane Produkty",
+                    child: Text(AppLocalizations.of(context)!.productPropositionText,
                     style: TextStyle(
                         fontFamily: 'GloryExtraBold',
                         fontSize: 30,
@@ -315,7 +316,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child:SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.29,
+                        height: MediaQuery.of(context).size.height * 0.25,
                         child:ProductList(storage: provider.storageBeg))),
                     Container(
                         padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
@@ -331,7 +332,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.green,
                             foregroundColor: Colors.black),
-                        child: Text("Przejdź do Podsumowania",
+                        child: Text(AppLocalizations.of(context)!.goToSummaryButtonLabel,
                             style: const TextStyle(
                                 fontFamily: 'GloryMedium',
                                 fontSize: 25)),

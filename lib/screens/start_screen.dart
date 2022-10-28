@@ -18,8 +18,17 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+
+  void goToOrderPage(context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+        builder: (context) => const OrderScreen()));
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: null,
       body: Container(
@@ -48,31 +57,32 @@ class _StartScreenState extends State<StartScreen> {
                             backgroundColor: AppColors.green,
                             foregroundColor: Colors.black),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const OrderScreen()));
+                            goToOrderPage(context);
                           },
+                          child: FittedBox(
                           child: Text(AppLocalizations.of(context)!.touchScreenInfo,
+                            maxLines: 1,
                             style: const TextStyle(
-                                fontSize: 36, fontFamily: 'GloryMedium'))))),
+                                fontSize: 36, fontFamily: 'GloryMedium')))))),
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
                   child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            goToOrderPage(context);
+                          },
                           child: Ink.image(
                             image: const SVG.Svg('assets/images/touch.svg'),
                             height: MediaQuery.of(context).size.height * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.32,
-                            fit: BoxFit.cover,)))),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.22 + 6,
-                padding: EdgeInsets.fromLTRB(
-                    0, 0, MediaQuery.of(context).size.width * 0.03, 0),
-                alignment: Alignment.bottomRight,
-                child: const RiveAnimation.asset(
-                    'assets/animations/robot1.riv',
-                alignment: Alignment.bottomRight))])));
+                            fit: BoxFit.fitHeight,)))),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.03, 0),
+                  alignment: Alignment.bottomRight,
+                  height: MediaQuery.of(context).size.height * 0.22,
+                    child:const RiveAnimation.asset('assets/animations/robot1.riv',
+                      fit: BoxFit.fitHeight,
+                      alignment: Alignment.bottomRight)))])));
+      }
 }
