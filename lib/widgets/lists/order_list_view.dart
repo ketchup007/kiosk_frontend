@@ -24,7 +24,9 @@ class _OrderListState extends State<OrderList> {
             name = widget.storage[index].nameEn;
             ingredients = widget.storage[index].ingredientsEn;
           }
-          return Row(children: [
+          return Container(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.001),
+            child: Row(children: [
             Container(
                 padding: EdgeInsets.fromLTRB(
                     MediaQuery.of(context).size.width * 0.01, 0, 0, 0),
@@ -35,30 +37,42 @@ class _OrderListState extends State<OrderList> {
                       shape: BoxShape.circle,
                       color: AppColors.mediumBlue),
                     child: Center(
-                        child: Text('${widget.storage[index].number}x',
-                            style: const TextStyle(
+                        child: FittedBox(
+                            child: Text('${widget.storage[index].number}x',
+                              style: const TextStyle(
                                 fontFamily: 'GloryLight',
                                 fontSize: 30,
-                                color: Colors.white))))),
+                                color: Colors.white)))))),
             Container(
-                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
-                width: MediaQuery.of(context).size.width * 0.62,
+                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, MediaQuery.of(context).size.width * 0.05, 0),
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name,
-                      style: const TextStyle(
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.025,
+                      child: FittedBox(
+                        alignment: Alignment.centerLeft,
+                        child: Text(name,
+                        style: const TextStyle(
                           fontFamily: 'GloryBold',
-                          fontSize: 20)),
-                    Text(ingredients,
-                      style: const TextStyle(
-                          fontFamily: 'GloryLightItalic',
-                          fontSize: 15))])),
-            Text('${widget.storage[index].price.toStringAsFixed(2)} zł',
-              style: const TextStyle(
-                  fontFamily: 'GloryLightItalic',
-                  fontSize: 15)),
+                          fontSize: 20)))),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.width * 0.025,
+                      child: FittedBox(
+                        alignment: Alignment.centerLeft,
+                        child: Text(ingredients,
+                          style: const TextStyle(
+                            fontFamily: 'GloryLightItalic',
+                            fontSize: 15))))])),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.05,
+              child: FittedBox(
+                child: Text('${widget.storage[index].price.toStringAsFixed(2)} zł',
+                  style: const TextStyle(
+                    fontFamily: 'GloryLightItalic',
+                    fontSize: 15)))),
             Container(
               padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, 0, MediaQuery.of(context).size.width * 0.01, 0),
               child: Container(
@@ -68,15 +82,19 @@ class _OrderListState extends State<OrderList> {
                     shape: BoxShape.circle,
                     color: AppColors.mediumBlue,),
                   child: Center(
-                      child: Text('${widget.storage[index].number}x',
+                      child: FittedBox(
+                        child: Text('${widget.storage[index].number}x',
                           style: const TextStyle(
                               fontFamily: 'GloryLight',
                               fontSize: 12,
-                              color: Colors.white))))),
-            Text('${(widget.storage[index].number * widget.storage[index].price).toStringAsFixed(2)} zł',
-              style: const TextStyle(
+                              color: Colors.white)))))),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              child: FittedBox(
+                child: Text('${(widget.storage[index].number * widget.storage[index].price).toStringAsFixed(2)} zł',
+                style: const TextStyle(
                   fontFamily: 'GloryBold',
-                  fontSize: 20))]);
+                  fontSize: 20))))]));
         });
   }
 }

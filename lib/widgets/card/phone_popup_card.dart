@@ -1,3 +1,4 @@
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/themes/color.dart';
@@ -73,10 +74,13 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                 children: [
                   Container(
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
-                    child: Text(AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontFamily: "GloryMedium"))),
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: FittedBox(
+                            child: Text(AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontFamily: "GloryMedium"))))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -89,13 +93,17 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                             return DropdownMenuItem(
                               value: value,
                               child: Container(
-                                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, 0, 0, 22),
-                                  child: Text("${value.countryCode.toUpperCase()
-                                  .replaceAllMapped(RegExp(r'[A-Z]'),
-                                      (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'GloryBold'))));
+                                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, 0, 0, MediaQuery.of(context).size.width * 0.005),
+                                  child:
+                                    SizedBox(
+                                      height: MediaQuery.of(context).size.height * 0.01,
+                                      width: MediaQuery.of(context).size.width * 0.05,
+                                      child: FittedBox(
+                                        child: Text("${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
+                                            (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontFamily: 'GloryBold'))))));
                           }).toList(),
                           onChanged: (CountryModel? value) {
                             setState(() {
@@ -103,17 +111,18 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                             });
                         })),
                       Container(
-                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, 8),
+                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, 0),
                         child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.01,
                           width: MediaQuery.of(context).size.width * 0.45,
-                          child: TextField(
-                            controller: _myController,
-                            showCursor: false,
-                            keyboardType: TextInputType.none,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 30,
-                              fontFamily: 'GloryBold'))))]),
+                          child: AutoSizeTextField(
+                                controller: _myController,
+                                showCursor: false,
+                                keyboardType: TextInputType.none,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  height: MediaQuery.of(context).size.height * 0.1,
+                                  fontFamily: 'GloryBold'))))]),
                   Container(
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, MediaQuery.of(context).size.height * 0.02),
                     child: NumPad(controller: _myController, maxDigit: _dropdownValue.maxNumber)),
@@ -127,73 +136,78 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Transform.scale(
-                                    scale: 1.5,
-                                    child: Checkbox(
-                                        activeColor: AppColors.green,
-                                        checkColor: Colors.transparent,
-                                        side: MaterialStateBorderSide.resolveWith((states) =>
-                                          const BorderSide(
-                                              width: 1.5,
-                                              color: AppColors.green)),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5)),
-                                        value: isCheckedMain,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isCheckedMain = value!;
-                                            if (value == true) {
-                                              isCheckedA = true;
-                                              isCheckedB = true;
-                                              isCheckedC = true;
-                                            } else {
-                                              isCheckedA = false;
-                                              isCheckedB = false;
-                                              isCheckedC = false;
-                                            }
-                                          });
-                                        })),
-                                Text(AppLocalizations.of(context)!.selectAllCheckText,
-                                    style: const TextStyle(
-                                        fontFamily: "GloryMedium",
-                                        fontSize: 16))
-                              ]),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Transform.scale(
-                                      scale: 1.5,
-                                      child: Checkbox(
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height *0.03,
+                              child: FittedBox(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Transform.scale(
+                                        scale: 1.5,
+                                        child: Checkbox(
                                           activeColor: AppColors.green,
                                           checkColor: Colors.transparent,
                                           side: MaterialStateBorderSide.resolveWith((states) =>
                                             const BorderSide(
-                                                width: 1.5,
-                                                color: AppColors.green)),
+                                              width: 1.5,
+                                              color: AppColors.green)),
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5)),
-                                          value: isCheckedA,
+                                            borderRadius: BorderRadius.circular(5)),
+                                          value: isCheckedMain,
                                           onChanged: (bool? value) {
                                             setState(() {
-                                              isCheckedA = value!;
-                                              if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                                isCheckedMain = true;
+                                              isCheckedMain = value!;
+                                              if (value == true) {
+                                                isCheckedA = true;
+                                                isCheckedB = true;
+                                                isCheckedC = true;
                                               } else {
-                                                isCheckedMain = false;
-                                              }
-                                            });
-                                          })),
-                                  Text(AppLocalizations.of(context)!.requiredCheckText,
-                                      style: const TextStyle(
+                                                isCheckedA = false;
+                                                isCheckedB = false;
+                                                isCheckedC = false;
+                                              }});
+                                        })),
+                                      Text(AppLocalizations.of(context)!.selectAllCheckText,
+                                        style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))
-                                ]),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
+                                          fontSize: 16))]))),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.height *0.03,
+                                child: FittedBox(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Transform.scale(
+                                          scale: 1.5,
+                                          child: Checkbox(
+                                            activeColor: AppColors.green,
+                                            checkColor: Colors.transparent,
+                                            side: MaterialStateBorderSide.resolveWith((states) =>
+                                              const BorderSide(
+                                                width: 1.5,
+                                                color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5)),
+                                            value: isCheckedA,
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                isCheckedA = value!;
+                                                if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+                                                  isCheckedMain = true;
+                                                } else {
+                                                  isCheckedMain = false;
+                                                }});
+                                            })),
+                                        Text(AppLocalizations.of(context)!.requiredCheckText,
+                                          style: const TextStyle(
+                                            fontFamily: "GloryMedium",
+                                            fontSize: 16))]))),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height *0.03,
+                              child: FittedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
                                   Transform.scale(
                                       scale: 1.5,
                                       child: Checkbox(
@@ -220,12 +234,14 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   Text(AppLocalizations.of(context)!.promotionCheckText,
                                       style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))
-                                ]),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Transform.scale(
+                                          fontSize: 16))]))),
+                            SizedBox(
+                                height: MediaQuery.of(context).size.height *0.03,
+                                child: FittedBox(
+                                  child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Transform.scale(
                                       scale: 1.5,
                                       child: Checkbox(
                                           activeColor: AppColors.green,
@@ -251,9 +267,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   Text(AppLocalizations.of(context)!.optionalCheckText,
                                       style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))
-                                ])
-                          ])),
+                                          fontSize: 16))])))])),
                       Container(
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
                           child: SizedBox(
@@ -269,11 +283,12 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColors.green,
                                       foregroundColor: Colors.black),
-                                  child: Text(
+                                  child: FittedBox(
+                                      child: Text(
                                       AppLocalizations.of(context)!.confirmButtonLabel,
                                       style: const TextStyle(
                                           fontFamily: 'GloryBold',
-                                          fontSize: 30)))))])])))));
+                                          fontSize: 30))))))])])))));
     }
   }
 }

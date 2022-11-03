@@ -81,11 +81,14 @@ class SummaryCardState extends State<SummaryCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Center(
-                child: Text(AppLocalizations.of(context)!.orderSummaryText,
-                    style: const TextStyle(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: FittedBox(
+                    child:Text(AppLocalizations.of(context)!.orderSummaryText,
+                      style: const TextStyle(
                         fontFamily: 'GloryExtraBold',
                         fontSize: 30,
-                        color: AppColors.mediumBlue))),
+                        color: AppColors.mediumBlue))))),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.4,
@@ -122,10 +125,13 @@ class SummaryCardState extends State<SummaryCard> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.green,
                     foregroundColor: Colors.black),
-                  child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: FittedBox(
+                      child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
                         style: const TextStyle(
                           fontFamily: 'GloryBold',
-                          fontSize: 30))))) :
+                          fontSize: 30))))))) :
             FutureBuilder(
               future: provider.payment.startTransaction(provider.sum),
               builder: (context, snapshot) {
@@ -141,14 +147,20 @@ class SummaryCardState extends State<SummaryCard> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Text(AppLocalizations.of(context)!.paymentStartedText.toUpperCase(),
-                                      style: const TextStyle(
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width*0.04,
+                                    child: FittedBox(
+                                      child: Text(AppLocalizations.of(context)!.paymentStartedText.toUpperCase(),
+                                        style: const TextStyle(
                                           fontFamily: 'GloryExtraBold',
-                                          fontSize: 25)),
-                                  Text(AppLocalizations.of(context)!.paymentInfoText,
+                                          fontSize: 25)))),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.width*0.03,
+                                    child: FittedBox(
+                                      child: Text(AppLocalizations.of(context)!.paymentInfoText,
                                       style: const TextStyle(
                                           fontFamily: 'GloryMedium',
-                                          fontSize: 20)),
+                                          fontSize: 20)))),
                                   const CircularProgressIndicator(color: AppColors.darkGreen)])))]);
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {
@@ -227,11 +239,12 @@ class SummaryCardState extends State<SummaryCard> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
-                                      Text(AppLocalizations.of(context)!.paymentCancelledText.toUpperCase(),
+                                      FittedBox(
+                                        child: Text(AppLocalizations.of(context)!.paymentCancelledText.toUpperCase(),
                                           style: const TextStyle(
                                               fontFamily: 'GloryExtraBold',
                                               fontSize: 25,
-                                              color: Colors.white))]))),
+                                              color: Colors.white)))]))),
                             Container(
                                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
                                 child: Row(
@@ -262,10 +275,11 @@ class SummaryCardState extends State<SummaryCard> {
                                                     side: const BorderSide(
                                                         color: AppColors.red,
                                                         width: 1)),
-                                                child: Text(AppLocalizations.of(context)!.returnButtonLabel,
+                                                child: FittedBox(
+                                                  child: Text(AppLocalizations.of(context)!.returnButtonLabel,
                                                     style: const TextStyle(
                                                         fontSize: 17,
-                                                        fontFamily: 'GloryMedium'))))),
+                                                        fontFamily: 'GloryMedium')))))),
                                     Container(
                                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.45, 0, 0, 0),
                                         child: SizedBox(
@@ -282,11 +296,12 @@ class SummaryCardState extends State<SummaryCard> {
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor: AppColors.green,
                                                     foregroundColor: Colors.black),
-                                                child: Text(
+                                                child: FittedBox(
+                                                  child: Text(
                                                     AppLocalizations.of(context)!.tryAgainButtonLabel,
                                                     style: const TextStyle(
                                                         fontSize: 17,
-                                                        fontFamily: 'GloryMedium')))))]))]);
+                                                        fontFamily: 'GloryMedium'))))))]))]);
                       }
                     } else {
                       print(snapshot.data);

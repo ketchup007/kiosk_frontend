@@ -28,6 +28,9 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("Size: Width - ${MediaQuery.of(context).size.width}, Height - ${MediaQuery.of(context).size.height}");
+    print("Screen Density: ${MediaQuery.of(context).devicePixelRatio}");
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: null,
@@ -60,9 +63,9 @@ class _StartScreenState extends State<StartScreen> {
                             goToOrderPage(context);
                           },
                           child: FittedBox(
-                          child: Text(AppLocalizations.of(context)!.touchScreenInfo,
-                            maxLines: 1,
-                            style: const TextStyle(
+                            child: Text(AppLocalizations.of(context)!.touchScreenInfo,
+                              maxLines: 1,
+                              style: const TextStyle(
                                 fontSize: 36, fontFamily: 'GloryMedium')))))),
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),

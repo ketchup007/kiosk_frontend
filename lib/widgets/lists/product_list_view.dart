@@ -4,6 +4,7 @@ import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class ProductList extends StatefulWidget {
   final List<StorageModel> storage;
@@ -34,6 +35,8 @@ class _ProductListState extends State<ProductList> {
       isVisibleMinus = List<bool>.filled(widget.storage.length, false);
     });
 
+
+
     return ListView.builder(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         itemCount: widget.storage.length,
@@ -61,6 +64,12 @@ class _ProductListState extends State<ProductList> {
             ingredients = widget.storage[index].ingredientsEn;
           }
 
+          if(MediaQuery.of(context).size.height > 1000){
+
+          }else{
+
+          }
+
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -80,24 +89,29 @@ class _ProductListState extends State<ProductList> {
                           child: Image.network('http://10.3.15.98:8000/assets/${widget.storage[index].image}')))),
               Container(
                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
-                width: MediaQuery.of(context).size.width * 0.45,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name,
-                      style: const TextStyle(fontFamily: 'GloryBold', fontSize: 25)),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Text(ingredients,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width*0.04,
+                        child:FittedBox(child:Text(name,
+                          style: const TextStyle(fontFamily: 'GloryBold', fontSize: 25)))),
+                      SizedBox(height: MediaQuery.of(context).size.width*0.08,
+                          child:
+                      AutoSizeText(ingredients,
                           maxLines: 2,
                           overflow: TextOverflow.clip,
                           style: const TextStyle(
-                              fontFamily: 'GloryLightItalic', fontSize: 15)))])),
+                              fontFamily: 'GloryLightItalic', fontSize: 15)))]))),
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.017, 5, 0),
-                  child: Text("${widget.storage[index].price.toStringAsFixed(2)} zł",
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.05,
+                      child: FittedBox(child: Text("${widget.storage[index].price.toStringAsFixed(2)} zł",
                       style: const TextStyle(
-                          fontFamily: 'GloryLightItalic', fontSize: 15))),
+                          fontFamily: 'GloryLightItalic', fontSize: 15))))),
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.015, 0, 0),
                   child: Container(
@@ -108,8 +122,8 @@ class _ProductListState extends State<ProductList> {
                               color: AppColors.mediumBlue),
                           borderRadius: BorderRadius.circular(20)),
                       child: Center(
-                          child: Text("${widget.storage[index].number} ${AppLocalizations.of(context)!.pcs}",
-                            style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),)))),
+                          child: FittedBox(child: Text("${widget.storage[index].number} ${AppLocalizations.of(context)!.pcs}",
+                            style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15)))))),
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -182,4 +196,13 @@ class _ProductListState extends State<ProductList> {
                         fontSize: 20))])]);
         });
   }
+}
+
+class BigScreenRow extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+  
 }

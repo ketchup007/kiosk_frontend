@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
@@ -7,6 +8,7 @@ import 'package:rive/rive.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../themes/color.dart';
+import '../../widgets/buttons/category_buttons.dart';
 
 
 class BuyMorePopup extends StatefulWidget{
@@ -68,7 +70,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                               style: ElevatedButton.styleFrom(
                                 shape: const CircleBorder(),
                                 backgroundColor: AppColors.red),
-                              child: Text("x",
+                              child: const Text("X",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 30))))),
@@ -77,278 +79,109 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             children: [
                               Container(
                                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0, 0),
-                                child: Text(AppLocalizations.of(context)!.begPopupTitle,
-                                    textHeightBehavior: TextHeightBehavior(
-                                        applyHeightToFirstAscent: false,
-                                        applyHeightToLastDescent: false,
-                                        leadingDistribution: TextLeadingDistribution.even),
-                                  style: TextStyle(
-                                   fontFamily: "GloryBold",
-                                   fontSize: 77))),
+                                child: SizedBox(
+                                    width: MediaQuery.of(context).size.width*0.55,
+                                    child: FittedBox(
+                                        child: Text(AppLocalizations.of(context)!.begPopupTitle,
+                                          textHeightBehavior: const TextHeightBehavior(
+                                            applyHeightToFirstAscent: false,
+                                            applyHeightToLastDescent: false,
+                                            leadingDistribution: TextLeadingDistribution.even),
+                                        style: const TextStyle(
+                                          fontFamily: "GloryBold",
+                                          fontSize: 77))))),
                               Container(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.54,
                                   height: MediaQuery.of(context).size.height * 0.06,
-                                  child: Text(AppLocalizations.of(context)!.begPopupInformation,
+                                  child: AutoSizeText(AppLocalizations.of(context)!.begPopupInformation,
                                     maxLines: 3,
                                     overflow: TextOverflow.clip,
-                                    textHeightBehavior: TextHeightBehavior(
-                                      applyHeightToFirstAscent: false,
-                                      applyHeightToLastDescent: false,
-                                      leadingDistribution: TextLeadingDistribution.even),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontFamily: "GloryMedium",
                                       fontSize: 22
                                     ))))]),
                       ]),
                     Container(
-                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.01, 0, 0),
+                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, MediaQuery.of(context).size.height*0.01, 0, 0),
                         child: Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.17,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                provider.changeToPizza();
-                                widget.onPress(0);
-                                Navigator.of(context).pop();
-                              },
-                              style: ButtonStyle(
-                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.lightBlue),
-                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                        child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: AppColors.darkBlue),
-                                            child: Container(
-                                                padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                                child:const Text('1',
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false,
-                                                        applyHeightToLastDescent: false,
-                                                        leadingDistribution: TextLeadingDistribution.even),
-                                                    style: TextStyle(
-                                                        color: AppColors.lightBlue,
-                                                        fontFamily: 'GloryExtraBold',
-                                                        fontSize: 45))))),
-                                    Container(
-                                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                        height: 35,
-                                        child: Text(AppLocalizations.of(context)!.pizzaItemLabel,
-                                            textAlign: TextAlign.start,
-                                            textHeightBehavior: const TextHeightBehavior(
-                                                applyHeightToFirstAscent: false),
-                                            style: TextStyle(
-                                                color: AppColors.darkBlue,
-                                                fontFamily: 'GloryMedium',
-                                                fontSize: 21)))])))),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                      child: SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.07,
-                                        width: MediaQuery.of(context).size.width * 0.17,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            provider.changeToDrinks();
-                                            widget.onPress(1);
-                                            Navigator.of(context).pop();
-                                          },
-                                            style: ButtonStyle(
-                                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.lightBlue),
-                                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                          child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                                    child: Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: AppColors.darkBlue),
-                                                        child: Container(
-                                                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                                            child:const Text('2',
-                                                                textAlign: TextAlign.start,
-                                                                textHeightBehavior: TextHeightBehavior(
-                                                                    applyHeightToFirstAscent: false,
-                                                                    applyHeightToLastDescent: false,
-                                                                    leadingDistribution: TextLeadingDistribution.even),
-                                                                style: TextStyle(
-                                                                    color: AppColors.lightBlue,
-                                                                    fontFamily: 'GloryExtraBold',
-                                                                    fontSize: 45))))),
-                                                Container(
-                                                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                    height: 35,
-                                                    child: Text(AppLocalizations.of(context)!.drinksItemLabel,
-                                                        textAlign: TextAlign.start,
-                                                        textHeightBehavior: const TextHeightBehavior(
-                                                            applyHeightToFirstAscent: false),
-                                                        style: TextStyle(
-                                                            color: AppColors.darkBlue,
-                                                            fontFamily: 'GloryMedium',
-                                                            fontSize: 21)))])))),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                      child: SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.07,
-                                        width: MediaQuery.of(context).size.width * 0.17,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                          provider.changeToBox();
-                                          widget.onPress(2);
-                                          Navigator.of(context).pop();
-                                        },
-                                            style: ButtonStyle(
-                                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.lightBlue),
-                                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                        child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                                  child: Container(
-                                                      height: 50,
-                                                      width: 50,
-                                                      decoration: const BoxDecoration(
-                                                          shape: BoxShape.circle,
-                                                          color: AppColors.darkBlue),
-                                                      child: Container(
-                                                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                                          child:const Text('3',
-                                                              textAlign: TextAlign.start,
-                                                              textHeightBehavior: TextHeightBehavior(
-                                                                  applyHeightToFirstAscent: false,
-                                                                  applyHeightToLastDescent: false,
-                                                                  leadingDistribution: TextLeadingDistribution.even),
-                                                              style: TextStyle(
-                                                                  color: AppColors.lightBlue,
-                                                                  fontFamily: 'GloryExtraBold',
-                                                                  fontSize: 45))))),
-                                              Container(
-                                                  padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                  height: 35,
-                                                  child: Text(AppLocalizations.of(context)!.boxesItemLabel,
-                                                      textAlign: TextAlign.start,
-                                                      textHeightBehavior: const TextHeightBehavior(
-                                                          applyHeightToFirstAscent: false),
-                                                      style: TextStyle(
-                                                          color: AppColors.darkBlue,
-                                                          fontFamily: 'GloryMedium',
-                                                          fontSize: 21)))])))),
-                                    Container(
-                                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                      child: SizedBox(
-                                        height: MediaQuery.of(context).size.height * 0.07,
-                                        width: MediaQuery.of(context).size.width * 0.17,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            provider.changeToSauces();
-                                            widget.onPress(3);
-                                            Navigator.of(context).pop();
-                                          },
-                                            style: ButtonStyle(
-                                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.lightBlue),
-                                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                          child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                                    child: Container(
-                                                        height: 50,
-                                                        width: 50,
-                                                        decoration: const BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: AppColors.darkBlue),
-                                                        child: Container(
-                                                            padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                                            child:const Text('4',
-                                                                textAlign: TextAlign.start,
-                                                                textHeightBehavior: TextHeightBehavior(
-                                                                    applyHeightToFirstAscent: false,
-                                                                    applyHeightToLastDescent: false,
-                                                                    leadingDistribution: TextLeadingDistribution.even),
-                                                                style: TextStyle(
-                                                                    color: AppColors.lightBlue,
-                                                                    fontFamily: 'GloryExtraBold',
-                                                                    fontSize: 45))))),
-                                                Container(
-                                                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                    height: 35,
-                                                    child: Text(AppLocalizations.of(context)!.saucesItemLabel,
-                                                        textAlign: TextAlign.start,
-                                                        textHeightBehavior: const TextHeightBehavior(
-                                                            applyHeightToFirstAscent: false),
-                                                        style: TextStyle(
-                                                            color: AppColors.darkBlue,
-                                                            fontFamily: 'GloryMedium',
-                                                            fontSize: 21)))]))))])),
+                          children: [
+                            CategoryButton(
+                                cardState: 10, //Number to make it not equal
+                                onPressed: () {
+                                  provider.changeToPizza();
+                                  widget.onPress(0);
+                                  Navigator.of(context).pop();
+                                },
+                                number: 1,
+                                text: AppLocalizations.of(context)!.pizzaItemLabel),
+                            CategoryButton(
+                                cardState: 10, //Number to make it not equal
+                                onPressed: () {
+                                  provider.changeToDrinks();
+                                  widget.onPress(1);
+                                  Navigator.of(context).pop();
+                                },
+                                number: 2,
+                                text: AppLocalizations.of(context)!.drinksItemLabel),
+                            CategoryButton(
+                                cardState: 10, //Number to make it not equal
+                                onPressed: () {
+                                  provider.changeToBox();
+                                  widget.onPress(2);
+                                  Navigator.of(context).pop();
+                                },
+                                number: 3,
+                                text: AppLocalizations.of(context)!.boxesItemLabel),
+                            CategoryButton(
+                                cardState: 10, //Number to make it not equal
+                                onPressed: () {
+                                  provider.changeToSauces();
+                                  widget.onPress(3);
+                                  Navigator.of(context).pop();
+                                },
+                                number: 4,
+                                text: AppLocalizations.of(context)!.saucesItemLabel)])),
                   Center(
-                    child: Text(AppLocalizations.of(context)!.productPropositionText,
-                    style: TextStyle(
-                        fontFamily: 'GloryExtraBold',
-                        fontSize: 30,
-                        color: AppColors.mediumBlue)),
-                  ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.27,
+                        child: FittedBox(
+                            child:Text(AppLocalizations.of(context)!.productPropositionText,
+                              style: const TextStyle(
+                                fontFamily: 'GloryExtraBold',
+                                fontSize: 30,
+                                color: AppColors.mediumBlue))))),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child:SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child:ProductList(storage: provider.storageBeg))),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
-                        child: Center(
+                      height: MediaQuery.of(context).size.height * 0.25,
+                      child: ProductList(storage: provider.storageBeg))),
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
+                    child: Center(
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.4,
-                      child: ElevatedButton(
-                        onPressed: () {
-
-                          Navigator.of(context).pop();
-                          provider.getOrderList();
-                        },
-                        style: ElevatedButton.styleFrom(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            provider.getOrderList();
+                          },
+                          style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.green,
                             foregroundColor: Colors.black),
-                        child: Text(AppLocalizations.of(context)!.goToSummaryButtonLabel,
-                            style: const TextStyle(
-                                fontFamily: 'GloryMedium',
-                                fontSize: 25)),
-                      ))))])))),
+                          child: FittedBox(
+                              child: Text(AppLocalizations.of(context)!.goToSummaryButtonLabel,
+                                style: const TextStyle(
+                                  fontFamily: 'GloryMedium',
+                                  fontSize: 25)))))))])))),
             Container(
-                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.72, MediaQuery.of(context).size.height * 0.195, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.195, MediaQuery.of(context).size.width *0.05 - MediaQuery.of(context).size.height*0.02, 0),
+                alignment: Alignment.topRight,
                 child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.15,
-                    child:
-                    Image.asset('assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png',
-                    alignment: Alignment.bottomLeft,
-                    fit: BoxFit.fitHeight)
-                    //RiveAnimation.asset(
-                    //    'assets/animations/robot1.riv',
-                    //    alignment: Alignment.bottomLeft,
-                    //    fit: BoxFit.fitHeight)
-        ))]));
+                    child: Image.asset('assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png',
+                      alignment: Alignment.bottomRight,
+                      fit: BoxFit.fitHeight)))]));
   }
 }

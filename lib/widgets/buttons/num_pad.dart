@@ -71,9 +71,11 @@ class NumPad extends StatelessWidget{
                           backgroundColor: AppColors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20))),
-                        child: const Icon(Icons.backspace_outlined,
-                          color: Colors.white,
-                          size: 60)))),
+                        child: const Center(
+                            child: FittedBox(
+                                child: Icon(Icons.backspace_outlined,
+                                  color: Colors.white,
+                                  size: 60)))))),
                   NumberButton(number: 0, controller: controller, maxDigit: maxDigit)]))]));
   }
 }
@@ -106,10 +108,12 @@ class NumberButton extends StatelessWidget {
           backgroundColor: AppColors.blue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20))),
-        child: Text(number.toString(),
+        child: Center(
+          child: FittedBox(
+            child: Text(number.toString(),
           style: const TextStyle(
             color: Colors.white,
             fontFamily: "GloryBold",
-            fontSize: 60))));
+            fontSize: 60))))));
   }
 }

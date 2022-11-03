@@ -21,6 +21,8 @@ import 'package:kiosk_flutter/widgets/card/summary_card.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 
+import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
+
 import 'dart:async';
 import 'package:async/async.dart';
 import 'package:rive/rive.dart';
@@ -82,7 +84,7 @@ class _OrderScreenState extends State<OrderScreen> {
     print("start");
     timer?.cancel();
     timer = RestartableTimer(
-        const Duration(seconds: 60),
+        const Duration(minutes: 10),
             () {
           print('Done');
           _periodicTimerStop();
@@ -140,10 +142,13 @@ class _OrderScreenState extends State<OrderScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      alignment: Alignment.topLeft,
+                      alignment: Alignment.centerLeft,
+                      height: MediaQuery.of(context).size.height * 0.14,
+                      width: MediaQuery.of(context).size.width * 0.65,
                       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, MediaQuery.of(context).size.height * 0.03, 0, 0),
                       child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
-                        height: MediaQuery.of(context).size.height * 0.12)),
+                        alignment: Alignment.centerLeft,
+                        fit: BoxFit.fitWidth)),
                     Container(
                       alignment: Alignment.topRight,
                       child: Column(
@@ -157,422 +162,186 @@ class _OrderScreenState extends State<OrderScreen> {
                                 ribbonWidth: MediaQuery.of(context).size.width * 0.05)),
                           Container(
                             padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.015, MediaQuery.of(context).size.width * 0.05, 0),
-                            child: const Text("Menu",
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            child: const FittedBox(
+                                child: Text("Menu",
                               style: TextStyle(
                                 fontSize: 60,
-                                fontFamily: 'GloryMedium')))]))]),
+                                fontFamily: 'GloryMedium'))))]))]),
+//------------------------------------------------------------------------------
+//Sekcja Przycisków
+//------------------------------------------------------------------------------
                 Container(
                   alignment: Alignment.topRight,
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
                   child:  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.11,
-                    child: RiveAnimation.asset(
+                    child: const RiveAnimation.asset(
                       'assets/animations/newBody.riv',
-                      alignment: Alignment.bottomRight,
-                    )
-                  )),
-
-                  //Image.asset(
-                    //assets/images/robotAnimation/orderMenuRobot/newRobotBack.png',
-                    //height: MediaQuery.of(context).size.height * 0.11)),
+                      alignment: Alignment.bottomRight,))),
                 Container(
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:[
-                      Stack(
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            width: MediaQuery.of(context).size.width * 0.18,
-                            padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  if(provider.inPayment != true) {
-                                    _periodicTimerStart();
-                                    _timerStart();
-                                    provider.changeToPizza();
-                                    setState(() {
-                                      _cardState = 0;
-                                    });
-                                  }},
-                                style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                  backgroundColor: MaterialStateProperty.resolveWith((states) => _cardState == 0 ? AppColors.mediumBlue : AppColors.lightBlue),
-                                  shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.darkBlue),
-                                        child: Container(
-                                          padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
-                                          child:Text('1',
-                                            textAlign: TextAlign.start,
-                                            textHeightBehavior: const TextHeightBehavior(
-                                              applyHeightToFirstAscent: false,
-                                              applyHeightToLastDescent: false,
-                                              leadingDistribution: TextLeadingDistribution.even),
-                                            style: TextStyle(
-                                              color: _cardState == 0 ? Colors.white : AppColors.lightBlue,
-                                              fontFamily: 'GloryExtraBold',
-                                              fontSize: 45))))),
-                                            Container(
-                                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                height: 35,
-                                                child: Text(AppLocalizations.of(context)!.pizzaItemLabel,
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: const TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false),
-                                                    style: TextStyle(
-                                                        color: _cardState == 0 ? Colors.white : AppColors.darkBlue,
-                                                        fontFamily: _cardState == 0 ? 'GloryExtraBold' : 'GloryMedium',
-                                                        fontSize: 21)))]))),
-                                    Visibility(
-                                        visible: _cardState != 0,
-                                        maintainState: true,
-                                        maintainSize: true,
-                                        maintainAnimation: true,
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.07, 0, 0),
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.17,
-                                            height: MediaQuery.of(context).size.height * 0.05,
-                                            decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(18))))))]),
-                                Container(
-                                    height: _cardState == 1 ? MediaQuery.of(context).size.height * 0.10 : MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width * 0.18,
-                                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if(provider.inPayment != true) {
-                                            _periodicTimerStart();
-                                            provider.changeToDrinks();
-                                            setState(() {
-                                              _timerStart();
-                                              _cardState = 1;
-                                            });
-                                          }},
-                                        style: ButtonStyle(
-                                            foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                            backgroundColor: MaterialStateProperty.resolveWith((states) => _cardState == 1 ? AppColors.mediumBlue : AppColors.lightBlue),
-                                            shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                              child: Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: AppColors.darkBlue),
-                                                  child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(14, 0, 0, 5),
-                                                      child:Text('2',
-                                                          textAlign: TextAlign.start,
-                                                          textHeightBehavior: const TextHeightBehavior(
-                                                              applyHeightToFirstAscent: false,
-                                                              applyHeightToLastDescent: false,
-                                                              leadingDistribution: TextLeadingDistribution.even),
-                                                          style: TextStyle(
-                                                              color: _cardState == 1 ? Colors.white : AppColors.lightBlue,
-                                                              fontFamily: 'GloryExtraBold',
-                                                              fontSize: 45))))),
-                                            Container(
-                                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                height: 35,
-                                                child: Text(AppLocalizations.of(context)!.drinksItemLabel,
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: const TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false),
-                                                    style: TextStyle(
-                                                        color: _cardState == 1 ? Colors.white : AppColors.darkBlue,
-                                                        fontFamily: _cardState == 1 ? 'GloryExtraBold' : 'GloryMedium',
-                                                        fontSize: 21)))]))),
-                                Container(
-                                    height: _cardState == 2 ? MediaQuery.of(context).size.height * 0.10 : MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width * 0.18,
-                                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if(provider.inPayment != true) {
-                                            _periodicTimerStart();
-                                            _timerStart();
-                                            provider.changeToBox();
-                                            setState(() {
-                                              _cardState = 2;
-                                            });
-                                          }},
-                                        style: ButtonStyle(
-                                            foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                            backgroundColor: MaterialStateProperty.resolveWith((states) => _cardState == 2 ? AppColors.mediumBlue : AppColors.lightBlue),
-                                            shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                              child: Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: AppColors.darkBlue),
-                                                  child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(13, 0, 0, 5),
-                                                      child:Text('3',
-                                                          textAlign: TextAlign.start,
-                                                          textHeightBehavior: const TextHeightBehavior(
-                                                              applyHeightToFirstAscent: false,
-                                                              applyHeightToLastDescent: false,
-                                                              leadingDistribution: TextLeadingDistribution.even),
-                                                          style: TextStyle(
-                                                              color: _cardState == 2 ? Colors.white : AppColors.lightBlue,
-                                                              fontFamily: 'GloryExtraBold',
-                                                              fontSize: 45))))),
-                                            Container(
-                                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                height: 35,
-                                                child: Text(AppLocalizations.of(context)!.boxesItemLabel,
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: const TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false),
-                                                    style: TextStyle(
-                                                        color: _cardState == 2 ? Colors.white : AppColors.darkBlue,
-                                                        fontFamily: _cardState == 2 ? 'GloryExtraBold' : 'GloryMedium',
-                                                        fontSize: 21)))]))),
-                                Container(
-                                    height: _cardState == 3 ? MediaQuery.of(context).size.height * 0.10 : MediaQuery.of(context).size.height * 0.07,
-                                    width: MediaQuery.of(context).size.width * 0.18,
-                                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if(provider.inPayment != true) {
-                                            _periodicTimerStart();
-                                            _timerStart();
-                                            provider.changeToSauces();
-                                            setState(() {
-                                              _cardState = 3;
-                                            });
-                                          }},
-                                        style: ButtonStyle(
-                                            foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                            backgroundColor: MaterialStateProperty.resolveWith((states) => _cardState == 3 ? AppColors.mediumBlue : AppColors.lightBlue),
-                                            shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                              child: Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: AppColors.darkBlue),
-                                                  child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(12, 0, 0, 5),
-                                                      child:Text('4',
-                                                          textAlign: TextAlign.start,
-                                                          textHeightBehavior: const TextHeightBehavior(
-                                                              applyHeightToFirstAscent: false,
-                                                              applyHeightToLastDescent: false,
-                                                              leadingDistribution: TextLeadingDistribution.even),
-                                                          style: TextStyle(
-                                                              color: _cardState == 3 ? Colors.white : AppColors.lightBlue,
-                                                              fontFamily: 'GloryExtraBold',
-                                                              fontSize: 45))))),
-                                            Container(
-                                                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                                                height: 35,
-                                                child:  Text(AppLocalizations.of(context)!.saucesItemLabel,
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: const TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false
-                                                    ),
-                                                    style: TextStyle(
-                                                        color: _cardState == 3 ? Colors.white : AppColors.darkBlue,
-                                                        fontFamily: _cardState == 3 ? 'GloryExtraBold' : 'GloryMedium',
-                                                        fontSize: 21)))]))),
-                                Stack(
-                                    children: [
-                                      Container(
-                                        height: MediaQuery.of(context).size.height * 0.10,
-                                        width: MediaQuery.of(context).size.width * 0.18,
-                                        padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.01, 0),
-                                        child: ElevatedButton(
-                                            onPressed: () {
-                                              if(provider.inPayment != true) {
-                                                _periodicTimerStop();
-                                                _startTimerLong();
-                                                provider.changeToPizza();
-                                                setState(() {
-                                                  provider.getOrderList();
-                                                  _cardState = 4;
-                                                });
-                                                if(!provider.popupDone){
-                                                  if(provider.sum != 0){
-                                                    provider.begStorageSetup();
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return BuyMorePopup(
-                                                            onPress: (number) {
-                                                              setState(() {
-                                                                _cardState = number;
-                                                              });
-                                                            },
-                                                          );
-                                                        });
-                                                  }
-                                                }
+                      EdgeCategoryButton(
+                          cardState: _cardState,
+                          onPressed: () {
+                            if(provider.inPayment != true) {
+                              _periodicTimerStart();
+                              _timerStart();
+                              provider.changeToPizza();
+                              setState(() {
+                                _cardState = 0;
+                              });
+                            }},
+                          number: 1,
+                          text: AppLocalizations.of(context)!.pizzaItemLabel),
+                      CategoryButton(
+                        cardState: _cardState,
+                        text: AppLocalizations.of(context)!.drinksItemLabel,
+                        number: 2,
+                        onPressed: () {
+                            if(provider.inPayment != true) {
+                              _periodicTimerStart();
+                              _timerStart();
+                              provider.changeToDrinks();
+                              setState( () {
+                                _cardState = 1;
+                              });
+                            }},
+                      ),
+                      CategoryButton(
+                        cardState: _cardState,
+                        text: AppLocalizations.of(context)!.boxesItemLabel,
+                        number: 3,
+                        onPressed: () {
+                          if(provider.inPayment != true) {
+                            _periodicTimerStart();
+                            _timerStart();
+                            provider.changeToBox();
+                            setState( () {
+                              _cardState = 2;
+                            });
+                          }},
+                      ),
+                      CategoryButton(
+                        cardState: _cardState,
+                        text: AppLocalizations.of(context)!.saucesItemLabel,
+                        number: 4,
+                        onPressed: () {
+                          if(provider.inPayment != true) {
+                            _periodicTimerStart();
+                            _timerStart();
+                            provider.changeToSauces();
+                            setState( () {
+                              _cardState = 3;
+                            });
+                          }},
+                      ),
+                      ConfirmCategoryButton(
+                          cardState: _cardState,
+                          onPressed: () {
+                            if(provider.inPayment != true) {
+                              _periodicTimerStop();
+                              _startTimerLong();
+                              provider.changeToPizza();
+                              setState(() {
+                                provider.getOrderList();
+                                _cardState = 4;
+                              });
 
-                                            }},
-                                            style: ButtonStyle(
-                                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
-                                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                                            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                              child: Container(
-                                                  height: 50,
-                                                  width: 50,
-                                                  decoration: const BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      color: AppColors.darkGreen
-                                                  ),
-                                                  child: Container(
-                                                      padding: const EdgeInsets.fromLTRB(14, 0, 0, 5),
-                                                      child:Text('5',
-                                                          textAlign: TextAlign.start,
-                                                          textHeightBehavior: const TextHeightBehavior(
-                                                              applyHeightToFirstAscent: false,
-                                                              applyHeightToLastDescent: false,
-                                                              leadingDistribution: TextLeadingDistribution.even
-                                                          ),
-                                                          style: TextStyle(
-                                                              color: _cardState == 4 ? Colors.white : AppColors.green,
-                                                              fontFamily: 'GloryExtraBold',
-                                                              fontSize: 45))))),
-                                            Container(
-                                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                                height: 35,
-                                                child:  Text(AppLocalizations.of(context)!.summaryButtonLabel,
-                                                    textAlign: TextAlign.start,
-                                                    textHeightBehavior: const TextHeightBehavior(
-                                                        applyHeightToFirstAscent: false),
-                                                    style: TextStyle(
-                                                        color: _cardState == 4 ? Colors.white : AppColors.darkGreen,
-                                                        fontFamily: _cardState == 4 ? 'GloryExtraBold' : 'GloryMedium',
-                                                        fontSize: 17)))]))),
-                                  Visibility(
-                                      visible: _cardState != 4,
-                                      maintainState: true,
-                                      maintainSize: true,
-                                      maintainAnimation: true,
-                                      child: Container(
-                                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height*0.07, 0, 0),
-                                          child: Container(
-                                            width: MediaQuery.of(context).size.width * 0.17,
-                                            height: MediaQuery.of(context).size.height * 0.05,
-                                            decoration: const BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.only(
-                                                    topRight: Radius.circular(18))))))])])),
+                              if(!provider.popupDone){
+                                if(provider.sum != 0){
+                                  provider.begStorageSetup();
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return BuyMorePopup(
+                                            onPress: (number) {
+                                              setState(() {
+                                                _cardState = number;
+                                              });
+                                            });
+                                      });
+                                }}}},
+                          number: 5,
+                          text: AppLocalizations.of(context)!.summaryButtonLabel)])),
                       Container(
                           alignment: Alignment.topRight,
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.11,
-                              child: RiveAnimation.asset(
-                            'assets/animations/newArms.riv',
+                              child: const RiveAnimation.asset(
+                                'assets/animations/newArms.riv',
                                 alignment: Alignment.bottomRight))),
-
-                            //Image.asset(
-                            //  'assets/images/robotAnimation/orderMenuRobot/newRobotArms.png',
-                            //  height: MediaQuery.of(context).size.height * 0.11)),
-                      Center(
-                          child:
+//------------------------------------------------------------------------------
+//Sekcja stopki
+//------------------------------------------------------------------------------
+                Center(
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.9, 0, 0),
+                    width: MediaQuery.of(context).size.width * 0.89,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
                             Container(
-                              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.9, 0, 0),
-                              width: MediaQuery.of(context).size.width * 0.89,
-                              child:
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
-                                          height: MediaQuery.of(context).size.height * 0.08,
-                                          width: MediaQuery.of(context).size.width * 0.18,
-                                          child: Visibility(
-                                            visible: !provider.inPayment,
-                                            maintainState: true,
-                                            maintainSize: true,
-                                            maintainAnimation: true,
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  _periodicTimerStop();
-                                                  _timerStop();
-                                                  provider.orderCancel();
-                                                  provider.changeToPizza();
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(builder: (context) => const StartScreen())
-                                                  );
-                                                },
-                                                style: ButtonStyle(
-                                                    foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                    backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
-                                                    shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
-                                                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                            child:
-                                              Container(
-                                                alignment: Alignment.bottomCenter,
-                                                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                                child:Text(AppLocalizations.of(context)!.cancelButtonLabel,
-                                                style: const TextStyle(
-                                                    fontFamily: 'GloryMedium',
-                                                    fontSize: 18)))))),
-                                        Container(
-                                          width: MediaQuery.of(context).size.width * 0.18 + 2,
-                                          height: MediaQuery.of(context).size.height * 0.021,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(20))))]),
+                              padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              child: Visibility(
+                                visible: !provider.inPayment,
+                                maintainState: true,
+                                maintainSize: true,
+                                maintainAnimation: true,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    _periodicTimerStop();
+                                    _timerStop();
+                                    provider.orderCancel();
+                                    provider.changeToPizza();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const StartScreen()));
+                                    },
+                                  style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
+                                    shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
+                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                  child: Container(
+                                    alignment: Alignment.bottomCenter,
+                                    padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
+                                    child: FittedBox(child:Text(AppLocalizations.of(context)!.cancelButtonLabel,
+                                      style: const TextStyle(
+                                        fontFamily: 'GloryMedium',
+                                        fontSize: 18))))))),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.18 + 2,
+                              height: MediaQuery.of(context).size.height * 0.021,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(20))))]),
                                     Container(
-                                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0, 0),
-                                      child:
-                                        Column(
+                                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.015, 0, 0),
+                                      child: SizedBox(
+                                        height: MediaQuery.of(context).size.height * 0.08,
+                                        child: Column(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
-                                            Text(AppLocalizations.of(context)!.orderTotalText,
+                                            SizedBox(
+                                              height: MediaQuery.of(context).size.height*0.025,
+                                            child: FittedBox(child: Text(AppLocalizations.of(context)!.orderTotalText,
                                               style: const TextStyle(
                                                 fontSize: 20,
-                                                fontFamily: 'GloryLight')),
-                                            Text('${provider.sum.toStringAsFixed(2)} zł',
+                                                fontFamily: 'GloryLight')))),
+                                            SizedBox(
+                                              height: MediaQuery.of(context).size.height*0.04,
+                                            child: FittedBox(child: Text('${provider.sum.toStringAsFixed(2)} zł',
                                               textHeightBehavior: const TextHeightBehavior(
                                                 applyHeightToFirstAscent: false,
                                                 applyHeightToLastDescent: false,
@@ -581,11 +350,13 @@ class _OrderScreenState extends State<OrderScreen> {
                                               style: const TextStyle(
                                                 fontSize: 40,
                                                 fontFamily: 'GloryBold',
-                                              )),
-                                            Text(AppLocalizations.of(context)!.paymentConformationText,
+                                              )))),
+                                            SizedBox(
+                                                height: MediaQuery.of(context).size.height * 0.015 ,
+                                                child: FittedBox(child: Text(AppLocalizations.of(context)!.paymentConformationText,
                                               style: const TextStyle(
                                                 fontSize: 15,
-                                                fontFamily: 'GloryLightItalic'))])),
+                                                fontFamily: 'GloryLightItalic'))))]))),
                                     Stack(
                                       children: [
                                         SizedBox(
@@ -629,10 +400,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                               child: Container(
                                                 alignment: Alignment.bottomCenter,
                                                 padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                                child:Text(AppLocalizations.of(context)!.summaryButtonLabel,
+                                                child: FittedBox(child: Text(AppLocalizations.of(context)!.summaryButtonLabel,
                                                   style: const TextStyle(
                                                     fontFamily: 'GloryExtraBold',
-                                                    fontSize: 18)))))),
+                                                    fontSize: 18))))))),
                                         Container(
                                           width: MediaQuery.of(context).size.width * 0.18 + 2,
                                           height: MediaQuery.of(context).size.height * 0.021,
@@ -640,7 +411,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.only(
                                                   bottomRight: Radius.circular(20))))])]))),
-                      Container(
+                Container(
                         alignment: Alignment.center,
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height* 0.27, 0, 0),
                           child: SizedBox(
