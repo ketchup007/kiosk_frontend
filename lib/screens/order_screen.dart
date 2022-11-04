@@ -291,7 +291,7 @@ class _OrderScreenState extends State<OrderScreen> {
                             Container(
                               padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
                               height: MediaQuery.of(context).size.height * 0.08,
-                              width: MediaQuery.of(context).size.width * 0.18,
+                              width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18: MediaQuery.of(context).size.width * 0.25,
                               child: Visibility(
                                 visible: !provider.inPayment,
                                 maintainState: true,
@@ -320,7 +320,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         fontFamily: 'GloryMedium',
                                         fontSize: 18))))))),
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.18 + 2,
+                              width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18 + 2 : MediaQuery.of(context).size.width * 0.25 + 2,
                               height: MediaQuery.of(context).size.height * 0.021,
                               decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -353,6 +353,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                               )))),
                                             SizedBox(
                                                 height: MediaQuery.of(context).size.height * 0.015 ,
+                                                width: MediaQuery.of(context).size.width * 0.35,
                                                 child: FittedBox(child: Text(AppLocalizations.of(context)!.paymentConformationText,
                                               style: const TextStyle(
                                                 fontSize: 15,
@@ -361,7 +362,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       children: [
                                         SizedBox(
                                           height: MediaQuery.of(context).size.height * 0.08,
-                                          width: MediaQuery.of(context).size.width * 0.18,
+                                          width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18: MediaQuery.of(context).size.width * 0.25,
                                           child: Visibility(
                                             visible: !provider.inPayment,
                                             maintainState: true,
@@ -405,7 +406,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                     fontFamily: 'GloryExtraBold',
                                                     fontSize: 18))))))),
                                         Container(
-                                          width: MediaQuery.of(context).size.width * 0.18 + 2,
+                                          width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18 + 2: MediaQuery.of(context).size.width * 0.25+2,
                                           height: MediaQuery.of(context).size.height * 0.021,
                                           decoration: const BoxDecoration(
                                               color: Colors.white,

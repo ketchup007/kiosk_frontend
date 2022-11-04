@@ -82,7 +82,7 @@ class SummaryCardState extends State<SummaryCard> {
           children: [
             Center(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
                   child: FittedBox(
                     child:Text(AppLocalizations.of(context)!.orderSummaryText,
                       style: const TextStyle(
@@ -97,8 +97,8 @@ class SummaryCardState extends State<SummaryCard> {
               alignment: AlignmentDirectional.center,
               padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, MediaQuery.of(context).size.width * 0, 0),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.86,
-                height: MediaQuery.of(context).size.height * 0.05,
+                width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.86 : MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.05 : MediaQuery.of(context).size.height * 0.075,
                 child: ElevatedButton(
                   onPressed: () {
                     if (provider.sum != 0) {
@@ -126,7 +126,7 @@ class SummaryCardState extends State<SummaryCard> {
                     backgroundColor: AppColors.green,
                     foregroundColor: Colors.black),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.4,
+                    width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4: MediaQuery.of(context).size.width * 0.5,
                     child: FittedBox(
                       child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
                         style: const TextStyle(
@@ -252,8 +252,8 @@ class SummaryCardState extends State<SummaryCard> {
                                     Container(
                                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
                                         child: SizedBox(
-                                            height: MediaQuery.of(context).size.height * 0.03,
-                                            width: MediaQuery.of(context).size.width * 0.2,
+                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.1,
+                                            width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                             child: OutlinedButton(
                                                 onPressed: () {
                                                   _timerStop();
@@ -281,10 +281,10 @@ class SummaryCardState extends State<SummaryCard> {
                                                         fontSize: 17,
                                                         fontFamily: 'GloryMedium')))))),
                                     Container(
-                                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.45, 0, 0, 0),
+                                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.05, 0, 0, 0),
                                         child: SizedBox(
-                                            height: MediaQuery.of(context).size.height * 0.03,
-                                            width: MediaQuery.of(context).size.width * 0.2,
+                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.1,
+                                            width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                             child: ElevatedButton(
                                                 onPressed: () {
                                                   _timerStop();
