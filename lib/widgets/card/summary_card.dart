@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
@@ -83,6 +84,7 @@ class SummaryCardState extends State<SummaryCard> {
             Center(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.05,
                   child: FittedBox(
                     child:Text(AppLocalizations.of(context)!.orderSummaryText,
                       style: const TextStyle(
@@ -140,7 +142,7 @@ class SummaryCardState extends State<SummaryCard> {
                     return Column(
                       children: [
                         SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.1,
+                            height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.height * 0.1 : MediaQuery.of(context).size.height * 0.17,
                             width: MediaQuery.of(context).size.width * 0.86,
                             child: Card(
                               color: AppColors.green,
@@ -148,15 +150,16 @@ class SummaryCardState extends State<SummaryCard> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.width*0.04,
+                                    height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width*0.04 : MediaQuery.of(context).size.width * 0.08,
                                     child: FittedBox(
                                       child: Text(AppLocalizations.of(context)!.paymentStartedText.toUpperCase(),
                                         style: const TextStyle(
                                           fontFamily: 'GloryExtraBold',
                                           fontSize: 25)))),
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.width*0.03,
-                                    child: FittedBox(
+                                    height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width*0.03 : MediaQuery.of(context).size.width * 0.06,
+                                    width:  MediaQuery.of(context).size.width * 0.8,
+                                      child: FittedBox(
                                       child: Text(AppLocalizations.of(context)!.paymentInfoText,
                                       style: const TextStyle(
                                           fontFamily: 'GloryMedium',
@@ -200,9 +203,11 @@ class SummaryCardState extends State<SummaryCard> {
                                                     return Text(snapshot2.connectionState.toString());
                                                   }
                                                 })])))),
-                            SizedBox(
-                                height: MediaQuery.of(context).size.height * 0.03,
-                                width: MediaQuery.of(context).size.width * 0.2,
+                            Container(
+                              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height* 0.01, 0, 0),
+                              child: SizedBox(
+                                height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
+                                width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                 child: OutlinedButton(
                                     onPressed: () {
                                       provider.orderFinish();
@@ -222,10 +227,10 @@ class SummaryCardState extends State<SummaryCard> {
                                         side: const BorderSide(
                                             color: AppColors.red,
                                             width: 1)),
-                                    child: Text(AppLocalizations.of(context)!.returnButtonLabel,
+                                    child: AutoSizeText(AppLocalizations.of(context)!.returnButtonLabel,
                                         style: const TextStyle(
                                             fontSize: 17,
-                                            fontFamily: 'GloryMedium'))))]);
+                                            fontFamily: 'GloryMedium')))))]);
                       } else {
                         _timerStart();
                         provider.changeOrderStatus(5);

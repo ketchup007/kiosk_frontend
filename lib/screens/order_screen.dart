@@ -173,7 +173,7 @@ class _OrderScreenState extends State<OrderScreen> {
 //------------------------------------------------------------------------------
                 Container(
                   alignment: Alignment.topRight,
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
                   child:  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.11,
                     child: const RiveAnimation.asset(
@@ -269,7 +269,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           text: AppLocalizations.of(context)!.summaryButtonLabel)])),
                       Container(
                           alignment: Alignment.topRight,
-                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.width * 0.065, 0),
+                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.11,
                               child: const RiveAnimation.asset(
@@ -281,7 +281,7 @@ class _OrderScreenState extends State<OrderScreen> {
                 Center(
                   child: Container(
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.9, 0, 0),
-                    width: MediaQuery.of(context).size.width * 0.89,
+                    width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.89 : MediaQuery.of(context).size.width * 0.9,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,7 +317,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
                                     child: FittedBox(child:Text(AppLocalizations.of(context)!.cancelButtonLabel,
                                       style: const TextStyle(
-                                        fontFamily: 'GloryMedium',
+                                        fontFamily: 'GloryExtraBold',
                                         fontSize: 18))))))),
                             Container(
                               width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18 + 2 : MediaQuery.of(context).size.width * 0.25 + 2,
@@ -417,7 +417,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height* 0.27, 0, 0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.65,
-                            width: MediaQuery.of(context).size.width * 0.9,
+                            width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.9 : MediaQuery.of(context).size.width * 0.91,
                             child: _cardState == 4 ? SummaryCard(
                               onInteraction: () {
                                 print('reset pass');

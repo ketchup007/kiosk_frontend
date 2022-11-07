@@ -1,15 +1,8 @@
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../../themes/color.dart';
 
-class CategoryButtons extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-}
 class CategoryButton extends StatelessWidget{
   final int cardState;
   final VoidCallback onPressed;
@@ -36,11 +29,14 @@ class CategoryButton extends StatelessWidget{
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
+            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
             foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
             backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
             shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
         ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-        child: Column(
+        child: SizedBox(
+          width: screenWidth * 0.18,
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
@@ -62,18 +58,17 @@ class CategoryButton extends StatelessWidget{
               padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
               alignment: Alignment.bottomCenter,
               child:
-              SizedBox(
-                height: screenHeight* 0.02,
-                child: FittedBox(
-                    alignment: Alignment.center,
-                    child:Text(text,
-                    textAlign: TextAlign.center,
-                    textHeightBehavior: const TextHeightBehavior(
-                        applyHeightToFirstAscent: false),
-                    style: TextStyle(
-                        color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
-                        fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                        fontSize: 21)))))])));
+                  SizedBox(
+                    height: screenHeight * 0.02,
+                    width: screenWidth * 0.17,
+                    child: AutoSizeText(
+                      text,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
+                            fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
+                            fontSize: 21))))]))));
   }
 }
 
@@ -105,6 +100,7 @@ class EdgeCategoryButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: ButtonStyle(
+                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                 foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
                 backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
                 shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)))),
@@ -133,16 +129,14 @@ class EdgeCategoryButton extends StatelessWidget {
                     child:
                     SizedBox(
                         height: screenHeight* 0.02,
-                        child: FittedBox(
-                            alignment: Alignment.center,
-                            child:Text(text,
+                        width: screenWidth * 0.17,
+                            child: AutoSizeText(text,
                                 textAlign: TextAlign.center,
-                                textHeightBehavior: const TextHeightBehavior(
-                                    applyHeightToFirstAscent: false),
+                                maxLines: 1,
                                 style: TextStyle(
                                     color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
                                     fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                                    fontSize: 21)))))]))),
+                                    fontSize: 21))))]))),
         Visibility(
             visible: cardState != number-1,
             maintainState: true,
@@ -188,6 +182,7 @@ class ConfirmCategoryButton extends StatelessWidget {
             child: ElevatedButton(
               onPressed: onPressed,
                 style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
                     foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
                     backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
                     shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
@@ -214,18 +209,18 @@ class ConfirmCategoryButton extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
                       alignment: Alignment.bottomCenter,
                       child:
-                      SizedBox(
-                          height: screenHeight* 0.02,
-                          child: FittedBox(
-                              alignment: Alignment.center,
-                              child:Text(text,
+                      Center ( child: SizedBox(
+                          height: screenHeight * 0.02,
+                          width: screenWidth * 0.16,
+                          child: AutoSizeText(text,
                                   textAlign: TextAlign.center,
-                                  textHeightBehavior: const TextHeightBehavior(
-                                      applyHeightToFirstAscent: false),
+                                  maxLines: 1,
+                                  minFontSize: 10,
+                                  maxFontSize: 21,
                                   style: TextStyle(
                                       color: cardState == number-1 ? Colors.white : AppColors.darkGreen,
                                       fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                                      fontSize: 21)))))]))),
+                                      fontSize: 21 )))))]))),
           Visibility(
               visible: cardState != number-1,
               maintainState: true,

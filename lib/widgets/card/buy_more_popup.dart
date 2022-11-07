@@ -68,12 +68,16 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                                 Navigator.of(context).pop();
                               },
                               style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
                                 shape: const CircleBorder(),
                                 backgroundColor: AppColors.red),
-                              child: const Text("X",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30))))),
+                              child:Center(
+                                  child: FittedBox(
+                                      child: Text("X",
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15))))))),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -145,7 +149,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                                 text: AppLocalizations.of(context)!.saucesItemLabel)])),
                   Center(
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.27,
+                        width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.27 : MediaQuery.of(context).size.width * 0.40,
                         child: FittedBox(
                             child:Text(AppLocalizations.of(context)!.productPropositionText,
                               style: const TextStyle(
@@ -161,7 +165,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
                     child: Center(
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();

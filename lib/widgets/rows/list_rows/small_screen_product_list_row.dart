@@ -32,13 +32,23 @@ class SmallScreenProductListRow extends StatelessWidget{
 
     return Row(
       children: [
-        Container(
+        GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ProductDetailsPopup(
+                  name: name,
+                  ingredients: ingredients,
+                  imageName: storage[index].image);
+            });
+          },
+          child: Container(
             padding: EdgeInsets.fromLTRB(
                 MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.height * 0.075,
-              imageName: storage[index].image,
-            )),
+              imageName: storage[index].image))),
         GestureDetector(
           onTap: () {
             showDialog(
@@ -58,6 +68,8 @@ class SmallScreenProductListRow extends StatelessWidget{
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: AutoSizeText(name,
                             textAlign: TextAlign.start,
+                            minFontSize: 10,
+                            maxFontSize: 17,
                             maxLines: 1,
                             style: const TextStyle(
                                 fontFamily: 'GloryBold',
@@ -69,10 +81,7 @@ class SmallScreenProductListRow extends StatelessWidget{
                     child: FittedBox(
                       child: Text("${storage[index].price.toStringAsFixed(2)} zł",
                           style: const TextStyle(
-                              fontFamily: 'GloryLightItalic', fontSize: 15)),
-                    ))),
-          ],
-        )),
+                              fontFamily: 'GloryLightItalic', fontSize: 15)))))])),
         Container(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
             child: Container(
@@ -112,12 +121,15 @@ class SmallScreenProductListRow extends StatelessWidget{
                                 }
                               },
                               style: ElevatedButton.styleFrom(
+
                                   shape: const CircleBorder(),
                                   backgroundColor: AppColors.red),
-                              child: Center(child: FittedBox(child: Text("-",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30)))))))),
+                              child: const Center(
+                                  child: FittedBox(
+                                      child: Text("-",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30)))))))),
               Container(
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
                   child: Visibility(
@@ -144,11 +156,11 @@ class SmallScreenProductListRow extends StatelessWidget{
                               style: ElevatedButton.styleFrom(
                                   shape: const CircleBorder(),
                                   backgroundColor: AppColors.mediumBlue),
-                              child: Center(child: FittedBox(child: Text("+",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 30))))))))]),
-      ],
-    );
+                              child: const Center(
+                                  child: FittedBox(
+                                      child: Text("+",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 30))))))))])]);
   }
 }

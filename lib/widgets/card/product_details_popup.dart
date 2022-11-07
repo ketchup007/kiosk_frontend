@@ -36,7 +36,8 @@ class ProductDetailsPopup extends StatelessWidget{
             child: Stack(
               children: [
                 Container(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.03, 0),
+                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.03, MediaQuery.of(context).size.width * 0.03, 0),
+                    alignment: Alignment.topRight,
                     child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.06,
                         height: MediaQuery.of(context).size.width * 0.06,
@@ -45,24 +46,26 @@ class ProductDetailsPopup extends StatelessWidget{
                               Navigator.of(context).pop();
                             },
                             style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
                                 shape: const CircleBorder(),
                                 backgroundColor: AppColors.red),
-                            child: const Text("X",
+                            child: const Center(
+                              child: FittedBox(
+                              child: Text("X",
+                                  textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 30))))),
+                                    fontSize: 15))))))),
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, 0, 0, 0),
-
-                    child: ProductNetworkImage(
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.03, MediaQuery.of(context).size.height * 0.02, 0, 0),
+                      child: ProductNetworkImage(
                         size: MediaQuery.of(context).size.width* 0.3,
                         imageName: imageName)),
                     Container(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
-
-                    child: SizedBox(
+                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, MediaQuery.of(context).size.height * 0.05 , 0, 0),
+                      child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

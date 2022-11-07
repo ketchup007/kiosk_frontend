@@ -87,7 +87,8 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.05, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.03, 0, 0, 0),
+                        alignment: Alignment.bottomCenter,
                         child: DropdownButton(
                           value: _dropdownValue,
                           iconSize: MediaQuery.of(context).size.height > 1000 ?  20 : 10,
@@ -98,13 +99,13 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0, 0, 0, MediaQuery.of(context).size.width * 0.005),
                                   child:
                                     SizedBox(
-                                      height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.015,
-                                      width: MediaQuery.of(context).size.width * 0.1,
+                                      height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.03,
+                                      width: MediaQuery.of(context).size.width * 0.12,
                                       child: Text("${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
                                             (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
                                           maxLines: 1,
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.height > 1000? 20 : 10,
+                                            fontSize: MediaQuery.of(context).size.height > 1000? 20 : 15,
                                             fontFamily: 'GloryBold')))));
                           }).toList(),
                           onChanged: (CountryModel? value) {
@@ -113,7 +114,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                             });
                         })),
                       Container(
-                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, MediaQuery.of(context).size.height> 1000 ? MediaQuery.of(context).size.height * 0.005 :MediaQuery.of(context).size.height * 0.01),
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
                           width: MediaQuery.of(context).size.width * 0.45,
@@ -121,6 +122,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                 controller: _myController,
                                 showCursor: false,
                                 keyboardType: TextInputType.none,
+                                minFontSize: 20,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   height: MediaQuery.of(context).size.height * 0.1,
@@ -158,6 +160,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                           value: isCheckedMain,
                                           onChanged: (bool? value) {
                                             setState(() {
+                                              print("eeeeee");
                                               isCheckedMain = value!;
                                               if (value == true) {
                                                 isCheckedA = true;
@@ -169,10 +172,24 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                                 isCheckedC = false;
                                               }});
                                         })),
-                                      Text(AppLocalizations.of(context)!.selectAllCheckText,
+                                      GestureDetector(onTap: () {
+                                        setState(() {
+                                          var value = !isCheckedMain;
+                                          isCheckedMain = value;
+                                          if (value == true) {
+                                            isCheckedA = true;
+                                            isCheckedB = true;
+                                            isCheckedC = true;
+                                          } else {
+                                            isCheckedA = false;
+                                            isCheckedB = false;
+                                            isCheckedC = false;
+                                          }});
+                                        },
+                                          child: Text(AppLocalizations.of(context)!.selectAllCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))]))),
+                                          fontSize: 16)))]))),
                             SizedBox(
                                 height:  MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
                                 child: FittedBox(
@@ -200,10 +217,21 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                                   isCheckedMain = false;
                                                 }});
                                             })),
-                                        Text(AppLocalizations.of(context)!.requiredCheckText,
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              var value = isCheckedA;
+                                              isCheckedA = !value;
+                                              if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+                                                isCheckedMain = true;
+                                              } else {
+                                                isCheckedMain = false;
+                                              }});
+                                          },
+                                          child: Text(AppLocalizations.of(context)!.requiredCheckText,
                                           style: const TextStyle(
                                             fontFamily: "GloryMedium",
-                                            fontSize: 16))]))),
+                                            fontSize: 16)))]))),
                             SizedBox(
                               height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
                               child: FittedBox(
@@ -233,10 +261,23 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                               }
                                             });
                                           })),
-                                  Text(AppLocalizations.of(context)!.promotionCheckText,
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        var value = isCheckedB;
+                                        isCheckedB = !value;
+
+                                        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+                                          isCheckedMain = true;
+                                        } else {
+                                          isCheckedMain = false;
+                                        }
+                                      });
+                                    },
+                                    child: Text(AppLocalizations.of(context)!.promotionCheckText,
                                       style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))]))),
+                                          fontSize: 16)))]))),
                             SizedBox(
                                 height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
                                 child: FittedBox(
@@ -266,10 +307,23 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                               }
                                             });
                                           })),
-                                  Text(AppLocalizations.of(context)!.optionalCheckText,
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        var value = isCheckedC;
+                                        isCheckedC = !value;
+
+                                        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+                                          isCheckedMain = true;
+                                        } else {
+                                          isCheckedMain = false;
+                                        }
+                                      });
+                                    },
+                                    child: Text(AppLocalizations.of(context)!.optionalCheckText,
                                       style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16))])))])),
+                                          fontSize: 16)))])))])),
                       Container(
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
                           child: SizedBox(

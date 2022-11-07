@@ -1,4 +1,4 @@
-#Fri Nov 04 15:36:02 CET 2022
+#Mon Nov 07 15:10:37 CET 2022
 base.0=/home/avena/AndroidStudioProjects/kiosk_flutter/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
