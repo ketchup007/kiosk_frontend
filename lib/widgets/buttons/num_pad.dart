@@ -4,64 +4,108 @@ import 'package:kiosk_flutter/themes/color.dart';
 class NumPad extends StatelessWidget{
   final TextEditingController controller;
   final int maxDigit;
+  final double buttonSize;
+  late double space;
 
-  const NumPad({
+  NumPad({
     Key? key,
     required this.controller,
-    required this.maxDigit
+    required this.maxDigit,
+    required this.buttonSize
   }): super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    if(buttonSize > MediaQuery.of(context).size.width * 0.15){
+      space = MediaQuery.of(context).size.width * 0.02;
+    }else{
+      space = MediaQuery.of(context).size.width * 0.01;
+    }
     return
       SizedBox(
-          width: MediaQuery.of(context).size.width * 0.45,
+          width: 3 * buttonSize + 2 * space,
           child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                  child: NumberButton(number: 1, controller: controller, maxDigit: maxDigit)),
+                  padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                  child: NumberButton(
+                      number: 1,
+                      controller: controller,
+                      maxDigit: maxDigit,
+                      buttonSize: buttonSize)),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                  child: NumberButton(number: 2, controller: controller, maxDigit: maxDigit)),
-                NumberButton(number: 3, controller: controller, maxDigit: maxDigit)]),
+                  padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                  child: NumberButton(
+                      number: 2,
+                      controller: controller,
+                      maxDigit: maxDigit,
+                      buttonSize: buttonSize)),
+                NumberButton(
+                    number: 3,
+                    controller: controller,
+                    maxDigit: maxDigit,
+                    buttonSize: buttonSize)]),
             Container(
-              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.01, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, space, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                    child: NumberButton(number: 4, controller: controller, maxDigit: maxDigit)),
+                    padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                    child: NumberButton(
+                        number: 4,
+                        controller: controller,
+                        maxDigit: maxDigit,
+                        buttonSize: buttonSize)),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                    child: NumberButton(number: 5, controller: controller, maxDigit: maxDigit)),
-                  NumberButton(number: 6, controller: controller, maxDigit: maxDigit)])),
+                    padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                    child: NumberButton(
+                        number: 5,
+                        controller: controller,
+                        maxDigit: maxDigit,
+                        buttonSize: buttonSize)),
+                  NumberButton(
+                      number: 6,
+                      controller: controller,
+                      maxDigit: maxDigit,
+                      buttonSize: buttonSize)])),
             Container(
-                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width *0.01, 0, 0),
+                padding: EdgeInsets.fromLTRB(0, space, 0, 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                      child: NumberButton(number: 7, controller: controller, maxDigit: maxDigit)),
+                      padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                      child: NumberButton(
+                          number: 7,
+                          controller: controller,
+                          maxDigit: maxDigit,
+                          buttonSize: buttonSize)),
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width *0.01, 0),
-                      child: NumberButton(number: 8, controller: controller, maxDigit: maxDigit)),
-                    NumberButton(number: 9, controller: controller, maxDigit: maxDigit)])),
+                      padding: EdgeInsets.fromLTRB(0, 0, space, 0),
+                      child: NumberButton(
+                          number: 8,
+                          controller: controller,
+                          maxDigit: maxDigit,
+                          buttonSize: buttonSize)),
+                    NumberButton(
+                        number: 9,
+                        controller: controller,
+                        maxDigit: maxDigit,
+                        buttonSize: buttonSize)])),
             Container(
-              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.width * 0.01, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, space, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width*0.01, 0),
+                    padding: EdgeInsets.fromLTRB(0, 0, space, 0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.14,
-                      width: MediaQuery.of(context).size.width * 0.14,
+                      height: buttonSize,
+                      width: buttonSize,
                       child: ElevatedButton(
                         onPressed: () {
                           if(controller.text.isNotEmpty){
@@ -76,7 +120,11 @@ class NumPad extends StatelessWidget{
                                 child: Icon(Icons.backspace_outlined,
                                   color: Colors.white,
                                   size: 60)))))),
-                  NumberButton(number: 0, controller: controller, maxDigit: maxDigit)]))]));
+                  NumberButton(
+                      number: 0,
+                      controller: controller,
+                      maxDigit: maxDigit,
+                      buttonSize: buttonSize)]))]));
   }
 }
 
@@ -84,20 +132,22 @@ class NumberButton extends StatelessWidget {
   final int number;
   final TextEditingController controller;
   final int maxDigit;
+  final double buttonSize;
 
   const NumberButton({
     Key? key,
     required this.number,
     required this.controller,
-    required this.maxDigit
+    required this.maxDigit,
+    required this.buttonSize
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     return SizedBox(
-      height: MediaQuery.of(context).size.width * 0.14,
-      width: MediaQuery.of(context).size.width * 0.14,
+      height: buttonSize,
+      width: buttonSize,
       child: ElevatedButton(
         onPressed: () {
           if(controller.text.length < maxDigit){

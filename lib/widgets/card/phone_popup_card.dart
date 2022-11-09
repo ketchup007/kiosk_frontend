@@ -65,7 +65,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
         onPointerDown: onPointerDown,
         child: Center(
           child: SizedBox(
-            height:  MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.6 : MediaQuery.of(context).size.height * 0.65,
+            height:  MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.6 : MediaQuery.of(context).size.height * 0.85,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Card(
               color: Colors.white,
@@ -74,9 +74,11 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
+                    padding: EdgeInsets.fromLTRB(0,
+                        MediaQuery.of(context).size.height > 1000?  MediaQuery.of(context).size.height * 0.01 : MediaQuery.of(context).size.height * 0.02,
+                        0, MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0 : MediaQuery.of(context).size.width * 0.03),
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
+                        width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
                         child: FittedBox(
                             child: Text(AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
                               style: const TextStyle(
@@ -87,7 +89,8 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.03, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.04, 0, 0, 0),
                         alignment: Alignment.bottomCenter,
                         child: DropdownButton(
                           value: _dropdownValue,
@@ -97,15 +100,14 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                               value: value,
                               child: Container(
                                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0, 0, 0, MediaQuery.of(context).size.width * 0.005),
-                                  child:
-                                    SizedBox(
-                                      height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.03,
-                                      width: MediaQuery.of(context).size.width * 0.12,
+                                  child: SizedBox(
+                                      height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.05,
+                                      width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.12 : MediaQuery.of(context).size.width * 0.21,
                                       child: Text("${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
                                             (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
                                           maxLines: 1,
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.height > 1000? 20 : 15,
+                                            fontSize: MediaQuery.of(context).size.height > 1000? 20 : 22,
                                             fontFamily: 'GloryBold')))));
                           }).toList(),
                           onChanged: (CountryModel? value) {
@@ -117,19 +119,23 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, MediaQuery.of(context).size.height> 1000 ? MediaQuery.of(context).size.height * 0.005 :MediaQuery.of(context).size.height * 0.01),
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
-                          width: MediaQuery.of(context).size.width * 0.45,
+                          width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.5,
                           child: AutoSizeTextField(
                                 controller: _myController,
                                 showCursor: false,
                                 keyboardType: TextInputType.none,
-                                minFontSize: 20,
+                                minFontSize: MediaQuery.of(context).size.height > 1000 ? 20 : 30,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   height: MediaQuery.of(context).size.height * 0.1,
                                   fontFamily: 'GloryBold'))))]),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0, MediaQuery.of(context).size.height * 0.02),
-                    child: NumPad(controller: _myController, maxDigit: _dropdownValue.maxNumber)),
+                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0,
+                        MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.04),
+                    child: Center(child: NumPad(
+                        controller: _myController,
+                        maxDigit: _dropdownValue.maxNumber,
+                        buttonSize: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.14 : MediaQuery.of(context).size.width * 0.2))),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,

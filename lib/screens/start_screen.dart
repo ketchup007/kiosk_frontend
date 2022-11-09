@@ -6,6 +6,7 @@ import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
+import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
@@ -60,7 +61,19 @@ class _StartScreenState extends State<StartScreen> {
                             backgroundColor: AppColors.green,
                             foregroundColor: Colors.black),
                           onPressed: () {
-                            goToOrderPage(context);
+                            if(MediaQuery.of(context).size.height < 1000){
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return GpsWaitPopup(
+                                      onPress: () {
+                                        goToOrderPage(context);
+                                      },
+                                    );
+                                  });
+                            }else{
+                              goToOrderPage(context);
+                            }
                           },
                           child: FittedBox(
                             child: Text(AppLocalizations.of(context)!.touchScreenInfo,
@@ -73,7 +86,13 @@ class _StartScreenState extends State<StartScreen> {
                       type: MaterialType.transparency,
                       child: InkWell(
                           onTap: () {
-                            goToOrderPage(context);
+                            if(MediaQuery.of(context).size.height < 1000){
+                              showDialog(context: context,
+                                  builder: (context) => GpsWaitPopup(
+                                      onPress: () => goToOrderPage(context)));
+                            }else{
+                              goToOrderPage(context);
+                            }
                           },
                           child: Ink.image(
                             image: const SVG.Svg('assets/images/touch.svg'),

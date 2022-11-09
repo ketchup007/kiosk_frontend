@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:kiosk_flutter/models/storage_model.dart';
+import 'package:kiosk_flutter/models/container_model.dart';
 import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_limits_model.dart';
 
@@ -25,3 +26,12 @@ int parseFirstOrder(String responseBody) {
 
   return parsed['id'];
 }
+
+List<ContainerModel> parseContainers(String response) {
+  final parsed = jsonDecode(response).cast<Map<String, dynamic>>();
+
+  return parsed
+      .map<ContainerModel>( (json) => ContainerModel.fromJson(json) )
+      .toList();
+}
+

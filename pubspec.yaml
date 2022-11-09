@@ -47,6 +47,8 @@ dependencies:
   rive: ^0.9.1
   auto_size_text: ^3.0.0
   auto_size_text_field: ^2.1.0
+  geolocator: ^9.0.2
+  geocoding: ^2.0.5
 
 dev_dependencies:
   flutter_test:

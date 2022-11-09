@@ -210,6 +210,7 @@ class SummaryCardState extends State<SummaryCard> {
                                 width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                 child: OutlinedButton(
                                     onPressed: () {
+
                                       provider.orderFinish();
                                       provider.changeToPizza();
                                       provider.inPayment = false;
@@ -221,6 +222,7 @@ class SummaryCardState extends State<SummaryCard> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => const StartScreen()));
+
                                     },
                                     style: OutlinedButton.styleFrom(
                                         foregroundColor: AppColors.red,

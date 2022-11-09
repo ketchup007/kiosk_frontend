@@ -6,6 +6,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:kiosk_flutter/utils/geolocation/location_service.dart';
 import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/main.dart';
@@ -26,6 +27,8 @@ import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
 import 'dart:async';
 import 'package:async/async.dart';
 import 'package:rive/rive.dart';
+
+import 'package:geolocator/geolocator.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -146,9 +149,19 @@ class _OrderScreenState extends State<OrderScreen> {
                       height: MediaQuery.of(context).size.height * 0.14,
                       width: MediaQuery.of(context).size.width * 0.65,
                       padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, MediaQuery.of(context).size.height * 0.03, 0, 0),
-                      child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
+                      child: GestureDetector(
+                        onTap: () { // Safe Space to test things
+                          if(MediaQuery.of(context).size.height < 1000){
+                            print("Yey you are on phone");
+
+
+                          }else {
+                            print("Yey you are on kiosk");
+                          }
+                        },
+                        child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
                         alignment: Alignment.centerLeft,
-                        fit: BoxFit.fitWidth)),
+                        fit: BoxFit.fitWidth))),
                     Container(
                       alignment: Alignment.topRight,
                       child: Column(
