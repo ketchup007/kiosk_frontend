@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/themes/color.dart';
@@ -85,11 +86,12 @@ class BigScreenOrderListRow extends StatelessWidget{
                                   color: Colors.white)))))),
           SizedBox(
               width: MediaQuery.of(context).size.width * 0.1,
-              child: FittedBox(
-                  child: Text('${(storage[index].number * storage[index].price).toStringAsFixed(2)} zł',
-                      style: const TextStyle(
+              child: AutoSizeText('${(storage[index].number * storage[index].price).toStringAsFixed(2)} zł',
+                  textAlign: TextAlign.end,
+                  maxLines: 1,
+                  style: const TextStyle(
                           fontFamily: 'GloryBold',
-                          fontSize: 20))))]));
+                          fontSize: 20)))]));
   }
 
 }

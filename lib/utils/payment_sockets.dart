@@ -299,7 +299,11 @@ class Payment {
       }
       socket.destroy();
 
+      //to rewrite from string to int on whole stack
       switch (responseCode) {
+        case 0:
+          endstring = "0";
+          break;
         case 1:
           endstring = "1";
           break;
