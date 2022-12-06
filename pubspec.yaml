@@ -49,6 +49,8 @@ dependencies:
   auto_size_text_field: ^2.1.0
   geolocator: ^9.0.2
   geocoding: ^2.0.5
+  network_info_plus: ^1.1.0
+  permission_handler: ^8.1.6
 
 dev_dependencies:
   flutter_test:
@@ -104,6 +106,9 @@ flutter:
     - assets/animations/newArms.riv
     - assets/data/countries.json
     - assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png
+    - assets/images/payULogos/payULogoBlack.png
+    - assets/images/payULogos/payULogoLime.png
+    - assets/images/payULogos/payULogoWhite.png
 
 
   fonts:

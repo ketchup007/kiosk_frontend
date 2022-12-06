@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
+import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/fetch_json.dart';
 import 'package:kiosk_flutter/utils/post_data.dart';
 import 'package:http/http.dart' as http;
@@ -39,12 +40,20 @@ class MainProvider extends ChangeNotifier {
   getStorageData() async {
     if(loading != true && isDone != true) {
       loading = true;
-      storage = await fetchStorage();
+      storage = (await ApiService().fetchStorage())!;
+      //storage = await fetchStorage();
       initMap();
+      await ApiService().fetchStorageLimits().then( (data) {
+        for(int i = 0; i < data!.length; i++){
+         limits[data[i].orderName] = data[i].quantity;
+        }});
+      /*
       await fetchStorageLimits().then( (data) {
         for(int i = 0; i < data.length; i++){
           limits[data[i].orderName] = data[i].quantity;
         }});
+
+       */
       breakStorage();
       storageCurrent = storagePizza;
       loading = false;
@@ -141,28 +150,35 @@ class MainProvider extends ChangeNotifier {
       }}}
 
   getFirstOrder(String orderName, int value) async {
-    order.id = await createFirstOrder();
-    changeOrderProduct(order.id, orderName, value);
+    order.id = (await ApiService().createFirstOrder())!;
+    //order.id = await createFirstOrder();
+    ApiService().changeOrderProduct(order.id, orderName, value);
+    //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrder(String orderName, int value) async {
-    changeOrderProduct(order.id, orderName, value);
+    ApiService().changeOrderProduct(order.id, orderName, value);
+    //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrderStatus(int value) async{
-    changeOrderProduct(order.id, "status", value);
+    ApiService().changeOrderProduct(order.id, "status", value);
+    //changeOrderProduct(order.id, "status", value);
   }
 
   changOrderName(String value) async {
-    changeOrderName(order.id, value);
+    ApiService().changeOrderName(order.id, value);
+    //changeOrderName(order.id, value);
   }
 
   setOrderClientNumber(String number, bool promoPermission) async {
-    setClientNumber(order.id, number, promoPermission);
+    ApiService().setClientNumber(order.id, number, promoPermission);
+    //setClientNumber(order.id, number, promoPermission);
   }
 
   Future<int> getOrderNumber() async{
-    return await fetchOrderNumber(order.id);
+    return (await ApiService().fetchOrderNumber(order.id))!;
+    //return await fetchOrderNumber(order.id);
   }
 
   getSum() {
@@ -174,17 +190,29 @@ class MainProvider extends ChangeNotifier {
   }
 
   getLimit(String product, int number){
+    ApiService().fetchProductState(product).then((data){
+      limits[product] = data! + number;
+    });
+    /*
     fetchProductState(product).then((data){
       limits[product] = data + number;
     });
+     */
   }
 
   getLimits(){
     print("tick");
+    ApiService().fetchStorageLimits().then( (data) {
+      for(int i = 0; i < data!.length; i++){
+        limits[data[i].orderName] = data[i].quantity;
+      }});
+    /*
     fetchStorageLimits().then( (data) {
       for(int i = 0; i < data.length; i++){
         limits[data[i].orderName] = data[i].quantity;
       }});
+
+     */
   }
 
 

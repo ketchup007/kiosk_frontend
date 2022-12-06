@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:provider/provider.dart';
 
 class ProductNetworkImage extends StatelessWidget{
@@ -27,7 +28,7 @@ class ProductNetworkImage extends StatelessWidget{
             borderRadius: BorderRadius.circular(size/4)),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(size/5),
-            child: Image.network('http://10.3.15.98:8000/assets/${imageName}')));
+            child: Image.network( ApiConstants.baseUrl + '/assets/${imageName}')));
   }
 
 }

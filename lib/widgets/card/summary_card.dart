@@ -1,7 +1,11 @@
+
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:kiosk_flutter/screens/payu_screen.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
+import 'package:kiosk_flutter/widgets/mobile_payment.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 
@@ -115,11 +119,20 @@ class SummaryCardState extends State<SummaryCard> {
                               onPress: (isPromotionChecked) {
                                 widget.onPopUpFinish();
                                 provider.setOrderClientNumber(provider.order.client_name, isPromotionChecked);
-                                setState(() {
-                                  _paymentState = 1;
-                                });
                                 provider.changeOrderStatus(1);
-                                provider.inPayment = true;
+
+                                if(MediaQuery.of(context).size.height > 1000){
+                                  setState(() {
+                                    _paymentState = 1;
+                                  });
+                                  provider.inPayment = true;
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const PayUScreen()));
+                                }
+
                                 provider.notifyListeners();
                               });
                         });
@@ -134,7 +147,7 @@ class SummaryCardState extends State<SummaryCard> {
                         style: const TextStyle(
                           fontFamily: 'GloryBold',
                           fontSize: 30))))))) :
-            FutureBuilder(
+            MediaQuery.of(context).size.height > 1000 ? FutureBuilder(
               future: provider.payment.startTransaction(provider.sum),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -319,6 +332,18 @@ class SummaryCardState extends State<SummaryCard> {
                   } else {
                     return const Text('snapshot.connectionState');
                   }
-                })]));
+                }) : Container(
+                      height: MediaQuery.of(context).size.height * 0.18,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PayUScreen())
+                          );
+                        }, 
+                        child: Text("go"),
+                        
+                      ))]));
   }
 }
