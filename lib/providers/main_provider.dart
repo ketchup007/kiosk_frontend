@@ -177,8 +177,14 @@ class MainProvider extends ChangeNotifier {
   }
 
   Future<int> getOrderNumber() async{
+    print("from privider du du du du");
     return (await ApiService().fetchOrderNumber(order.id))!;
     //return await fetchOrderNumber(order.id);
+  }
+
+  Future<int> testRoute() async{
+    print("in blik test");
+    return await getOrderNumber();
   }
 
   getSum() {
@@ -201,7 +207,7 @@ class MainProvider extends ChangeNotifier {
   }
 
   getLimits(){
-    print("tick");
+    //print("tick");
     ApiService().fetchStorageLimits().then( (data) {
       for(int i = 0; i < data!.length; i++){
         limits[data[i].orderName] = data[i].quantity;

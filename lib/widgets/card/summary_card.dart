@@ -45,12 +45,12 @@ class SummaryCardState extends State<SummaryCard> {
   }
 
   void _timerStart(){
-    print("2 timer start");
+    //print("2 timer start");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 1),
         () {
-          print('sec timer');
+          //print('sec timer');
           provider.orderCancel();
           provider.changeToPizza();
           provider.inPayment = false;
@@ -67,7 +67,7 @@ class SummaryCardState extends State<SummaryCard> {
   }
 
   void _timerStop(){
-    print("2 timer stop");
+    //print("2 timer stop");
     timer?.cancel();
   }
 
@@ -113,7 +113,7 @@ class SummaryCardState extends State<SummaryCard> {
                         builder: (context){
                           return PhonePopupCard(
                               onInteraction: () {
-                                print('dumpc 2');
+                                //print('dumpc 2');
                                 widget.onInteraction();
                               },
                               onPress: (isPromotionChecked) {
@@ -182,9 +182,9 @@ class SummaryCardState extends State<SummaryCard> {
                     if (snapshot.hasError) {
                       return const Text('Error');
                     } else if (snapshot.hasData) {
-                      print("Its done: ${snapshot.data.toString()}");
+                      //print("Its done: ${snapshot.data.toString()}");
                       if (snapshot.data.toString() == "0") { // change flag to test 7
-                        print("Its done: ${snapshot.data.toString()}");
+                        //print("Its done: ${snapshot.data.toString()}");
                         provider.changeOrderStatus(2);
                         return Column(
                           children: [
@@ -203,6 +203,7 @@ class SummaryCardState extends State<SummaryCard> {
                                               FutureBuilder(
                                                 future: provider.getOrderNumber(),
                                                 builder: (context2, snapshot2) {
+                                                  print("from summary");
                                                   if (snapshot2.connectionState == ConnectionState.waiting) {
                                                     return const CircularProgressIndicator(color: AppColors.darkGreen);
                                                   } else if (snapshot2.connectionState == ConnectionState.done) {
@@ -326,7 +327,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                         fontFamily: 'GloryMedium'))))))]))]);
                       }
                     } else {
-                      print(snapshot.data);
+                      //print(snapshot.data);
                       return const Text('Empty data');
                     }
                   } else {

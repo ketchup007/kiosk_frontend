@@ -78,6 +78,7 @@ class ApiService{
   }
 
   Future<int?> fetchOrderNumber(int id) async {
+    print("sms dudu dudy");
     try{
       var response = await http.get(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)));
@@ -99,7 +100,7 @@ class ApiService{
         Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList));
 
       if(response.statusCode == 200){
-        print(response.body);
+        //print(response.body);
         return compute(JsonParser().parseContainers, response.body);
       }else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
@@ -241,8 +242,8 @@ class ApiService{
           "blikCode": blikCode,
         }));
 
-      print(response.statusCode);
-      print(response.body);
+      print("Blik Status: ${response.statusCode}");
+      print("Blik response: ${response.body}");
       if(response.statusCode == 200){
         return response.body;
       } else {

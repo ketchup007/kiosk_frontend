@@ -54,7 +54,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void dispose(){
     super.dispose();
-    print("dispose");
+    //print("dispose");
     timer?.cancel();
   }
 
@@ -77,19 +77,19 @@ class _OrderScreenState extends State<OrderScreen> {
     final check = timer?.isActive;
     if(check!) {
       if (check) {
-        print("reset");
+        //print("reset");
         timer?.reset();
       }
     }
   }
 
   void _timerStart(){
-    print("start");
+    //print("start");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 10),
             () {
-          print('Done');
+          //print('Done');
           _periodicTimerStop();
           provider.orderCancel();
           provider.changeToPizza();
@@ -101,12 +101,12 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _startTimerLong(){
-    print("start Long");
+    //print("start Long");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 30),
             () {
-              print('Done long');
+              //print('Done long');
               provider.orderCancel();
               provider.changeToPizza();
               Navigator.push(
@@ -116,9 +116,9 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _timerStop(){
-    print("stop");
+    //print("stop");
     timer?.cancel();
-    print("czy się zatrzymał ${timer?.isActive}");
+    //print("czy się zatrzymał ${timer?.isActive}");
   }
 
   @override
@@ -433,11 +433,11 @@ class _OrderScreenState extends State<OrderScreen> {
                             width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.9 : MediaQuery.of(context).size.width * 0.91,
                             child: _cardState == 4 ? SummaryCard(
                               onInteraction: () {
-                                print('reset pass');
+                                //print('reset pass');
                                 timer?.reset();
                               },
                               onPopUpFinish: () {
-                                print("onPayment stop");
+                                //print("onPayment stop");
                                 _timerStop();
                               }) :
                               Card(

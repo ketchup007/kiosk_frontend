@@ -31,7 +31,7 @@ class MobilePaymentState extends State<MobilePayment>{
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
-    return !inPayment ? Column(
+    return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
@@ -59,7 +59,7 @@ class MobilePaymentState extends State<MobilePayment>{
                       output.add(data[i]);
                     }
                   }
-                  print(output.length);
+                  //print(output.length);
                   
                   return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -81,117 +81,13 @@ class MobilePaymentState extends State<MobilePayment>{
                             );
                       },
                   );
-                  /*return ListView.builder(
-                    itemCount: output.length,
-                    itemBuilder: (context, index) {
-                      if(output[index].value == "blik"){
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.4,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                state = 1;
-                              });
-                            },
-                            child: Image.network(output[index].brandImageUrl)));
-                      }
-                      return Text(output[index].name);
-                    },
-                  );
-                  
-                   */
                 } else if(snapshot.hasError){
                   return Text("");
                 } else {
                   return CircularProgressIndicator();
                 }
               })),
-          state == 0 ? Text("") : Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.8,
-                child: TextField(
-                  controller: controller,
-                  decoration: const InputDecoration(
-                    hintText: "Wprowadź kod blik",
-                  ),
-                  maxLength: 6,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                )),
-              ElevatedButton(
-                  onPressed: () {
-                    if(controller.text.length == 6){
-                      ApiService().paymentBlikOrder(id, widget.amount, controller.text);
-                      setState(() {
-                        inPayment = true;
-                      });
-                    }
-                  },
-                  child: const Text("zapłać"))
-            ],
-          )
-        ]) : FutureBuilder(
-          future: ApiService().checkPaymentStatus(id),
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-              final String status = snapshot.data as String;
-              if(status == "COMPLETED"){
-                provider.changeOrderStatus(2);
-                return Column(
-                  children: [
-                    Text("Płatność zakończona powodzeniem"),
-                    FutureBuilder(
-                      future: provider.getOrderNumber(),
-                      builder: (context2, snapshot2) {
-                        if (snapshot2.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator(color: AppColors.darkGreen);
-                        } else if (snapshot2.connectionState == ConnectionState.done) {
-                          if (snapshot2.hasError) {
-                            return Text('Error');
-                          } else if(snapshot2.hasData){
-                            return Column(
-                                children: [
-                                  Text('Twoje zamówienie ma nr ${snapshot2.data}'),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        provider.orderFinish();
-                                        provider.changeToPizza();
-                                        provider.notifyListeners();
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => const StartScreen()));
-                                      },
-                                      child: Text("Zakończ transakcje"))
-                                ]);
-                          } else {
-                            return Text('Empty data');
-                          }
-                        } else {
-                          return Text(snapshot2.connectionState.toString());
-                        }
-                      })
-                  ],
-                );
-              }
-              return Text(status);
-            } else if(snapshot.hasError) {
-              return Text("");
-            }else {
-              return Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Text("Płatność rozpoczęta")),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.width *0.5,
-                    child: CircularProgressIndicator())
-              ]);
-            }
-          });
+        ]);
   }
   
 }

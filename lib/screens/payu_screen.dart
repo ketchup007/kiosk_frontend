@@ -59,7 +59,7 @@ class _PayUScreenState extends State<PayUScreen> {
                 ),
                 SizedBox(
                   width:  MediaQuery.of(context).size.width * 0.2,
-                  child: Text("${provider.sum} zł",
+                  child: Text("${provider.sum.toStringAsFixed(2)} zł",
                       textAlign: TextAlign.end,
                       style: TextStyle(
                           color: AppColors.darkGreen,

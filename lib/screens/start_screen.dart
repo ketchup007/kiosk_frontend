@@ -29,8 +29,8 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("Size: Width - ${MediaQuery.of(context).size.width}, Height - ${MediaQuery.of(context).size.height}");
-    print("Screen Density: ${MediaQuery.of(context).devicePixelRatio}");
+    //print("Size: Width - ${MediaQuery.of(context).size.width}, Height - ${MediaQuery.of(context).size.height}");
+    //print("Screen Density: ${MediaQuery.of(context).devicePixelRatio}");
 
     return Scaffold(
       backgroundColor: Colors.transparent,

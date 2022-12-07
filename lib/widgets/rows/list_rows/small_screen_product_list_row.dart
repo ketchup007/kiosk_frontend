@@ -29,7 +29,7 @@ class SmallScreenProductListRow extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
-    print(storage[index].image);
+    //print(storage[index].image);
     return Row(
       children: [
         GestureDetector(

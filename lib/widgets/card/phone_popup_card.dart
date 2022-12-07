@@ -39,7 +39,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
   late MainProvider provider;
 
   void onPointerDown(PointerEvent){
-    print("dumpc");
+    //print("dumpc");
     widget.onInteraction();
   }
 
@@ -166,7 +166,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                           value: isCheckedMain,
                                           onChanged: (bool? value) {
                                             setState(() {
-                                              print("eeeeee");
+                                              //print("eeeeee");
                                               isCheckedMain = value!;
                                               if (value == true) {
                                                 isCheckedA = true;
