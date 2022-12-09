@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:kiosk_flutter/pathSelector.dart';
+import 'package:kiosk_flutter/screens/mobile_start_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/start_screen.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
@@ -49,6 +51,6 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.blue,
           useMaterial3: true,
         ),
-        home: const StartScreen());
+        home: const PathSelector());
   }
 }

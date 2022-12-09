@@ -28,7 +28,9 @@ INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/ma
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
 MERGED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/profile/AndroidManifest.xml:2:1-19:12
+MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:2:1-12:12
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/profile/AndroidManifest.xml:2:1-9:12
+MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/profile/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:2:1-9:12
@@ -91,8 +93,12 @@ INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/ma
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
+MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
+MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
+MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/profile/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
@@ -157,6 +163,14 @@ ADDED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter
 		ADDED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/profile/AndroidManifest.xml:16:13-53
 	android:name
 		ADDED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/profile/AndroidManifest.xml:13:13-77
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:9:22-76
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:10:5-76
+	android:name
+		ADDED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/profile/AndroidManifest.xml:10:22-73
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

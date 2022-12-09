@@ -79,8 +79,7 @@ class BlikPayScreenState extends State<BlikPayScreen>{
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: Colors.lime)
-                ),
+                    border: Border.all(color: Colors.lime)),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
