@@ -256,7 +256,55 @@ class ApiService{
     return null;
   }
 
+  Future<String?> smsLogin(String phoneNumber) async {
+    try{
+      var response = await http.post(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.smsLogin),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'phone_number': phoneNumber
+        }));
 
+      if(response.statusCode == 200){
+        return jsonDecode(response.body)["status"];
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e){
+      log("In sendSMS ${e.toString()}");
+    }
+    return null;
+  }
+
+  Future<String?> smsToken(String phoneNumber, String code) async {
+    try{
+      print("${phoneNumber}, ${code}");
+      var response = await http.post(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getSmsToken),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: jsonEncode({
+          'phone_number': phoneNumber,
+          'code': code
+        }));
+
+      if(response.statusCode == 200){
+        if(jsonDecode(response.body)["status"] == "SUCCESS"){
+          return jsonDecode(response.body)["token"];
+        } else {
+          return jsonDecode(response.body)["status"];
+        }
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e){
+      log("In sms Token ${e.toString()}");
+    }
+    return null;
+  }
 
 
 

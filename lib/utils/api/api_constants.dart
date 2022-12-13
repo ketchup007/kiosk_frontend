@@ -23,4 +23,8 @@ class ApiConstants {
   static String getStorageState = "/api/storage/getStorageState";
   static String getProductStorageState(String orderName) => "/api/storage/getProductStorageState/$orderName";
   static String getProductImage(String fileName) => "/api/storage/getProductImage/$fileName";
+
+  //Login Controller Endpoints
+  static String smsLogin = "/api/smsLogin";
+  static String getSmsToken = "/api/getSmsToken";
 }

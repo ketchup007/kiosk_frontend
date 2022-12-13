@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
-import 'package:kiosk_flutter/screens/register_screen.dart';
+import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:kiosk_flutter/screens/login_code_screen.dart';
+import 'package:kiosk_flutter/utils/api/api_constants.dart';
+import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(context) {
+    final provider = Provider.of<MainProvider>(context, listen: true);
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: null,
@@ -46,19 +52,16 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: ElevatedButton(
                 onPressed: () {
-                  print("login: ${loginController.text}, password: ${passwordController.text}");
+                  print("login: ${loginController.text}");
+                  ApiService().smsLogin(loginController.text).then((value) {
+                      if(value == "SMS_SEND"){
+                        provider.phoneNumber = loginController.text;
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginCodeScreen()));
+                      }
+                    }
+                  );
                 },
                 child: const Text("Login")),
-            ),
-            Container(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => RegisterScreen()));
-                },
-                child: const Text("Register")),
             )
 
           ]

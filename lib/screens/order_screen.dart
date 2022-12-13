@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:kiosk_flutter/screens/info_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/geolocation/location_service.dart';
 import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
@@ -158,6 +159,12 @@ class _OrderScreenState extends State<OrderScreen> {
                           }else {
                             print("Yey you are on kiosk");
                           }
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const InfoScreen()));
+
                         },
                         child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
                         alignment: Alignment.centerLeft,

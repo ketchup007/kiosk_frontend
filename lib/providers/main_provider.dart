@@ -32,6 +32,9 @@ class MainProvider extends ChangeNotifier {
   bool inPayment = false;
   bool popupDone = false;
 
+  String phoneNumber = "";
+  String phoneNumberToken = "";
+
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiosk_flutter/screens/login_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 
 import '../themes/color.dart';
@@ -83,7 +84,11 @@ class _MobileStartScreen extends State<MobileStartScreen> {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.green,
                             foregroundColor: Colors.black),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(
+                                  builder: (context) => StartScreen()));
+                        },
                         child: Text("Place Order",
                             textAlign: TextAlign.center)))),
 
