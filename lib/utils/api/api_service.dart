@@ -306,7 +306,32 @@ class ApiService{
     return null;
   }
 
+  Future<String?> login(String phoneNumber, String token) async {
+    try{
+      var response = await http.post(
+          Uri.parse(ApiConstants.baseUrl + "/api/login_check"),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode({
+            'phone_number': phoneNumber,
+            'password_token': token
+          }));
 
+          print(ApiConstants.baseUrl + "/api/login_check");
+          print("number: $phoneNumber, token: $token");
+
+      if(response.statusCode == 200){
+        return response.body;
+      } else {
+        print("In error: ${response.body}");
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e){
+      log("In login ${e.toString()}");
+    }
+    return null;
+  }
 
 
 

@@ -54,6 +54,9 @@ class _LoginCodeState extends State<LoginCodeScreen> {
                         state=1;
                       });
                       if(value != "NO_ACCESS"){
+                        ApiService().login(provider.phoneNumber, provider.phoneNumberToken).then( (value) {
+                          print(value);
+                        } );
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => StartScreen()));
                       }
