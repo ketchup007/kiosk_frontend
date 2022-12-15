@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:kiosk_flutter/screens/start_screen.dart';
@@ -5,6 +7,7 @@ import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/api/api_service.dart';
 
 class LoginCodeScreen extends StatefulWidget{
@@ -48,14 +51,20 @@ class _LoginCodeState extends State<LoginCodeScreen> {
               state == 0 ? ElevatedButton(
                   onPressed: () {
                     print(codeController.text);
-                    ApiService().smsToken(provider.phoneNumber, codeController.text).then((value) {
+                    ApiService(token: provider.loginToken).smsToken(provider.phoneNumber, codeController.text).then((value) {
                       provider.phoneNumberToken = value!;
                       setState(() {
                         state=1;
                       });
                       if(value != "NO_ACCESS"){
-                        ApiService().login(provider.phoneNumber, provider.phoneNumberToken).then( (value) {
+                        SharedPreferences.getInstance().then((pref) {
+                          pref.setString("phone_number", provider.phoneNumber);
+                          pref.setString("phone_number_token", provider.phoneNumberToken);
+                        });
+                        ApiService(token: provider.loginToken).login(provider.phoneNumber, provider.phoneNumberToken).then( (value) {
+                          provider.loginToken = jsonDecode(value!)['token'];
                           print(value);
+                          print(jsonDecode(value!)['token']);
                         } );
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => StartScreen()));

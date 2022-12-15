@@ -11,12 +11,20 @@ import 'package:kiosk_flutter/utils/get_ip.dart';
 import 'package:kiosk_flutter/utils/json_parser.dart';
 
 class ApiService{
+  String token;
+
+  ApiService({
+    required this.token
+  });
 
   //Get Data Section
   Future<List<StorageModel>?> fetchStorage() async {
     try{
       var response = await http.get(
-      Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts));
+      Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
+      headers: {
+        'Authorization': 'Bearer $token'
+      });
 
       if(response.statusCode == 200) {
         return compute(JsonParser().parseStorage, response.body);
@@ -32,7 +40,10 @@ class ApiService{
   Future<List<StorageLimitsModel>?> fetchStorageLimits() async {
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState));
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
+        headers: {
+          'Authorization': 'Bearer $token'
+        });
 
       if(response.statusCode == 200){
         return compute(JsonParser().parseStorageLimits, response.body);
@@ -48,7 +59,10 @@ class ApiService{
   Future<int?> createFirstOrder() async {
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
+          headers: {
+            'Authorization': 'Bearer $token'
+          });
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)["id"];
@@ -64,7 +78,10 @@ class ApiService{
   Future<int?> fetchProductState(String product) async {
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getProductStorageState(product)));
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getProductStorageState(product)),
+          headers: {
+            'Authorization': 'Bearer $token'
+          });
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)["quantity"];
@@ -81,7 +98,10 @@ class ApiService{
     print("sms dudu dudy");
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)));
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
+          headers: {
+            'Authorization': 'Bearer $token'
+          });
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)['order_number'];
@@ -97,7 +117,10 @@ class ApiService{
   Future<List<ContainerModel>?> fetchContainer() async {
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList));
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList),
+          headers: {
+            'Authorization': 'Bearer $token'
+          });
 
       if(response.statusCode == 200){
         //print(response.body);
@@ -114,7 +137,10 @@ class ApiService{
   Future<List<PayMethodsModel>?> fetchPaymentMethods() async {
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods)
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods),
+          headers: {
+            'Authorization': 'Bearer $token'
+          }
       );
 
       if(response.statusCode == 200){
@@ -131,7 +157,10 @@ class ApiService{
   Future<String?> fetchPaymentStatus(int id) async{
     try{
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id))
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id)),
+          headers: {
+            'Authorization': 'Bearer $token'
+          }
       );
 
       if(response.statusCode == 200){
@@ -164,7 +193,10 @@ class ApiService{
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
-        headers: <String, String>{'Content-Type' : 'application/json'},
+        headers: <String, String>{
+          'Content-Type' : 'application/json',
+          'Authorization': 'Bearer $token'
+          },
         body: jsonEncode(<String, String>{
           'id': id.toString(),
           'order_name': orderName,
@@ -186,7 +218,10 @@ class ApiService{
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
-        headers: <String, String>{'Content-Type': 'application/json'},
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
         body: jsonEncode(<String, String>{
           'id': id.toString(),
           'order_name': 'client_name',
@@ -208,7 +243,10 @@ class ApiService{
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.setClientNumber),
-        headers: <String, String>{'Content-Type': 'application/json'},
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
         body: jsonEncode(<String, String>{
           "id": id.toString(),
           "client_number": number,
@@ -233,7 +271,8 @@ class ApiService{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.payBlik),
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
         },
         body: jsonEncode({
           "id": id.toString(),
@@ -255,6 +294,8 @@ class ApiService{
     }
     return null;
   }
+
+  //Login
 
   Future<String?> smsLogin(String phoneNumber) async {
     try{
@@ -309,7 +350,7 @@ class ApiService{
   Future<String?> login(String phoneNumber, String token) async {
     try{
       var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + "/api/login_check"),
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.loginToken),
           headers: {
             'Content-Type': 'application/json'
           },

@@ -10,6 +10,7 @@ import 'package:kiosk_flutter/utils/post_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/country_model.dart';
 
@@ -34,19 +35,29 @@ class MainProvider extends ChangeNotifier {
 
   String phoneNumber = "";
   String phoneNumberToken = "";
+  String loginToken ="";
 
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
   List<CountryModel> countryList = [];
 
+  testShare() async {
+    print("in test share");
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('test', 'testadasad');
+
+    print(prefs.getString('test'));
+  }
+
   getStorageData() async {
     if(loading != true && isDone != true) {
       loading = true;
-      storage = (await ApiService().fetchStorage())!;
+      storage = (await ApiService(token: loginToken).fetchStorage())!;
       //storage = await fetchStorage();
       initMap();
-      await ApiService().fetchStorageLimits().then( (data) {
+      await ApiService(token: loginToken).fetchStorageLimits().then( (data) {
         for(int i = 0; i < data!.length; i++){
          limits[data[i].orderName] = data[i].quantity;
         }});
@@ -153,35 +164,35 @@ class MainProvider extends ChangeNotifier {
       }}}
 
   getFirstOrder(String orderName, int value) async {
-    order.id = (await ApiService().createFirstOrder())!;
+    order.id = (await ApiService(token: loginToken).createFirstOrder())!;
     //order.id = await createFirstOrder();
-    ApiService().changeOrderProduct(order.id, orderName, value);
+    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
     //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrder(String orderName, int value) async {
-    ApiService().changeOrderProduct(order.id, orderName, value);
+    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
     //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrderStatus(int value) async{
-    ApiService().changeOrderProduct(order.id, "status", value);
+    ApiService(token: loginToken).changeOrderProduct(order.id, "status", value);
     //changeOrderProduct(order.id, "status", value);
   }
 
   changOrderName(String value) async {
-    ApiService().changeOrderName(order.id, value);
+    ApiService(token: loginToken).changeOrderName(order.id, value);
     //changeOrderName(order.id, value);
   }
 
   setOrderClientNumber(String number, bool promoPermission) async {
-    ApiService().setClientNumber(order.id, number, promoPermission);
+    ApiService(token: loginToken).setClientNumber(order.id, number, promoPermission);
     //setClientNumber(order.id, number, promoPermission);
   }
 
   Future<int> getOrderNumber() async{
     print("from privider du du du du");
-    return (await ApiService().fetchOrderNumber(order.id))!;
+    return (await ApiService(token: loginToken).fetchOrderNumber(order.id))!;
     //return await fetchOrderNumber(order.id);
   }
 
@@ -199,7 +210,7 @@ class MainProvider extends ChangeNotifier {
   }
 
   getLimit(String product, int number){
-    ApiService().fetchProductState(product).then((data){
+    ApiService(token: loginToken).fetchProductState(product).then((data){
       limits[product] = data! + number;
     });
     /*
@@ -211,7 +222,7 @@ class MainProvider extends ChangeNotifier {
 
   getLimits(){
     //print("tick");
-    ApiService().fetchStorageLimits().then( (data) {
+    ApiService(token: loginToken).fetchStorageLimits().then( (data) {
       for(int i = 0; i < data!.length; i++){
         limits[data[i].orderName] = data[i].quantity;
       }});

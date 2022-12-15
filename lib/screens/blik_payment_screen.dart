@@ -44,7 +44,7 @@ class BlikPayScreenState extends State<BlikPayScreen>{
     if(status == 1){
       if(!blikFlag){
         blikFlag = true;
-        ApiService().checkPaymentStatus(widget.id).then((value) => {
+        ApiService(token: provider.loginToken).checkPaymentStatus(widget.id).then((value) => {
           setState( () {
             if(value == "COMPLETED"){
               status = 2;
@@ -122,9 +122,9 @@ class BlikPayScreenState extends State<BlikPayScreen>{
                   ElevatedButton(
                       onPressed: () {
                         if(controller.text.length == 6){
-                          ApiService().paymentBlikOrder(widget.id, widget.amount, controller.text);
+                          ApiService(token: provider.loginToken).paymentBlikOrder(widget.id, widget.amount, controller.text);
                           setState(() {
-                            _future = ApiService().checkPaymentStatus(widget.id);
+                            _future = ApiService(token: provider.loginToken).checkPaymentStatus(widget.id);
                             status = 1;
                           });
                         }

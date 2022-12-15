@@ -47,7 +47,7 @@ class MobilePaymentState extends State<MobilePayment>{
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.35,
             child:FutureBuilder(
-              future: ApiService().fetchPaymentMethods(),
+              future: ApiService(token: provider.loginToken).fetchPaymentMethods(),
               builder: (context, snapshot){
 
                 if(snapshot.hasData){

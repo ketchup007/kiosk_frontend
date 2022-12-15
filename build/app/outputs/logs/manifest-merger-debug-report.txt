@@ -38,6 +38,7 @@ MERGED from [:path_provider_android] /home/avena/AndroidStudioProjects/kiosk_flu
 MERGED from [:wakelock] /home/avena/AndroidStudioProjects/kiosk_flutter/build/wakelock/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:webview_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/webview_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:just_audio] /home/avena/AndroidStudioProjects/kiosk_flutter/build/just_audio/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:shared_preferences_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:audio_session] /home/avena/AndroidStudioProjects/kiosk_flutter/build/audio_session/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -148,6 +149,8 @@ MERGED from [:webview_flutter_android] /home/avena/AndroidStudioProjects/kiosk_f
 MERGED from [:webview_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/webview_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:just_audio] /home/avena/AndroidStudioProjects/kiosk_flutter/build/just_audio/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:just_audio] /home/avena/AndroidStudioProjects/kiosk_flutter/build/just_audio/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:shared_preferences_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/shared_preferences_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geocoding/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:audio_session] /home/avena/AndroidStudioProjects/kiosk_flutter/build/audio_session/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41

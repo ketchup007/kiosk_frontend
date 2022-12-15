@@ -27,4 +27,5 @@ class ApiConstants {
   //Login Controller Endpoints
   static String smsLogin = "/api/smsLogin";
   static String getSmsToken = "/api/getSmsToken";
+  static String loginToken = "/api/login_check";
 }

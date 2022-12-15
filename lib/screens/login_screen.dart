@@ -52,8 +52,9 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: ElevatedButton(
                 onPressed: () {
+                  provider.testShare();
                   print("login: ${loginController.text}");
-                  ApiService().smsLogin(loginController.text).then((value) {
+                  ApiService(token: provider.loginToken).smsLogin(loginController.text).then((value) {
                       if(value == "SMS_SEND"){
                         provider.phoneNumber = loginController.text;
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LoginCodeScreen()));

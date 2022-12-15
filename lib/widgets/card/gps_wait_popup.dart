@@ -4,6 +4,8 @@ import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/fetch_json.dart';
 import 'package:kiosk_flutter/utils/geolocation/location_service.dart';
+import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:provider/provider.dart';
 
 class GpsWaitPopup extends StatefulWidget {
   final void Function() onPress;
@@ -23,6 +25,8 @@ class GpsWaitPopupState extends State<GpsWaitPopup>{
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<MainProvider>(context, listen: true);
+
     return Center(
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.4,
@@ -39,7 +43,7 @@ class GpsWaitPopupState extends State<GpsWaitPopup>{
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: MediaQuery.of(context).size.height * 0.2,
                 child: FutureBuilder(
-                  future: ApiService().fetchContainer(),
+                  future: ApiService(token: provider.loginToken).fetchContainer(),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return const CircularProgressIndicator(color: AppColors.darkBlue);
