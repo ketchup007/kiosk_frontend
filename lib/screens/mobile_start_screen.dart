@@ -37,6 +37,7 @@ class _MobileStartScreen extends State<MobileStartScreen> {
         }else{
           provider.phoneNumber = phoneNumber!;
           provider.phoneNumberToken = phoneNumberToken!;
+          provider.getloginToken();
           setState(() {
             state = 2;
             print("bebe 2");
@@ -101,7 +102,14 @@ class _MobileStartScreen extends State<MobileStartScreen> {
                                 backgroundColor: AppColors.green,
                                 foregroundColor: Colors.black),
                             onPressed: () {
-                              //TODO logout
+                              SharedPreferences.getInstance().then( (prefs) {
+                                prefs.remove('phone_number');
+                                prefs.remove('phone_number_token');
+
+                                setState(() {
+                                  state = 1;
+                                });
+                              });
                             },
                             child: Text("Logout",
                                 textAlign: TextAlign.center,

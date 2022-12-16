@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
@@ -41,6 +42,13 @@ class MainProvider extends ChangeNotifier {
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
   List<CountryModel> countryList = [];
+
+  getloginToken() async {
+    String? json = await ApiService(token: loginToken).login(phoneNumber, phoneNumberToken);
+    if(json != null){
+      loginToken = jsonDecode(json)['token'];
+    }
+  }
 
   testShare() async {
     print("in test share");
