@@ -4,6 +4,23 @@
             "outputFile": "/home/avena/AndroidStudioProjects/kiosk_flutter/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
+                    "source": "/home/avena/.gradle/caches/transforms-3/e4598469c31d9c2895a4b0b6aa263430/transformed/jetified-play-services-wallet-19.1.0/res/values-zh-rTW/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "206",
+                        "endColumns": "67",
+                        "endOffsets": "273"
+                    },
+                    "to": {
+                        "startLines": "35",
+                        "startColumns": "4",
+                        "startOffsets": "3043",
+                        "endColumns": "71",
+                        "endOffsets": "3110"
+                    }
+                },
+                {
                     "source": "/home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/res/values-zh-rTW/values-zh-rTW.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",

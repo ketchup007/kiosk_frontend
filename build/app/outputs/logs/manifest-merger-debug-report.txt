@@ -1,14 +1,20 @@
 -- Merging decision tree log ---
 application
-INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:9:4-39:19
+INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:9:4-42:19
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-13:19
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-13:19
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-identity:18.0.1] /home/avena/.gradle/caches/transforms-3/e187eb9fca7886633bba56971b9a1d4d/transformed/jetified-play-services-identity-18.0.1/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-identity:18.0.1] /home/avena/.gradle/caches/transforms-3/e187eb9fca7886633bba56971b9a1d4d/transformed/jetified-play-services-identity-18.0.1/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/avena/.gradle/caches/transforms-3/67879e22102fb65217d23e347f5e9c0d/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
@@ -24,14 +30,15 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/avena
 	android:name
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
 manifest
-ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
-INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
-INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
-INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
-MERGED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
-MERGED from [:flutter_pdfview] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_pdfview/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
+INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
+INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
+INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
+MERGED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-19:12
 MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-12:12
+MERGED from [:google_maps_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/google_maps_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:flutter_plugin_android_lifecycle] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:sqflite] /home/avena/AndroidStudioProjects/kiosk_flutter/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-16:12
 MERGED from [:path_provider_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -43,35 +50,29 @@ MERGED from [:geocoding] /home/avena/AndroidStudioProjects/kiosk_flutter/build/g
 MERGED from [:audio_session] /home/avena/AndroidStudioProjects/kiosk_flutter/build/audio_session/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:video_player_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/video_player_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
-MERGED from [com.github.mhiew:android-pdf-viewer:3.2.0-beta.1] /home/avena/.gradle/caches/transforms-3/dbe1b8985d77615c18c1d5ad8b21cd9b/transformed/jetified-android-pdf-viewer-3.2.0-beta.1/AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.webkit:webkit:1.5.0] /home/avena/.gradle/caches/transforms-3/0016e53e7c51daf235b9c87ae78e3cfd/transformed/webkit-1.5.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.exoplayer:exoplayer-dash:2.18.1] /home/avena/.gradle/caches/transforms-3/b769942816deb2234fdd8a9a539fe1c4/transformed/jetified-exoplayer-dash-2.18.1/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.exoplayer:exoplayer-hls:2.18.1] /home/avena/.gradle/caches/transforms-3/84618b1246c4ea9ad6d94c82904b1f9e/transformed/jetified-exoplayer-hls-2.18.1/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.1] /home/avena/.gradle/caches/transforms-3/208135a61120daf313f32e0ed25386e9/transformed/jetified-exoplayer-smoothstreaming-2.18.1/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.18.1] /home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/AndroidManifest.xml:17:1-26:12
+MERGED from [com.google.android.gms:play-services-wallet:19.1.0] /home/avena/.gradle/caches/transforms-3/e4598469c31d9c2895a4b0b6aa263430/transformed/jetified-play-services-wallet-19.1.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.gms:play-services-identity:18.0.1] /home/avena/.gradle/caches/transforms-3/e187eb9fca7886633bba56971b9a1d4d/transformed/jetified-play-services-identity-18.0.1/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:16:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/avena/.gradle/caches/transforms-3/67879e22102fb65217d23e347f5e9c0d/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:16:1-26:12
-MERGED from [com.github.barteksc:pdfium-android:1.9.0] /home/avena/.gradle/caches/transforms-3/742b379fc9406276ab4955a13ac8af80/transformed/jetified-pdfium-android-1.9.0/AndroidManifest.xml:2:1-11:12
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/avena/.gradle/caches/transforms-3/93c965e24040f9ba88efcc81151050cd/transformed/legacy-support-v4-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.fragment:fragment:1.1.0] /home/avena/.gradle/caches/transforms-3/0e0e1a382b52c0572988a1c50e96d2f7/transformed/fragment-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:17:1-36:12
 MERGED from [androidx.media2:media2-common:1.2.0] /home/avena/.gradle/caches/transforms-3/6fe0510a27c48bc8f22358c8126a62ee/transformed/jetified-media2-common-1.2.0/AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/avena/.gradle/caches/transforms-3/9e14bf9d24323ec841a3e31cde5f524b/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /home/avena/.gradle/caches/transforms-3/045d2e69ed718df502093495707de7d0/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/avena/.gradle/caches/transforms-3/b9f9078897dae8c1947b268af9290409/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] /home/avena/.gradle/caches/transforms-3/906f41b23948e23cf276f1b1ba5ed41e/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity:1.0.0] /home/avena/.gradle/caches/transforms-3/8fa8bdf086632123dcb3f9226ab7b2b9/transformed/jetified-activity-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:17:1-30:12
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/89e3d4282810b041cf3bcc0e8d2c00eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/2fce982de6bcb65312b126b72c128883/transformed/drawerlayout-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/avena/.gradle/caches/transforms-3/3f85ff916fceceae301885a578d2bf52/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.customview:customview:1.0.0] /home/avena/.gradle/caches/transforms-3/d411e96186971239cc9320701a4aa95b/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/7a00f26f119e6345a841bd06bf8489d9/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/avena/.gradle/caches/transforms-3/d9bf91b217bda403486bc9d591007d64/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.8.0] /home/avena/.gradle/caches/transforms-3/d363e3b5616f580c766e3e2b3c05f27d/transformed/core-1.8.0/AndroidManifest.xml:17:1-26:12
 MERGED from [androidx.tracing:tracing:1.0.0] /home/avena/.gradle/caches/transforms-3/9a15d0431946b4658756ca271d093b65/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.3.1] /home/avena/.gradle/caches/transforms-3/8a5514d4341f323606d890e29d4268b9/transformed/lifecycle-runtime-2.3.1/AndroidManifest.xml:17:1-24:12
@@ -86,11 +87,6 @@ MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] /home/avena/.gradle/ca
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] /home/avena/.gradle/caches/transforms-3/ab7ce279708bbb9e6bfa95c7580f1bb9/transformed/lifecycle-livedata-core-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/avena/.gradle/caches/transforms-3/b0ed3bc1190a335fc620be73cef0fa31/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /home/avena/.gradle/caches/transforms-3/ed9734c73cdec898947618088fbe87b0/transformed/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/avena/.gradle/caches/transforms-3/ea6a0879485e52a4f4039ca8778d8de8/transformed/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/avena/.gradle/caches/transforms-3/4c666c731f72bca13b96ec6fea44ce5c/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.print:print:1.0.0] /home/avena/.gradle/caches/transforms-3/e9ca322f243d3b7ed3a19622385d8532/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/avena/.gradle/caches/transforms-3/274a6366c1fa82a9cda5f98fe858df07/transformed/interpolator-1.0.0/AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/avena/.gradle/caches/transforms-3/33022110ab8edaeede9665dd42ecaa6e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/avena/.gradle/caches/transforms-3/58e3540d7f5a5bac6af9a8f8fab44363/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml:1:1-8:12
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml:1:1-8:12
@@ -101,11 +97,11 @@ INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/de
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
+		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
-		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-40:12
+		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:1-43:12
 		INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
 		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -113,6 +109,8 @@ uses-permission#android.permission.INTERNET
 ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:4:5-67
 MERGED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:4:5-67
 MERGED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:4:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:24:5-67
 	android:name
 		ADDED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml:4:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
@@ -131,12 +129,14 @@ uses-sdk
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/main/AndroidManifest.xml
-MERGED from [:flutter_pdfview] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_pdfview/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
-MERGED from [:flutter_pdfview] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_pdfview/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/google_maps_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:google_maps_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/google_maps_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:flutter_plugin_android_lifecycle] /home/avena/AndroidStudioProjects/kiosk_flutter/build/flutter_plugin_android_lifecycle/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:sqflite] /home/avena/AndroidStudioProjects/kiosk_flutter/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:sqflite] /home/avena/AndroidStudioProjects/kiosk_flutter/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -159,12 +159,12 @@ MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutte
 MERGED from [:permission_handler] /home/avena/AndroidStudioProjects/kiosk_flutter/build/permission_handler/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:video_player_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/video_player_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:video_player_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/video_player_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window-java:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/246793f755122fe14a5802655438cb75/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
-MERGED from [com.github.mhiew:android-pdf-viewer:3.2.0-beta.1] /home/avena/.gradle/caches/transforms-3/dbe1b8985d77615c18c1d5ad8b21cd9b/transformed/jetified-android-pdf-viewer-3.2.0-beta.1/AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.mhiew:android-pdf-viewer:3.2.0-beta.1] /home/avena/.gradle/caches/transforms-3/dbe1b8985d77615c18c1d5ad8b21cd9b/transformed/jetified-android-pdf-viewer-3.2.0-beta.1/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:20.0.0] /home/avena/.gradle/caches/transforms-3/2d36fe3092f409c15b974a0b68b21147/transformed/jetified-play-services-location-20.0.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.webkit:webkit:1.5.0] /home/avena/.gradle/caches/transforms-3/0016e53e7c51daf235b9c87ae78e3cfd/transformed/webkit-1.5.0/AndroidManifest.xml:20:5-44
@@ -177,46 +177,34 @@ MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.1] /hom
 MERGED from [com.google.android.exoplayer:exoplayer-smoothstreaming:2.18.1] /home/avena/.gradle/caches/transforms-3/208135a61120daf313f32e0ed25386e9/transformed/jetified-exoplayer-smoothstreaming-2.18.1/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.18.1] /home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.18.1] /home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-wallet:19.1.0] /home/avena/.gradle/caches/transforms-3/e4598469c31d9c2895a4b0b6aa263430/transformed/jetified-play-services-wallet-19.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-wallet:19.1.0] /home/avena/.gradle/caches/transforms-3/e4598469c31d9c2895a4b0b6aa263430/transformed/jetified-play-services-wallet-19.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-identity:18.0.1] /home/avena/.gradle/caches/transforms-3/e187eb9fca7886633bba56971b9a1d4d/transformed/jetified-play-services-identity-18.0.1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-identity:18.0.1] /home/avena/.gradle/caches/transforms-3/e187eb9fca7886633bba56971b9a1d4d/transformed/jetified-play-services-identity-18.0.1/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/avena/.gradle/caches/transforms-3/67879e22102fb65217d23e347f5e9c0d/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
 MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/avena/.gradle/caches/transforms-3/67879e22102fb65217d23e347f5e9c0d/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:18:5-43
-MERGED from [com.github.barteksc:pdfium-android:1.9.0] /home/avena/.gradle/caches/transforms-3/742b379fc9406276ab4955a13ac8af80/transformed/jetified-pdfium-android-1.9.0/AndroidManifest.xml:7:5-9:41
-MERGED from [com.github.barteksc:pdfium-android:1.9.0] /home/avena/.gradle/caches/transforms-3/742b379fc9406276ab4955a13ac8af80/transformed/jetified-pdfium-android-1.9.0/AndroidManifest.xml:7:5-9:41
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/avena/.gradle/caches/transforms-3/93c965e24040f9ba88efcc81151050cd/transformed/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-v4:1.0.0] /home/avena/.gradle/caches/transforms-3/93c965e24040f9ba88efcc81151050cd/transformed/legacy-support-v4-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] /home/avena/.gradle/caches/transforms-3/0e0e1a382b52c0572988a1c50e96d2f7/transformed/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.1.0] /home/avena/.gradle/caches/transforms-3/0e0e1a382b52c0572988a1c50e96d2f7/transformed/fragment-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media2:media2-common:1.2.0] /home/avena/.gradle/caches/transforms-3/6fe0510a27c48bc8f22358c8126a62ee/transformed/jetified-media2-common-1.2.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media2:media2-common:1.2.0] /home/avena/.gradle/caches/transforms-3/6fe0510a27c48bc8f22358c8126a62ee/transformed/jetified-media2-common-1.2.0/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/avena/.gradle/caches/transforms-3/9e14bf9d24323ec841a3e31cde5f524b/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-ui:1.0.0] /home/avena/.gradle/caches/transforms-3/9e14bf9d24323ec841a3e31cde5f524b/transformed/legacy-support-core-ui-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /home/avena/.gradle/caches/transforms-3/045d2e69ed718df502093495707de7d0/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /home/avena/.gradle/caches/transforms-3/045d2e69ed718df502093495707de7d0/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/avena/.gradle/caches/transforms-3/b9f9078897dae8c1947b268af9290409/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] /home/avena/.gradle/caches/transforms-3/b9f9078897dae8c1947b268af9290409/transformed/legacy-support-core-utils-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /home/avena/.gradle/caches/transforms-3/906f41b23948e23cf276f1b1ba5ed41e/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.loader:loader:1.0.0] /home/avena/.gradle/caches/transforms-3/906f41b23948e23cf276f1b1ba5ed41e/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.0.0] /home/avena/.gradle/caches/transforms-3/8fa8bdf086632123dcb3f9226ab7b2b9/transformed/jetified-activity-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.0.0] /home/avena/.gradle/caches/transforms-3/8fa8bdf086632123dcb3f9226ab7b2b9/transformed/jetified-activity-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/89e3d4282810b041cf3bcc0e8d2c00eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/89e3d4282810b041cf3bcc0e8d2c00eb/transformed/coordinatorlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/2fce982de6bcb65312b126b72c128883/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/2fce982de6bcb65312b126b72c128883/transformed/drawerlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/avena/.gradle/caches/transforms-3/3f85ff916fceceae301885a578d2bf52/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.slidingpanelayout:slidingpanelayout:1.0.0] /home/avena/.gradle/caches/transforms-3/3f85ff916fceceae301885a578d2bf52/transformed/slidingpanelayout-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /home/avena/.gradle/caches/transforms-3/d411e96186971239cc9320701a4aa95b/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /home/avena/.gradle/caches/transforms-3/d411e96186971239cc9320701a4aa95b/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/7a00f26f119e6345a841bd06bf8489d9/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] /home/avena/.gradle/caches/transforms-3/7a00f26f119e6345a841bd06bf8489d9/transformed/swiperefreshlayout-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/avena/.gradle/caches/transforms-3/d9bf91b217bda403486bc9d591007d64/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.asynclayoutinflater:asynclayoutinflater:1.0.0] /home/avena/.gradle/caches/transforms-3/d9bf91b217bda403486bc9d591007d64/transformed/asynclayoutinflater-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.8.0] /home/avena/.gradle/caches/transforms-3/d363e3b5616f580c766e3e2b3c05f27d/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.8.0] /home/avena/.gradle/caches/transforms-3/d363e3b5616f580c766e3e2b3c05f27d/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] /home/avena/.gradle/caches/transforms-3/9a15d0431946b4658756ca271d093b65/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
@@ -245,16 +233,6 @@ MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/avena/.gradle/caches/t
 MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/avena/.gradle/caches/transforms-3/b0ed3bc1190a335fc620be73cef0fa31/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /home/avena/.gradle/caches/transforms-3/ed9734c73cdec898947618088fbe87b0/transformed/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /home/avena/.gradle/caches/transforms-3/ed9734c73cdec898947618088fbe87b0/transformed/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/avena/.gradle/caches/transforms-3/ea6a0879485e52a4f4039ca8778d8de8/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.documentfile:documentfile:1.0.0] /home/avena/.gradle/caches/transforms-3/ea6a0879485e52a4f4039ca8778d8de8/transformed/documentfile-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/avena/.gradle/caches/transforms-3/4c666c731f72bca13b96ec6fea44ce5c/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/avena/.gradle/caches/transforms-3/4c666c731f72bca13b96ec6fea44ce5c/transformed/localbroadcastmanager-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /home/avena/.gradle/caches/transforms-3/e9ca322f243d3b7ed3a19622385d8532/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.print:print:1.0.0] /home/avena/.gradle/caches/transforms-3/e9ca322f243d3b7ed3a19622385d8532/transformed/print-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/avena/.gradle/caches/transforms-3/274a6366c1fa82a9cda5f98fe858df07/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.interpolator:interpolator:1.0.0] /home/avena/.gradle/caches/transforms-3/274a6366c1fa82a9cda5f98fe858df07/transformed/interpolator-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/avena/.gradle/caches/transforms-3/33022110ab8edaeede9665dd42ecaa6e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
-MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] /home/avena/.gradle/caches/transforms-3/33022110ab8edaeede9665dd42ecaa6e/transformed/cursoradapter-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/avena/.gradle/caches/transforms-3/58e3540d7f5a5bac6af9a8f8fab44363/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/avena/.gradle/caches/transforms-3/58e3540d7f5a5bac6af9a8f8fab44363/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
 INJECTED from /home/avena/AndroidStudioProjects/kiosk_flutter/android/app/src/debug/AndroidManifest.xml
@@ -283,6 +261,8 @@ uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [:network_info_plus] /home/avena/AndroidStudioProjects/kiosk_flutter/build/network_info_plus/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.18.1] /home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-core:2.18.1] /home/avena/.gradle/caches/transforms-3/6ec2c823b2ddfa9d4aff16fd99b56b89/transformed/jetified-exoplayer-core-2.18.1/AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-common:2.18.1] /home/avena/.gradle/caches/transforms-3/447472a30170f24b4509757592faeb24/transformed/jetified-exoplayer-common-2.18.1/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.exoplayer:exoplayer-common:2.18.1] /home/avena/.gradle/caches/transforms-3/447472a30170f24b4509757592faeb24/transformed/jetified-exoplayer-common-2.18.1/AndroidManifest.xml:24:5-79
 	android:name
@@ -299,6 +279,12 @@ ADDED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutt
 		ADDED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
 	android:name
 		ADDED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+meta-data#com.google.android.gms.wallet.api.enabled
+ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
+	android:value
+		ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-33
+	android:name
+		ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-69
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required
@@ -311,6 +297,28 @@ ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/tran
 		ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
 	android:name
 		ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:28:9-32
+queries
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:30:5-34:15
+MERGED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:24:5-34:15
+MERGED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:24:5-34:15
+MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:24:5-28:15
+MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:24:5-28:15
+package#com.google.android.apps.maps
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:33:9-64
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:33:18-61
+uses-library#org.apache.http.legacy
+ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:39:9-41:40
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:40:13-50
 activity#com.google.android.gms.common.api.GoogleApiActivity
 ADDED from [com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
 	android:exported
@@ -325,10 +333,6 @@ ADDED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.g
 		ADDED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
 	android:name
 		ADDED from [com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
-queries
-ADDED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:24:5-34:15
-MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:24:5-28:15
-MERGED from [androidx.media:media:1.4.1] /home/avena/.gradle/caches/transforms-3/ce91650a2719b8ccb3e16815caf62d93/transformed/media-1.4.1/AndroidManifest.xml:24:5-28:15
 intent#action:name:android.media.browse.MediaBrowserService
 ADDED from [androidx.media2:media2-session:1.2.0] /home/avena/.gradle/caches/transforms-3/aa7263188b29434019ae8934cbefd4da/transformed/jetified-media2-session-1.2.0/AndroidManifest.xml:25:9-27:18
 action#android.media.browse.MediaBrowserService

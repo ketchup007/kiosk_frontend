@@ -173,10 +173,10 @@ class SummaryCardState extends State<SummaryCard> {
                                     height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width*0.03 : MediaQuery.of(context).size.width * 0.06,
                                     width:  MediaQuery.of(context).size.width * 0.8,
                                       child: FittedBox(
-                                      child: Text(AppLocalizations.of(context)!.paymentInfoText,
-                                      style: const TextStyle(
-                                          fontFamily: 'GloryMedium',
-                                          fontSize: 20)))),
+                                        child: Text(AppLocalizations.of(context)!.paymentInfoText,
+                                          style: const TextStyle(
+                                            fontFamily: 'GloryMedium',
+                                            fontSize: 20)))),
                                   const CircularProgressIndicator(color: AppColors.darkGreen)])))]);
                   } else if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasError) {

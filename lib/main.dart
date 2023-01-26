@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:kiosk_flutter/pathSelector.dart';
-import 'package:kiosk_flutter/screens/mobile_start_screen.dart';
+import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
-import './screens/start_screen.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  Payu.environment = Environment.sandbox;
+  Payu.debug = true;
+  Payu.locale = Locale('pl');
+  Payu.pos = POS(id: '455830');
 
   //setting up immersive view
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);

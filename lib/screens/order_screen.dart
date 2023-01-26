@@ -154,10 +154,14 @@ class _OrderScreenState extends State<OrderScreen> {
                         onTap: () { // Safe Space to test things
                           if(MediaQuery.of(context).size.height < 1000){
                             print("Yey you are on phone");
-
+                            print("height: ${MediaQuery.of(context).size.height}");
+                            print("width: ${MediaQuery.of(context).size.width}");
 
                           }else {
                             print("Yey you are on kiosk");
+                            print("height: ${MediaQuery.of(context).size.height}");
+                            print("width: ${MediaQuery.of(context).size.width}");
+
                           }
 
                           Navigator.push(

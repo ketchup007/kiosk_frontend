@@ -33,4 +33,5 @@
     <string msgid="6034072145387511457" name="skip_to_next_item_button_content_description">"পরবর্তী আইটেমে যান"</string>
     <string msgid="4352480799561670760" name="skip_to_previous_item_button_content_description">"পূর্ববর্তী আইটেমে যান"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"৯৯৯+"</string>
+    <string name="wallet_buy_button_place_holder">Google ব্যবহার করে কিনুন</string>
 </resources>

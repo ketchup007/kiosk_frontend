@@ -1,5 +1,5 @@
 class ApiConstants {
-  static String baseUrl = "http://mnctest.avena.pl";
+  static String baseUrl = "https://mnctest.avena.pl";
 
   //Container Controller Endpoints
   static String getContainersList = "/api/containers/getList";
@@ -10,13 +10,15 @@ class ApiConstants {
   static String getClientName(int id) => "/api/orders/getClientName/$id";
   static String setClientNumber = "/api/orders/setClientNumber";
   static String sendSms(int id) => "/api/orders/sendSms/$id";
-  static String setClientName(int id) => "/api/orders/setClientName/$id";
+  //static String setClientName(int id) => "/api/orders/setClientName/$id";
 
   //Payment Controller Endpoints
   static String getPaymentMethods = "/api/payment/getPaymentMethods";
   static String paymentNotifySet(int id) => "/api/payment/notify/set/$id";
   static String paymentNotifyGet(int id) => "/api/payment/notify/get/$id";
   static String payBlik = "/api/payment/pay/blik";
+  static String payCard = "/api/payment/pay/card";
+  static String payTokenCard = "/api/payment/pay/cardToken";
 
   //Storage Controller Endpoints
   static String getProducts = "/api/storage/getProducts";

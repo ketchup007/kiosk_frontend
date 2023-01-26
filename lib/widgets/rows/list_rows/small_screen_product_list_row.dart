@@ -144,7 +144,8 @@ class SmallScreenProductListRow extends StatelessWidget{
                               onPressed: () {
                                 if (storage[index].number < provider.limits[storage[index].orderName]!) {
                                   storage[index].number++;
-                                  if (provider.order.id == 0) {provider.getFirstOrder(
+                                  if (provider.order.id == 0) {
+                                    provider.getFirstOrder(
                                       storage[index].orderName,
                                       storage[index].number);
                                   } else {

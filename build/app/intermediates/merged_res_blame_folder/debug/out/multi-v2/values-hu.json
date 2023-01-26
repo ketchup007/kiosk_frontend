@@ -87,6 +87,23 @@
                         "endColumns": "74,61,73,71,77,72,93,89,80",
                         "endOffsets": "2668,2730,2804,2876,2954,3027,3121,3211,3292"
                     }
+                },
+                {
+                    "source": "/home/avena/.gradle/caches/transforms-3/e4598469c31d9c2895a4b0b6aa263430/transformed/jetified-play-services-wallet-19.1.0/res/values-hu/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "202",
+                        "endColumns": "76",
+                        "endOffsets": "278"
+                    },
+                    "to": {
+                        "startLines": "35",
+                        "startColumns": "4",
+                        "startOffsets": "3852",
+                        "endColumns": "80",
+                        "endOffsets": "3928"
+                    }
                 }
             ]
         }

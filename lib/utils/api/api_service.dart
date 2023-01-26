@@ -27,6 +27,7 @@ class ApiService{
       });
 
       if(response.statusCode == 200) {
+        print(response.body);
         return compute(JsonParser().parseStorage, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
@@ -46,6 +47,7 @@ class ApiService{
         });
 
       if(response.statusCode == 200){
+        print(response.body);
         return compute(JsonParser().parseStorageLimits, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
@@ -123,7 +125,7 @@ class ApiService{
           });
 
       if(response.statusCode == 200){
-        //print(response.body);
+        print(response.body);
         return compute(JsonParser().parseContainers, response.body);
       }else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
@@ -144,6 +146,8 @@ class ApiService{
       );
 
       if(response.statusCode == 200){
+        print(response.body);
+        print(response.body);
         return compute(JsonParser().parsePayMethods, response.body);
       }else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
@@ -292,6 +296,72 @@ class ApiService{
     } catch (e) {
       log("In paymentBlikOrder ${e.toString()}");
     }
+    return null;
+  }
+
+  Future<String?> paymentCardOrder(int id, double totalAmount, String cardNumber, String expirationMonth, String expirationYear, String cvv) async {
+    try{
+      final amount = totalAmount * 100;
+      var response = await http.post(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          "id": id.toString(),
+          "customerIp": await gettingIP(),
+          "totalAmount": amount.toStringAsFixed(0),
+          "cardNumber": cardNumber,
+          "expirationMonth": expirationMonth,
+          "expirationYear": expirationYear,
+          "cvv": cvv
+        }));
+
+      print("Card Status: ${response.statusCode}");
+      log("Card response: ${response.body}");
+
+      if(response.statusCode == 200){
+        return response.body;
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e) {
+      log("In paymentCardOrder ${e.toString()}");
+    }
+
+    return null;
+  }
+
+  Future<String?> paymentCardTokenOrder(int id, double totalAmount, String cardToken) async {
+    try{
+      final amount = totalAmount * 100;
+      var response = await http.post(
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "totalAmount": amount.toStringAsFixed(0),
+            "cardToken": cardToken
+          }));
+
+      print("Card Status: ${response.statusCode}");
+      log("Card response: ${response.body}");
+      //print("${jsonDecode(response.body)}");
+
+      if(response.statusCode == 200){
+        return response.body;
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e) {
+      log("In paymentCardOrder ${e.toString()}");
+    }
+
     return null;
   }
 

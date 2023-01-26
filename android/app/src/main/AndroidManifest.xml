@@ -10,6 +10,9 @@
         android:label="kiosk_flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyA6xLQ3vcBHQkwSljeb3RVwEOJ-GKGUqls"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

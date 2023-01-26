@@ -8,6 +8,8 @@ import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/card_payment_screen.dart';
+
 class MobilePayment extends StatefulWidget{
   final double amount;
   
@@ -55,7 +57,12 @@ class MobilePaymentState extends State<MobilePayment>{
                   List<PayMethodsModel> output = [];
                   id = data[0].transactionId;
                   for(int i= 0; i < data.length; i++){
+                    print(data[i].value);
+                    print(data[i].name);
                     if(data[i].value == "blik"){
+                      output.add(data[i]);
+                    }
+                    if(data[i].value == "c"){
                       output.add(data[i]);
                     }
                   }
@@ -74,7 +81,11 @@ class MobilePaymentState extends State<MobilePayment>{
                             height: MediaQuery.of(context).size.height * 0.1,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: widget.amount, id: id)));
+                                if(output[index].value == "blik"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: widget.amount, id: id)));
+                                }else if(output[index].value == "c"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CardPayScreen(amount: widget.amount, id: id)));
+                                }
                                 //setState(() {state = 1;});
                               },
                                 child: Image.network(output[index].brandImageUrl))
