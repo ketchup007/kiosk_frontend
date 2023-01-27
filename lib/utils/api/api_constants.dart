@@ -14,6 +14,7 @@ class ApiConstants {
 
   //Payment Controller Endpoints
   static String getPaymentMethods = "/api/payment/getPaymentMethods";
+  static String getPaymentCredentials = "/api/payment/getCredentials";
   static String paymentNotifySet(int id) => "/api/payment/notify/set/$id";
   static String paymentNotifyGet(int id) => "/api/payment/notify/get/$id";
   static String payBlik = "/api/payment/pay/blik";

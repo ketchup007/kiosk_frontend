@@ -10,6 +10,7 @@ import 'package:kiosk_flutter/widgets/mobile_payment.dart';
 import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CardPayScreen extends StatefulWidget {
   final double amount;
@@ -143,6 +144,8 @@ class CardPayScreenState extends State<CardPayScreen>{
                                 print(1);
                               } else if(statusCode == "WARNING_CONTINUE_3DS"){
                                 print(2);
+                                _didTapHandleWarningContinue3DS(context, jsonDecode(value!)["redirectUri"]);
+
                               } else if(statusCode == "SUCCESS"){
                                 print(3);
                               } else if(statusCode == "WARNING_CONTINUE_CVV"){
@@ -189,6 +192,19 @@ class CardPayScreenState extends State<CardPayScreen>{
     ));
 
 
+  }
+
+  void _didTapHandleWarningContinue3DS(context, String uri) async {
+    final result = await showDialog(
+        context: context,
+        builder: (context) => SoftAcceptAlertDialog(
+            request: SoftAcceptRequest(
+                redirectUri: uri)));
+
+    print("first");
+    print(result.toString());
+    print("seccond");
+    if(result != null) debugPrint(result);
   }
 }
 /*

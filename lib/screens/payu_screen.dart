@@ -5,6 +5,8 @@ import 'package:kiosk_flutter/widgets/mobile_payment.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 
+import '../widgets/bars/payu_top_bar.dart';
+
 class PayUScreen extends StatefulWidget {
   const PayUScreen({super.key});
 
@@ -29,45 +31,9 @@ class _PayUScreenState extends State<PayUScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.lime)
-              ),
-              child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width*0.2,
-                  child:GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Text("<",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Colors.lime,
-                          fontSize: 60
-                      ),),
-                  ),
-                ),
-
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  child: Image.asset('assets/images/payULogos/payULogoLime.png'),
-                ),
-                SizedBox(
-                  width:  MediaQuery.of(context).size.width * 0.2,
-                  child: Text("${provider.sum.toStringAsFixed(2)} zł",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          color: AppColors.darkGreen,
-                          fontSize: 20
-                      )
-                  ),
-                )
-                ])),
+            PayUTopBar(
+              onPress: () => Navigator.pop(context),
+              amount: provider.sum,),
             Container(
               padding: EdgeInsets.all(10),
               child: SizedBox(

@@ -136,6 +136,26 @@ class ApiService{
     return null;
   }
 
+  Future<int?> startPaymentSession() async {
+    try{
+      var response = await http.get(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentCredentials),
+        headers: {
+          'Authorization': 'Bearer $token'
+        }
+      );
+
+      if(response.statusCode == 200){
+        return jsonDecode(response.body)["id"];
+      } else {
+        throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
+      }
+    } catch (e) {
+      log("In startPaymentSession ${e.toString()}");
+    }
+    return null;
+  }
+
   Future<List<PayMethodsModel>?> fetchPaymentMethods() async {
     try{
       var response = await http.get(

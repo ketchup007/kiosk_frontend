@@ -6,6 +6,7 @@ import 'package:kiosk_flutter/screens/blik_payment_screen.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
+import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 
 import '../screens/card_payment_screen.dart';
@@ -22,73 +23,84 @@ class MobilePayment extends StatefulWidget{
   State<StatefulWidget> createState() => MobilePaymentState();
 }
 
+class PayBlockModel{
+  final String value;
+  final String brandImageUrl;
+
+
+  PayBlockModel({
+    required this.value,
+    required this.brandImageUrl,
+  });
+}
+
 class MobilePaymentState extends State<MobilePayment>{
-  int state = 0;
-  bool inPayment = false;
   int id = 0;
-  TextEditingController controller = TextEditingController();
+  var _loading = true;
+  late Future<int?> _future;
+
   late MainProvider provider;
+
+  List<PayBlockModel> blocksList = [
+    PayBlockModel(
+        value: "blik",
+        brandImageUrl: "https://static.payu.com/images/mobile/logos/pbl_blik.png"),
+    PayBlockModel(
+        value: "c",
+        brandImageUrl: "https://static.payu.com/images/mobile/logos/pbl_c.png")
+  ];
+
+
 
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
+    if(_loading == true){
+      _future = ApiService(token: provider.loginToken).startPaymentSession().whenComplete(() {
+        _loading = false;
+      });
+    }
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            padding: EdgeInsets.all(5),
-            child: Text("Wybierz metodę płatności",
+            padding: const EdgeInsets.all(5),
+            child: const Text("Wybierz metodę płatności",
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 20
-              ),
-            ),
-          ),
+                fontSize: 20))),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.35,
             child:FutureBuilder(
-              future: ApiService(token: provider.loginToken).fetchPaymentMethods(),
+              future: _future,
               builder: (context, snapshot){
 
                 if(snapshot.hasData){
-                  List<PayMethodsModel> data = snapshot.data as List<PayMethodsModel>;
-                  List<PayMethodsModel> output = [];
-                  id = data[0].transactionId;
-                  for(int i= 0; i < data.length; i++){
-                    print(data[i].value);
-                    print(data[i].name);
-                    if(data[i].value == "blik"){
-                      output.add(data[i]);
-                    }
-                    if(data[i].value == "c"){
-                      output.add(data[i]);
-                    }
-                  }
-                  //print(output.length);
-                  
+                  id = snapshot.data as int;
+
                   return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
                         childAspectRatio: 3 /2,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 20),
-                      itemCount: output.length,
+                      itemCount: blocksList.length,
                       itemBuilder: (context, index) {
                         return SizedBox(
                             width: MediaQuery.of(context).size.width * 0.4,
                             height: MediaQuery.of(context).size.height * 0.1,
                             child: GestureDetector(
                               onTap: () {
-                                if(output[index].value == "blik"){
+                                if(blocksList[index].value == "blik"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: widget.amount, id: id)));
-                                }else if(output[index].value == "c"){
+                                }else if(blocksList[index].value == "c"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => CardPayScreen(amount: widget.amount, id: id)));
                                 }
-                                //setState(() {state = 1;});
                               },
-                                child: Image.network(output[index].brandImageUrl))
+                                child: Image.network(blocksList[index].brandImageUrl))
                             );
                       },
                   );
