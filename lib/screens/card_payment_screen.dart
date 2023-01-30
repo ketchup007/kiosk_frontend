@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:kiosk_flutter/screens/payment_status_screen.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -144,7 +145,7 @@ class CardPayScreenState extends State<CardPayScreen>{
                                 print(1);
                               } else if(statusCode == "WARNING_CONTINUE_3DS"){
                                 print(2);
-                                _didTapHandleWarningContinue3DS(context, jsonDecode(value!)["redirectUri"]);
+                                _didTapHandleWarningContinue3DS(context, jsonDecode(value!)["redirectUri"], widget.id);
 
                               } else if(statusCode == "SUCCESS"){
                                 print(3);
@@ -194,17 +195,23 @@ class CardPayScreenState extends State<CardPayScreen>{
 
   }
 
-  void _didTapHandleWarningContinue3DS(context, String uri) async {
-    final result = await showDialog(
+  void _didTapHandleWarningContinue3DS(context, String uri, int id) async {
+    final SoftAcceptMessage result = await showDialog(
         context: context,
         builder: (context) => SoftAcceptAlertDialog(
             request: SoftAcceptRequest(
                 redirectUri: uri)));
 
     print("first");
-    print(result.toString());
+    print(result.value);
     print("seccond");
-    if(result != null) debugPrint(result);
+
+    if(result.value == "AUTHENTICATION_SUCCESSFUL"){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentStatusScreen(id: id)));
+    }
   }
 }
 /*

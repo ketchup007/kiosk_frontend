@@ -9,6 +9,7 @@ import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/add_card_payment_screen.dart';
 import '../screens/card_payment_screen.dart';
 
 class MobilePayment extends StatefulWidget{
@@ -47,6 +48,9 @@ class MobilePaymentState extends State<MobilePayment>{
         brandImageUrl: "https://static.payu.com/images/mobile/logos/pbl_blik.png"),
     PayBlockModel(
         value: "c",
+        brandImageUrl: "https://static.payu.com/images/mobile/logos/pbl_c.png"),
+    PayBlockModel(
+        value: "add_card",
         brandImageUrl: "https://static.payu.com/images/mobile/logos/pbl_c.png")
   ];
 
@@ -98,6 +102,8 @@ class MobilePaymentState extends State<MobilePayment>{
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: widget.amount, id: id)));
                                 }else if(blocksList[index].value == "c"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => CardPayScreen(amount: widget.amount, id: id)));
+                                }else if(blocksList[index].value == "add_card"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: widget.amount, id: id)));
                                 }
                               },
                                 child: Image.network(blocksList[index].brandImageUrl))

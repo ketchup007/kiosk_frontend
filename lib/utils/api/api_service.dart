@@ -357,7 +357,7 @@ class ApiService{
     try{
       final amount = totalAmount * 100;
       var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payTokenCard),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
