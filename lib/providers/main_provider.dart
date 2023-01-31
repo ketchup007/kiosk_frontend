@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -27,6 +28,8 @@ class MainProvider extends ChangeNotifier {
   List<StorageModel> storageOrders = <StorageModel>[];
   List<StorageModel> storageBeg = <StorageModel>[];
 
+  List<CardPaymentToken> cardTokens = <CardPaymentToken>[];
+
   Map<String, int> limits = HashMap();
 
   bool loading = false;
@@ -36,12 +39,35 @@ class MainProvider extends ChangeNotifier {
 
   String phoneNumber = "";
   String phoneNumberToken = "";
-  String loginToken ="";
+  String loginToken = "";
 
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
   List<CountryModel> countryList = [];
+
+  saveCardTokens() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String json = jsonEncode(CardPaymentToken.toJsonList(cardTokens));
+
+    await prefs.setString("card_tokens", json);
+  }
+
+  loadCardTokens() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? json = await prefs.getString("card_tokens");
+
+    if(json != null){
+      cardTokens = jsonDecode(json)
+          .cast<Map<String, dynamic>>()
+          .map<CardPaymentToken>((json) => CardPaymentToken.fromJson(json))
+          .toList();
+    }
+
+    print(cardTokens.toString());
+  }
 
   getloginToken() async {
     String? json = await ApiService(token: loginToken).login(phoneNumber, phoneNumberToken);

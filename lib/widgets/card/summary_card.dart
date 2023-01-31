@@ -3,7 +3,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/payu_screen.dart';
+import 'package:kiosk_flutter/screens/payment_screens/payu_screen.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
 import 'package:kiosk_flutter/widgets/mobile_payment.dart';
 import 'package:provider/provider.dart';

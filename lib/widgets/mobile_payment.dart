@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/models/pay_methods_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/blik_payment_screen.dart';
+import 'package:kiosk_flutter/screens/payment_screens/blik_payment_screen.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/add_card_payment_screen.dart';
-import '../screens/card_payment_screen.dart';
+import '../screens/payment_screens/add_card_payment_screen.dart';
+import '../screens/payment_screens/card_payment_screen.dart';
 
 class MobilePayment extends StatefulWidget{
   final double amount;
@@ -60,9 +60,11 @@ class MobilePaymentState extends State<MobilePayment>{
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
+
     if(_loading == true){
       _future = ApiService(token: provider.loginToken).startPaymentSession().whenComplete(() {
         _loading = false;
+        provider.loadCardTokens();
       });
     }
 
