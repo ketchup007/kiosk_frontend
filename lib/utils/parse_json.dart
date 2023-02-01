@@ -6,6 +6,8 @@ import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_limits_model.dart';
 
 List<StorageModel> parseStorage(String responseBody) {
+  print(responseBody);
+  print(jsonDecode(responseBody));
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
   return parsed

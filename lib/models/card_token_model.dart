@@ -53,6 +53,7 @@ class CardPaymentToken {
     'cardExpirationYear': cardExpirationYear,
     'cardNumberMasked': cardNumberMasked,
     'cardScheme': cardScheme,
+    'preferred': preferred,
     'status': status,
     'value': value
   };

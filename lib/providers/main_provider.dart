@@ -47,26 +47,37 @@ class MainProvider extends ChangeNotifier {
   List<CountryModel> countryList = [];
 
   saveCardTokens() async {
+
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String json = jsonEncode(CardPaymentToken.toJsonList(cardTokens));
 
-    await prefs.setString("card_tokens", json);
+    print(json);
+    final result = await prefs.setString("card_tokens", json);
+    print("saved? $result");
   }
 
   loadCardTokens() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? json = await prefs.getString("card_tokens");
+    String json = prefs.getString("card_tokens")!;
 
-    if(json != null){
-      cardTokens = jsonDecode(json)
+    print(json);
+    print(jsonDecode(json));
+    print(jsonDecode(jsonDecode(json)));
+    //final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
+
+    if(json != null) {
+    //  final parsed = jsonDecode(jsonDecode(json)).cast<Map<String, dynamic>>();
+      //debugPrint(parsed);
+      cardTokens = jsonDecode(jsonDecode(json))
           .cast<Map<String, dynamic>>()
           .map<CardPaymentToken>((json) => CardPaymentToken.fromJson(json))
           .toList();
+
     }
 
-    print(cardTokens.toString());
+    print(cardTokens[0].brandImageUrl);
   }
 
   getloginToken() async {

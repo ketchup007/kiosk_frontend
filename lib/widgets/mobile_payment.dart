@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/models/pay_methods_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/blik_payment_screen.dart';
+import 'package:kiosk_flutter/screens/payment_screens/payment_token_screen.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -27,11 +28,13 @@ class MobilePayment extends StatefulWidget{
 class PayBlockModel{
   final String value;
   final String brandImageUrl;
+  int? id;
 
 
   PayBlockModel({
     required this.value,
     required this.brandImageUrl,
+    this.id
   });
 }
 
@@ -62,11 +65,13 @@ class MobilePaymentState extends State<MobilePayment>{
 
 
     if(_loading == true){
-      _future = ApiService(token: provider.loginToken).startPaymentSession().whenComplete(() {
+      _future = _pageSetup().whenComplete(() {
+        print("inComplete ${blocksList.length}");
         _loading = false;
-        provider.loadCardTokens();
       });
     }
+
+
 
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -86,7 +91,7 @@ class MobilePaymentState extends State<MobilePayment>{
 
                 if(snapshot.hasData){
                   id = snapshot.data as int;
-
+                  print("in snap block list: ${blocksList.length}");
                   return GridView.builder(
                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 200,
@@ -106,6 +111,8 @@ class MobilePaymentState extends State<MobilePayment>{
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => CardPayScreen(amount: widget.amount, id: id)));
                                 }else if(blocksList[index].value == "add_card"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: widget.amount, id: id)));
+                                }else if(blocksList[index].value == "card"){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blocksList[index].id!], amount: widget.amount, id: id)));
                                 }
                               },
                                 child: Image.network(blocksList[index].brandImageUrl))
@@ -120,5 +127,29 @@ class MobilePaymentState extends State<MobilePayment>{
               })),
         ]);
   }
+
+  Future <int?> _pageSetup() async {
+    print('in Page setup');
+    final output = await ApiService(token: provider.loginToken).startPaymentSession();
+
+    print(output);
+
+    await provider.loadCardTokens();
+
+    print(provider.cardTokens.length);
+
+    for(int i = 0; i < provider.cardTokens.length; i++){
+      blocksList.add(
+          PayBlockModel(
+              value: "card",
+              brandImageUrl: provider.cardTokens[i].brandImageUrl,
+              id: i));
+    }
+
+
+
+    return output;
+  }
   
 }
+

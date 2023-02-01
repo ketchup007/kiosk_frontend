@@ -58,6 +58,7 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
             ElevatedButton(
                 onPressed: () {
                   print("click");
+                  print(widget.cardToken.value);
                   if(warning){
                     _didTapHandleWarningContinue3DS(context, url, widget.id);
                   }else{
@@ -70,7 +71,7 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
   }
 
   void _payment() async {
-    final result = await ApiService(token: provider.loginToken).paymentCardTokenOrder(widget.id, widget.amount, widget.cardToken.value);
+    final result = await ApiService(token: provider.loginToken).paymentCardTokenCreate(widget.id, widget.amount, widget.cardToken.value);
 
     print(result.toString());
     String statusCode = jsonDecode(result!)["status"];
@@ -96,6 +97,9 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
             request: SoftAcceptRequest(
                 redirectUri: uri)));
 
+    final result2 = SoftAcceptRequest(redirectUri: uri);
+
+    print(result2.toString());
     print("first");
     print(result.value);
     print("seccond");

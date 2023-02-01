@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:convert';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/models/container_model.dart';
@@ -356,6 +357,12 @@ class ApiService{
   Future<String?> paymentCardTokenOrder(int id, double totalAmount, String cardToken) async {
     try{
       final amount = totalAmount * 100;
+
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo andr = await deviceInfo.androidInfo;
+      print(andr.fingerprint);
+
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.payTokenCard),
           headers: {
@@ -366,7 +373,8 @@ class ApiService{
             "id": id.toString(),
             "customerIp": await gettingIP(),
             "totalAmount": amount.toStringAsFixed(0),
-            "cardToken": cardToken
+            "cardToken": cardToken,
+            "fingerprint": andr.fingerprint,
           }));
 
       print("Card Status: ${response.statusCode}");
@@ -385,6 +393,44 @@ class ApiService{
     return null;
   }
 
+
+  Future<String?> paymentCardTokenCreate(int id, double totalAmount, String cardToken) async {
+    try{
+      final amount = totalAmount * 100;
+
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo andr = await deviceInfo.androidInfo;
+      print(andr.fingerprint);
+
+      var response = await http.post(
+          Uri.parse(ApiConstants.baseUrl + "/api/payment/pay/createToken"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "cardToken": cardToken,
+            "fingerprint": andr.fingerprint,
+          }));
+
+      print("Card Status: ${response.statusCode}");
+      log("Card response: ${response.body}");
+      //print("${jsonDecode(response.body)}");
+
+      if(response.statusCode == 200){
+        return response.body;
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e) {
+      log("In paymentCardOrder ${e.toString()}");
+    }
+
+    return null;
+  }
   //Login
 
   Future<String?> smsLogin(String phoneNumber) async {
@@ -463,11 +509,6 @@ class ApiService{
     }
     return null;
   }
-
-
-
-
-
 
 
 

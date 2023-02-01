@@ -71,7 +71,8 @@ class AddCardScreenState extends State<AddCardScreen> {
                 child:  Text("Use")),
               TextButton(
                   onPressed: () => _tokenizer(true).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: value, id: widget.id, amount: widget.amount)))),
-                  child: Text("Use and save"))])));
+                  child: Text("Use and save")),
+              const TermsAndConditionsWidget(),])));
   }
 
   Future<CardPaymentToken> _tokenizer(bool save) async {
