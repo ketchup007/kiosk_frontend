@@ -16,6 +16,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:async/async.dart';
 
+import '../../screens/payment_screens/new_payu_screen.dart';
+
 class SummaryCard extends StatefulWidget {
   final Function onInteraction;
   final Function onPopUpFinish;
@@ -130,7 +132,7 @@ class SummaryCardState extends State<SummaryCard> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const PayUScreen()));
+                                          builder: (context) => const NewPayUScreen()));
                                 }
 
                                 provider.notifyListeners();
@@ -340,7 +342,7 @@ class SummaryCardState extends State<SummaryCard> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PayUScreen())
+                            MaterialPageRoute(builder: (context) => const NewPayUScreen())
                           );
                         }, 
                         child: Text("go"),

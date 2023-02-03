@@ -21,6 +21,9 @@ class ApiConstants {
   static String payCard = "/api/payment/pay/card";
   static String payTokenCard = "/api/payment/pay/cardToken";
 
+  static String payAuth = "/api/payment/getCredentialsEmail";
+  static String payMethodsAuth(int id) => "/api/payment/getPaymentMethodsV2/$id";
+
   //Storage Controller Endpoints
   static String getProducts = "/api/storage/getProducts";
   static String getStorageState = "/api/storage/getStorageState";

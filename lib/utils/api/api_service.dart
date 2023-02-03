@@ -157,6 +157,46 @@ class ApiService{
     return null;
   }
 
+  Future<int?> getPaymentAuth() async {
+    try{
+      var response = await http.get(
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payAuth),
+          headers: {
+            'Authorization': 'Bearer $token'
+          }
+      );
+
+      if(response.statusCode == 200){
+        return jsonDecode(response.body)["id"];
+      } else {
+        throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
+      }
+    } catch(e) {
+      log("In getPaymentAuth ${e.toString()}");
+    }
+    return null;
+  }
+
+  Future<List<PayMethodsModel>?> fetchPaymentMethods2(int id) async {
+    try{
+      var response = await http.get(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.payMethodsAuth(id)),
+          headers: {
+            'Authorization': 'Bearer $token'
+          }
+      );
+
+      if(response.statusCode == 200){
+        return compute(JsonParser().parsePayMethods, response.body);
+      }
+
+      throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
+    } catch(e) {
+      log("In fetchPaymentMethods ${e.toString()}");
+    }
+    return null;
+  }
+
   Future<List<PayMethodsModel>?> fetchPaymentMethods() async {
     try{
       var response = await http.get(
