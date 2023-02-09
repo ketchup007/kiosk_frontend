@@ -44,6 +44,11 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
               status = 1;
               provider.changeOrderStatus(2);
             })
+          }else if(value == "CANCELED"){
+            setState(() {
+              status = 3;
+              provider.changeOrderStatus(5);
+            })
           }
         });
       }
@@ -93,7 +98,7 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                     style: TextStyle(
                       fontSize: 20))),
                 const CircularProgressIndicator()]) :
-                Column(
+            status == 2 ? Column(
                   children: [
                     Container(
                         padding: const EdgeInsets.all(10),
@@ -114,6 +119,19 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const StartScreen()));
+                        },
+                        child: const Text("Zakończ transakcje"))]) :
+                Column(
+                  children: [
+                    Text("Płatność anulowana"),
+                    ElevatedButton(
+                        onPressed: () {
+                          provider.orderFinish();
+                          provider.changeToPizza();
+                          provider.notifyListeners();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const StartScreen()));
                         },
                         child: const Text("Zakończ transakcje"))])])));
   }

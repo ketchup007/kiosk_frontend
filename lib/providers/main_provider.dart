@@ -53,31 +53,34 @@ class MainProvider extends ChangeNotifier {
     String json = jsonEncode(CardPaymentToken.toJsonList(cardTokens));
 
     print(json);
+    //json = "";
     final result = await prefs.setString("card_tokens", json);
     print("saved? $result");
   }
 
   loadCardTokens() async {
+    print("1");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    print("2");
     String json = prefs.getString("card_tokens")!;
-
+    print("3");
     print(json);
-    print(jsonDecode(json));
-    print(jsonDecode(jsonDecode(json)));
+    //print(jsonDecode(json));
+    //print(jsonDecode(jsonDecode(json)));
     //final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
-
-    if(json != null) {
+    print("4");
+    if(json != null && json != "") {
     //  final parsed = jsonDecode(jsonDecode(json)).cast<Map<String, dynamic>>();
       //debugPrint(parsed);
+      print("5");
       cardTokens = jsonDecode(jsonDecode(json))
           .cast<Map<String, dynamic>>()
           .map<CardPaymentToken>((json) => CardPaymentToken.fromJson(json))
           .toList();
-
+      print("6");
     }
 
-    print(cardTokens[0].brandImageUrl);
+//    print(cardTokens[0].brandImageUrl);
   }
 
   getloginToken() async {

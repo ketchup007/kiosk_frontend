@@ -15,16 +15,20 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:webview_flutter/webview_flutter.dart';
 
+import 'display_frame_screen.dart';
+
 class TokenPaymentScreen extends StatefulWidget{
   final CardPaymentToken cardToken;
   final int id;
   final double amount;
+  final bool save;
 
   const TokenPaymentScreen({
     Key? key,
     required this.cardToken,
     required this.id,
-    required this.amount
+    required this.amount,
+    required this.save,
   }): super(key: key);
 
   @override
@@ -71,10 +75,24 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
   }
 
   void _payment() async {
-    final result = await ApiService(token: provider.loginToken).paymentCardTokenCreate(widget.id, widget.amount, widget.cardToken.value);
+    final result = await ApiService(token: provider.loginToken).paymentCardTokenOrder(widget.id, widget.amount, widget.cardToken.value);
 
     print(result.toString());
-    String statusCode = jsonDecode(result!)["status"];
+    String statusCode = jsonDecode(result!)["status"]["statusCode"];
+
+    try{
+      if(widget.save == true){
+        print(jsonDecode(result)["payMethods"]);
+        print(jsonDecode(result)["payMethods"]["payMethod"]["value"]);
+        widget.cardToken.value = jsonDecode(result)["payMethods"]["payMethod"]["value"];
+        provider.cardTokens.add(widget.cardToken);
+        provider.saveCardTokens();
+      }
+    }catch(e){
+      print("nope");
+      print(e);
+    }
+
     if(statusCode == "WARNING_CONTINUE_REDIRECT"){
       print(1);
     } else if(statusCode == "WARNING_CONTINUE_3DS"){
@@ -109,6 +127,15 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
           context,
           MaterialPageRoute(
               builder: (context) => PaymentStatusScreen(id: id)));
+    }else if(result.value == "AUTHENTICATION_CANCELED"){
+      print("Authentication failed");
+    }else if(result.value == "DISPLAY_FRAME"){
+      print(uri);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DisplayFrameScreen(url: uri, id: id)
+          ));
     }
   }
 }

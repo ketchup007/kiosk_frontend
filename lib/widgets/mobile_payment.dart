@@ -112,7 +112,7 @@ class MobilePaymentState extends State<MobilePayment>{
                                 }else if(blocksList[index].value == "add_card"){
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: widget.amount, id: id)));
                                 }else if(blocksList[index].value == "card"){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blocksList[index].id!], amount: widget.amount, id: id)));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blocksList[index].id!], amount: widget.amount, id: id, save: false,)));
                                 }
                               },
                                 child: Image.network(blocksList[index].brandImageUrl))

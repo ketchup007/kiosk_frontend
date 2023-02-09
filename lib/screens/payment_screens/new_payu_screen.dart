@@ -13,6 +13,18 @@ import 'add_card_payment_screen.dart';
 import 'blik_payment_screen.dart';
 import 'card_payment_screen.dart';
 
+class NewPayBlockModel{
+  final String value;
+  final String brandImageUrl;
+  int? id;
+
+  NewPayBlockModel({
+    required this.value,
+    required this.brandImageUrl,
+    this.id
+});
+}
+
 class NewPayUScreen extends StatefulWidget {
   const NewPayUScreen({super.key});
 
@@ -25,7 +37,7 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
 
   late Future<int?> _future;
 
-  late List<PayMethodsModel> blockList;
+  late List<NewPayBlockModel> blockList = [];
 
   int id = 0;
 
@@ -58,20 +70,22 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                 amount: provider.sum),
             Container(
               padding: const EdgeInsets.all(10),
+              alignment: Alignment.center,
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.75,
+                height: MediaQuery.of(context).size.height * 0.05,
                 child: const Text("Wybierz metodę płatności",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20)))),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: FutureBuilder(
                 future: _future,
                 builder: (context, snapshot) {
                   if(snapshot.hasError){
+                    print(snapshot.error);
                     return const Text("error");
                   }
 
@@ -93,9 +107,9 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                                     if(blockList[index].value == "blik"){
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: provider.sum, id: id)));
                                     }else if(blockList[index].value == "c"){
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => CardPayScreen(amount: provider.sum, id: id)));
-                                    }else if(blockList[index].value == "add_card"){
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: provider.sum, id: id)));
+                                    }else if(blockList[index].value == "card"){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blockList[index].id!], id: id, amount: provider.sum, save: false)));
                                     }
                                   },
                                   child: Image.network(blockList[index].brandImageUrl))
@@ -106,19 +120,52 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
 
                   return const CircularProgressIndicator();
                 }
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+              ))])));
   }
 
   Future <int?> _pageSetup() async {
     print('in Page setup');
     final output = await ApiService(token: provider.loginToken).getPaymentAuth();
 
-    blockList = (await ApiService(token:provider.loginToken).fetchPaymentMethods2(output!))!;
+    print("1");
+    List<PayMethodsModel> temp;
+
+    temp = (await ApiService(token:provider.loginToken).fetchPaymentMethods2(output!))!;
+
+    print("2");
+    for(int i = 0; i < temp.length; i++){
+      if(temp[i].value == "blik"){
+        blockList.add(
+            NewPayBlockModel(
+                value: "blik",
+                brandImageUrl: temp[i].brandImageUrl));
+      }else if(temp[i].value == "c"){
+        blockList.add(
+            NewPayBlockModel(
+                value: "c",
+                brandImageUrl: temp[i].brandImageUrl));
+      }
+    }
+    print("3");
+    await provider.loadCardTokens();
+
+    print("4");
+   // print(provider.cardTokens.length);
+
+    try {
+      if(provider.cardTokens != null) {
+        for (int i = 0; i < provider.cardTokens.length; i++) {
+          print(provider.cardTokens[i].value);
+          blockList.add(
+              NewPayBlockModel(
+                  value: "card",
+                  brandImageUrl: provider.cardTokens[i].brandImageUrl,
+                  id: i));
+        }
+      }
+    } on Exception catch (e) {
+      print(e);
+    }
 
     return output;
   }

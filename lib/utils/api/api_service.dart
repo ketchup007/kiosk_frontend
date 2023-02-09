@@ -166,6 +166,7 @@ class ApiService{
           }
       );
 
+      print(response.body);
       if(response.statusCode == 200){
         return jsonDecode(response.body)["id"];
       } else {
@@ -186,6 +187,7 @@ class ApiService{
           }
       );
 
+      debugPrint(response.body);
       if(response.statusCode == 200){
         return compute(JsonParser().parsePayMethods, response.body);
       }
@@ -244,8 +246,9 @@ class ApiService{
     var status = await fetchPaymentStatus(id);
 
     if(status != "COMPLETED"){
-      while(status != "COMPLETED"){
+      while(status != "COMPLETED" && status !="CANCELED"){
         status = await fetchPaymentStatus(id);
+        print(status);
       }
     }
 

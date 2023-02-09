@@ -67,10 +67,10 @@ class AddCardScreenState extends State<AddCardScreen> {
                       isFooterVisible: false),
                   onCreated: (service) => _service = service),
               TextButton(
-                onPressed: () => _tokenizer(false).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: value, id: widget.id, amount: widget.amount)))),
+                onPressed: () => _tokenizer(false).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: value, id: widget.id, amount: widget.amount, save: false)))),
                 child:  Text("Use")),
               TextButton(
-                  onPressed: () => _tokenizer(true).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: value, id: widget.id, amount: widget.amount)))),
+                  onPressed: () => _tokenizer(true).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: value, id: widget.id, amount: widget.amount, save: true)))),
                   child: Text("Use and save")),
               const TermsAndConditionsWidget(),])));
   }
@@ -84,11 +84,12 @@ class AddCardScreenState extends State<AddCardScreen> {
     final newCardToken = CardPaymentToken.fromCardToken(result);
 
     //Save Multi Use Token
-    if(save){
-      provider.cardTokens.add(newCardToken);
-      provider.saveCardTokens();
-    }
+    //if(save){
+      //provider.cardTokens.add(newCardToken);
+      //provider.saveCardTokens();
+    //}
 
+    print("New Card Token: value: ${newCardToken.value}, ${newCardToken.cardNumberMasked}");
     return newCardToken;
 
     /*
