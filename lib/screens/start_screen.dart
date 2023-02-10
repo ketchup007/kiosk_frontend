@@ -4,6 +4,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
@@ -62,6 +63,7 @@ class _StartScreenState extends State<StartScreen> {
                             foregroundColor: Colors.black),
                           onPressed: () {
                             if(MediaQuery.of(context).size.height < 1000){
+                              /*
                               showDialog(
                                   context: context,
                                   builder: (context) {
@@ -71,6 +73,11 @@ class _StartScreenState extends State<StartScreen> {
                                       },
                                     );
                                   });
+                               */
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const QrCodeScreen()));
                             }else{
                               goToOrderPage(context);
                             }
