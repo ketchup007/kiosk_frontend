@@ -11,6 +11,9 @@ import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 //import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import '../utils/api/api_constants.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -28,11 +31,15 @@ class _StartScreenState extends State<StartScreen> {
         builder: (context) => const OrderScreen()));
   }
 
+  test() async {
+    var file = await DefaultCacheManager().getFileFromCache(ApiConstants.baseUrl + '/assets/margherita.png');
+    print(file?.file);
+  }
   @override
   Widget build(BuildContext context) {
     //print("Size: Width - ${MediaQuery.of(context).size.width}, Height - ${MediaQuery.of(context).size.height}");
     //print("Screen Density: ${MediaQuery.of(context).devicePixelRatio}");
-
+   // test();
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: null,

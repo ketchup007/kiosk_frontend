@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
@@ -28,7 +29,8 @@ class ProductNetworkImage extends StatelessWidget{
             borderRadius: BorderRadius.circular(size/4)),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(size/5),
-            child: Image.network( ApiConstants.baseUrl + '/assets/${imageName}')));
+            child: CachedNetworkImage(imageUrl: ApiConstants.baseUrl + '/assets/${imageName}')));
+            //Image.network( ApiConstants.baseUrl + '/assets/${imageName}')));
   }
 
 }

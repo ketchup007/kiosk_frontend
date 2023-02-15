@@ -18,6 +18,33 @@ class ApiService{
     required this.token
   });
 
+  Future<String?> getFromLink(String link) async {
+    try{
+      print("in Api Call $link");
+      var response = await http.get(
+        Uri.parse(link),
+        headers: {
+          'Authorization': 'Bearer $token'
+        });
+
+      print("in Api Call 2 $link, ${response.statusCode}");
+
+      if(response.statusCode == 200){
+        print("in Api Call 3 ${response.body}");
+        String? output = response.body;
+        return output;
+      } else {
+        return "error statusCode ${response.statusCode}";
+        //throw Exception('StatusCode ${response.statusCode}');
+      }
+    }catch (e) {
+      log("${e.toString()}");
+      return "error in ${e.toString()}";
+    }
+
+    return "error somewhat";
+  }
+
   //Get Data Section
   Future<List<StorageModel>?> fetchStorage() async {
     try{

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/payment_token_screen.dart';
@@ -112,7 +113,8 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blockList[index].id!], id: id, amount: provider.sum, save: false)));
                                     }
                                   },
-                                  child: Image.network(blockList[index].brandImageUrl))
+                                  child: CachedNetworkImage(imageUrl: blockList[index].brandImageUrl))
+
                           );
 
                     });

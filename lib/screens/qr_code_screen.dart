@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,13 +7,18 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 //import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+
+import '../models/container_model.dart';
+import '../providers/main_provider.dart';
 
 class QrCodeScreen extends StatefulWidget{
   const QrCodeScreen({Key? key}): super(key: key);
@@ -26,6 +32,11 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
   String resultText = "";
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+
+  int status = 0;
+  bool loading = true;
+  late Future<String?> future;
+  late MainProvider provider;
 
   void _onQRViewCreated(QRViewController controller){
     setState(() => this.controller = controller);
@@ -49,13 +60,30 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
       controller!.pauseCamera();
       print(result!.code);
       resultText = result!.code!;
-      controller!.resumeCamera();
+      //controller!.resumeCamera();
+      status = 1;
+      controller!.stopCamera();
+    }else {
+      controller?.resumeCamera();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of<MainProvider>(context, listen: true);
     readQr();
+
+    if(status == 1){
+      print("1");
+      if(loading){
+        print("2");
+        future = ApiService(token: provider.loginToken).getFromLink(resultText).then((value) {
+          print(3);
+          loading = false;
+          return value;
+        });
+      }
+    }
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -71,6 +99,9 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10),
+                    child: Text("Zeskanuj kod Qr punktu sprzedaży")),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
                   height: MediaQuery.of(context).size.height * 0.7,
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: QRView(
@@ -83,20 +114,45 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
                           borderWidth: 10,
                           cutOutSize: 250
                       ))),
-                Text("${resultText}"),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const OrderScreen()));
-                    },
-                    child: Text("NEXT")),
-                ElevatedButton(
-                    onPressed: () {
-                      controller?.resumeCamera();
-                    },
-                    child: Text("Resume"))
+                status == 1 ? FutureBuilder(
+                    future: future,
+                    builder: (context, snapshot) {
+                      print("4");
+                      if(snapshot.hasError){
+                        print("5");
+                        return Text("error");
+                      }
+                      print("6");
+
+                      print("${snapshot.hasData}, ${snapshot.data}");
+                      if(snapshot.hasData){
+                        print("7");
+                        String data = snapshot.data as String;
+                        ContainerModel container = ContainerModel.fromJson(jsonDecode(data));
+                        print(container.address);
+                        print("8");
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              child: Text("Przyciśnij poniższy przycisk aby złożyć zamówienie w punkcie sprzedaży ${container.address}"),
+                            ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const OrderScreen()));
+                                },
+                                child: Text("Dalej")),
+                          ]
+                        );
+                      }
+                      print("9");
+                      return CircularProgressIndicator();
+                    }) : Container()
               ],
             ),
           )));

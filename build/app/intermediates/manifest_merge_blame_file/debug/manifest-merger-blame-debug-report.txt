@@ -162,113 +162,129 @@
 101
 102                <category android:name="android.intent.category.LAUNCHER" />
 103            </intent-filter>
-104        </activity>
-105        <!--
-106             Don't delete the meta-data below.
-107             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-108        -->
-109        <meta-data
-110            android:name="flutterEmbedding"
-111            android:value="2" />
-112
-113        <service
-113-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:56
-114            android:name="com.baseflow.geolocator.GeolocatorLocationService"
-114-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-77
-115            android:enabled="true"
-115-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-35
-116            android:exported="false"
-116-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-37
-117            android:foregroundServiceType="location" />
-117-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-53
-118
-119        <activity
-119-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
-120            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-120-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
-121            android:exported="false"
-121-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
-122            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-122-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
-123
-124        <meta-data
-124-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
-125            android:name="com.google.android.gms.wallet.api.enabled"
-125-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-69
-126            android:value="true" />
-126-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-33
-127
-128        <uses-library
-128-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
-129            android:name="androidx.window.extensions"
-129-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
-130            android:required="false" />
-130-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
-131        <uses-library
-131-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
-132            android:name="androidx.window.sidecar"
-132-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
-133            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
-133-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
-134        <uses-library
-134-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:39:9-41:40
-135            android:name="org.apache.http.legacy"
-135-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:40:13-50
-136            android:required="false" />
-136-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:41:13-37
-137
-138        <activity
-138-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
-139            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-139-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
-140            android:exported="false"
-140-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
-141            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-141-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
-142
-143        <meta-data
-143-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
-144            android:name="com.google.android.gms.version"
-144-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
-145            android:value="@integer/google_play_services_version" />
-145-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
-146
-147        <provider
-147-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
-148            android:name="androidx.startup.InitializationProvider"
-148-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
-149            android:authorities="com.example.kiosk_flutter.androidx-startup"
-149-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
-150            android:exported="false" >
-150-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
-151            <meta-data
-151-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
-152                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-152-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
-153                android:value="androidx.startup" />
-153-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
-154            <meta-data
-154-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
-155                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-155-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
-156                android:value="androidx.startup" />
-156-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
-157        </provider>
+104
+105            <meta-data
+106                android:name="flutter_deeplinking_enabled"
+107                android:value="true" />
+108
+109            <intent-filter android:autoVerify="true" >
+110                <action android:name="android.intent.action.VIEW" />
+111
+112                <category android:name="android.intent.category.DEFAULT" />
+113                <category android:name="android.intent.category.BROWSABLE" />
+114
+115                <data
+116                    android:host="mnctest.avena.pl"
+117                    android:scheme="http" />
+118                <data android:scheme="https" />
+119            </intent-filter>
+120        </activity>
+121        <!--
+122             Don't delete the meta-data below.
+123             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+124        -->
+125        <meta-data
+126            android:name="flutterEmbedding"
+127            android:value="2" />
+128
+129        <service
+129-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:9-16:56
+130            android:name="com.baseflow.geolocator.GeolocatorLocationService"
+130-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-77
+131            android:enabled="true"
+131-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-35
+132            android:exported="false"
+132-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-37
+133            android:foregroundServiceType="location" />
+133-->[:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-53
+134
+135        <activity
+135-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-13:74
+136            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+136-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
+137            android:exported="false"
+137-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-37
+138            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+138-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
+139
+140        <meta-data
+140-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
+141            android:name="com.google.android.gms.wallet.api.enabled"
+141-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-69
+142            android:value="true" />
+142-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-33
+143
+144        <uses-library
+144-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+145            android:name="androidx.window.extensions"
+145-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+146            android:required="false" />
+146-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+147        <uses-library
+147-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+148            android:name="androidx.window.sidecar"
+148-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+149            android:required="false" /> <!-- Needs to be explicitly declared on P+ -->
+149-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+150        <uses-library
+150-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:39:9-41:40
+151            android:name="org.apache.http.legacy"
+151-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:40:13-50
+152            android:required="false" />
+152-->[com.google.android.gms:play-services-maps:18.1.0] /home/avena/.gradle/caches/transforms-3/e201e9ad108cf5dd9bf454f2a581d29d/transformed/jetified-play-services-maps-18.1.0/AndroidManifest.xml:41:13-37
+153
+154        <activity
+154-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+155            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+155-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+156            android:exported="false"
+156-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+157            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+157-->[com.google.android.gms:play-services-base:18.0.1] /home/avena/.gradle/caches/transforms-3/3ff720be07735976176520d1c05fb799/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
 158
-159        <activity
-159-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
-160            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-160-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
-161            android:clearTaskOnLaunch="true"
-161-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
-162            android:screenOrientation="sensorLandscape"
-162-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
-163            android:stateNotNeeded="true"
-163-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
-164            android:theme="@style/zxing_CaptureTheme"
-164-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
-165            android:windowSoftInputMode="stateAlwaysHidden" />
-165-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
-166    </application>
-167
-168</manifest>
+159        <meta-data
+159-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
+160            android:name="com.google.android.gms.version"
+160-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
+161            android:value="@integer/google_play_services_version" />
+161-->[com.google.android.gms:play-services-basement:18.0.0] /home/avena/.gradle/caches/transforms-3/601d4158b382ad9f634d3bbb23a34c83/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
+162
+163        <provider
+163-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+164            android:name="androidx.startup.InitializationProvider"
+164-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+165            android:authorities="com.example.kiosk_flutter.androidx-startup"
+165-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+166            android:exported="false" >
+166-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+167            <meta-data
+167-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+168                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+168-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+169                android:value="androidx.startup" />
+169-->[androidx.emoji2:emoji2:1.0.0] /home/avena/.gradle/caches/transforms-3/a8f15c438083418d3b3f80abdafb5523/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+170            <meta-data
+170-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+171                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+171-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+172                android:value="androidx.startup" />
+172-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/avena/.gradle/caches/transforms-3/f84ca6d456abb0b1140abea481061573/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+173        </provider>
+174
+175        <activity
+175-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
+176            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+176-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
+177            android:clearTaskOnLaunch="true"
+177-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
+178            android:screenOrientation="sensorLandscape"
+178-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
+179            android:stateNotNeeded="true"
+179-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
+180            android:theme="@style/zxing_CaptureTheme"
+180-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
+181            android:windowSoftInputMode="stateAlwaysHidden" />
+181-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/avena/.gradle/caches/transforms-3/77be51fb7627331aa2f8ec0f3aaea8ed/transformed/jetified-zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
+182    </application>
+183
+184</manifest>
