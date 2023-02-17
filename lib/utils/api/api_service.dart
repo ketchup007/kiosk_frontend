@@ -46,13 +46,16 @@ class ApiService{
   }
 
   //Get Data Section
-  Future<List<StorageModel>?> fetchStorage() async {
+  Future<List<StorageModel>?> fetchStorage({String db = 'default'}) async {
     try{
-      var response = await http.get(
+      var response = await http.post(
       Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
       headers: {
         'Authorization': 'Bearer $token'
-      });
+      },
+      body: jsonEncode(<String, String>{
+        'db': db.toString()
+      }));
 
       if(response.statusCode == 200) {
         print(response.body);
@@ -66,13 +69,16 @@ class ApiService{
     return null;
   }
 
-  Future<List<StorageLimitsModel>?> fetchStorageLimits() async {
+  Future<List<StorageLimitsModel>?> fetchStorageLimits({String db = 'default'}) async {
     try{
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
         headers: {
           'Authorization': 'Bearer $token'
-        });
+        },
+        body: jsonEncode(<String, String>{
+          'db': db.toString()
+        }));
 
       if(response.statusCode == 200){
         print(response.body);
@@ -86,13 +92,16 @@ class ApiService{
     return null;
   }
 
-  Future<int?> createFirstOrder() async {
+  Future<int?> createFirstOrder({String db = 'default'}) async {
     try{
-      var response = await http.get(
+      var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
           headers: {
             'Authorization': 'Bearer $token'
-          });
+          },
+          body: jsonEncode(<String, String>{
+            'db': db.toString()
+          }));
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)["id"];
@@ -105,13 +114,16 @@ class ApiService{
     return null;
   }
 
-  Future<int?> fetchProductState(String product) async {
+  Future<int?> fetchProductState(String product, {String db = 'default'}) async {
     try{
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.getProductStorageState(product)),
           headers: {
             'Authorization': 'Bearer $token'
-          });
+          },
+          body: jsonEncode(<String, String>{
+            'db': db.toString()
+          }));
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)["quantity"];
@@ -124,14 +136,17 @@ class ApiService{
     return null;
   }
 
-  Future<int?> fetchOrderNumber(int id) async {
+  Future<int?> fetchOrderNumber(int id, {String db = 'default'}) async {
     print("sms dudu dudy");
     try{
-      var response = await http.get(
+      var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
           headers: {
             'Authorization': 'Bearer $token'
-          });
+          },
+          body: jsonEncode(<String, String>{
+            'db': db.toString()
+          }));
 
       if(response.statusCode == 200){
         return jsonDecode(response.body)['order_number'];
@@ -284,7 +299,7 @@ class ApiService{
 
 
   //Post Data Section
-  Future<int?> changeOrderProduct(int id, String orderName, int value) async {
+  Future<int?> changeOrderProduct(int id, String orderName, int value, {String db = 'default'}) async {
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
@@ -295,7 +310,8 @@ class ApiService{
         body: jsonEncode(<String, String>{
           'id': id.toString(),
           'order_name': orderName,
-          'value': value.toString()
+          'value': value.toString(),
+          'db': db.toString()
         }));
 
       if (response.statusCode == 200){
@@ -309,7 +325,7 @@ class ApiService{
     return null;
   }
 
-  Future<int?> changeOrderName(int id, String value) async {
+  Future<int?> changeOrderName(int id, String value, {String db = 'default'}) async {
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
@@ -320,7 +336,8 @@ class ApiService{
         body: jsonEncode(<String, String>{
           'id': id.toString(),
           'order_name': 'client_name',
-          'value': value
+          'value': value,
+          'db': db.toString()
         }));
 
       if(response.statusCode == 200) {
@@ -334,7 +351,7 @@ class ApiService{
     return null;
   }
 
-  Future<int?> setClientNumber(int id, String number, bool promoPermission) async {
+  Future<int?> setClientNumber(int id, String number, bool promoPermission, {String db = 'default'}) async {
     try{
       var response = await http.post(
         Uri.parse(ApiConstants.baseUrl + ApiConstants.setClientNumber),
@@ -345,7 +362,8 @@ class ApiService{
         body: jsonEncode(<String, String>{
           "id": id.toString(),
           "client_number": number,
-          "promo_permission": promoPermission.toString()
+          "promo_permission": promoPermission.toString(),
+          'db': db.toString()
         }));
 
       if (response.statusCode == 200){

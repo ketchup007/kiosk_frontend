@@ -122,6 +122,7 @@ class SummaryCardState extends State<SummaryCard> {
                                 widget.onPopUpFinish();
                                 provider.setOrderClientNumber(provider.order.client_name, isPromotionChecked);
                                 provider.changeOrderStatus(1);
+                                print("done");
 
                                 if(MediaQuery.of(context).size.height > 1000){
                                   setState(() {

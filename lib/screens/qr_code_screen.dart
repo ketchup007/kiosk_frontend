@@ -141,6 +141,7 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
                             ),
                             ElevatedButton(
                                 onPressed: () {
+                                  provider.containerDb = container.db;
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
