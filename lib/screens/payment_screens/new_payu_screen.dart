@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
+import 'package:kiosk_flutter/screens/payment_screens/google_pay_screen.dart';
 import 'package:kiosk_flutter/screens/payment_screens/payment_token_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -81,7 +82,7 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                     fontSize: 20)))),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.6,
               child: FutureBuilder(
                 future: _future,
                 builder: (context, snapshot) {
@@ -122,19 +123,26 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
 
                   return const CircularProgressIndicator();
                 }
-              ))])));
+              )),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MyGooglePayScreen(amount: provider.sum, id: id)));
+              },
+              child: Text('google pay'),
+            )
+          ])));
   }
 
   Future <int?> _pageSetup() async {
     print('in Page setup');
     final output = await ApiService(token: provider.loginToken).getPaymentAuth();
 
-    print("1");
+    print("page 1");
     List<PayMethodsModel> temp;
 
     temp = (await ApiService(token:provider.loginToken).fetchPaymentMethods2(output!))!;
 
-    print("2");
+    print("page 2");
     for(int i = 0; i < temp.length; i++){
       if(temp[i].value == "blik"){
         blockList.add(
@@ -148,13 +156,14 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                 brandImageUrl: temp[i].brandImageUrl));
       }
     }
-    print("3");
+    print("page 3");
     await provider.loadCardTokens();
 
-    print("4");
+    print("page 4");
    // print(provider.cardTokens.length);
 
     try {
+      print(provider.cardTokens.length);
       if(provider.cardTokens != null) {
         for (int i = 0; i < provider.cardTokens.length; i++) {
           print(provider.cardTokens[i].value);

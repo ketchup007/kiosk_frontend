@@ -61,25 +61,25 @@ class MainProvider extends ChangeNotifier {
   }
 
   loadCardTokens() async {
-    print("1");
+    print("load 1");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print("2");
-    String json = prefs.getString("card_tokens")!;
-    print("3");
-    print(json);
+    print("load 2");
+    String? json = prefs.getString("card_tokens");
+    print("load 3");
+    //print(json);
     //print(jsonDecode(json));
     //print(jsonDecode(jsonDecode(json)));
     //final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
-    print("4");
+    print("load 4");
     if(json != null && json != "") {
     //  final parsed = jsonDecode(jsonDecode(json)).cast<Map<String, dynamic>>();
       //debugPrint(parsed);
-      print("5");
+      print("load 5");
       cardTokens = jsonDecode(jsonDecode(json))
           .cast<Map<String, dynamic>>()
           .map<CardPaymentToken>((json) => CardPaymentToken.fromJson(json))
           .toList();
-      print("6");
+      print("load 6");
     }
 
 //    print(cardTokens[0].brandImageUrl);

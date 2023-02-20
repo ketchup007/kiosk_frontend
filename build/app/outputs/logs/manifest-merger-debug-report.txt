@@ -5,6 +5,8 @@ MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutte
 MERGED from [:geolocator_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/geolocator_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-17:19
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-14:19
+MERGED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-17:19
+MERGED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:5-17:19
 MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-13:19
 MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-13:19
 MERGED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
@@ -51,6 +53,7 @@ MERGED from [:fpjs_pro_plugin] /home/avena/AndroidStudioProjects/kiosk_flutter/b
 MERGED from [:sqflite] /home/avena/AndroidStudioProjects/kiosk_flutter/build/sqflite/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-16:12
 MERGED from [:path_provider_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
+MERGED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:6:1-19:12
 MERGED from [:qr_code_scanner] /home/avena/AndroidStudioProjects/kiosk_flutter/build/qr_code_scanner/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-11:12
 MERGED from [:wakelock] /home/avena/AndroidStudioProjects/kiosk_flutter/build/wakelock/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
 MERGED from [:webview_flutter_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/webview_flutter_android/intermediates/merged_manifest/debug/AndroidManifest.xml:2:1-9:12
@@ -173,6 +176,8 @@ MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flut
 MERGED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
 MERGED from [:path_provider_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/path_provider_android/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
+MERGED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-11:41
+MERGED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-11:41
 MERGED from [:qr_code_scanner] /home/avena/AndroidStudioProjects/kiosk_flutter/build/qr_code_scanner/intermediates/merged_manifest/debug/AndroidManifest.xml:6:5-9:67
 MERGED from [:qr_code_scanner] /home/avena/AndroidStudioProjects/kiosk_flutter/build/qr_code_scanner/intermediates/merged_manifest/debug/AndroidManifest.xml:6:5-9:67
 MERGED from [:wakelock] /home/avena/AndroidStudioProjects/kiosk_flutter/build/wakelock/intermediates/merged_manifest/debug/AndroidManifest.xml:5:5-7:41
@@ -346,11 +351,13 @@ ADDED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutt
 	android:name
 		ADDED from [:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-74
 meta-data#com.google.android.gms.wallet.api.enabled
-ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
+ADDED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-16:36
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
+MERGED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
 	android:value
-		ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-33
+		ADDED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-33
 	android:name
-		ADDED from [:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-69
+		ADDED from [:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-69
 uses-library#androidx.window.extensions
 ADDED from [androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 	android:required

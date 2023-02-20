@@ -208,11 +208,11 @@
 138-->[:url_launcher_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-71
 139
 140        <meta-data
-140-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:36
+140-->[:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:14:9-16:36
 141            android:name="com.google.android.gms.wallet.api.enabled"
-141-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-69
+141-->[:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-69
 142            android:value="true" />
-142-->[:payu_mobile_payments_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/payu_mobile_payments_android/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-33
+142-->[:pay_android] /home/avena/AndroidStudioProjects/kiosk_flutter/build/pay_android/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-33
 143
 144        <uses-library
 144-->[androidx.window:window:1.0.0-beta04] /home/avena/.gradle/caches/transforms-3/49bc944d29f70d45aa5add8e43e3247e/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
