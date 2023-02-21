@@ -7,11 +7,14 @@ import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 import 'package:kiosk_flutter/widgets/mobile_payment.dart';
+import 'package:payu/payu.dart' as PayU;
 import 'package:provider/provider.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:convert';
 import 'package:pay/pay.dart';
+
+import 'display_frame_screen.dart';
 
 
 class MyGooglePayScreen extends StatefulWidget {
@@ -66,6 +69,15 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
                     //debugPrint(list[i]);
                   }
                   print(list[2]["tokenizationData"]["token"]);
+                  var json = jsonDecode(list[2]["tokenizationData"]["token"]);
+                  print(jsonDecode(json["signedMessage"])["encryptedMessage"]);
+                  ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, jsonDecode(json["signedMessage"])["encryptedMessage"]).then(
+                      (result) {
+                        print(result);
+
+                        _didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
+                      }
+                  );
                 },
                 paymentItems: [
                   PaymentItem(
@@ -80,6 +92,36 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
         ),
       ),
     );
+  }
+  void _didTapHandleWarningContinue3DS(context, String uri, int id) async {
+    final PayU.SoftAcceptMessage result = await showDialog(
+        context: context,
+        builder: (context) => PayU.SoftAcceptAlertDialog(
+            request: PayU.SoftAcceptRequest(
+                redirectUri: uri)));
+
+    final result2 = PayU.SoftAcceptRequest(redirectUri: uri);
+
+    print(result2.toString());
+    print("first");
+    print(result.value);
+    print("seccond");
+
+    if(result.value == "AUTHENTICATION_SUCCESSFUL"){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentStatusScreen(id: id)));
+    }else if(result.value == "AUTHENTICATION_CANCELED"){
+      print("Authentication failed");
+    }else if(result.value == "DISPLAY_FRAME"){
+      print(uri);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DisplayFrameScreen(url: uri, id: id)
+          ));
+    }
   }
 
   static const String defaultGooglePay = '''{

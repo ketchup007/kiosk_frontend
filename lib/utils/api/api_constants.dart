@@ -20,6 +20,7 @@ class ApiConstants {
   static String payBlik = "/api/payment/pay/blik";
   static String payCard = "/api/payment/pay/card";
   static String payTokenCard = "/api/payment/pay/cardToken";
+  static String payGpay = "/api/payment/pay/gpay";
 
   static String payAuth = "/api/payment/getCredentialsEmail";
   static String payMethodsAuth(int id) => "/api/payment/getPaymentMethodsV2/$id";

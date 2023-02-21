@@ -519,6 +519,46 @@ class ApiService{
 
     return null;
   }
+
+  Future<String?> paymentGpayTokenOrder(int id, double totalAmount, String GpayToken) async {
+    try{
+      final amount = totalAmount * 100;
+
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo andr = await deviceInfo.androidInfo;
+      print(andr.fingerprint);
+
+      var response = await http.post(
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payGpay),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "totalAmount": amount.toStringAsFixed(0),
+            "cardToken": GpayToken,
+            "fingerprint": andr.fingerprint,
+          }));
+
+      print("Gpay Status: ${response.statusCode}");
+      log("Gpay response: ${response.body}");
+      //print("${jsonDecode(response.body)}");
+
+      if(response.statusCode == 200){
+        return response.body;
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    }catch (e) {
+      log("In paymentCardOrder ${e.toString()}");
+    }
+
+    return null;
+  }
+
   //Login
 
   Future<String?> smsLogin(String phoneNumber) async {
