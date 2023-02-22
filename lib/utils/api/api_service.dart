@@ -220,6 +220,27 @@ class ApiService{
     return null;
   }
 
+  Future<String?> fetchTransactionData(int id) async {
+    try {
+      var response = await http.get(
+        Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)),
+        headers: {
+          'Authorization': 'Bearer $token'
+        }
+      );
+
+      debugPrint(response.body);
+      if(response.statusCode == 200){
+        return response.body;
+      }else{
+        throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
+      }
+    } catch(e) {
+      log("In fetchTransactionData ${e.toString()}");
+    }
+    return null;
+  }
+
   Future<List<PayMethodsModel>?> fetchPaymentMethods2(int id) async {
     try{
       var response = await http.get(

@@ -13,6 +13,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:convert';
 import 'package:pay/pay.dart';
+import 'dart:io';
 
 import 'display_frame_screen.dart';
 
@@ -55,7 +56,7 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
 
             GooglePayButton(
               paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
-              margin: const EdgeInsets.only(top: 15.0),
+              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
                 onPaymentResult: (result) {
 
 
@@ -75,7 +76,8 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
                       (result) {
                         print(result);
 
-                        _didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
+                        ApiService(token: provider.loginToken).fetchTransactionData(widget.id);
+                        //_didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
                       }
                   );
                 },

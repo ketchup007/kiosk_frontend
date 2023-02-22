@@ -14,6 +14,7 @@ import '../../widgets/bars/payu_top_bar.dart';
 import 'add_card_payment_screen.dart';
 import 'blik_payment_screen.dart';
 import 'card_payment_screen.dart';
+import "dart:io";
 
 class NewPayBlockModel{
   final String value;
@@ -112,6 +113,8 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: provider.sum, id: id)));
                                     }else if(blockList[index].value == "card"){
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blockList[index].id!], id: id, amount: provider.sum, save: false)));
+                                    }else if(blockList[index].value == "ap"){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyGooglePayScreen(amount: provider.sum, id: id)));
                                     }
                                   },
                                   child: CachedNetworkImage(imageUrl: blockList[index].brandImageUrl))
@@ -123,13 +126,7 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
 
                   return const CircularProgressIndicator();
                 }
-              )),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MyGooglePayScreen(amount: provider.sum, id: id)));
-              },
-              child: Text('google pay'),
-            )
+              ))
           ])));
   }
 
@@ -154,6 +151,14 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
             NewPayBlockModel(
                 value: "c",
                 brandImageUrl: temp[i].brandImageUrl));
+      }else if(temp[i].value == "ap"){
+        if(Platform.isAndroid){
+          blockList.add(
+              NewPayBlockModel(
+                  value: "ap",
+                  brandImageUrl: temp[i].brandImageUrl
+              ));
+        }
       }
     }
     print("page 3");
