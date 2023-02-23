@@ -57,6 +57,8 @@ class ApplePayScreenState extends State<ApplePayScreen> {
                     onPaymentResult: (result) {},
                     style: ApplePayButtonStyle.black,
                     type: ApplePayButtonType.buy,
+                    width: 200,
+                    height: 50,
                     paymentItems: [
                       PaymentItem(
                           label: "total",
