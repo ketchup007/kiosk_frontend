@@ -570,7 +570,8 @@ class ApiService{
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
       print(andr.fingerprint);
-
+      print(GpayToken);
+      
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.payGpay),
           headers: {

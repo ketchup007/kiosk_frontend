@@ -72,12 +72,14 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
                   print(list[2]["tokenizationData"]["token"]);
                   var json = jsonDecode(list[2]["tokenizationData"]["token"]);
                   print(jsonDecode(json["signedMessage"])["encryptedMessage"]);
+                  var mess = jsonDecode(json["signedMessage"])["encryptedMessage"];
                   ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, jsonDecode(json["signedMessage"])["encryptedMessage"]).then(
                       (result) {
                         print(result);
+                        print(mess);
 
-                        ApiService(token: provider.loginToken).fetchTransactionData(widget.id);
-                        ApiService(token: provider.loginToken).fetchOrderData(widget.id);
+                       // ApiService(token: provider.loginToken).fetchTransactionData(widget.id);
+                       // ApiService(token: provider.loginToken).fetchOrderData(widget.id);
                         //_didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
                       }
                   );
@@ -154,13 +156,9 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
         }
       }
     ],
-    "merchantInfo": {
-      "merchantId": "01234567890123456789",
-      "merchantName": "Example Merchant Name"
-    },
     "transactionInfo": {
-      "countryCode": "US",
-      "currencyCode": "USD"
+      "countryCode": "PL",
+      "currencyCode": "PLN"
     }
   }
 }''';
