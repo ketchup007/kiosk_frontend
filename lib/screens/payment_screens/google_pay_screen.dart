@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'package:pay/pay.dart';
 import 'dart:io';
 
+
 import 'display_frame_screen.dart';
 
 
@@ -58,29 +59,25 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
               paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
                 onPaymentResult: (result) {
-
-
                   var list = result.values.toList();
+                  var json = list[2]["tokenizationData"]["token"];
+                  var value = base64.encode(utf8.encode(json));
 
-                  print("result.toString() ${list.length}");
-
-                  for(int i=0; i<list.length; i++){
-                    print(list[i]);
-                    print(i);
-                    //debugPrint(list[i]);
-                  }
-                  print(list[2]["tokenizationData"]["token"]);
-                  var json = jsonDecode(list[2]["tokenizationData"]["token"]);
-                  print(jsonDecode(json["signedMessage"])["encryptedMessage"]);
-                  var mess = jsonDecode(json["signedMessage"])["encryptedMessage"];
-                  ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, jsonDecode(json["signedMessage"])["encryptedMessage"]).then(
+                  ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, value).then(
                       (result) {
                         print(result);
-                        print(mess);
+                        String statusCode = jsonDecode(result!)["status"];
 
-                       // ApiService(token: provider.loginToken).fetchTransactionData(widget.id);
-                       // ApiService(token: provider.loginToken).fetchOrderData(widget.id);
-                        //_didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
+                        if(statusCode == "WARNING_CONTINUE_REDIRECT"){
+
+                        }else if(statusCode == "WARNING_CONTINUE_3DS"){
+                          _didTapHandleWarningContinue3DS(context, jsonDecode(result)["redirectUri"], widget.id);
+                        }else if(statusCode == "SUCCESS"){
+
+                        }else if(statusCode == "WARNING_CONTINUE_CVV"){
+
+                        }
+
                       }
                   );
                 },
@@ -89,15 +86,13 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
                     label: "total",
                     amount: provider.sum.toString(),
                     status: PaymentItemStatus.final_price
-                )])
-
-
-
+                )]),
           ],
         ),
       ),
     );
   }
+
   void _didTapHandleWarningContinue3DS(context, String uri, int id) async {
     final PayU.SoftAcceptMessage result = await showDialog(
         context: context,
