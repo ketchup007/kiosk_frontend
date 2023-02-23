@@ -77,6 +77,7 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen>{
                         print(result);
 
                         ApiService(token: provider.loginToken).fetchTransactionData(widget.id);
+                        ApiService(token: provider.loginToken).fetchOrderData(widget.id);
                         //_didTapHandleWarningContinue3DS(context, jsonDecode(result!)["redirectUri"], widget.id);
                       }
                   );
