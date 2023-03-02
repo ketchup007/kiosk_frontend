@@ -54,7 +54,20 @@ class ApplePayScreenState extends State<ApplePayScreen> {
                         PaymentConfiguration.fromJsonString(defaultApplePay),
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.3),
-                    onPaymentResult: (result) {},
+                    onPaymentResult: (result) {
+                      print(result);
+                      var list = result.values.toList();
+                      print(list.length);
+
+                      for (int i = 0; i < list.length; i++) {
+                        print(i);
+                        print(list[i]);
+                      }
+                      var json = list[1];
+                      print(json);
+                      var value = base64.encode(utf8.encode(json));
+                      print(value);
+                    },
                     style: ApplePayButtonStyle.black,
                     type: ApplePayButtonType.buy,
                     width: 200,
@@ -76,12 +89,12 @@ class ApplePayScreenState extends State<ApplePayScreen> {
   static const String defaultApplePay = '''{
   "provider": "apple_pay",
   "data": {
-    "merchantIdentifier": "merchant.com.sams.fish",
-    "displayName": "Sam's Fish",
+    "merchantIdentifier": "merchant.city.test.munchies",
+    "displayName": "Munchiess",
     "merchantCapabilities": ["3DS", "debit", "credit"],
     "supportedNetworks": ["amex", "visa", "discover", "masterCard"],
-    "countryCode": "US",
-    "currencyCode": "USD",
+    "countryCode": "PL",
+    "currencyCode": "PLN",
     "requiredBillingContactFields": ["emailAddress", "name", "phoneNumber", "postalAddress"],
     "requiredShippingContactFields": [],
     "shippingMethods": [
