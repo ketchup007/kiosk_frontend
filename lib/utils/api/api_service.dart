@@ -11,25 +11,20 @@ import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/get_ip.dart';
 import 'package:kiosk_flutter/utils/json_parser.dart';
 
-class ApiService{
+class ApiService {
   String token;
 
-  ApiService({
-    required this.token
-  });
+  ApiService({required this.token});
 
   Future<String?> getFromLink(String link) async {
-    try{
+    try {
       print("in Api Call $link");
-      var response = await http.get(
-        Uri.parse(link),
-        headers: {
-          'Authorization': 'Bearer $token'
-        });
+      var response = await http
+          .get(Uri.parse(link), headers: {'Authorization': 'Bearer $token'});
 
       print("in Api Call 2 $link, ${response.statusCode}");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print("in Api Call 3 ${response.body}");
         String? output = response.body;
         return output;
@@ -37,7 +32,7 @@ class ApiService{
         return "error statusCode ${response.statusCode}";
         //throw Exception('StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("${e.toString()}");
       return "error in ${e.toString()}";
     }
@@ -47,90 +42,77 @@ class ApiService{
 
   //Get Data Section
   Future<List<StorageModel>?> fetchStorage({String db = 'default'}) async {
-    try{
+    try {
       var response = await http.post(
-      Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
-      headers: {
-        'Authorization': 'Bearer $token'
-      },
-      body: jsonEncode(<String, String>{
-        'db': db.toString()
-      }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
+          headers: {'Authorization': 'Bearer $token'},
+          body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         print(response.body);
         return compute(JsonParser().parseStorage, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In fetchStorage ${e.toString()}");
     }
     return null;
   }
 
-  Future<List<StorageLimitsModel>?> fetchStorageLimits({String db = 'default'}) async {
-    try{
+  Future<List<StorageLimitsModel>?> fetchStorageLimits(
+      {String db = 'default'}) async {
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
-        headers: {
-          'Authorization': 'Bearer $token'
-        },
-        body: jsonEncode(<String, String>{
-          'db': db.toString()
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
+          headers: {'Authorization': 'Bearer $token'},
+          body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print(response.body);
         return compute(JsonParser().parseStorageLimits, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In fetchStorageState ${e.toString()}");
     }
     return null;
   }
 
   Future<int?> createFirstOrder({String db = 'default'}) async {
-    try{
+    try {
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
-          headers: {
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode(<String, String>{
-            'db': db.toString()
-          }));
+          headers: {'Authorization': 'Bearer $token'},
+          body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["id"];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In createFirstOrder ${e.toString()}");
     }
     return null;
   }
 
-  Future<int?> fetchProductState(String product, {String db = 'default'}) async {
-    try{
+  Future<int?> fetchProductState(String product,
+      {String db = 'default'}) async {
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getProductStorageState(product)),
-          headers: {
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode(<String, String>{
-            'db': db.toString()
-          }));
+          Uri.parse(ApiConstants.baseUrl +
+              ApiConstants.getProductStorageState(product)),
+          headers: {'Authorization': 'Bearer $token'},
+          body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["quantity"];
       } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In fetchProductState ${e.toString()}");
     }
     return null;
@@ -138,19 +120,15 @@ class ApiService{
 
   Future<int?> fetchOrderNumber(int id, {String db = 'default'}) async {
     print("sms dudu dudy");
-    try{
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
-          headers: {
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode(<String, String>{
-            'db': db.toString()
-          }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
+          headers: {'Authorization': 'Bearer $token'},
+          body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)['order_number'];
-      }else {
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
     } catch (e) {
@@ -160,35 +138,30 @@ class ApiService{
   }
 
   Future<List<ContainerModel>?> fetchContainer() async {
-    try{
+    try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList),
-          headers: {
-            'Authorization': 'Bearer $token'
-          });
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList),
+          headers: {'Authorization': 'Bearer $token'});
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print(response.body);
         return compute(JsonParser().parseContainers, response.body);
-      }else {
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In fetchContainer ${e.toString()}");
     }
     return null;
   }
 
   Future<int?> startPaymentSession() async {
-    try{
+    try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentCredentials),
-        headers: {
-          'Authorization': 'Bearer $token'
-        }
-      );
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentCredentials),
+          headers: {'Authorization': 'Bearer $token'});
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["id"];
       } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
@@ -200,21 +173,18 @@ class ApiService{
   }
 
   Future<int?> getPaymentAuth() async {
-    try{
+    try {
       var response = await http.get(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.payAuth),
-          headers: {
-            'Authorization': 'Bearer $token'
-          }
-      );
+          headers: {'Authorization': 'Bearer $token'});
 
       print(response.body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["id"];
       } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
-    } catch(e) {
+    } catch (e) {
       log("In getPaymentAuth ${e.toString()}");
     }
     return null;
@@ -223,19 +193,16 @@ class ApiService{
   Future<String?> fetchTransactionData(int id) async {
     try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)),
-        headers: {
-          'Authorization': 'Bearer $token'
-        }
-      );
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)),
+          headers: {'Authorization': 'Bearer $token'});
 
       debugPrint(response.body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
-      }else{
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
-    } catch(e) {
+    } catch (e) {
       log("In fetchTransactionData ${e.toString()}");
     }
     return null;
@@ -245,58 +212,49 @@ class ApiService{
     try {
       var response = await http.get(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.orderStatus(id)),
-          headers: {
-            'Authorization': 'Bearer $token'
-          }
-      );
+          headers: {'Authorization': 'Bearer $token'});
 
       debugPrint(response.body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
-      }else{
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
-    } catch(e) {
+    } catch (e) {
       log("In fetchOrderData ${e.toString()}");
     }
     return null;
   }
 
   Future<List<PayMethodsModel>?> fetchPaymentMethods2(int id) async {
-    try{
+    try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.payMethodsAuth(id)),
-          headers: {
-            'Authorization': 'Bearer $token'
-          }
-      );
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payMethodsAuth(id)),
+          headers: {'Authorization': 'Bearer $token'});
 
       debugPrint(response.body);
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return compute(JsonParser().parsePayMethods, response.body);
       }
 
       throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
-    } catch(e) {
+    } catch (e) {
       log("In fetchPaymentMethods ${e.toString()}");
     }
     return null;
   }
 
   Future<List<PayMethodsModel>?> fetchPaymentMethods() async {
-    try{
+    try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods),
-          headers: {
-            'Authorization': 'Bearer $token'
-          }
-      );
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods),
+          headers: {'Authorization': 'Bearer $token'});
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         print(response.body);
         print(response.body);
         return compute(JsonParser().parsePayMethods, response.body);
-      }else {
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
     } catch (e) {
@@ -305,18 +263,15 @@ class ApiService{
     return null;
   }
 
-  Future<String?> fetchPaymentStatus(int id) async{
-    try{
+  Future<String?> fetchPaymentStatus(int id) async {
+    try {
       var response = await http.get(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id)),
-          headers: {
-            'Authorization': 'Bearer $token'
-          }
-      );
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id)),
+          headers: {'Authorization': 'Bearer $token'});
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["status"];
-      }else {
+      } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
       }
     } catch (e) {
@@ -326,11 +281,11 @@ class ApiService{
   }
 
   // get loop
-  Future<String?> checkPaymentStatus(int id) async{
+  Future<String?> checkPaymentStatus(int id) async {
     var status = await fetchPaymentStatus(id);
 
-    if(status != "COMPLETED"){
-      while(status != "COMPLETED" && status !="CANCELED"){
+    if (status != "COMPLETED") {
+      while (status != "COMPLETED" && status != "CANCELED") {
         status = await fetchPaymentStatus(id);
         print(status);
       }
@@ -339,155 +294,163 @@ class ApiService{
     return status;
   }
 
-
   //Post Data Section
-  Future<int?> changeOrderProduct(int id, String orderName, int value, {String db = 'default'}) async {
-    try{
+  Future<int?> changeOrderProduct(int id, String orderName, int value,
+      {String db = 'default'}) async {
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
-        headers: <String, String>{
-          'Content-Type' : 'application/json',
-          'Authorization': 'Bearer $token'
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
           },
-        body: jsonEncode(<String, String>{
-          'id': id.toString(),
-          'order_name': orderName,
-          'value': value.toString(),
-          'db': db.toString()
-        }));
+          body: jsonEncode(<String, String>{
+            'id': id.toString(),
+            'order_name': orderName,
+            'value': value.toString(),
+            'db': db.toString()
+          }));
 
-      if (response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)['accepted'];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In changeOrderProduct ${e.toString()}");
     }
     return null;
   }
 
-  Future<int?> changeOrderName(int id, String value, {String db = 'default'}) async {
-    try{
+  Future<int?> changeOrderName(int id, String value,
+      {String db = 'default'}) async {
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
-        },
-        body: jsonEncode(<String, String>{
-          'id': id.toString(),
-          'order_name': 'client_name',
-          'value': value,
-          'db': db.toString()
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode(<String, String>{
+            'id': id.toString(),
+            'order_name': 'client_name',
+            'value': value,
+            'db': db.toString()
+          }));
 
-      if(response.statusCode == 200) {
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)['accepted'];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In changeOrderName ${e.toString()}");
     }
     return null;
   }
 
-  Future<int?> setClientNumber(int id, String number, bool promoPermission, {String db = 'default'}) async {
-    try{
+  Future<int?> setClientNumber(int id, String number, bool promoPermission,
+      {String db = 'default'}) async {
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.setClientNumber),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
-        },
-        body: jsonEncode(<String, String>{
-          "id": id.toString(),
-          "client_number": number,
-          "promo_permission": promoPermission.toString(),
-          'db': db.toString()
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.setClientNumber),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode(<String, String>{
+            "id": id.toString(),
+            "client_number": number,
+            "promo_permission": promoPermission.toString(),
+            'db': db.toString()
+          }));
 
-      if (response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)['accepted'];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In setClientNumber ${e.toString()}");
     }
     return null;
   }
 
-  Future<String?> paymentBlikOrder(int id, double totalAmount ,String blikCode) async {
-    try{
+  Future<String?> paymentBlikOrder(
+      int id, double totalAmount, String blikCode) async {
+    try {
       final amount = totalAmount * 100;
       print('amount ${amount.toStringAsFixed(0)}');
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.payBlik),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
-        },
-        body: jsonEncode({
-          "id": id.toString(),
-          "customerIp": await gettingIP(),
-          "totalAmount": amount.toStringAsFixed(0),
-          "blikCode": blikCode,
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payBlik),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "totalAmount": amount.toStringAsFixed(0),
+            "blikCode": blikCode,
+          }));
 
       print("Blik Status: ${response.statusCode}");
       print("Blik response: ${response.body}");
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-
     } catch (e) {
       log("In paymentBlikOrder ${e.toString()}");
     }
     return null;
   }
 
-  Future<String?> paymentCardOrder(int id, double totalAmount, String cardNumber, String expirationMonth, String expirationYear, String cvv) async {
-    try{
+  Future<String?> paymentCardOrder(
+      int id,
+      double totalAmount,
+      String cardNumber,
+      String expirationMonth,
+      String expirationYear,
+      String cvv) async {
+    try {
       final amount = totalAmount * 100;
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
-        },
-        body: jsonEncode({
-          "id": id.toString(),
-          "customerIp": await gettingIP(),
-          "totalAmount": amount.toStringAsFixed(0),
-          "cardNumber": cardNumber,
-          "expirationMonth": expirationMonth,
-          "expirationYear": expirationYear,
-          "cvv": cvv
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "totalAmount": amount.toStringAsFixed(0),
+            "cardNumber": cardNumber,
+            "expirationMonth": expirationMonth,
+            "expirationYear": expirationYear,
+            "cvv": cvv
+          }));
 
       print("Card Status: ${response.statusCode}");
       log("Card response: ${response.body}");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In paymentCardOrder ${e.toString()}");
     }
 
     return null;
   }
 
-  Future<String?> paymentCardTokenOrder(int id, double totalAmount, String cardToken) async {
-    try{
+  Future<String?> paymentCardTokenOrder(
+      int id, double totalAmount, String cardToken) async {
+    try {
       final amount = totalAmount * 100;
-
 
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
@@ -511,23 +474,22 @@ class ApiService{
       log("Card response: ${response.body}");
       //print("${jsonDecode(response.body)}");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In paymentCardOrder ${e.toString()}");
     }
 
     return null;
   }
 
-
-  Future<String?> paymentCardTokenCreate(int id, double totalAmount, String cardToken) async {
-    try{
+  Future<String?> paymentCardTokenCreate(
+      int id, double totalAmount, String cardToken) async {
+    try {
       final amount = totalAmount * 100;
-
 
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
@@ -550,28 +512,28 @@ class ApiService{
       log("Card response: ${response.body}");
       //print("${jsonDecode(response.body)}");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In paymentCardOrder ${e.toString()}");
     }
 
     return null;
   }
 
-  Future<String?> paymentGpayTokenOrder(int id, double totalAmount, String GpayToken) async {
-    try{
+  Future<String?> paymentGpayTokenOrder(
+      int id, double totalAmount, String GpayToken) async {
+    try {
       final amount = totalAmount * 100;
-
 
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
       print(andr.fingerprint);
       print(GpayToken);
-      
+
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.payGpay),
           headers: {
@@ -590,57 +552,87 @@ class ApiService{
       log("Gpay response: ${response.body}");
       //print("${jsonDecode(response.body)}");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e) {
+    } catch (e) {
       log("In paymentCardOrder ${e.toString()}");
     }
 
     return null;
   }
 
+  Future<String?> paymentApplePayTokenOrder(
+      int id, double totalAmount, String applePayToken) async {
+    print("tt1");
+    try {
+      final amount = totalAmount * 100;
+
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      AndroidDeviceInfo andr = await deviceInfo.androidInfo;
+
+      var response = await http.post(
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.payApplePay),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            "id": id.toString(),
+            "customerIp": await gettingIP(),
+            "totalAmount": amount.toStringAsFixed(0),
+            "cardToken": applePayToken,
+            "fingerprint": andr.fingerprint,
+          }));
+
+      print("Gpay Status: ${response.statusCode}");
+      log("Gpay response: ${response.body}");
+      //print("${jsonDecode(response.body)}");
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    } catch (e) {
+      log("In paymentCardOrder ${e.toString()}");
+    }
+    print("tt2");
+    return null;
+  }
+
   //Login
 
   Future<String?> smsLogin(String phoneNumber) async {
-    try{
+    try {
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.smsLogin),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode({
-          'phone_number': phoneNumber
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.smsLogin),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'phone_number': phoneNumber}));
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return jsonDecode(response.body)["status"];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e){
+    } catch (e) {
       log("In sendSMS ${e.toString()}");
     }
     return null;
   }
 
   Future<String?> smsToken(String phoneNumber, String code) async {
-    try{
+    try {
       print("${phoneNumber}, ${code}");
       var response = await http.post(
-        Uri.parse(ApiConstants.baseUrl + ApiConstants.getSmsToken),
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: jsonEncode({
-          'phone_number': phoneNumber,
-          'code': code
-        }));
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.getSmsToken),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'phone_number': phoneNumber, 'code': code}));
 
-      if(response.statusCode == 200){
-        if(jsonDecode(response.body)["status"] == "SUCCESS"){
+      if (response.statusCode == 200) {
+        if (jsonDecode(response.body)["status"] == "SUCCESS") {
           return jsonDecode(response.body)["token"];
         } else {
           return jsonDecode(response.body)["status"];
@@ -648,47 +640,32 @@ class ApiService{
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e){
+    } catch (e) {
       log("In sms Token ${e.toString()}");
     }
     return null;
   }
 
   Future<String?> login(String phoneNumber, String token) async {
-    try{
+    try {
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.loginToken),
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: jsonEncode({
-            'phone_number': phoneNumber,
-            'password_token': token
-          }));
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode(
+              {'phone_number': phoneNumber, 'password_token': token}));
 
-          print(ApiConstants.baseUrl + "/api/login_check");
-          print("number: $phoneNumber, token: $token");
+      print(ApiConstants.baseUrl + "/api/login_check");
+      print("number: $phoneNumber, token: $token");
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return response.body;
       } else {
         print("In error: ${response.body}");
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
-    }catch (e){
+    } catch (e) {
       log("In login ${e.toString()}");
     }
     return null;
   }
-
-
-
-
-
-
-
-
-
-
-
 }

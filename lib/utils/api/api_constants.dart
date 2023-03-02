@@ -21,18 +21,23 @@ class ApiConstants {
   static String payCard = "/api/payment/pay/card";
   static String payTokenCard = "/api/payment/pay/cardToken";
   static String payGpay = "/api/payment/pay/gpay";
+  static String payApplePay = "/api/payment/pay/apple";
 
   static String payAuth = "/api/payment/getCredentialsEmail";
-  static String payMethodsAuth(int id) => "/api/payment/getPaymentMethodsV2/$id";
+  static String payMethodsAuth(int id) =>
+      "/api/payment/getPaymentMethodsV2/$id";
 
-  static String transactionStatus(int id) => "/api/payment/getTransactionData/$id";
+  static String transactionStatus(int id) =>
+      "/api/payment/getTransactionData/$id";
   static String orderStatus(int id) => "/api/payment/getOrderData/$id";
 
   //Storage Controller Endpoints
   static String getProducts = "/api/storage/getProducts";
   static String getStorageState = "/api/storage/getStorageState";
-  static String getProductStorageState(String orderName) => "/api/storage/getProductStorageState/$orderName";
-  static String getProductImage(String fileName) => "/api/storage/getProductImage/$fileName";
+  static String getProductStorageState(String orderName) =>
+      "/api/storage/getProductStorageState/$orderName";
+  static String getProductImage(String fileName) =>
+      "/api/storage/getProductImage/$fileName";
 
   //Login Controller Endpoints
   static String smsLogin = "/api/smsLogin";
