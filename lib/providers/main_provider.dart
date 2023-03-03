@@ -7,8 +7,6 @@ import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
-import 'package:kiosk_flutter/utils/fetch_json.dart';
-import 'package:kiosk_flutter/utils/post_data.dart';
 import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';

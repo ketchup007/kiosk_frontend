@@ -87,6 +87,7 @@ class ApiService {
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
 
+      print(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body)["id"];
       } else {

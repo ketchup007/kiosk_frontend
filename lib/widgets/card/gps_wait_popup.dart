@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kiosk_flutter/models/container_model.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
-import 'package:kiosk_flutter/utils/fetch_json.dart';
 import 'package:kiosk_flutter/utils/geolocation/location_service.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';

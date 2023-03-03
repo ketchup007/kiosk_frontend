@@ -12,11 +12,24 @@ import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/main.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:kiosk_flutter/utils/payment_sockets.dart';
+import 'package:kiosk_flutter/utils/read_json.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/country_model.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:kiosk_flutter/utils/payment_sockets.dart';
+import 'package:kiosk_flutter/utils/read_json.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/country_model.dart';
+
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/screens/sum_screen.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
-import 'package:kiosk_flutter/utils/fetch_json.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/widgets/card/summary_card.dart';
 
