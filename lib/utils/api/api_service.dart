@@ -566,12 +566,13 @@ class ApiService {
 
   Future<String?> paymentApplePayTokenOrder(
       int id, double totalAmount, String applePayToken) async {
+    print(applePayToken);
     print("tt1");
     try {
       final amount = totalAmount * 100;
 
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-      AndroidDeviceInfo andr = await deviceInfo.androidInfo;
+      IosDeviceInfo andr = await deviceInfo.iosInfo;
 
       var response = await http.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.payApplePay),
@@ -584,11 +585,11 @@ class ApiService {
             "customerIp": await gettingIP(),
             "totalAmount": amount.toStringAsFixed(0),
             "cardToken": applePayToken,
-            "fingerprint": andr.fingerprint,
+            "fingerprint": andr.identifierForVendor,
           }));
 
       print("Gpay Status: ${response.statusCode}");
-      log("Gpay response: ${response.body}");
+      debugPrint("Gpay response: ${response.body}");
       //print("${jsonDecode(response.body)}");
 
       if (response.statusCode == 200) {
@@ -597,6 +598,7 @@ class ApiService {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
       }
     } catch (e) {
+      print("In paymentCardOrder ${e.toString()}");
       log("In paymentCardOrder ${e.toString()}");
     }
     print("tt2");

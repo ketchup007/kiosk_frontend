@@ -55,17 +55,38 @@ class ApplePayScreenState extends State<ApplePayScreen> {
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.3),
                     onPaymentResult: (result) {
-                      print(result);
-                      var list = result.values.toList();
-                      print(list.length);
+                      print("------------------");
 
-                      for (int i = 0; i < list.length; i++) {
-                        print(i);
-                        print(list[i]);
-                      }
-                      var json = list[1];
+                      var temp = jsonDecode(result["token"]);
+                      print(temp["version"]);
+                      print(temp["data"]);
+                      print(temp["signature"]);
+                      print(temp["header"]);
+
+                      var headerData = {
+                        "ephemeralPublicKey": temp["header"]
+                            ["ephemeralPublicKey"],
+                        "publicKeyHash": temp["header"]["publicKeyHash"],
+                        "transactionId": temp["header"]["transactionId"]
+                      };
+
+                      var data = {
+                        'version': temp["version"],
+                        'data': temp["data"],
+                        'signature': temp["signature"],
+                        'header': jsonEncode(headerData)
+                      };
+
+                      var json = jsonEncode(data);
+
                       print(json);
+                      print("++++++++");
+                      print(result["token"]);
+
+                      print("------------------");
+
                       var value = base64.encode(utf8.encode(json));
+                      print("value");
                       print(value);
 
                       ApiService(token: provider.loginToken)
