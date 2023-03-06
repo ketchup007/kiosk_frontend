@@ -6,7 +6,6 @@ import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
-import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 //import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';

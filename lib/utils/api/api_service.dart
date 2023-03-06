@@ -14,12 +14,15 @@ import 'package:kiosk_flutter/utils/json_parser.dart';
 class ApiService {
   String token;
 
-  ApiService({required this.token});
+  ApiService({
+    required this.token,
+  });
 
-  Future<String?> getFromLink(String link) async {
+
+  Future<String?> getFromLink(String link, http.Client client) async {
     try {
       print("in Api Call $link");
-      var response = await http
+      var response = await client
           .get(Uri.parse(link), headers: {'Authorization': 'Bearer $token'});
 
       print("in Api Call 2 $link, ${response.statusCode}");
@@ -41,9 +44,9 @@ class ApiService {
   }
 
   //Get Data Section
-  Future<List<StorageModel>?> fetchStorage({String db = 'default'}) async {
+  Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default'}) async {
     try {
-      var response = await http.post(
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
@@ -60,10 +63,9 @@ class ApiService {
     return null;
   }
 
-  Future<List<StorageLimitsModel>?> fetchStorageLimits(
-      {String db = 'default'}) async {
+  Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client, {String db = 'default'}) async {
     try {
-      var response = await http.post(
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
@@ -80,9 +82,9 @@ class ApiService {
     return null;
   }
 
-  Future<int?> createFirstOrder({String db = 'default'}) async {
+  Future<int?> createFirstOrder(http.Client client, {String db = 'default'}) async {
     try {
-      var response = await http.post(
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
@@ -99,10 +101,10 @@ class ApiService {
     return null;
   }
 
-  Future<int?> fetchProductState(String product,
+  Future<int?> fetchProductState(http.Client client, String product,
       {String db = 'default'}) async {
     try {
-      var response = await http.post(
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl +
               ApiConstants.getProductStorageState(product)),
           headers: {'Authorization': 'Bearer $token'},
@@ -119,10 +121,10 @@ class ApiService {
     return null;
   }
 
-  Future<int?> fetchOrderNumber(int id, {String db = 'default'}) async {
+  Future<int?> fetchOrderNumber(http.Client client, int id, {String db = 'default'}) async {
     print("sms dudu dudy");
     try {
-      var response = await http.post(
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));

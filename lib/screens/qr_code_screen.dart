@@ -9,13 +9,13 @@ import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
-import 'package:kiosk_flutter/widgets/animations/first_screen_robot.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 //import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/container_model.dart';
 import '../providers/main_provider.dart';
@@ -77,7 +77,7 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
       print("1");
       if(loading){
         print("2");
-        future = ApiService(token: provider.loginToken).getFromLink(resultText).then((value) {
+        future = ApiService(token: provider.loginToken).getFromLink(resultText, http.Client()).then((value) {
           print(3);
           loading = false;
           return value;
