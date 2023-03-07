@@ -7,6 +7,7 @@ import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../themes/color.dart';
 
@@ -116,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       if(loginController.text.length >= _dropdownValue.minNumber){
                         print("login: ${_dropdownValue.dialCode} ${loginController.text}");
-                        ApiService(token: provider.loginToken).smsLogin(_dropdownValue.dialCode + loginController.text).then((value) {
+                        ApiService(token: provider.loginToken).smsLogin(http.Client(), _dropdownValue.dialCode + loginController.text).then((value) {
                           if (value == "SMS_SEND") {
                             provider.phoneNumber = _dropdownValue.dialCode + loginController.text;
                             Navigator.push(context, MaterialPageRoute(

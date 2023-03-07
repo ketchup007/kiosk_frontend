@@ -610,13 +610,15 @@ class ApiService {
 
   //Login
 
-  Future<String?> smsLogin(String phoneNumber) async {
+  Future<String?> smsLogin(http.Client client, String phoneNumber) async {
     try {
-      var response = await http.post(
+      print(phoneNumber);
+      var response = await client.post(
           Uri.parse(ApiConstants.baseUrl + ApiConstants.smsLogin),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({'phone_number': phoneNumber}));
 
+      print(response.body);
       if (response.statusCode == 200) {
         return jsonDecode(response.body)["status"];
       } else {
