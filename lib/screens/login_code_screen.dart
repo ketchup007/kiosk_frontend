@@ -8,6 +8,7 @@ import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../main.dart';
 import '../themes/color.dart';
 import '../utils/api/api_service.dart';
 
@@ -65,7 +66,8 @@ class _LoginCodeState extends State<LoginCodeScreen> {
                         foregroundColor: Colors.black),
                     onPressed: () {
                       print(codeController.text);
-                      ApiService(token: provider.loginToken).smsToken(provider.phoneNumber, codeController.text).then((value) {
+                      ApiService(token: provider.loginToken).smsToken(provider.phoneNumber, codeController.text, url: MyApp.of(context)!.url).then((value) {
+                        print("first check $value");
                         if(value != null){
                           provider.phoneNumberToken = value!;
                         }
@@ -78,9 +80,10 @@ class _LoginCodeState extends State<LoginCodeScreen> {
                             pref.setString("phone_number", provider.phoneNumber);
                             pref.setString("phone_number_token", provider.phoneNumberToken);
                           });
-                          ApiService(token: provider.loginToken).login(provider.phoneNumber, provider.phoneNumberToken).then( (value) {
+                          ApiService(token: provider.loginToken).login(provider.phoneNumber, provider.phoneNumberToken, url: MyApp.of(context)!.url).then( (value) {
+                            print("seccond check $value");
                             provider.loginToken = jsonDecode(value!)['token'];
-                            print(value);
+                            //print(value);
                             print(jsonDecode(value!)['token']);
                           } );
                           Navigator.push(context, MaterialPageRoute(

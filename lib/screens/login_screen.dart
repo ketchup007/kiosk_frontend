@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:http/testing.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/login_code_screen.dart';
@@ -9,6 +10,7 @@ import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
+import '../main.dart';
 import '../themes/color.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -117,7 +119,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       if(loginController.text.length >= _dropdownValue.minNumber){
                         print("login: ${_dropdownValue.dialCode} ${loginController.text}");
-                        ApiService(token: provider.loginToken).smsLogin(http.Client(), _dropdownValue.dialCode + loginController.text).then((value) {
+                        final apiProvider = ApiService(token: provider.loginToken);
+                        ApiService(token: provider.loginToken).smsLogin(_dropdownValue.dialCode + loginController.text, url: MyApp.of(context)!.url).then((value) {
                           if (value == "SMS_SEND") {
                             provider.phoneNumber = _dropdownValue.dialCode + loginController.text;
                             Navigator.push(context, MaterialPageRoute(

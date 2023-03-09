@@ -1,5 +1,5 @@
 class ApiConstants {
-  static String baseUrl = "https://mnctest.avena.pl";
+  static const String baseUrl = "https://mnctest.avena.pl";
 
   //Container Controller Endpoints
   static String getContainersList = "/api/containers/getList";

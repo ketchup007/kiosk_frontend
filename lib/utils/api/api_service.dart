@@ -13,6 +13,7 @@ import 'package:kiosk_flutter/utils/json_parser.dart';
 
 class ApiService {
   String token;
+  http.Client client = http.Client();
 
   ApiService({
     required this.token,
@@ -610,11 +611,11 @@ class ApiService {
 
   //Login
 
-  Future<String?> smsLogin(http.Client client, String phoneNumber) async {
+  Future<String?> smsLogin(String phoneNumber, {String url = ApiConstants.baseUrl}) async {
     try {
       print(phoneNumber);
       var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.smsLogin),
+          Uri.parse(url + ApiConstants.smsLogin),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({'phone_number': phoneNumber}));
 
@@ -630,14 +631,15 @@ class ApiService {
     return null;
   }
 
-  Future<String?> smsToken(String phoneNumber, String code) async {
+  Future<String?> smsToken(String phoneNumber, String code, {String url = ApiConstants.baseUrl}) async {
     try {
       print("${phoneNumber}, ${code}");
       var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getSmsToken),
+          Uri.parse(url + ApiConstants.getSmsToken),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({'phone_number': phoneNumber, 'code': code}));
 
+          print(response.body);
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)["status"] == "SUCCESS") {
           return jsonDecode(response.body)["token"];
@@ -653,10 +655,10 @@ class ApiService {
     return null;
   }
 
-  Future<String?> login(String phoneNumber, String token) async {
+  Future<String?> login(String phoneNumber, String token, {String url = ApiConstants.baseUrl}) async {
     try {
       var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.loginToken),
+          Uri.parse(url + ApiConstants.loginToken),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode(
               {'phone_number': phoneNumber, 'password_token': token}));
@@ -664,6 +666,7 @@ class ApiService {
       print(ApiConstants.baseUrl + "/api/login_check");
       print("number: $phoneNumber, token: $token");
 
+      print(response.body);
       if (response.statusCode == 200) {
         return response.body;
       } else {

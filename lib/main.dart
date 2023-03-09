@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/pathSelector.dart';
+import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-void main() {
+import 'package:http/http.dart' as http;
+
+void main({String url = ApiConstants.baseUrl}) {
   WidgetsFlutterBinding.ensureInitialized();
 
   Payu.environment = Environment.sandbox;
@@ -19,12 +22,15 @@ void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(ChangeNotifierProvider(
-        create: (context) => MainProvider(), child: const MyApp()));
+        create: (context) => MainProvider(), child: MyApp(url: url)));
   });
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final String url;
+
+  const MyApp({super.key,
+  required this.url});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -35,6 +41,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale _locale = const Locale.fromSubtags(languageCode: 'pl');
+  String url = '';
 
   void setLocale(Locale value) {
     setState(() {
@@ -44,6 +51,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    url = widget.url;
     return MaterialApp(
         locale: _locale,
         title: 'Munchies Kiosk',
