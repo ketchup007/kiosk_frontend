@@ -7,6 +7,7 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
@@ -60,6 +61,7 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
       controller!.pauseCamera();
       print(result!.code);
       resultText = result!.code!;
+      print(resultText);
       //controller!.resumeCamera();
       status = 1;
       controller!.stopCamera();
@@ -114,6 +116,16 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
                           borderWidth: 10,
                           cutOutSize: 250
                       ))),
+                MyApp.of(context)?.url == ApiConstants.baseUrl ? Container() :
+                  ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          resultText = "${MyApp.of(context)?.url}/api/containers/get/gujh1yNBfR";
+                          status = 1;
+                        });
+
+                      },
+                      child: Text("test button")),
                 status == 1 ? FutureBuilder(
                     future: future,
                     builder: (context, snapshot) {

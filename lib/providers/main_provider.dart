@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/order_model.dart';
 import 'package:kiosk_flutter/models/storage_model.dart';
@@ -99,13 +100,14 @@ class MainProvider extends ChangeNotifier {
     print(prefs.getString('test'));
   }
 
-  getStorageData() async {
+  getStorageData(context) async {
     if(loading != true && isDone != true) {
       loading = true;
-      storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb))!;
+      storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
       //storage = await fetchStorage();
       initMap();
-      await ApiService(token: loginToken).fetchStorageLimits(http.Client(), db: containerDb).then( (data) {
+      await ApiService(token: loginToken).fetchStorageLimits(http.Client(), db: containerDb, url: MyApp.of(context)!.url).then( (data) {
+        print(data?.length);
         for(int i = 0; i < data!.length; i++){
          limits[data[i].orderName] = data[i].quantity;
         }});

@@ -138,7 +138,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
-    provider.getStorageData();
+    provider.getStorageData(context);
     return Listener(
       onPointerDown: _resetTimer,
       child: Scaffold(

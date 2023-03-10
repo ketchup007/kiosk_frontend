@@ -45,10 +45,10 @@ class ApiService {
   }
 
   //Get Data Section
-  Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default'}) async {
+  Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
     try {
       var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getProducts),
+          Uri.parse(url + ApiConstants.getProducts),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
 
@@ -64,10 +64,10 @@ class ApiService {
     return null;
   }
 
-  Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client, {String db = 'default'}) async {
+  Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
     try {
       var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getStorageState),
+          Uri.parse(url + ApiConstants.getStorageState),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': db.toString()}));
 
