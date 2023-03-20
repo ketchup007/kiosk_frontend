@@ -79,9 +79,9 @@ class ApplePayScreenState extends State<ApplePayScreen> {
 
                       var json = jsonEncode(data);
 
+                      print("-------------------");
+                      print("json");
                       print(json);
-                      print("++++++++");
-                      print(result["token"]);
 
                       print("------------------");
 
