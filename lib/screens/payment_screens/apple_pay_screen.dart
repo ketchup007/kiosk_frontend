@@ -30,6 +30,8 @@ class ApplePayScreen extends StatefulWidget {
 
 class ApplePayScreenState extends State<ApplePayScreen> {
   late MainProvider provider;
+  bool warning = false;
+  String redirectUrl = '';
 
   @override
   Widget build(BuildContext context) {
@@ -49,77 +51,93 @@ class ApplePayScreenState extends State<ApplePayScreen> {
               Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: ApplePayButton(
-                    paymentConfiguration:
-                        PaymentConfiguration.fromJsonString(defaultApplePay),
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.3),
-                    onPaymentResult: (result) {
-                      print("------------------");
+                  child: !warning
+                      ? ApplePayButton(
+                          paymentConfiguration:
+                              PaymentConfiguration.fromJsonString(
+                                  defaultApplePay),
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.3),
+                          onPaymentResult: (result) {
+                            print("------------------");
 
-                      var temp = jsonDecode(result["token"]);
-                      print(temp["version"]);
-                      print(temp["data"]);
-                      print(temp["signature"]);
-                      print(temp["header"]);
+                            var temp = jsonDecode(result["token"]);
+                            print(temp["version"]);
+                            print(temp["data"]);
+                            print(temp["signature"]);
+                            print(temp["header"]);
 
-                      var headerData = {
-                        "ephemeralPublicKey": temp["header"]
-                            ["ephemeralPublicKey"],
-                        "publicKeyHash": temp["header"]["publicKeyHash"],
-                        "transactionId": temp["header"]["transactionId"]
-                      };
+                            var headerData = {
+                              "ephemeralPublicKey": temp["header"]
+                                  ["ephemeralPublicKey"],
+                              "publicKeyHash": temp["header"]["publicKeyHash"],
+                              "transactionId": temp["header"]["transactionId"]
+                            };
 
-                      var data = {
-                        'version': temp["version"],
-                        'data': temp["data"],
-                        'signature': temp["signature"],
-                        'header': jsonEncode(headerData)
-                      };
+                            var data = {
+                              'version': temp["version"],
+                              'data': temp["data"],
+                              'signature': temp["signature"],
+                              'header': headerData
+                            };
 
-                      var json = jsonEncode(data);
+                            var json = jsonEncode(data);
 
-                      print("-------------------");
-                      print("json");
-                      print(json);
+                            print("-------------------");
+                            print("json");
+                            print(json);
 
-                      print("------------------");
+                            print("------------------");
 
-                      var value = base64.encode(utf8.encode(json));
-                      print("value");
-                      print(value);
+                            var value = base64.encode(utf8.encode(json));
+                            print("value");
+                            print(value);
 
-                      ApiService(token: provider.loginToken)
-                          .paymentApplePayTokenOrder(
-                              widget.id, widget.amount, value)
-                          .then((result) {
-                        /*
-                        print(result);
-                        String statusCode = jsonDecode(result!)["status"];
+                            ApiService(token: provider.loginToken)
+                                .paymentApplePayTokenOrder(
+                                    widget.id, widget.amount, value)
+                                .then((result) {
+                              print(result);
+                              String statusCode =
+                                  jsonDecode(result!)["status"]["statusCode"];
 
-                        if (statusCode == "WARNING_CONTINUE_REDIRECT") {
-                        } else if (statusCode == "WARNING_CONTINUE_3DS") {
-                          _didTapHandleWarningContinue3DS(context,
-                              jsonDecode(result)["redirectUri"], widget.id);
-                        } else if (statusCode == "SUCCESS") {
-                        } else if (statusCode == "WARNING_CONTINUE_CVV") {}
-                        */
-                      });
-                    },
-                    style: ApplePayButtonStyle.black,
-                    type: ApplePayButtonType.buy,
-                    width: 200,
-                    height: 50,
-                    paymentItems: [
-                      PaymentItem(
-                          label: "total",
-                          amount: provider.sum.toString(),
-                          status: PaymentItemStatus.final_price)
-                    ],
-                    loadingIndicator: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )),
+                              if (statusCode == "WARNING_CONTINUE_REDIRECT") {
+                              } else if (statusCode == "WARNING_CONTINUE_3DS") {
+                                setState(() {
+                                  redirectUrl =
+                                      jsonDecode(result)["redirectUri"];
+                                  warning = true;
+                                });
+
+                                _didTapHandleWarningContinue3DS(
+                                    context,
+                                    jsonDecode(result)["redirectUri"],
+                                    widget.id);
+                              } else if (statusCode == "SUCCESS") {
+                              } else if (statusCode ==
+                                  "WARNING_CONTINUE_CVV") {}
+                            });
+                          },
+                          style: ApplePayButtonStyle.black,
+                          type: ApplePayButtonType.buy,
+                          width: 200,
+                          height: 50,
+                          paymentItems: [
+                            PaymentItem(
+                                label: "total",
+                                amount: provider.sum.toString(),
+                                status: PaymentItemStatus.final_price)
+                          ],
+                          loadingIndicator: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            _didTapHandleWarningContinue3DS(
+                                context, redirectUrl, widget.id);
+                          },
+                          child: Text(''))),
               Text('new')
             ])));
   }
