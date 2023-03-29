@@ -45,7 +45,7 @@ class _ProductListState extends State<ProductList> {
         itemCount: widget.storage.length,
         itemBuilder: (context, index) {
           provider.getLimit(widget.storage[index].orderName, widget.storage[index].number);
-          if(provider.limits[widget.storage[index].orderName]! == 0){
+          if(provider.limits[widget.storage[index].orderName]! <= 0){
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = false;
           } else if (widget.storage[index].number == 0) {
