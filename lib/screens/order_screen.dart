@@ -76,6 +76,8 @@ class _OrderScreenState extends State<OrderScreen> {
     timer2?.cancel();
     timer2 = Timer.periodic(const Duration(seconds: 5), (timers) {
       provider.getLimits();
+      provider.updateTimeToWait();
+      setState(() {});
     });
   }
 
@@ -158,34 +160,42 @@ class _OrderScreenState extends State<OrderScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      height: MediaQuery.of(context).size.height * 0.14,
-                      width: MediaQuery.of(context).size.width * 0.65,
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.09, MediaQuery.of(context).size.height * 0.03, 0, 0),
-                      child: GestureDetector(
-                        onTap: () { // Safe Space to test things
-                          if(MediaQuery.of(context).size.height < 1000){
-                            print("Yey you are on phone");
-                            print("height: ${MediaQuery.of(context).size.height}");
-                            print("width: ${MediaQuery.of(context).size.width}");
+                    Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          height: MediaQuery.of(context).size.height * 0.14,
+                          width: MediaQuery.of(context).size.width * 0.55,
+                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.06, MediaQuery.of(context).size.height * 0.03, 0, 0),
+                          child: GestureDetector(
+                            onTap: () { // Safe Space to test things
+                              if(MediaQuery.of(context).size.height < 1000){
+                                print("Yey you are on phone");
+                                print("height: ${MediaQuery.of(context).size.height}");
+                                print("width: ${MediaQuery.of(context).size.width}");
 
-                          }else {
-                            print("Yey you are on kiosk");
-                            print("height: ${MediaQuery.of(context).size.height}");
-                            print("width: ${MediaQuery.of(context).size.width}");
+                              }else {
+                                print("Yey you are on kiosk");
+                                print("height: ${MediaQuery.of(context).size.height}");
+                                print("width: ${MediaQuery.of(context).size.width}");
 
-                          }
+                              }
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const InfoScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const InfoScreen()));
 
-                        },
-                        child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
-                        alignment: Alignment.centerLeft,
-                        fit: BoxFit.fitWidth))),
+                            },
+                            child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
+                            alignment: Alignment.centerLeft,
+                            fit: BoxFit.fitWidth))),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text("Przewidywany czas oczekiwania: ${provider.timeToWait} min"),
+                        ),
+                      ],
+                    ),
                     Container(
                       alignment: Alignment.topRight,
                       child: Column(

@@ -1,0 +1,53 @@
+name: munchies-kiosk
+version: 0.1.0
+summary: Munchies Kiosk
+description: Munchies Kiosk App
+
+confinement: strict
+base: core18
+grade: stable
+
+slots:
+  munchies-kiosk-app: # adjust accordingly to your app name
+    interface: dbus
+    bus: session
+    name: pl.munchies # adjust accordingly to your app name and
+
+apps:
+  munchies-kiosk-app:
+    command: kiosk_frontend
+    extensions: [flutter-stable] # Where "master" defines which Flutter channel to use for the build
+    plugs:
+      - network
+      - desktop
+      - desktop-legacy
+      - x11
+      - wayland
+      - gsettings
+      - munchies-kiosk
+    slots:
+      - munchies-kiosk-app
+parts:
+  munchies-kiosk-app:
+    source: .
+    plugin: flutter
+    flutter-target: lib/main.dart # The main entry-point file of the application
+    override-pull: |
+      set -eux
+      rm -rf $SNAPCRAFT_PROJECT_DIR/build
+      snapcraftctl pull
+plugs:
+  desktop:
+    interface: desktop
+  desktop-legacy:
+    interface: desktop-legacy
+  x11:
+    interface: x11
+  wayland:
+    interface: wayland
+  gsettings:
+    interface: gsettings
+  munchies-kiosk:
+    interface: dbus
+    bus: session
+    name: pl.munchies

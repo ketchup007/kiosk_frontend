@@ -46,6 +46,15 @@ class MainProvider extends ChangeNotifier {
   List<CountryModel> countryList = [];
 
   String containerDb = 'default';
+  int timeToWait = 6;
+
+  updateTimeToWait() async {
+    int? newTime = await ApiService(token: loginToken).getTimeEst();
+
+    if(newTime != null){
+      timeToWait = newTime;
+    }
+  }
 
   saveCardTokens() async {
 

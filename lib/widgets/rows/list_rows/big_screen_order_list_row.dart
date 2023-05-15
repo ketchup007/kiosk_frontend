@@ -28,7 +28,7 @@ class BigScreenOrderListRow extends StatelessWidget{
                   MediaQuery.of(context).size.width * 0.01, 0, 0, 0),
               child: Container(
                   width: MediaQuery.of(context).size.width * 0.05,
-                  height: MediaQuery.of(context).size.width * 0.05,
+                  height: MediaQuery.of(context).size.width * 0.06,
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.mediumBlue),
@@ -47,13 +47,13 @@ class BigScreenOrderListRow extends StatelessWidget{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.025,
+                        height: MediaQuery.of(context).size.width * 0.03,
                         child: FittedBox(
                             alignment: Alignment.centerLeft,
                             child: Text(name,
                                 style: const TextStyle(
                                     fontFamily: 'GloryBold',
-                                    fontSize: 20)))),
+                                    fontSize: 25)))),
                     SizedBox(
                         height: MediaQuery.of(context).size.width * 0.025,
                         child: FittedBox(

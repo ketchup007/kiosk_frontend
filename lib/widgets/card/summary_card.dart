@@ -278,7 +278,7 @@ class SummaryCardState extends State<SummaryCard> {
                                     Container(
                                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
                                         child: SizedBox(
-                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.1,
+                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
                                             width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                             child: OutlinedButton(
                                                 onPressed: () {
@@ -309,7 +309,7 @@ class SummaryCardState extends State<SummaryCard> {
                                     Container(
                                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.05, 0, 0, 0),
                                         child: SizedBox(
-                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.1,
+                                            height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
                                             width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                             child: ElevatedButton(
                                                 onPressed: () {
