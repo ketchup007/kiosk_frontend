@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:just_audio/just_audio.dart';
 import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,7 +10,7 @@ import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 //import 'package:lottie/lottie.dart';
-import 'package:rive/rive.dart';
+//import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -24,6 +26,7 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
 
   void goToOrderPage(context){
+
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -50,6 +53,16 @@ class _StartScreenState extends State<StartScreen> {
                   fit: BoxFit.cover)),
           child: Column(
             children: [
+              ElevatedButton(onPressed: () async {
+                print("a");
+                final player = AudioPlayer();
+                await player.setAsset("assets/audio/moo.mp3");
+                print("set");
+                player.play();
+                //final player = AudioPlayer();
+                //player.play(AssetSource("assets/sounds/beep.mp3"));
+                print("b");
+              }, child: Text("test")),
               Center(
                   child: LanguageButtons(
                       ribbonHeight: MediaQuery.of(context).size.height * 0.1,
@@ -116,8 +129,9 @@ class _StartScreenState extends State<StartScreen> {
                   padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.03, 0),
                   alignment: Alignment.bottomRight,
                   height: MediaQuery.of(context).size.height * 0.22,
-                    child:const RiveAnimation.asset('assets/animations/robot1.riv',
-                      fit: BoxFit.fitHeight,
-                      alignment: Alignment.bottomRight)))])));
+                    child:const Text("heh") //RiveAnimation.asset('assets/animations/robot1.riv',
+                      //fit: BoxFit.fitHeight,
+                      //alignment: Alignment.bottomRight)
+                ))])));
       }
 }

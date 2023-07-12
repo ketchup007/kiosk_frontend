@@ -44,7 +44,7 @@ dependencies:
   flutter_svg_provider: ^1.0.3
   web_socket_channel: ^2.2.0
   #lottie: ^1.4.3
-  rive: ^0.9.1
+  #rive: ^0.9.1
   auto_size_text: ^3.0.0
   auto_size_text_field: ^2.1.0
   geolocator: ^9.0.2
@@ -64,11 +64,16 @@ dependencies:
   cached_network_image: ^3.2.3
   pay: ^1.1.0
   mock_web_server: ^5.0.0-nullsafety.1
+  xdg_desktop_portal: ^0.1.12
+  window_manager: ^0.3.4
+  just_audio: ^0.9.34
+  just_audio_mpv: ^0.1.6
 
   payu:
     git:
       url: https://github.com/PayU-EMEA/PayU-Flutter.git
       path: payu
+
 
 dependency_overrides:
    intl: ^0.17.0
@@ -135,6 +140,8 @@ flutter:
     - assets/images/payULogos/payULogoLime.png
     - assets/images/payULogos/payULogoWhite.png
     - assets/Regulamin.pdf
+    - assets/sounds/beep.mp3
+    - assets/audio/
 
 
   fonts:

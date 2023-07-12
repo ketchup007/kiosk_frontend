@@ -11,7 +11,7 @@ slots:
   munchies-kiosk-app: # adjust accordingly to your app name
     interface: dbus
     bus: session
-    name: pl.munchies # adjust accordingly to your app name and
+    name: pl.munchies.MunchiesKioskApp # adjust accordingly to your app name and
 
 apps:
   munchies-kiosk-app:
@@ -24,10 +24,20 @@ apps:
       - x11
       - wayland
       - gsettings
+      - unity7
       - munchies-kiosk
+      - audio-playback
+      - audio-record
+      - pulseaudio
+      - alsa
     slots:
       - munchies-kiosk-app
 parts:
+  mpv:
+    plugin: nil
+    stage-packages:
+      - mpv
+
   munchies-kiosk-app:
     source: .
     plugin: flutter
@@ -51,3 +61,5 @@ plugs:
     interface: dbus
     bus: session
     name: pl.munchies
+  audio-playback:
+    interface: audio-playback

@@ -8,9 +8,42 @@ import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:window_manager/window_manager.dart';
 
-void main({String url = ApiConstants.baseUrl}) {
+void main({String url = ApiConstants.baseUrl}) async {
   WidgetsFlutterBinding.ensureInitialized();
+
+ /* await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = const WindowOptions(
+    size: Size(800, 1600),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.hidden,
+    windowButtonVisibility: true,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+   // await windowManager.setMovable(true);
+    await windowManager.show();
+    await windowManager.focus();
+    Rect rect = await windowManager.getBounds();
+    print(rect);
+    Offset pos = await windowManager.getPosition();
+    print(pos);
+    await windowManager.setPosition(Offset(100, 0));
+    pos = await windowManager.getPosition();
+    print(pos);
+    await windowManager.setPosition(Offset(-23300, 2560));
+    pos = await windowManager.getPosition();
+    print(pos);
+  });
+
+
+  */
+
+
+
 
   Payu.environment = Environment.sandbox;
   Payu.debug = true;

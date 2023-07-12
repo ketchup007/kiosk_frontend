@@ -4,7 +4,7 @@ import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
 import 'package:provider/provider.dart';
-import 'package:rive/rive.dart';
+//import 'package:rive/rive.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

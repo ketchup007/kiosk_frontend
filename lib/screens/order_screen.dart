@@ -40,7 +40,7 @@ import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
 
 import 'dart:async';
 import 'package:async/async.dart';
-import 'package:rive/rive.dart';
+//import 'package:rive/rive.dart';
 
 import 'package:geolocator/geolocator.dart';
 
@@ -223,9 +223,10 @@ class _OrderScreenState extends State<OrderScreen> {
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
                   child:  SizedBox(
                     height: MediaQuery.of(context).size.height * 0.11,
-                    child: const RiveAnimation.asset(
-                      'assets/animations/newBody.riv',
-                      alignment: Alignment.bottomRight,))),
+                    child: const Text("tu powinna być animacja")//RiveAnimation.asset(
+                    //  'assets/animations/newBody.riv',//Ri
+                  //    alignment: Alignment.bottomRight,)
+                  )),
                 Container(
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),
                   child: Row(
@@ -319,9 +320,10 @@ class _OrderScreenState extends State<OrderScreen> {
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123, MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.11,
-                              child: const RiveAnimation.asset(
-                                'assets/animations/newArms.riv',
-                                alignment: Alignment.bottomRight))),
+                              child: const Text("tu powinna być animacja")//RiveAnimation.asset(
+                            //    'assets/animations/newArms.riv',
+                          //      alignment: Alignment.bottomRight)
+                          )),
 //------------------------------------------------------------------------------
 //Sekcja stopki
 //------------------------------------------------------------------------------

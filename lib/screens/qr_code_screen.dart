@@ -14,7 +14,7 @@ import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 //import 'package:lottie/lottie.dart';
-import 'package:rive/rive.dart';
+//import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:http/http.dart' as http;
 
