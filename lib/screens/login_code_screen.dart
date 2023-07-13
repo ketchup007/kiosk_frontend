@@ -65,9 +65,9 @@ class _LoginCodeState extends State<LoginCodeScreen> {
                         backgroundColor: AppColors.green,
                         foregroundColor: Colors.black),
                     onPressed: () {
-                      print(codeController.text);
+                      // print(codeController.text);
                       ApiService(token: provider.loginToken).smsToken(provider.phoneNumber, codeController.text, url: MyApp.of(context)!.url).then((value) {
-                        print("first check $value");
+                        // print("first check $value");
                         if(value != null){
                           provider.phoneNumberToken = value!;
                         }

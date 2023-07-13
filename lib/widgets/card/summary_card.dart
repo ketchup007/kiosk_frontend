@@ -120,10 +120,14 @@ class SummaryCardState extends State<SummaryCard> {
                               },
                               onPress: (isPromotionChecked) {
                                 widget.onPopUpFinish();
-                                provider.setOrderClientNumber(provider.order.client_name, isPromotionChecked);
+                                if(isPromotionChecked) {
+                                  provider.setOrderClientNumber(provider.order.client_name, 1);
+                                }
+                                else {
+                                  provider.setOrderClientNumber(provider.order.client_name, 0);
+                                }
                                 provider.changeOrderStatus(1);
                                 print("done");
-
                                 if(MediaQuery.of(context).size.height > 1000){
                                   setState(() {
                                     _paymentState = 1;
@@ -254,7 +258,7 @@ class SummaryCardState extends State<SummaryCard> {
                                             fontFamily: 'GloryMedium')))))]);
                       } else {
                         _timerStart();
-                        provider.changeOrderStatus(5);
+                        provider.changeOrderStatus(254);
                         return Column(
                           children: [
                             SizedBox(
