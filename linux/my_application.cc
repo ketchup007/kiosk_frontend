@@ -48,7 +48,7 @@ static void my_application_activate(GApplication* application) {
   }
 
 
-  gtk_window_set_default_size(window, 800, 1600);
+  gtk_window_set_default_size(window, 1080, 1920);
   gtk_window_set_position(window, GTK_WIN_POS_CENTER);
 
 //gtk_window_move (window, 30000, 0);
