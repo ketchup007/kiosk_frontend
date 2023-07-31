@@ -7,7 +7,7 @@ class StorageModel{
   final String image;
   final double price;
   final int type;
-  int quantity;
+  // int quantity;
   int number;
 
   StorageModel({
@@ -19,7 +19,7 @@ class StorageModel{
     required this.image,
     required this.price,
     required this.type,
-    required this.quantity,
+    // required this.quantity,
     required this.number
   });
 
@@ -34,7 +34,7 @@ class StorageModel{
       image: json['image'] as String,
       price: json['price'] as double,
       type: json['type'] as int,
-      quantity: json['quantity'] as int,
+      // quantity: json['quantity'] as int,
       number: 0
     );
   }

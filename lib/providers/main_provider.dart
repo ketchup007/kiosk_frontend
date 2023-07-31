@@ -40,6 +40,7 @@ class MainProvider extends ChangeNotifier {
   String phoneNumberToken = "";
   String loginToken = "";
 
+  double sum_temp=0.1;
   double sum = 0.0;
   OrderModel order = OrderModel.resetModel();
   String language = 'pl';
@@ -114,8 +115,8 @@ class MainProvider extends ChangeNotifier {
       loading = true;
       storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
       //storage = await fetchStorage();
-      initMap();
-      await ApiService(token: loginToken).fetchStorageLimits(http.Client(), db: containerDb, url: MyApp.of(context)!.url).then( (data) {
+      // initMap();
+      await ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
         print(data?.length);
         for(int i = 0; i < data!.length; i++){
          limits[data[i].orderName] = data[i].quantity;
@@ -136,11 +137,11 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  initMap(){
-    for(int i = 0; i< storage.length; i++){
-      limits.addAll({storage[i].orderName: storage[i].quantity});
-    }
-  }
+  // initMap(){
+  //   for(int i = 0; i< storage.length; i++){
+  //     limits.addAll({storage[i].orderName: 0});
+  //   }
+  // }
 
   changeToPizza(){
     storageCurrent = storagePizza;
@@ -223,35 +224,36 @@ class MainProvider extends ChangeNotifier {
       }}}
 
   getFirstOrder(String orderName, int value) async {
-    order.id = (await ApiService(token: loginToken).createFirstOrder(http.Client(), db: containerDb))!;
+    order.id = (await ApiService(token: loginToken).createFirstOrder(http.Client()))!;
     //order.id = await createFirstOrder();
-    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value, db: containerDb);
+    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
     //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrder(String orderName, int value) async {
-    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value, db: containerDb);
+    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
     //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrderStatus(int value) async{
-    ApiService(token: loginToken).changeOrderProduct(order.id, "status", value, db: containerDb);
+    print("zmieniam status");
+    ApiService(token: loginToken).changeOrderProduct(order.id, "status", value);
     //changeOrderProduct(order.id, "status", value);
   }
 
-  changOrderName(String value) async {
-    ApiService(token: loginToken).changeOrderName(order.id, value, db: containerDb);
-    //changeOrderName(order.id, value);
-  }
+  // changOrderName(String value) async {
+  //   ApiService(token: loginToken).changeOrderName(order.id, value);
+  //   //changeOrderName(order.id, value);
+  // }
 
-  setOrderClientNumber(String number, bool promoPermission) async {
-    ApiService(token: loginToken).setClientNumber(order.id, number, promoPermission, db: containerDb);
+  setOrderClientNumber(String number, int promoPermission) async {
+    ApiService(token: loginToken).setClientNumber(order.id, number, promoPermission);
     //setClientNumber(order.id, number, promoPermission);
   }
 
   Future<int> getOrderNumber() async{
     print("from privider du du du du");
-    return (await ApiService(token: loginToken).fetchOrderNumber(http.Client(), order.id, db: containerDb))!;
+    return (await ApiService(token: loginToken).fetchOrderNumber(http.Client(), order.id))!;
     //return await fetchOrderNumber(order.id);
   }
 
@@ -269,8 +271,9 @@ class MainProvider extends ChangeNotifier {
   }
 
   getLimit(String product, int number){
-    ApiService(token: loginToken).fetchProductState(http.Client(), product, db: containerDb).then((data){
-      limits[product] = data! + number;
+    ApiService(token: loginToken).fetchProductState(http.Client(), product).then((data){
+      limits[product] = data!;
+      print("getlimit: ${limits}");
     });
     /*
     fetchProductState(product).then((data){
@@ -281,7 +284,7 @@ class MainProvider extends ChangeNotifier {
 
   getLimits(){
     //print("tick");
-    ApiService(token: loginToken).fetchStorageLimits(http.Client(), db: containerDb).then( (data) {
+    ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
       for(int i = 0; i < data!.length; i++){
         limits[data[i].orderName] = data[i].quantity;
       }});

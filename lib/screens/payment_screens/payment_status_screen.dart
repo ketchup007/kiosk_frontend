@@ -47,7 +47,7 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
           }else if(value == "CANCELED"){
             setState(() {
               status = 3;
-              provider.changeOrderStatus(5);
+              provider.changeOrderStatus(254);
             })
           }
         });

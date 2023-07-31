@@ -21,14 +21,14 @@ class ApiService {
 
   Future<int?> getTimeEst() async {
     try {
-      print("in Api Call time est");
+      // print("in Api Call time est");
       var response = await client
           .get(Uri.parse(ApiConstants.baseUrl + "/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
 
-      print("in Api Call 2 time est${response.statusCode}");
+      // print("in Api Call 2 time est${response.statusCode}");
 
       if (response.statusCode == 200) {
-        print("in Api Call 3 ${response.body}");
+        // print("in Api Call 3 ${response.body}");
         String? output = response.body;
         return jsonDecode(response.body)["time"];
       }
@@ -71,7 +71,7 @@ class ApiService {
           body: jsonEncode(<String, String>{'db': db.toString()}));
 
       if (response.statusCode == 200) {
-        print(response.body);
+        // print(response.body);
         return compute(JsonParser().parseStorage, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
@@ -82,12 +82,11 @@ class ApiService {
     return null;
   }
 
-  Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
+  Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client) async {
     try {
-      var response = await client.post(
-          Uri.parse(url + ApiConstants.getStorageState),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode(<String, String>{'db': db.toString()}));
+      var response = await client.get(
+          Uri.parse(ApiConstants.localUrl + ApiConstants.getStorageState),
+      );
 
       if (response.statusCode == 200) {
         print(response.body);
@@ -101,15 +100,15 @@ class ApiService {
     return null;
   }
 
-  Future<int?> createFirstOrder(http.Client client, {String db = 'default'}) async {
+  Future<int?> createFirstOrder(http.Client client) async {
     try {
       var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode(<String, String>{'db': db.toString()}));
+          Uri.parse(ApiConstants.localUrl + ApiConstants.order),
+          // headers: {'Authorization': 'Bearer $token'},
+          );
 
       print(response.body);
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return jsonDecode(response.body)["id"];
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');
@@ -121,13 +120,12 @@ class ApiService {
   }
 
   Future<int?> fetchProductState(http.Client client, String product,
-      {String db = 'default'}) async {
+      ) async {
     try {
-      var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl +
+      var response = await client.get(
+          Uri.parse(ApiConstants.localUrl +
               ApiConstants.getProductStorageState(product)),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode(<String, String>{'db': db.toString()}));
+      );
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)["quantity"];
@@ -140,13 +138,12 @@ class ApiService {
     return null;
   }
 
-  Future<int?> fetchOrderNumber(http.Client client, int id, {String db = 'default'}) async {
+  Future<int?> fetchOrderNumber(http.Client client, int id) async {
     print("sms dudu dudy");
     try {
-      var response = await client.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(id)),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode(<String, String>{'db': db.toString()}));
+      var response = await client.patch(
+          Uri.parse(ApiConstants.localUrl + ApiConstants.setOrderNumber(id)),
+      );
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['order_number'];
@@ -166,7 +163,7 @@ class ApiService {
           headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
-        print(response.body);
+        // print(response.body);
         return compute(JsonParser().parseContainers, response.body);
       } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
@@ -218,7 +215,7 @@ class ApiService {
           Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)),
           headers: {'Authorization': 'Bearer $token'});
 
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         return response.body;
       } else {
@@ -236,7 +233,7 @@ class ApiService {
           Uri.parse(ApiConstants.baseUrl + ApiConstants.orderStatus(id)),
           headers: {'Authorization': 'Bearer $token'});
 
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         return response.body;
       } else {
@@ -318,19 +315,16 @@ class ApiService {
 
   //Post Data Section
   Future<int?> changeOrderProduct(int id, String orderName, int value,
-      {String db = 'default'}) async {
+      ) async {
     try {
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
+      var response = await http.put(
+          Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrder(id)),
           headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer $token'
           },
           body: jsonEncode(<String, String>{
-            'id': id.toString(),
-            'order_name': orderName,
-            'value': value.toString(),
-            'db': db.toString()
+            orderName: value.toString(),
           }));
 
       if (response.statusCode == 200) {
@@ -344,47 +338,42 @@ class ApiService {
     return null;
   }
 
-  Future<int?> changeOrderName(int id, String value,
-      {String db = 'default'}) async {
+  // Future<int?> changeOrderName(int id, String value,
+  //     ) async {
+  //   try {
+  //     var response = await http.put(
+  //         Uri.parse("${ApiConstants.localUrl}${ApiConstants.order}/$id"),
+  //         headers: <String, String>{
+  //           'Content-Type': 'application/json'
+  //           // 'Authorization': 'Bearer $token'
+  //         },
+  //         body: jsonEncode(<String, String>{
+  //           'client_name': value,
+  //         }));
+  //
+  //     if (response.statusCode == 200) {
+  //       return jsonDecode(response.body)['accepted'];
+  //     } else {
+  //       throw Exception('failed to post - StatusCode ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     log("In changeOrderName ${e.toString()}");
+  //   }
+  //   return null;
+  // }
+
+  Future<int?> setClientNumber(int id, String number, int promoPermission,
+      ) async {
     try {
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.updateOrder),
+      var response = await http.put(
+          Uri.parse(ApiConstants.localUrl + ApiConstants.setClientNumber(id)),
           headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer $token'
           },
           body: jsonEncode(<String, String>{
-            'id': id.toString(),
-            'order_name': 'client_name',
-            'value': value,
-            'db': db.toString()
-          }));
-
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body)['accepted'];
-      } else {
-        throw Exception('failed to post - StatusCode ${response.statusCode}');
-      }
-    } catch (e) {
-      log("In changeOrderName ${e.toString()}");
-    }
-    return null;
-  }
-
-  Future<int?> setClientNumber(int id, String number, bool promoPermission,
-      {String db = 'default'}) async {
-    try {
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.setClientNumber),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode(<String, String>{
-            "id": id.toString(),
-            "client_number": number,
+            "client_name": number,
             "promo_permission": promoPermission.toString(),
-            'db': db.toString()
           }));
 
       if (response.statusCode == 200) {

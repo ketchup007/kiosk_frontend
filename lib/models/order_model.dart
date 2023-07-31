@@ -10,16 +10,16 @@ class OrderModel{
   int product_7;
   int product_8;
   int product_9;
-  int drink_1;
-  int drink_2;
-  int drink_3;
-  int drink_4;
-  int drink_5;
-  int drink_6;
-  int sauce_1;
-  int sauce_2;
-  int box;
-  int bag;
+  int product_10;
+  int product_11;
+  int product_12;
+  int product_13;
+  int product_14;
+  int product_15;
+  int product_16;
+  int product_17;
+  int product_18;
+  int product_19;
   int status;
   String client_name;
   bool promotion_permision = false;
@@ -36,16 +36,16 @@ class OrderModel{
     required this.product_7,
     required this.product_8,
     required this.product_9,
-    required this.drink_1,
-    required this.drink_2,
-    required this.drink_3,
-    required this.drink_4,
-    required this.drink_5,
-    required this.drink_6,
-    required this.sauce_1,
-    required this.sauce_2,
-    required this.box,
-    required this.bag,
+    required this.product_10,
+    required this.product_11,
+    required this.product_12,
+    required this.product_13,
+    required this.product_14,
+    required this.product_15,
+    required this.product_16,
+    required this.product_17,
+    required this.product_18,
+    required this.product_19,
     required this.status,
     required this.client_name
   });
@@ -64,16 +64,16 @@ class OrderModel{
       product_7: 0,
       product_8: 0,
       product_9: 0,
-      drink_1: 0,
-      drink_2: 0,
-      drink_3: 0,
-      drink_4: 0,
-      drink_5: 0,
-      drink_6: 0,
-      sauce_1: 0,
-      sauce_2: 0,
-      box: 0,
-      bag: 0,
+      product_10: 0,
+      product_11: 0,
+      product_12: 0,
+      product_13: 0,
+      product_14: 0,
+      product_15: 0,
+      product_16: 0,
+      product_17: 0,
+      product_18: 0,
+      product_19: 0,
       status: 0,
       client_name: '',
     );
@@ -92,16 +92,16 @@ class OrderModel{
       product_7: 0,
       product_8: 0,
       product_9: 0,
-      drink_1: 0,
-      drink_2: 0,
-      drink_3: 0,
-      drink_4: 0,
-      drink_5: 0,
-      drink_6: 0,
-      sauce_1: 0,
-      sauce_2: 0,
-      box: 0,
-      bag: 0,
+      product_10: 0,
+      product_11: 0,
+      product_12: 0,
+      product_13: 0,
+      product_14: 0,
+      product_15: 0,
+      product_16: 0,
+      product_17: 0,
+      product_18: 0,
+      product_19: 0,
       status: 0,
       client_name: '',
     );

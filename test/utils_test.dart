@@ -10,9 +10,6 @@ import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
-import 'package:kiosk_flutter/models/country_model.dart';
-import 'package:kiosk_flutter/utils/read_json.dart';
-
 import 'utils_test.mocks.dart';
 
 @GenerateMocks([http.Client])
@@ -69,7 +66,7 @@ void main() {
 
       when(client
         .post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.createOrder),
+          Uri.parse(ApiConstants.baseUrl + ApiConstants.order),
           headers: {'Authorization': 'Bearer $token'},
           body: jsonEncode(<String, String>{'db': 'default'})))
       .thenAnswer((_) async =>
@@ -98,10 +95,9 @@ void main() {
       String token = "AFAIFHAUIuinaifis1243";
 
       when(
-        client.post(
-            Uri.parse(ApiConstants.baseUrl + ApiConstants.sendSms(5)),
-            headers: {'Authorization': 'Bearer $token'},
-            body: jsonEncode(<String, String>{'db': 'default'})))
+        client.patch(
+            Uri.parse(ApiConstants.localUrl + ApiConstants.setOrderNumber(5)),
+        ))
         .thenAnswer((_) async =>
           http.Response('{"order_number":9}', 200));
 

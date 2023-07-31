@@ -35,7 +35,7 @@ class _StartScreenState extends State<StartScreen> {
 
   test() async {
     var file = await DefaultCacheManager().getFileFromCache(ApiConstants.baseUrl + '/assets/margherita.png');
-    print(file?.file);
+    // print(file?.file);
   }
   @override
   Widget build(BuildContext context) {
