@@ -1,48 +1,22 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
-import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/info_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
-import 'package:kiosk_flutter/utils/geolocation/location_service.dart';
 import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
-import 'package:kiosk_flutter/main.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:kiosk_flutter/utils/payment_sockets.dart';
-import 'package:kiosk_flutter/utils/read_json.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/country_model.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:kiosk_flutter/utils/payment_sockets.dart';
-import 'package:kiosk_flutter/utils/read_json.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../models/country_model.dart';
-
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
-import 'package:kiosk_flutter/screens/sum_screen.dart';
-import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/widgets/card/summary_card.dart';
 
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
-import 'package:kiosk_flutter/themes/color.dart';
 
 import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
 
 import 'dart:async';
 import 'package:async/async.dart';
-//import 'package:rive/rive.dart';
-
-import 'package:geolocator/geolocator.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -68,7 +42,6 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void dispose(){
     super.dispose();
-    //print("dispose");
     timer?.cancel();
   }
 
@@ -93,19 +66,16 @@ class _OrderScreenState extends State<OrderScreen> {
     final check = timer?.isActive;
     if(check!) {
       if (check) {
-        //print("reset");
         timer?.reset();
       }
     }
   }
 
   void _timerStart(){
-    //print("start");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 10),
             () {
-          //print('Done');
           _periodicTimerStop();
           provider.orderCancel();
           provider.changeToPizza();
@@ -117,12 +87,10 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _startTimerLong(){
-    //print("start Long");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 30),
             () {
-              //print('Done long');
               provider.orderCancel();
               provider.changeToPizza();
               Navigator.push(
@@ -132,9 +100,7 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   void _timerStop(){
-    //print("stop");
     timer?.cancel();
-    //print("czy się zatrzymał ${timer?.isActive}");
   }
 
   @override
@@ -171,14 +137,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             onTap: () { // Safe Space to test things
                               if(MediaQuery.of(context).size.height < 1000){
                                 // print("Yey you are on phone");
-                                // print("height: ${MediaQuery.of(context).size.height}");
-                                // print("width: ${MediaQuery.of(context).size.width}");
 
                               }else {
                                 // print("Yey you are on kiosk");
-                                // print("height: ${MediaQuery.of(context).size.height}");
-                                // print("width: ${MediaQuery.of(context).size.width}");
-
                               }
 
                               Navigator.push(
@@ -439,9 +400,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                                             },
                                                           );
                                                         });
-                                                  }
-                                                }
-                                              },
+                                                  }}},
                                               style: ButtonStyle(
                                                 foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
                                                 backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
@@ -469,11 +428,9 @@ class _OrderScreenState extends State<OrderScreen> {
                             width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.9 : MediaQuery.of(context).size.width * 0.91,
                             child: _cardState == 4 ? SummaryCard(
                               onInteraction: () {
-                                //print('reset pass');
                                 timer?.reset();
                               },
                               onPopUpFinish: () {
-                                //print("onPayment stop");
                                 _timerStop();
                               }) :
                               Card(

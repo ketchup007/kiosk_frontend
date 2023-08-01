@@ -1,7 +1,7 @@
 class ApiConstants {
   static const String baseUrl = "https://mnctest.avena.pl";
 
-  static const String localUrl = "http://127.0.0.1:8000";
+  static const String localUrl = "http://10.3.15.11:8000";
 
   //Container Controller Endpoints
   static String getContainersList = "/api/containers/getList";
@@ -10,7 +10,7 @@ class ApiConstants {
   static String order = "/kiosk/order";
   static String updateOrder (int id) => "/kiosk/order/$id";
   static String setClientNumber (int id) => "/kiosk/order/$id/client_phone";
-  static String setOrderNumber(int id) => "/kiosk/order//$id/order_number";
+  static String setOrderNumber(int id) => "/kiosk/order/$id/order_number";
   //static String setClientName(int id) => "/api/orders/setClientName/$id";
 
   //Payment Controller Endpoints

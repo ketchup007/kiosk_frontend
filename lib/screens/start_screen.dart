@@ -1,16 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
 import 'package:just_audio/just_audio.dart';
-import 'package:kiosk_flutter/main.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
-//import 'package:lottie/lottie.dart';
-//import 'package:rive/rive.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -34,14 +30,10 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   test() async {
-    var file = await DefaultCacheManager().getFileFromCache(ApiConstants.baseUrl + '/assets/margherita.png');
-    // print(file?.file);
+    var file = await DefaultCacheManager().getFileFromCache('${ApiConstants.baseUrl}/assets/margherita.png');
   }
   @override
   Widget build(BuildContext context) {
-    //print("Size: Width - ${MediaQuery.of(context).size.width}, Height - ${MediaQuery.of(context).size.height}");
-    //print("Screen Density: ${MediaQuery.of(context).devicePixelRatio}");
-   // test();
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: null,
@@ -54,14 +46,9 @@ class _StartScreenState extends State<StartScreen> {
           child: Column(
             children: [
               ElevatedButton(onPressed: () async {
-                print("a");
                 final player = AudioPlayer();
                 await player.setAsset("assets/audio/moo.mp3");
-                print("set");
                 player.play();
-                //final player = AudioPlayer();
-                //player.play(AssetSource("assets/sounds/beep.mp3"));
-                print("b");
               }, child: Text("test")),
               Center(
                   child: LanguageButtons(
@@ -82,17 +69,6 @@ class _StartScreenState extends State<StartScreen> {
                             foregroundColor: Colors.black),
                           onPressed: () {
                             if(MediaQuery.of(context).size.height < 1000){
-                              /*
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return GpsWaitPopup(
-                                      onPress: () {
-                                        goToOrderPage(context);
-                                      },
-                                    );
-                                  });
-                               */
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

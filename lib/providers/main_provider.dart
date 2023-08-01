@@ -114,20 +114,11 @@ class MainProvider extends ChangeNotifier {
     if(loading != true && isDone != true) {
       loading = true;
       storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
-      //storage = await fetchStorage();
-      // initMap();
       await ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
-        print(data?.length);
+        print("Storage State data length: ${data?.length}");
         for(int i = 0; i < data!.length; i++){
          limits[data[i].orderName] = data[i].quantity;
         }});
-      /*
-      await fetchStorageLimits().then( (data) {
-        for(int i = 0; i < data.length; i++){
-          limits[data[i].orderName] = data[i].quantity;
-        }});
-
-       */
       breakStorage();
       storageCurrent = storagePizza;
       loading = false;
@@ -136,12 +127,6 @@ class MainProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  // initMap(){
-  //   for(int i = 0; i< storage.length; i++){
-  //     limits.addAll({storage[i].orderName: 0});
-  //   }
-  // }
 
   changeToPizza(){
     storageCurrent = storagePizza;
@@ -232,29 +217,21 @@ class MainProvider extends ChangeNotifier {
 
   changeOrder(String orderName, int value) async {
     ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
-    //changeOrderProduct(order.id, orderName, value);
   }
 
   changeOrderStatus(int value) async{
     print("zmieniam status");
     ApiService(token: loginToken).changeOrderProduct(order.id, "status", value);
-    //changeOrderProduct(order.id, "status", value);
   }
 
-  // changOrderName(String value) async {
-  //   ApiService(token: loginToken).changeOrderName(order.id, value);
-  //   //changeOrderName(order.id, value);
-  // }
 
   setOrderClientNumber(String number, int promoPermission) async {
     ApiService(token: loginToken).setClientNumber(order.id, number, promoPermission);
-    //setClientNumber(order.id, number, promoPermission);
   }
 
   Future<int> getOrderNumber() async{
     print("from privider du du du du");
     return (await ApiService(token: loginToken).fetchOrderNumber(http.Client(), order.id))!;
-    //return await fetchOrderNumber(order.id);
   }
 
   Future<int> testRoute() async{
@@ -275,31 +252,18 @@ class MainProvider extends ChangeNotifier {
       limits[product] = data!;
       print("getlimit: ${limits}");
     });
-    /*
-    fetchProductState(product).then((data){
-      limits[product] = data + number;
-    });
-     */
   }
 
   getLimits(){
-    //print("tick");
     ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
       for(int i = 0; i < data!.length; i++){
         limits[data[i].orderName] = data[i].quantity;
       }});
-    /*
-    fetchStorageLimits().then( (data) {
-      for(int i = 0; i < data.length; i++){
-        limits[data[i].orderName] = data[i].quantity;
-      }});
-
-     */
   }
 
 
   orderCancel() {
-    changeOrder("status", 5);
+    changeOrder("status", 254);
     order = OrderModel.resetModel();
     for(int i = 0; i < storage.length; i++){
       storage[i].number = 0;

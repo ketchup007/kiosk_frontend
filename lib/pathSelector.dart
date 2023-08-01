@@ -9,9 +9,9 @@ class PathSelector extends StatelessWidget{
   Widget build(BuildContext context) {
 
     if(MediaQuery.of(context).size.height > 1000){ //KIOSK
-      return StartScreen();
+      return const StartScreen();
     }else { //MOBLIE
-      return MobileStartScreen();
+      return const MobileStartScreen();
     }
   }
 

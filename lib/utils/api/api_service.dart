@@ -316,6 +316,8 @@ class ApiService {
   //Post Data Section
   Future<int?> changeOrderProduct(int id, String orderName, int value,
       ) async {
+    print(orderName);
+    print(value);
     try {
       var response = await http.put(
           Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrder(id)),
@@ -372,8 +374,8 @@ class ApiService {
             // 'Authorization': 'Bearer $token'
           },
           body: jsonEncode(<String, String>{
-            "client_name": number,
-            "promo_permission": promoPermission.toString(),
+            "client_name": "${number}",
+            "promo_permission": promoPermission.toString()
           }));
 
       if (response.statusCode == 200) {

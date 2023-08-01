@@ -120,6 +120,7 @@ class SummaryCardState extends State<SummaryCard> {
                               },
                               onPress: (isPromotionChecked) {
                                 widget.onPopUpFinish();
+                                print("pop");
                                 if(isPromotionChecked) {
                                   provider.setOrderClientNumber(provider.order.client_name, 1);
                                 }
@@ -190,7 +191,7 @@ class SummaryCardState extends State<SummaryCard> {
                       return const Text('Error');
                     } else if (snapshot.hasData) {
                       //print("Its done: ${snapshot.data.toString()}");
-                      if (snapshot.data.toString() == "0") { // change flag to test 7
+                      if (snapshot.data.toString() == "7") { // change flag to test 7
                         //print("Its done: ${snapshot.data.toString()}");
                         provider.changeOrderStatus(2);
                         return Column(
