@@ -127,7 +127,7 @@ class SummaryCardState extends State<SummaryCard> {
                                 else {
                                   provider.setOrderClientNumber(provider.order.client_name, 0);
                                 }
-                                provider.changeOrderStatus(1);
+                                //provider.changeOrderStatus(1);
                                 print("done");
                                 if(MediaQuery.of(context).size.height > 1000){
                                   setState(() {
@@ -191,9 +191,9 @@ class SummaryCardState extends State<SummaryCard> {
                       return const Text('Error');
                     } else if (snapshot.hasData) {
                       //print("Its done: ${snapshot.data.toString()}");
-                      if (snapshot.data.toString() == "7") { // change flag to test 7
+                      if (snapshot.data.toString() == "0") { // change flag to test 7, for normal 0
                         //print("Its done: ${snapshot.data.toString()}");
-                        provider.changeOrderStatus(2);
+                        //provider.changeOrderStatus(2);
                         return Column(
                           children: [
                             SizedBox(
@@ -216,7 +216,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                     return const CircularProgressIndicator(color: AppColors.darkGreen);
                                                   } else if (snapshot2.connectionState == ConnectionState.done) {
                                                     if (snapshot2.hasError) {
-                                                      return Text('Error');
+                                                      return Text('Error ${snapshot2.error}');
                                                     } else if(snapshot2.hasData){
                                                       _timerStart();
                                                       return Text('Twoje zamówienie ma nr ${snapshot2.data}');

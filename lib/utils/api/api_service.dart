@@ -146,6 +146,7 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
+        print(response.body);
         return jsonDecode(response.body)['order_number'];
       } else {
         throw Exception('Failed to fetch - StatusCode ${response.statusCode}');
