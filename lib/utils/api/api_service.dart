@@ -319,7 +319,7 @@ class ApiService {
     print(orderName);
     print(value);
     try {
-      var response = await http.put(
+      var response = await http.patch(
           Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrder(id)),
           headers: <String, String>{
             'Content-Type': 'application/json'
@@ -367,7 +367,7 @@ class ApiService {
   Future<int?> setClientNumber(int id, String number, int promoPermission,
       ) async {
     try {
-      var response = await http.put(
+      var response = await http.patch(
           Uri.parse(ApiConstants.localUrl + ApiConstants.setClientNumber(id)),
           headers: <String, String>{
             'Content-Type': 'application/json'
