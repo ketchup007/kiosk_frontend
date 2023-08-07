@@ -5,6 +5,8 @@ import 'package:just_audio/just_audio.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
+import 'package:kiosk_flutter/utils/api/clients/local_backend_client.dart';
+import 'package:kiosk_flutter/utils/api/controllers/storage_controller.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 import 'package:kiosk_flutter/themes/color.dart';
@@ -45,11 +47,20 @@ class _StartScreenState extends State<StartScreen> {
                   fit: BoxFit.cover)),
           child: Column(
             children: [
-              ElevatedButton(onPressed: () async {
-                final player = AudioPlayer();
-                await player.setAsset("assets/audio/moo.mp3");
-                player.play();
-              }, child: Text("test")),
+              //ElevatedButton(onPressed: () async {
+             //   final player = AudioPlayer();
+             //   await player.setAsset("assets/audio/moo.mp3");
+             //   player.play();
+             // }, child: Text("test")),
+              ElevatedButton(
+                  onPressed: () async {
+                    LocalBackendClient localBackendClient = LocalBackendClient();
+                    StorageController storageController = StorageController(localBackendClient);
+                    ProductStateObject obj = await storageController.fetchStorageState() as ProductStateObject;
+                    print(obj.quantity);
+                    print(obj.productName);
+                  },
+                  child: Text("Api test")),
               Center(
                   child: LanguageButtons(
                       ribbonHeight: MediaQuery.of(context).size.height * 0.1,
