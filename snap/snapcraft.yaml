@@ -7,16 +7,10 @@ confinement: strict
 base: core18
 grade: stable
 
-slots:
-  munchies-kiosk-app: # adjust accordingly to your app name
-    interface: dbus
-    bus: session
-    name: pl.munchies.MunchiesKioskApp # adjust accordingly to your app name and
-
 apps:
-  munchies-kiosk-app:
+  munchies-kiosk:
     command: kiosk_frontend
-    extensions: [flutter-stable] # Where "master" defines which Flutter channel to use for the build
+    extensions: [flutter-stable]
     plugs:
       - network
       - desktop
@@ -25,41 +19,15 @@ apps:
       - wayland
       - gsettings
       - unity7
-      - munchies-kiosk
       - audio-playback
       - audio-record
       - pulseaudio
       - alsa
-    slots:
-      - munchies-kiosk-app
-parts:
-  mpv:
-    plugin: nil
-    stage-packages:
-      - mpv
 
-  munchies-kiosk-app:
+parts:
+  flutter:
     source: .
     plugin: flutter
-    flutter-target: lib/main.dart # The main entry-point file of the application
-    override-pull: |
-      set -eux
-      rm -rf $SNAPCRAFT_PROJECT_DIR/build
-      snapcraftctl pull
-plugs:
-  desktop:
-    interface: desktop
-  desktop-legacy:
-    interface: desktop-legacy
-  x11:
-    interface: x11
-  wayland:
-    interface: wayland
-  gsettings:
-    interface: gsettings
-  munchies-kiosk:
-    interface: dbus
-    bus: session
-    name: pl.munchies
-  audio-playback:
-    interface: audio-playback
+    flutter-target: lib/main.dart
+
+

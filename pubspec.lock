@@ -459,10 +459,10 @@ packages:
     dependency: transitive
     description:
       name: fwfh_text_style
-      sha256: "37806ee0222f79b6e8d4c698c322c897eae6a817258156f40aeece4e588fac60"
+      sha256: f0883ccb64b7bb3f2a7a091542c2e834fc3e2a6aa54158f46b3c43b55675d8f7
       url: "https://pub.dev"
     source: hosted
-    version: "2.22.08+1"
+    version: "2.22.8+3"
   fwfh_url_launcher:
     dependency: transitive
     description:
