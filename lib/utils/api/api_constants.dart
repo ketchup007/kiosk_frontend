@@ -9,6 +9,7 @@ class ApiConstants {
   //Orders Controller Endpoints
   static String order = "/kiosk/order";
   static String updateOrder (int id) => "/kiosk/order/$id";
+  static String updateOrderStatus (int id) => "/kiosk/order/$id/status";
   static String setClientNumber (int id) => "/kiosk/order/$id/client_phone";
   static String setOrderNumber(int id) => "/kiosk/order/$id/order_number";
   //static String setClientName(int id) => "/api/orders/setClientName/$id";

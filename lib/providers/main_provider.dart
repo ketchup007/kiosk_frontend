@@ -221,7 +221,7 @@ class MainProvider extends ChangeNotifier {
 
   changeOrderStatus(int value) async{
     print("zmieniam status");
-    ApiService(token: loginToken).changeOrderProduct(order.id, "status", value);
+    ApiService(token: loginToken).changeOrderStatus(order.id, value);
   }
 
 
@@ -263,7 +263,7 @@ class MainProvider extends ChangeNotifier {
 
 
   orderCancel() {
-    changeOrder("status", 254);
+    changeOrderStatus(254);
     order = OrderModel.resetModel();
     for(int i = 0; i < storage.length; i++){
       storage[i].number = 0;

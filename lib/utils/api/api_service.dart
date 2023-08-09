@@ -341,29 +341,30 @@ class ApiService {
     return null;
   }
 
-  // Future<int?> changeOrderName(int id, String value,
-  //     ) async {
-  //   try {
-  //     var response = await http.put(
-  //         Uri.parse("${ApiConstants.localUrl}${ApiConstants.order}/$id"),
-  //         headers: <String, String>{
-  //           'Content-Type': 'application/json'
-  //           // 'Authorization': 'Bearer $token'
-  //         },
-  //         body: jsonEncode(<String, String>{
-  //           'client_name': value,
-  //         }));
-  //
-  //     if (response.statusCode == 200) {
-  //       return jsonDecode(response.body)['accepted'];
-  //     } else {
-  //       throw Exception('failed to post - StatusCode ${response.statusCode}');
-  //     }
-  //   } catch (e) {
-  //     log("In changeOrderName ${e.toString()}");
-  //   }
-  //   return null;
-  // }
+  Future<int?> changeOrderStatus(int id, int value,
+      ) async {
+    print(value);
+    try {
+      var response = await http.patch(
+          Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrderStatus(id)),
+          headers: <String, String>{
+            'Content-Type': 'application/json'
+            // 'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode(<String, String>{
+            "status": value.toString(),
+          }));
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body)['status'];
+      } else {
+        throw Exception('failed to post - StatusCode ${response.statusCode}');
+      }
+    } catch (e) {
+      log("In changeOrderStatus ${e.toString()}");
+    }
+    return null;
+  }
 
   Future<int?> setClientNumber(int id, String number, int promoPermission,
       ) async {
