@@ -58,26 +58,31 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.03, 0),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            height: MediaQuery.of(context).size.width * 0.06,
-                            child:ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                shape: const CircleBorder(),
-                                backgroundColor: AppColors.red),
-                              child:Center(
-                                  child: FittedBox(
-                                      child: Text("X",
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15))))))),
+                        InkWell(
+                          onTapDown: (_) {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.width * 0.03, 0),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.06,
+                              height: MediaQuery.of(context).size.width * 0.06,
+                              child:ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  shape: const CircleBorder(),
+                                  backgroundColor: AppColors.red),
+                                child:Center(
+                                    child: FittedBox(
+                                        child: Text("X",
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15))))))),
+                        ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -164,21 +169,27 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                   Container(
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
                     child: Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            provider.getOrderList();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.green,
-                            foregroundColor: Colors.black),
-                          child: FittedBox(
-                              child: Text(AppLocalizations.of(context)!.goToSummaryButtonLabel,
-                                style: const TextStyle(
-                                  fontFamily: 'GloryMedium',
-                                  fontSize: 25)))))))])))),
+                      child: InkWell(
+                        onTapDown: (_) {
+                          Navigator.of(context).pop();
+                          provider.getOrderList();
+                        },
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              provider.getOrderList();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.green,
+                              foregroundColor: Colors.black),
+                            child: FittedBox(
+                                child: Text(AppLocalizations.of(context)!.goToSummaryButtonLabel,
+                                  style: const TextStyle(
+                                    fontFamily: 'GloryMedium',
+                                    fontSize: 25))))),
+                      )))])))),
             Container(
                 padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.195, MediaQuery.of(context).size.width *0.05 - MediaQuery.of(context).size.height*0.02, 0),
                 alignment: Alignment.topRight,

@@ -77,6 +77,7 @@ class _OrderScreenState extends State<OrderScreen> {
         const Duration(minutes: 10),
             () {
           _periodicTimerStop();
+          print("in timer start");
           provider.orderCancel();
           provider.changeToPizza();
           Navigator.push(
@@ -91,6 +92,7 @@ class _OrderScreenState extends State<OrderScreen> {
     timer = RestartableTimer(
         const Duration(minutes: 30),
             () {
+              print("in long timer");
               provider.orderCancel();
               provider.changeToPizza();
               Navigator.push(
@@ -101,6 +103,40 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _timerStop(){
     timer?.cancel();
+  }
+
+  void cancelButtonAction(){
+    _periodicTimerStop();
+    _timerStop();
+    provider.orderCancel();
+    provider.changeToPizza();
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const StartScreen()));
+  }
+
+  void sumButtonAction(){
+    _periodicTimerStop();
+    _startTimerLong();
+    provider.getOrderList();
+    setState(() {
+      _cardState = 4;
+    });
+    if(!provider.popupDone){
+      if(provider.sum != 0){
+        provider.begStorageSetup();
+        showDialog(
+            context: context,
+            builder: (context) {
+              return BuyMorePopup(
+                onPress: (number) {
+                  setState(() {
+                    _cardState = number;
+                  });
+                },
+              );
+            });
+      }}
   }
 
   @override
@@ -307,28 +343,27 @@ class _OrderScreenState extends State<OrderScreen> {
                                 maintainState: true,
                                 maintainSize: true,
                                 maintainAnimation: true,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    _periodicTimerStop();
-                                    _timerStop();
-                                    provider.orderCancel();
-                                    provider.changeToPizza();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const StartScreen()));
-                                    },
-                                  style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                    backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
-                                    shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
-                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                  child: Container(
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                    child: FittedBox(child:Text(AppLocalizations.of(context)!.cancelButtonLabel,
-                                      style: const TextStyle(
-                                        fontFamily: 'GloryExtraBold',
-                                        fontSize: 18))))))),
+                                child: InkWell(
+                                  onTapDown: (_) {
+                                    cancelButtonAction();
+                                  },
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                        cancelButtonAction();
+                                      },
+                                    style: ButtonStyle(
+                                      foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                                      backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
+                                      shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
+                                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                    child: Container(
+                                      alignment: Alignment.bottomCenter,
+                                      padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
+                                      child: FittedBox(child:Text(AppLocalizations.of(context)!.cancelButtonLabel,
+                                        style: const TextStyle(
+                                          fontFamily: 'GloryExtraBold',
+                                          fontSize: 18))))),
+                                ))),
                             Container(
                               width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18 + 2 : MediaQuery.of(context).size.width * 0.25 + 2,
                               height: MediaQuery.of(context).size.height * 0.021,
@@ -378,41 +413,27 @@ class _OrderScreenState extends State<OrderScreen> {
                                             maintainState: true,
                                             maintainSize: true,
                                             maintainAnimation: true,
-                                            child:ElevatedButton(
-                                              onPressed: () {
-                                                _periodicTimerStop();
-                                                _startTimerLong();
-                                                provider.getOrderList();
-                                                setState(() {
-                                                  _cardState = 4;
-                                                });
-                                                if(!provider.popupDone){
-                                                  if(provider.sum != 0){
-                                                    provider.begStorageSetup();
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return BuyMorePopup(
-                                                            onPress: (number) {
-                                                              setState(() {
-                                                                _cardState = number;
-                                                              });
-                                                            },
-                                                          );
-                                                        });
-                                                  }}},
-                                              style: ButtonStyle(
-                                                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
-                                                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
-                                              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                              child: Container(
-                                                alignment: Alignment.bottomCenter,
-                                                padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                                child: FittedBox(child: Text(AppLocalizations.of(context)!.summaryButtonLabel,
-                                                  style: const TextStyle(
-                                                    fontFamily: 'GloryExtraBold',
-                                                    fontSize: 18))))))),
+                                            child:InkWell(
+                                              onTapDown: (_) {
+                                                sumButtonAction();
+                                              },
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  sumButtonAction();
+                                                  },
+                                                style: ButtonStyle(
+                                                  foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                                                  backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
+                                                  shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15.0), bottomRight: Radius.circular(15.0))))
+                                                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                                child: Container(
+                                                  alignment: Alignment.bottomCenter,
+                                                  padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
+                                                  child: FittedBox(child: Text(AppLocalizations.of(context)!.summaryButtonLabel,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'GloryExtraBold',
+                                                      fontSize: 18))))),
+                                            ))),
                                         Container(
                                           width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.18 + 2: MediaQuery.of(context).size.width * 0.25+2,
                                           height: MediaQuery.of(context).size.height * 0.021,

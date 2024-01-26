@@ -119,6 +119,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 if (snapshot.data.toString() == "0") {
                                   provider.changeOrderStatus(2);
                                 } else {
+                                  print("in transaction");
                                   provider.changeOrderStatus(254);
                                 }
 

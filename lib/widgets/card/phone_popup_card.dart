@@ -27,6 +27,12 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
   bool isCheckedA = false;
   bool isCheckedB = false;
   bool isCheckedC = false;
+
+  bool changeMainPerformed = false;
+  bool changeAPerformed = false;
+  bool changeBPerformed = false;
+  bool changeCPerformed = false;
+
   final TextEditingController _myController = TextEditingController();
 
   CountryModel _dropdownValue = CountryModel(
@@ -53,6 +59,55 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
+    void changeMain() {
+      setState(() {
+        isCheckedMain = !isCheckedMain;
+        if(isCheckedMain) {
+          isCheckedA = true;
+          isCheckedB = true;
+          isCheckedC = true;
+        }else{
+          isCheckedA = false;
+          isCheckedB = false;
+          isCheckedC = false;
+        }
+      });
+    }
+
+    void changeA() {
+      setState(() {
+        isCheckedA = !isCheckedA;
+        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+          isCheckedMain = true;
+        } else {
+          isCheckedMain = false;
+        }});
+    }
+
+    void changeB() {
+      setState(() {
+        isCheckedB = !isCheckedB;
+
+        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+          isCheckedMain = true;
+        } else {
+          isCheckedMain = false;
+        }
+      });
+    }
+
+    void changeC() {
+      setState(() {
+        isCheckedC = !isCheckedC;
+        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+          isCheckedMain = true;
+        } else {
+          isCheckedMain = false;
+        }
+      });
+    }
+
+
     if(provider.countryList.isEmpty){
       provider.getCountryCodes();
       return const Text("");
@@ -60,7 +115,6 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
       if(_dropdownValue.dialCode.isEmpty){
         _dropdownValue = provider.countryList.first;
       }
-
       return Listener(
         onPointerDown: onPointerDown,
         child: Center(
@@ -154,44 +208,37 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                     children: [
                                       Transform.scale(
                                         scale: 1.5,
-                                        child: Checkbox(
-                                          activeColor: AppColors.green,
-                                          checkColor: Colors.transparent,
-                                          side: MaterialStateBorderSide.resolveWith((states) =>
-                                            const BorderSide(
-                                              width: 1.5,
-                                              color: AppColors.green)),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(5)),
-                                          value: isCheckedMain,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              //print("eeeeee");
-                                              isCheckedMain = value!;
-                                              if (value == true) {
-                                                isCheckedA = true;
-                                                isCheckedB = true;
-                                                isCheckedC = true;
-                                              } else {
-                                                isCheckedA = false;
-                                                isCheckedB = false;
-                                                isCheckedC = false;
-                                              }});
-                                        })),
-                                      GestureDetector(onTap: () {
-                                        setState(() {
-                                          var value = !isCheckedMain;
-                                          isCheckedMain = value;
-                                          if (value == true) {
-                                            isCheckedA = true;
-                                            isCheckedB = true;
-                                            isCheckedC = true;
-                                          } else {
-                                            isCheckedA = false;
-                                            isCheckedB = false;
-                                            isCheckedC = false;
-                                          }});
-                                        },
+                                        child: InkWell(
+                                          onTapDown: (_) {
+                                            changeMain();
+                                            changeMainPerformed = true;
+                                          },
+                                          onTapCancel: () {
+                                            changeMainPerformed = false;
+                                          },
+                                          child: Checkbox(
+                                            activeColor: AppColors.green,
+                                            checkColor: Colors.transparent,
+                                            side: MaterialStateBorderSide.resolveWith((states) =>
+                                              const BorderSide(
+                                                width: 1.5,
+                                                color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(5)),
+                                            value: isCheckedMain,
+                                            onChanged: (_) {
+                                              if(changeMainPerformed){
+                                                changeMainPerformed = false;
+                                              }else{
+                                                changeMain();
+                                              }
+                                            }
+                                          ),
+                                        )),
+                                      GestureDetector(
+                                          onTapDown: (_) {
+                                            changeMain();
+                                          },
                                           child: Text(AppLocalizations.of(context)!.selectAllCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
@@ -204,35 +251,35 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                       children: [
                                         Transform.scale(
                                           scale: 1.5,
-                                          child: Checkbox(
-                                            activeColor: AppColors.green,
-                                            checkColor: Colors.transparent,
-                                            side: MaterialStateBorderSide.resolveWith((states) =>
-                                              const BorderSide(
-                                                width: 1.5,
-                                                color: AppColors.green)),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5)),
-                                            value: isCheckedA,
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                isCheckedA = value!;
-                                                if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                                  isCheckedMain = true;
-                                                } else {
-                                                  isCheckedMain = false;
-                                                }});
-                                            })),
+                                          child: InkWell(
+                                            onTapDown: (_) {
+                                              changeA();
+                                              changeAPerformed = true;
+                                            },
+                                            onTapCancel: (){
+                                              changeAPerformed = false;
+                                            },
+                                            child: Checkbox(
+                                              activeColor: AppColors.green,
+                                              checkColor: Colors.transparent,
+                                              side: MaterialStateBorderSide.resolveWith((states) =>
+                                                const BorderSide(
+                                                  width: 1.5,
+                                                  color: AppColors.green)),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(5)),
+                                              value: isCheckedA,
+                                              onChanged: (_) {
+                                                if(changeAPerformed){
+                                                  changeAPerformed = false;
+                                                }else {
+                                                  changeA();
+                                                }
+                                              }),
+                                          )),
                                         GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              var value = isCheckedA;
-                                              isCheckedA = !value;
-                                              if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                                isCheckedMain = true;
-                                              } else {
-                                                isCheckedMain = false;
-                                              }});
+                                          onTapDown: (_) {
+                                            changeA();
                                           },
                                           child: Text(AppLocalizations.of(context)!.requiredCheckText,
                                           style: const TextStyle(
@@ -246,39 +293,35 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   children: [
                                   Transform.scale(
                                       scale: 1.5,
-                                      child: Checkbox(
-                                          activeColor: AppColors.green,
-                                          checkColor: Colors.transparent,
-                                          side: MaterialStateBorderSide.resolveWith((states) =>
-                                            const BorderSide(
-                                                width: 1.5,
-                                                color: AppColors.green)),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5)),
-                                          value: isCheckedB,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              isCheckedB = value!;
-
-                                              if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                                isCheckedMain = true;
-                                              } else {
-                                                isCheckedMain = false;
+                                      child: InkWell(
+                                        onTapDown: (_) {
+                                          changeB();
+                                          changeBPerformed = true;
+                                        },
+                                        onTapCancel: () {
+                                          changeBPerformed = false;
+                                        },
+                                        child: Checkbox(
+                                            activeColor: AppColors.green,
+                                            checkColor: Colors.transparent,
+                                            side: MaterialStateBorderSide.resolveWith((states) =>
+                                              const BorderSide(
+                                                  width: 1.5,
+                                                  color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(5)),
+                                            value: isCheckedB,
+                                            onChanged: (_) {
+                                              if(changeBPerformed) {
+                                                changeBPerformed = false;
+                                              }else{
+                                                changeB();
                                               }
-                                            });
-                                          })),
+                                            }),
+                                      )),
                                   GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        var value = isCheckedB;
-                                        isCheckedB = !value;
-
-                                        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                          isCheckedMain = true;
-                                        } else {
-                                          isCheckedMain = false;
-                                        }
-                                      });
+                                    onTapDown: (_) {
+                                      changeB();
                                     },
                                     child: Text(AppLocalizations.of(context)!.promotionCheckText,
                                       style: const TextStyle(
@@ -292,39 +335,32 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                   children: [
                                     Transform.scale(
                                       scale: 1.5,
-                                      child: Checkbox(
-                                          activeColor: AppColors.green,
-                                          checkColor: Colors.transparent,
-                                          side: MaterialStateBorderSide.resolveWith((states) =>
-                                          const BorderSide(
-                                              width: 1.5,
-                                              color: AppColors.green)),
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5)),
-                                          value: isCheckedC,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              isCheckedC = value!;
-
-                                              if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                                isCheckedMain = true;
-                                              } else {
-                                                isCheckedMain = false;
+                                      child: InkWell(
+                                        onTapDown: (_) {
+                                          changeC();
+                                          changeCPerformed = true;
+                                        },
+                                        child: Checkbox(
+                                            activeColor: AppColors.green,
+                                            checkColor: Colors.transparent,
+                                            side: MaterialStateBorderSide.resolveWith((states) =>
+                                            const BorderSide(
+                                                width: 1.5,
+                                                color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(5)),
+                                            value: isCheckedC,
+                                            onChanged: (_) {
+                                              if(changeCPerformed) {
+                                                changeCPerformed = false;
+                                              }else{
+                                                changeC();
                                               }
-                                            });
-                                          })),
+                                            }),
+                                      )),
                                   GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        var value = isCheckedC;
-                                        isCheckedC = !value;
-
-                                        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-                                          isCheckedMain = true;
-                                        } else {
-                                          isCheckedMain = false;
-                                        }
-                                      });
+                                    onTapDown: (_) {
+                                      changeC();
                                     },
                                     child: Text(AppLocalizations.of(context)!.optionalCheckText,
                                       style: const TextStyle(
@@ -334,23 +370,32 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
                           child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.3,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
-                                      Navigator.of(context).pop();
-                                      provider.order.client_name = _dropdownValue.dialCode + _myController.text;
-                                      widget.onPress(isCheckedB);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.green,
-                                      foregroundColor: Colors.black),
-                                  child: AutoSizeText(
-                                      AppLocalizations.of(context)!.confirmButtonLabel,
-                                      maxLines: 1,
-                                      style: TextStyle(
-                                          fontFamily: 'GloryBold',
-                                          fontSize:  MediaQuery.of(context).size.height > 1000 ? 30 : 15)))))])])))));
+                              child: InkWell(
+                                onTapDown: (_) {
+                                  if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
+                                    Navigator.of(context).pop();
+                                    provider.order.client_name = _dropdownValue.dialCode + _myController.text;
+                                    widget.onPress(isCheckedB);
+                                  }
+                                },
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
+                                        Navigator.of(context).pop();
+                                        provider.order.client_name = _dropdownValue.dialCode + _myController.text;
+                                        widget.onPress(isCheckedB);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.green,
+                                        foregroundColor: Colors.black),
+                                    child: AutoSizeText(
+                                        AppLocalizations.of(context)!.confirmButtonLabel,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            fontFamily: 'GloryBold',
+                                            fontSize:  MediaQuery.of(context).size.height > 1000 ? 30 : 15))),
+                              )))])])))));
     }
   }
 }

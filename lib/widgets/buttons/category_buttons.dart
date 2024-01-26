@@ -22,53 +22,60 @@ class CategoryButton extends StatelessWidget{
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
-      height: cardState == number-1 ? screenHeight * 0.10 : screenHeight * 0.07,
-      width: screenWidth * 0.18,
-      padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ButtonStyle(
-            padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-            foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-            backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
-            shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-        ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-        child: SizedBox(
-          width: screenWidth * 0.18,
-          child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
-              child: Container(
-                height: screenWidth * 0.06,
-                width: screenWidth * 0.06,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.darkBlue),
-                child: Center(
-                    child: FittedBox(
-                      child: Text("${number}",
-                        style: TextStyle(
-                         color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
-                         fontFamily: 'GloryExtraBold',
-                         fontSize: 45)))))),
-            Container(
-              padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-              alignment: Alignment.bottomCenter,
-              child:
-                  SizedBox(
-                    height: screenHeight * 0.02,
-                    width: screenWidth * 0.17,
-                    child: AutoSizeText(
-                      text,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
-                            fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                            fontSize: 21))))]))));
+    return InkWell(
+      onTapDown: (_) {
+        onPressed();
+      },
+      child: Container(
+        height: cardState == number-1 ? screenHeight * 0.10 : screenHeight * 0.07,
+        width: screenWidth * 0.18,
+        padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
+        child: ElevatedButton(
+          onPressed: () {
+            onPressed();
+          },
+          style: ButtonStyle(
+              padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+              foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+              backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
+              shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
+          ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+          child: SizedBox(
+            width: screenWidth * 0.18,
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
+                child: Container(
+                  height: screenWidth * 0.06,
+                  width: screenWidth * 0.06,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.darkBlue),
+                  child: Center(
+                      child: FittedBox(
+                        child: Text("${number}",
+                          style: TextStyle(
+                           color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
+                           fontFamily: 'GloryExtraBold',
+                           fontSize: 45)))))),
+              Container(
+                padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
+                alignment: Alignment.bottomCenter,
+                child:
+                    SizedBox(
+                      height: screenHeight * 0.02,
+                      width: screenWidth * 0.17,
+                      child: AutoSizeText(
+                        text,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: TextStyle(
+                              color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
+                              fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
+                              fontSize: 21))))])))),
+    );
   }
 }
 
@@ -93,50 +100,57 @@ class EdgeCategoryButton extends StatelessWidget {
 
     return Stack(
       children: [
-        Container(
-          height: screenHeight * 0.1,
-          width: screenWidth * 0.18,
-          padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
-          child: ElevatedButton(
-            onPressed: onPressed,
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-                foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
-                shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)))),
-            ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
-                  child: Container(
-                    height: screenWidth * 0.06,
-                    width: screenWidth * 0.06,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.darkBlue),
-                    child: Center(
-                      child: FittedBox(
-                          child: Text("${number}",
-                              style: TextStyle(
-                                  color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
-                                  fontFamily: 'GloryExtraBold',
-                                  fontSize: 45)))))),
-                Container(
-                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-                    alignment: Alignment.bottomCenter,
-                    child:
-                    SizedBox(
-                        height: screenHeight* 0.02,
-                        width: screenWidth * 0.17,
-                            child: AutoSizeText(text,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
+        InkWell(
+          onTapDown: (_) {
+            onPressed();
+        },
+          child: Container(
+            height: screenHeight * 0.1,
+            width: screenWidth * 0.18,
+            padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
+            child: ElevatedButton(
+              onPressed: () {
+                onPressed();
+              },
+              style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                  foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                  backgroundColor: MaterialStateProperty.resolveWith((states) => cardState == number-1 ? AppColors.mediumBlue : AppColors.lightBlue),
+                  shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0)))),
+              ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
+                    child: Container(
+                      height: screenWidth * 0.06,
+                      width: screenWidth * 0.06,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.darkBlue),
+                      child: Center(
+                        child: FittedBox(
+                            child: Text("${number}",
                                 style: TextStyle(
-                                    color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
-                                    fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                                    fontSize: 21))))]))),
+                                    color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
+                                    fontFamily: 'GloryExtraBold',
+                                    fontSize: 45)))))),
+                  Container(
+                      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
+                      alignment: Alignment.bottomCenter,
+                      child:
+                      SizedBox(
+                          height: screenHeight* 0.02,
+                          width: screenWidth * 0.17,
+                              child: AutoSizeText(text,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                      color: cardState == number-1 ? Colors.white : AppColors.darkBlue,
+                                      fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
+                                      fontSize: 21))))]))),
+        ),
         Visibility(
             visible: cardState != number-1,
             maintainState: true,
@@ -175,52 +189,59 @@ class ConfirmCategoryButton extends StatelessWidget {
 
     return Stack(
         children: [
-          Container(
-            height: screenHeight * 0.1,
-            width: screenWidth * 0.18,
-            padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
-            child: ElevatedButton(
-              onPressed: onPressed,
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
-                    foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                    backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
-                    shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
-                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
-                    child: Container(
-                      height: screenWidth * 0.06,
-                      width: screenWidth * 0.06,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.darkGreen),
-                      child: Center(
-                        child: FittedBox(
-                            child: Text("${number}",
-                                style: TextStyle(
-                                    color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
-                                    fontFamily: 'GloryExtraBold',
-                                    fontSize: 45)))))),
-                  Container(
-                      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-                      alignment: Alignment.bottomCenter,
-                      child:
-                      Center ( child: SizedBox(
-                          height: screenHeight * 0.02,
-                          width: screenWidth * 0.16,
-                          child: AutoSizeText(text,
-                                  textAlign: TextAlign.center,
-                                  maxLines: 1,
-                                  minFontSize: 10,
-                                  maxFontSize: 21,
+          InkWell(
+            onTapDown: (_) {
+              onPressed();
+            },
+            child: Container(
+              height: screenHeight * 0.1,
+              width: screenWidth * 0.18,
+              padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
+              child: ElevatedButton(
+                onPressed: () {
+                  onPressed();
+                },
+                  style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+                      foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                      backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
+                      shape: MaterialStateProperty.resolveWith((states) => const RoundedRectangleBorder(borderRadius: BorderRadius.only(topLeft: Radius.circular(15.0), topRight: Radius.circular(15.0))))
+                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
+                      child: Container(
+                        height: screenWidth * 0.06,
+                        width: screenWidth * 0.06,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.darkGreen),
+                        child: Center(
+                          child: FittedBox(
+                              child: Text("${number}",
                                   style: TextStyle(
-                                      color: cardState == number-1 ? Colors.white : AppColors.darkGreen,
-                                      fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
-                                      fontSize: 21 )))))]))),
+                                      color: cardState == number-1 ? Colors.white : AppColors.lightBlue,
+                                      fontFamily: 'GloryExtraBold',
+                                      fontSize: 45)))))),
+                    Container(
+                        padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
+                        alignment: Alignment.bottomCenter,
+                        child:
+                        Center ( child: SizedBox(
+                            height: screenHeight * 0.02,
+                            width: screenWidth * 0.16,
+                            child: AutoSizeText(text,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 1,
+                                    minFontSize: 10,
+                                    maxFontSize: 21,
+                                    style: TextStyle(
+                                        color: cardState == number-1 ? Colors.white : AppColors.darkGreen,
+                                        fontFamily: cardState == number-1 ? 'GloryExtraBold' : 'GloryMedium',
+                                        fontSize: 21 )))))]))),
+          ),
           Visibility(
               visible: cardState != number-1,
               maintainState: true,

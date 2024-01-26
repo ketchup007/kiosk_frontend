@@ -89,7 +89,7 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        print(response.body);
+        //print(response.body);
         return compute(JsonParser().parseStorageLimits, response.body);
       } else {
         throw Exception('failed to post - StatusCode ${response.statusCode}');

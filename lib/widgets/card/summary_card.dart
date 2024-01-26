@@ -47,12 +47,13 @@ class SummaryCardState extends State<SummaryCard> {
   }
 
   void _timerStart(){
-    //print("2 timer start");
+    print("2 timer start");
     timer?.cancel();
     timer = RestartableTimer(
         const Duration(minutes: 1),
         () {
           //print('sec timer');
+          print("in summary card timer");
           provider.orderCancel();
           provider.changeToPizza();
           provider.inPayment = false;
@@ -69,8 +70,47 @@ class SummaryCardState extends State<SummaryCard> {
   }
 
   void _timerStop(){
-    //print("2 timer stop");
+    print("2 timer stop");
     timer?.cancel();
+  }
+
+  void makePayment() {
+    if (provider.sum != 0) {
+      showDialog(
+          context: context,
+          builder: (context){
+            return PhonePopupCard(
+                onInteraction: () {
+                  //print('dumpc 2');
+                  widget.onInteraction();
+                },
+                onPress: (isPromotionChecked) {
+                  widget.onPopUpFinish();
+                  print("pop");
+                  if(isPromotionChecked) {
+                    provider.setOrderClientNumber(provider.order.client_name, 1);
+                  }
+                  else {
+                    provider.setOrderClientNumber(provider.order.client_name, 0);
+                  }
+                  //provider.changeOrderStatus(1);
+                  print("done");
+                  if(MediaQuery.of(context).size.height > 1000){
+                    setState(() {
+                      _paymentState = 1;
+                    });
+                    provider.inPayment = true;
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NewPayUScreen()));
+                  }
+
+                  provider.notifyListeners();
+                });
+          });
+    }
   }
 
   @override
@@ -104,57 +144,28 @@ class SummaryCardState extends State<SummaryCard> {
             _paymentState == 0 ? Container(
               alignment: AlignmentDirectional.center,
               padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, MediaQuery.of(context).size.width * 0, 0),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.86 : MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.05 : MediaQuery.of(context).size.height * 0.075,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (provider.sum != 0) {
-                      showDialog(
-                        context: context,
-                        builder: (context){
-                          return PhonePopupCard(
-                              onInteraction: () {
-                                //print('dumpc 2');
-                                widget.onInteraction();
-                              },
-                              onPress: (isPromotionChecked) {
-                                widget.onPopUpFinish();
-                                print("pop");
-                                if(isPromotionChecked) {
-                                  provider.setOrderClientNumber(provider.order.client_name, 1);
-                                }
-                                else {
-                                  provider.setOrderClientNumber(provider.order.client_name, 0);
-                                }
-                                //provider.changeOrderStatus(1);
-                                print("done");
-                                if(MediaQuery.of(context).size.height > 1000){
-                                  setState(() {
-                                    _paymentState = 1;
-                                  });
-                                  provider.inPayment = true;
-                                } else {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const NewPayUScreen()));
-                                }
-
-                                provider.notifyListeners();
-                              });
-                        });
-                    }},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.green,
-                    foregroundColor: Colors.black),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4: MediaQuery.of(context).size.width * 0.5,
-                    child: FittedBox(
-                      child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
-                        style: const TextStyle(
-                          fontFamily: 'GloryBold',
-                          fontSize: 30))))))) :
+              child: InkWell(
+                onTapDown: (_) {
+                  makePayment();
+                },
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.86 : MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.05 : MediaQuery.of(context).size.height * 0.075,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      makePayment();
+                      },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.green,
+                      foregroundColor: Colors.black),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4: MediaQuery.of(context).size.width * 0.5,
+                      child: FittedBox(
+                        child: Text(AppLocalizations.of(context)!.makePaymentButtonLabel,
+                          style: const TextStyle(
+                            fontFamily: 'GloryBold',
+                            fontSize: 30)))))),
+              )) :
             MediaQuery.of(context).size.height > 1000 ? FutureBuilder(
               future: provider.payment.startTransaction(provider.sum),
               builder: (context, snapshot) {
@@ -194,6 +205,7 @@ class SummaryCardState extends State<SummaryCard> {
                       if (snapshot.data.toString() == "7") { // change flag to test 7, for normal 0
                         //print("Its done: ${snapshot.data.toString()}");
                         //provider.changeOrderStatus(2);
+                        _timerStop();
                         return Column(
                           children: [
                             SizedBox(
@@ -218,7 +230,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                     if (snapshot2.hasError) {
                                                       return Text('Error ${snapshot2.error}');
                                                     } else if(snapshot2.hasData){
-                                                      _timerStart();
+                                                      //_timerStart();
                                                       return Text('Twoje zamówienie ma nr ${snapshot2.data}');
                                                     } else {
                                                       return Text('Empty data');
@@ -259,6 +271,7 @@ class SummaryCardState extends State<SummaryCard> {
                                             fontFamily: 'GloryMedium')))))]);
                       } else {
                         _timerStart();
+                        print("in sumarry card");
                         provider.changeOrderStatus(254);
                         return Column(
                           children: [
@@ -285,54 +298,81 @@ class SummaryCardState extends State<SummaryCard> {
                                         child: SizedBox(
                                             height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
                                             width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
-                                            child: OutlinedButton(
-                                                onPressed: () {
-                                                  _timerStop();
-                                                  provider.orderCancel();
-                                                  provider.changeToPizza();
-                                                  provider.inPayment = false;
-                                                  provider.notifyListeners();
-                                                  setState(() {
-                                                    _paymentState = 0;
-                                                  });
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder:
-                                                              (context) => const StartScreen()));
-                                                },
-                                                style: OutlinedButton.styleFrom(
-                                                    foregroundColor: AppColors.red,
-                                                    side: const BorderSide(
-                                                        color: AppColors.red,
-                                                        width: 1)),
-                                                child: FittedBox(
-                                                  child: Text(AppLocalizations.of(context)!.returnButtonLabel,
-                                                    style: const TextStyle(
-                                                        fontSize: 17,
-                                                        fontFamily: 'GloryMedium')))))),
+                                            child: InkWell(
+                                              onTapDown: (_) {
+                                                _timerStop();
+                                                provider.orderCancel();
+                                                provider.changeToPizza();
+                                                provider.inPayment = false;
+                                                provider.notifyListeners();
+                                                setState(() {
+                                                  _paymentState = 0;
+                                                });
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder:
+                                                            (context) => const StartScreen()));
+
+                                              },
+                                              child: OutlinedButton(
+                                                  onPressed: () {
+                                                    _timerStop();
+                                                    provider.orderCancel();
+                                                    provider.changeToPizza();
+                                                    provider.inPayment = false;
+                                                    provider.notifyListeners();
+                                                    setState(() {
+                                                      _paymentState = 0;
+                                                    });
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) => const StartScreen()));
+                                                  },
+                                                  style: OutlinedButton.styleFrom(
+                                                      foregroundColor: AppColors.red,
+                                                      side: const BorderSide(
+                                                          color: AppColors.red,
+                                                          width: 1)),
+                                                  child: FittedBox(
+                                                    child: Text(AppLocalizations.of(context)!.returnButtonLabel,
+                                                      style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontFamily: 'GloryMedium')))),
+                                            ))),
                                     Container(
                                         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.05, 0, 0, 0),
                                         child: SizedBox(
                                             height: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
                                             width: MediaQuery.of(context).size.height > 1000? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  _timerStop();
-                                                  provider.changeOrderStatus(1);
-                                                  setState(() {
-                                                    _paymentState = 1;
-                                                  });
-                                                },
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor: AppColors.green,
-                                                    foregroundColor: Colors.black),
-                                                child: FittedBox(
-                                                  child: Text(
-                                                    AppLocalizations.of(context)!.tryAgainButtonLabel,
-                                                    style: const TextStyle(
-                                                        fontSize: 17,
-                                                        fontFamily: 'GloryMedium'))))))]))]);
+                                            child: InkWell(
+                                              onTapDown: (_) {
+                                                _timerStop();
+                                                provider.changeOrderStatus(1);
+                                                setState(() {
+                                                  _paymentState = 1;
+                                                });
+                                              },
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    _timerStop();
+                                                    provider.changeOrderStatus(1);
+                                                    setState(() {
+                                                      _paymentState = 1;
+                                                    });
+                                                  },
+                                                  style: ElevatedButton.styleFrom(
+                                                      backgroundColor: AppColors.green,
+                                                      foregroundColor: Colors.black),
+                                                  child: FittedBox(
+                                                    child: Text(
+                                                      AppLocalizations.of(context)!.tryAgainButtonLabel,
+                                                      style: const TextStyle(
+                                                          fontSize: 17,
+                                                          fontFamily: 'GloryMedium')))),
+                                            )))]))]);
                       }
                     } else {
                       //print(snapshot.data);

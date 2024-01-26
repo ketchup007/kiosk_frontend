@@ -24,16 +24,19 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
 
   void goToOrderPage(context){
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-        builder: (context) => const OrderScreen()));
+    if(MediaQuery.of(context).size.height < 1000){
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const QrCodeScreen()));
+    }else{
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const OrderScreen()));
+    }
   }
 
-  test() async {
-    var file = await DefaultCacheManager().getFileFromCache('${ApiConstants.baseUrl}/assets/margherita.png');
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,20 +50,6 @@ class _StartScreenState extends State<StartScreen> {
                   fit: BoxFit.cover)),
           child: Column(
             children: [
-              //ElevatedButton(onPressed: () async {
-             //   final player = AudioPlayer();
-             //   await player.setAsset("assets/audio/moo.mp3");
-             //   player.play();
-             // }, child: Text("test")),
-              ElevatedButton(
-                  onPressed: () async {
-                    LocalBackendClient localBackendClient = LocalBackendClient();
-                    StorageController storageController = StorageController(localBackendClient);
-                    ProductStateObject obj = await storageController.fetchStorageState() as ProductStateObject;
-                    print(obj.quantity);
-                    print(obj.productName);
-                  },
-                  child: Text("Api test")),
               Center(
                   child: LanguageButtons(
                       ribbonHeight: MediaQuery.of(context).size.height * 0.1,
@@ -74,39 +63,28 @@ class _StartScreenState extends State<StartScreen> {
                   child: ConstrainedBox(
                       constraints: BoxConstraints.tightFor(
                           width: MediaQuery.of(context).size.width * 0.65),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.green,
-                            foregroundColor: Colors.black),
-                          onPressed: () {
-                            if(MediaQuery.of(context).size.height < 1000){
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const QrCodeScreen()));
-                            }else{
-                              goToOrderPage(context);
-                            }
-                          },
-                          child: FittedBox(
-                            child: Text(AppLocalizations.of(context)!.touchScreenInfo,
-                              maxLines: 1,
-                              style: const TextStyle(
-                                fontSize: 36, fontFamily: 'GloryMedium')))))),
+                      child: InkWell(
+                        onTapDown: (_) => goToOrderPage(context),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.green,
+                                foregroundColor: Colors.black),
+                              onPressed: () => goToOrderPage(context),
+                              child: FittedBox(
+                                  child: Text(AppLocalizations.of(context)!.touchScreenInfo,
+                                      maxLines: 1,
+                                      style: const TextStyle(
+                                          fontSize: 36, fontFamily: 'GloryMedium'))),),
+                        ),
+                      ))),
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
                   child: Material(
                       type: MaterialType.transparency,
                       child: InkWell(
-                          onTap: () {
-                            if(MediaQuery.of(context).size.height < 1000){
-                              showDialog(context: context,
-                                  builder: (context) => GpsWaitPopup(
-                                      onPress: () => goToOrderPage(context)));
-                            }else{
-                              goToOrderPage(context);
-                            }
-                          },
+                          onTapDown: (_) => goToOrderPage(context),
                           child: Ink.image(
                             image: const SVG.Svg('assets/images/touch.svg'),
                             height: MediaQuery.of(context).size.height * 0.2,
@@ -116,9 +94,7 @@ class _StartScreenState extends State<StartScreen> {
                   padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.03, 0),
                   alignment: Alignment.bottomRight,
                   height: MediaQuery.of(context).size.height * 0.22,
-                    child:const Text("heh") //RiveAnimation.asset('assets/animations/robot1.riv',
-                      //fit: BoxFit.fitHeight,
-                      //alignment: Alignment.bottomRight)
+                    child:const Text("heh")
                 ))])));
       }
 }

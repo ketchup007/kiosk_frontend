@@ -17,6 +17,7 @@ class ApiClient {
     Map<String, String>? queryParams}) {
     var apiUri = Uri.parse(_baseUrl);
     print(apiUri);
+    print(apiUri.port);
     final apiPath = apiUri.path + endpoint;
     print(apiPath);
     final uri = Uri(
@@ -25,6 +26,7 @@ class ApiClient {
       port: apiUri.port,
       path: apiPath,
       queryParameters: queryParams).toString();
+    print("uri is $uri");
     return uri;
   }
 
@@ -63,7 +65,7 @@ class ApiClient {
     final String url = buildUrl(
       endpoint: endpoint,
       queryParams: queryParams);
-    print(url);
+    print("url is $url");
 
     Map<String, dynamic> requestHeaders = buildHeaders(token: token);
     if(headers != null) {
@@ -71,6 +73,7 @@ class ApiClient {
     }
     //in try
     try {
+      print(url);
       final response = await DIO.get(url, options: Options(headers: requestHeaders));
       ApiResponse apiResponse = handleResponse(response);
 

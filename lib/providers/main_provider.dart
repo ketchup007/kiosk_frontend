@@ -250,7 +250,7 @@ class MainProvider extends ChangeNotifier {
   getLimit(String product, int number){
     ApiService(token: loginToken).fetchProductState(http.Client(), product).then((data){
       limits[product] = data!;
-      print("getlimit: ${limits}");
+      //print("getlimit: ${limits}");
     });
   }
 
@@ -263,6 +263,7 @@ class MainProvider extends ChangeNotifier {
 
 
   orderCancel() {
+    print("in order cancle");
     changeOrderStatus(254);
     order = OrderModel.resetModel();
     for(int i = 0; i < storage.length; i++){

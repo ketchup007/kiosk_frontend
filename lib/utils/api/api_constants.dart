@@ -1,7 +1,7 @@
 class ApiConstants {
   static const String baseUrl = "https://mnctest.avena.pl";
 
-  static const String localUrl = "http://10.3.15.11:8000";
+  static const String localUrl = "http://10.3.15.11:8000"; //10.3.15.11
 
   //Container Controller Endpoints
   static String getContainersList = "/api/containers/getList";
