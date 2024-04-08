@@ -48,7 +48,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
         children: [
           Center(
             child:  SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.68,
               width: MediaQuery.of(context).size.width * 0.9,
               child: Card(
                 color: Colors.white,
@@ -164,7 +164,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                     child:SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.3,
                       child: ProductList(storage: provider.storageBeg))),
                   Container(
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
@@ -175,7 +175,8 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                           provider.getOrderList();
                         },
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.8 : MediaQuery.of(context).size.width * 0.6,
                           child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).pop();

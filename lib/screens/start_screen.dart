@@ -54,6 +54,48 @@ class _StartScreenState extends State<StartScreen> {
                   child: LanguageButtons(
                       ribbonHeight: MediaQuery.of(context).size.height * 0.1,
                       ribbonWidth: MediaQuery.of(context).size.width * 0.1)),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: InkWell(
+                      onTapDown: (_) => goToOrderPage(context),
+                      child: Column(
+                        children: [
+                          Container(
+                              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
+                              child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
+                                  width: MediaQuery.of(context).size.width * 0.65)),
+                          Container(
+                              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
+                              child: ConstrainedBox(
+                                  constraints: BoxConstraints.tightFor(
+                                      width: MediaQuery.of(context).size.width * 0.65),
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.green,
+                                            foregroundColor: Colors.black),
+                                        onPressed: () => goToOrderPage(context),
+                                        child: FittedBox(
+                                            child: Text(AppLocalizations.of(context)!.touchScreenInfo,
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                    fontSize: 36, fontFamily: 'GloryMedium'))))))),
+                          Container(
+                              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+                              child: Material(
+                                  type: MaterialType.transparency,
+                                  child:  Ink.image(
+                                        image: const SVG.Svg('assets/images/touch.svg'),
+                                        height: MediaQuery.of(context).size.height * 0.2,
+                                        fit: BoxFit.fitHeight))),
+                      ],
+                    )
+                  ),
+                ),
+              ),
+              /*
               Container(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
                   child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
@@ -95,6 +137,9 @@ class _StartScreenState extends State<StartScreen> {
                   alignment: Alignment.bottomRight,
                   height: MediaQuery.of(context).size.height * 0.22,
                     child:const Text("heh")
-                ))])));
+                ))
+
+               */
+            ])));
       }
 }

@@ -19,51 +19,64 @@ class LanguageButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: false);
 
+    changeLanguage(String code) {
+      MyApp.of(context)?.setLocale(Locale.fromSubtags(languageCode: code));
+      provider.changeLanguage(context);
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-            child: SizedBox(
-                width: ribbonWidth,
-                height: ribbonHeight,
-                child: IconButton(
-                  onPressed: () {
-                    MyApp.of(context)?.setLocale(const Locale.fromSubtags(languageCode: 'pl'));
-                    provider.changeLanguage(context);
-                  },
-                  alignment: Alignment.bottomCenter,
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
-                  icon: Image.asset('assets/images/plFlag.png',
-                    width: ribbonWidth * 0.85,
-                    height: ribbonWidth * 0.85,),
-                  style: IconButton.styleFrom(
-                    backgroundColor: AppColors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(ribbonWidth *0.5),
-                        bottomRight: Radius.circular(ribbonWidth *0.5))))))),
-        Container(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-            child: SizedBox(
-                width: ribbonWidth,
-                height: ribbonHeight,
-                child: IconButton(
+        InkWell(
+          onTapDown: (_) {
+            changeLanguage("pl");
+          },
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
+              child: SizedBox(
+                  width: ribbonWidth,
+                  height: ribbonHeight,
+                  child: IconButton(
                     onPressed: () {
-                      MyApp.of(context)?.setLocale(const Locale.fromSubtags(languageCode: 'en'));
-                      provider.changeLanguage(context);
+                      changeLanguage("pl");
                     },
                     alignment: Alignment.bottomCenter,
                     padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
-                    icon: Image.asset('assets/images/angFlag.png',
+                    icon: Image.asset('assets/images/plFlag.png',
                       width: ribbonWidth * 0.85,
                       height: ribbonWidth * 0.85,),
                     style: IconButton.styleFrom(
-                        backgroundColor: AppColors.blue,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(ribbonWidth *0.5),
-                                bottomRight: Radius.circular(ribbonWidth *0.5)))))))]);
+                      backgroundColor: AppColors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(ribbonWidth *0.5),
+                          bottomRight: Radius.circular(ribbonWidth *0.5))))))),
+        ),
+        InkWell(
+          onTapDown: (_) {
+            changeLanguage("en");
+          },
+          child: Container(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: SizedBox(
+                  width: ribbonWidth,
+                  height: ribbonHeight,
+                  child: IconButton(
+                      onPressed: () {
+                        changeLanguage('en');
+                      },
+                      alignment: Alignment.bottomCenter,
+                      padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
+                      icon: Image.asset('assets/images/angFlag.png',
+                        width: ribbonWidth * 0.85,
+                        height: ribbonWidth * 0.85,),
+                      style: IconButton.styleFrom(
+                          backgroundColor: AppColors.blue,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(ribbonWidth *0.5),
+                                  bottomRight: Radius.circular(ribbonWidth *0.5))))))),
+        )]);
   }
 }

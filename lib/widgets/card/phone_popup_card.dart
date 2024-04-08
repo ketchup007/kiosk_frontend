@@ -369,7 +369,8 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                       Container(
                           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
                           child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.height * 0.05,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               child: InkWell(
                                 onTapDown: (_) {
                                   if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
