@@ -10,7 +10,7 @@ import 'package:kiosk_flutter/utils/api/controllers/storage_controller.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
 import 'package:kiosk_flutter/themes/color.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+// import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 import '../utils/api/api_constants.dart';
 

@@ -178,10 +178,10 @@ class _OrderScreenState extends State<OrderScreen> {
                                 // print("Yey you are on kiosk");
                               }
 
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const InfoScreen()));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const InfoScreen()));
 
                             },
                             child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',

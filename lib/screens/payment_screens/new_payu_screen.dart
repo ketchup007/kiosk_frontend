@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/apple_pay_screen.dart';
@@ -161,8 +161,8 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
                                                             id: id)));
                                           }
                                         },
-                                        child: CachedNetworkImage(
-                                            imageUrl: blockList[index]
+                                        child: Image.network(
+                                            blockList[index]
                                                 .brandImageUrl)));
                               });
                         }
