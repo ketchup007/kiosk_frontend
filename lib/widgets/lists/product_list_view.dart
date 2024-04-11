@@ -44,17 +44,17 @@ class _ProductListState extends State<ProductList> {
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         itemCount: widget.storage.length,
         itemBuilder: (context, index) {
-          provider.getLimit(widget.storage[index].orderName, widget.storage[index].number);
-          if(provider.limits[widget.storage[index].orderName]! <= 0){
+          provider.getLimit(widget.storage[index].productKey);
+          if(provider.limits[widget.storage[index].productKey]! <= 0){
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = false;
           } else if (widget.storage[index].number == 0) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = false;
-          } else if (widget.storage[index].number > 0 && widget.storage[index].number < provider.limits[widget.storage[index].orderName]!) {
+          } else if (widget.storage[index].number > 0 && widget.storage[index].number < provider.limits[widget.storage[index].productKey]!) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = true;
-          } else if (widget.storage[index].number == provider.limits[widget.storage[index].orderName]!) {
+          } else if (widget.storage[index].number == provider.limits[widget.storage[index].productKey]!) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = true;
           }

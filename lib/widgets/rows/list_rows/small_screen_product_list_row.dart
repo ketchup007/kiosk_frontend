@@ -113,9 +113,9 @@ class SmallScreenProductListRow extends StatelessWidget{
                                 if (storage[index].number > 0) {
                                   storage[index].number--;
                                   if (provider.order.id == 0) {
-                                    provider.getFirstOrder(storage[index].orderName, storage[index].number);
+                                    provider.createOrder(storage[index].productKey, storage[index].number);
                                   } else {
-                                    provider.changeOrder(storage[index].orderName, storage[index].number);
+                                    provider.updateOrderProduct(storage[index].productKey, storage[index].number);
                                   }
                                   provider.getSum();
                                 }
@@ -142,14 +142,14 @@ class SmallScreenProductListRow extends StatelessWidget{
                           height: MediaQuery.of(context).size.width * 0.1,
                           child: ElevatedButton(
                               onPressed: () {
-                                if (storage[index].number < provider.limits[storage[index].orderName]!) {
+                                if (storage[index].number < provider.limits[storage[index].productKey]!) {
                                   storage[index].number++;
                                   if (provider.order.id == 0) {
-                                    provider.getFirstOrder(
-                                      storage[index].orderName,
+                                    provider.createOrder(
+                                      storage[index].productKey,
                                       storage[index].number);
                                   } else {
-                                    provider.changeOrder(storage[index].orderName, storage[index].number);
+                                    provider.updateOrderProduct(storage[index].productKey, storage[index].number);
                                   }
                                   provider.getSum();
                                 }

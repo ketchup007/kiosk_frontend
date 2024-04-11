@@ -1,15 +1,15 @@
 class StorageLimitsModel{
-  final String orderName;
+  final String productKey;
   final int quantity;
 
   StorageLimitsModel({
-    required this.orderName,
+    required this.productKey,
     required this.quantity
   });
 
   factory StorageLimitsModel.fromJson(Map<String, dynamic> json){
     return StorageLimitsModel(
-        orderName: json['order_name'] as String,
+        productKey: json['product_key'] as String,
         quantity: json['quantity'] as int);
   }
 }

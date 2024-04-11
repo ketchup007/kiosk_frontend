@@ -42,12 +42,12 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
           if(value == "COMPLETED"){
             setState(() {
               status = 1;
-              provider.changeOrderStatus(2);
+              provider.updateOrderStatus(2);
             })
           }else if(value == "CANCELED"){
             setState(() {
               status = 3;
-              provider.changeOrderStatus(254);
+              provider.updateOrderStatus(254);
             })
           }
         });

@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/main.dart';
@@ -13,11 +12,14 @@ import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:kiosk_flutter/utils/supabase/supabase_service.dart';
 import '../models/country_model.dart';
+import '../models/storage_limits_model.dart';
 
 class MainProvider extends ChangeNotifier {
   List<StorageModel> storage = <StorageModel>[];
   Payment payment = Payment();
+  final databaseService = DatabaseService();
 
   List<StorageModel> storagePizza = <StorageModel>[];
   List<StorageModel> storageDrinks = <StorageModel>[];
@@ -113,11 +115,11 @@ class MainProvider extends ChangeNotifier {
   getStorageData(context) async {
     if(loading != true && isDone != true) {
       loading = true;
-      storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
-      await ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
-        print("Storage State data length: ${data?.length}");
+      storage = await databaseService.getProductInformation();
+      // storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
+      await databaseService.getStorageLimits().then( (data) {
         for(int i = 0; i < data!.length; i++){
-         limits[data[i].orderName] = data[i].quantity;
+         limits[data[i].productKey] = data[i].quantity;
         }});
       breakStorage();
       storageCurrent = storagePizza;
@@ -208,30 +210,28 @@ class MainProvider extends ChangeNotifier {
         break;
       }}}
 
-  getFirstOrder(String orderName, int value) async {
-    order.id = (await ApiService(token: loginToken).createFirstOrder(http.Client()))!;
-    //order.id = await createFirstOrder();
-    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
-    //changeOrderProduct(order.id, orderName, value);
+
+  createOrder(String orderName, int value) async {
+    order.id = await databaseService.createOrder();
+    await databaseService.updateOrderProduct(order.id, orderName, value);
+
   }
 
-  changeOrder(String orderName, int value) async {
-    ApiService(token: loginToken).changeOrderProduct(order.id, orderName, value);
+  updateOrderProduct(String orderName, int value) async {
+    await databaseService.updateOrderProduct(order.id, orderName, value);
   }
 
-  changeOrderStatus(int value) async{
-    print("zmieniam status");
-    ApiService(token: loginToken).changeOrderStatus(order.id, value);
+  updateOrderStatus(int value) async{
+    await databaseService.updateOrderStatus(order.id, value);
   }
 
 
-  setOrderClientNumber(String number, int promoPermission) async {
-    ApiService(token: loginToken).setClientNumber(order.id, number, promoPermission);
+  updateOrderClientPhoneNumber(String phoneNumber) async {
+    await databaseService.updateOrderClientPhoneNumber(order.id, phoneNumber);
   }
 
   Future<int> getOrderNumber() async{
-    print("from privider du du du du");
-    return (await ApiService(token: loginToken).fetchOrderNumber(http.Client(), order.id))!;
+    return await databaseService.updateOrderNumber(order.id);
   }
 
   Future<int> testRoute() async{
@@ -247,24 +247,23 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getLimit(String product, int number){
-    ApiService(token: loginToken).fetchProductState(http.Client(), product).then((data){
-      limits[product] = data!;
-      //print("getlimit: ${limits}");
+  getLimit(String product){
+    databaseService.getStorageStateProduct(product).then((data){
+      limits[product] = data;
     });
   }
 
   getLimits(){
-    ApiService(token: loginToken).fetchStorageLimits(http.Client()).then( (data) {
+    databaseService.getStorageLimits().then( (data) {
       for(int i = 0; i < data!.length; i++){
-        limits[data[i].orderName] = data[i].quantity;
+        limits[data[i].productKey] = data[i].quantity;
       }});
   }
 
 
   orderCancel() {
     print("in order cancle");
-    changeOrderStatus(254);
+    updateOrderStatus(254);
     order = OrderModel.resetModel();
     for(int i = 0; i < storage.length; i++){
       storage[i].number = 0;

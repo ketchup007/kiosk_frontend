@@ -19,7 +19,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
-    provider.changeOrderStatus(1);
+    provider.updateOrderStatus(1);
     return Scaffold(
         backgroundColor: Colors.transparent,
         appBar: null,
@@ -117,10 +117,10 @@ class _TransactionScreenState extends State<TransactionScreen> {
                                 return const Text('Error');
                               } else if (snapshot.hasData) {
                                 if (snapshot.data.toString() == "0") {
-                                  provider.changeOrderStatus(2);
+                                  provider.updateOrderStatus(2);
                                 } else {
                                   print("in transaction");
-                                  provider.changeOrderStatus(254);
+                                  provider.updateOrderStatus(254);
                                 }
 
                                 return Text(snapshot.data.toString());

@@ -48,7 +48,7 @@ class BlikPayScreenState extends State<BlikPayScreen>{
           setState( () {
             if(value == "COMPLETED"){
               status = 2;
-              provider.changeOrderStatus(2);
+              provider.updateOrderStatus(2);
             }})});
       }
     }else if(status == 2){

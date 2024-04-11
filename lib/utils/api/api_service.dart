@@ -82,6 +82,7 @@ class ApiService {
     return null;
   }
 
+  // przeniesione do supabase
   Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client) async {
     try {
       var response = await client.get(
@@ -100,6 +101,7 @@ class ApiService {
     return null;
   }
 
+  // przeniesione do Supabase
   Future<int?> createFirstOrder(http.Client client) async {
     try {
       var response = await client.post(
@@ -119,6 +121,7 @@ class ApiService {
     return null;
   }
 
+  // przeniesione do supabase
   Future<int?> fetchProductState(http.Client client, String product,
       ) async {
     try {
@@ -138,6 +141,7 @@ class ApiService {
     return null;
   }
 
+  // przeniesione do supabase
   Future<int?> fetchOrderNumber(http.Client client, int id) async {
     print("sms dudu dudy");
     try {
@@ -315,6 +319,8 @@ class ApiService {
   }
 
   //Post Data Section
+
+  // przeniesione do supabase
   Future<int?> changeOrderProduct(int id, String orderName, int value,
       ) async {
     print(orderName);
@@ -341,6 +347,7 @@ class ApiService {
     return null;
   }
 
+  // przenesione do supabase
   Future<int?> changeOrderStatus(int id, int value,
       ) async {
     print(value);
@@ -366,6 +373,7 @@ class ApiService {
     return null;
   }
 
+  // przeniesione do supabase
   Future<int?> setClientNumber(int id, String number, int promoPermission,
       ) async {
     try {

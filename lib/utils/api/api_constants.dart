@@ -7,12 +7,11 @@ class ApiConstants {
   static String getContainersList = "/api/containers/getList";
 
   //Orders Controller Endpoints
-  static String order = "/kiosk/order";
-  static String updateOrder (int id) => "/kiosk/order/$id";
-  static String updateOrderStatus (int id) => "/kiosk/order/$id/status";
-  static String setClientNumber (int id) => "/kiosk/order/$id/client_phone";
-  static String setOrderNumber(int id) => "/kiosk/order/$id/order_number";
-  //static String setClientName(int id) => "/api/orders/setClientName/$id";
+  static String order = "/kiosk/order"; //supabase
+  static String updateOrder (int id) => "/kiosk/order/$id"; //supabase
+  static String updateOrderStatus (int id) => "/kiosk/order/$id/status"; //supabase
+  static String setClientNumber (int id) => "/kiosk/order/$id/client_phone"; //supabase
+  static String setOrderNumber(int id) => "/kiosk/order/$id/order_number"; //supabase
 
   //Payment Controller Endpoints
   static String getPaymentMethods = "/api/payment/getPaymentMethods";
@@ -35,9 +34,9 @@ class ApiConstants {
 
   //Storage Controller Endpoints
   static String getProducts = "/api/storage/getProducts";
-  static String getStorageState = "/kiosk/storage_limit";
+  static String getStorageState = "/kiosk/storage_limit"; // supabase
   static String getProductStorageState(String product) =>
-      "/kiosk/storage_limit/$product";
+      "/kiosk/storage_limit/$product"; //supabase
 
   static String getProductImage(String fileName) =>
       "/api/storage/getProductImage/$fileName";

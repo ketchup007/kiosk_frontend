@@ -88,10 +88,11 @@ class SummaryCardState extends State<SummaryCard> {
                   widget.onPopUpFinish();
                   print("pop");
                   if(isPromotionChecked) {
-                    provider.setOrderClientNumber(provider.order.client_name, 1);
+                    print(provider.order.client_phone_number);
+                    provider.updateOrderClientPhoneNumber(provider.order.client_phone_number);
                   }
                   else {
-                    provider.setOrderClientNumber(provider.order.client_name, 0);
+                    provider.updateOrderClientPhoneNumber(provider.order.client_phone_number);
                   }
                   //provider.changeOrderStatus(1);
                   print("done");
@@ -167,8 +168,8 @@ class SummaryCardState extends State<SummaryCard> {
                             fontSize: 30)))))),
               )) :
             MediaQuery.of(context).size.height > 1000 ? FutureBuilder(
-              future: provider.payment.startTransaction(provider.sum),
-              builder: (context, snapshot) {
+                future: provider.payment.startTransaction(provider.sum),
+                builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                     _timerStop();
                     return Column(
@@ -202,6 +203,8 @@ class SummaryCardState extends State<SummaryCard> {
                       return const Text('Error');
                     } else if (snapshot.hasData) {
                       //print("Its done: ${snapshot.data.toString()}");
+                      print("snapshot data");
+                      print(snapshot.data);
                       if (snapshot.data.toString() == "7") { // change flag to test 7, for normal 0
                         //print("Its done: ${snapshot.data.toString()}");
                         //provider.changeOrderStatus(2);
@@ -272,7 +275,7 @@ class SummaryCardState extends State<SummaryCard> {
                       } else {
                         _timerStart();
                         print("in sumarry card");
-                        provider.changeOrderStatus(254);
+                        provider.updateOrderStatus(254);
                         return Column(
                           children: [
                             SizedBox(
@@ -350,7 +353,7 @@ class SummaryCardState extends State<SummaryCard> {
                                             child: InkWell(
                                               onTapDown: (_) {
                                                 _timerStop();
-                                                provider.changeOrderStatus(1);
+                                                provider.updateOrderStatus(1);
                                                 setState(() {
                                                   _paymentState = 1;
                                                 });
@@ -358,7 +361,7 @@ class SummaryCardState extends State<SummaryCard> {
                                               child: ElevatedButton(
                                                   onPressed: () {
                                                     _timerStop();
-                                                    provider.changeOrderStatus(1);
+                                                    provider.updateOrderStatus(1);
                                                     setState(() {
                                                       _paymentState = 1;
                                                     });

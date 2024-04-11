@@ -375,7 +375,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                 onTapDown: (_) {
                                   if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
                                     Navigator.of(context).pop();
-                                    provider.order.client_name = _dropdownValue.dialCode + _myController.text;
+                                    provider.order.client_phone_number = _dropdownValue.dialCode + _myController.text;
                                     widget.onPress(isCheckedB);
                                   }
                                 },
@@ -383,7 +383,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                     onPressed: () {
                                       if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
                                         Navigator.of(context).pop();
-                                        provider.order.client_name = _dropdownValue.dialCode + _myController.text;
+                                        provider.order.client_phone_number = _dropdownValue.dialCode + _myController.text;
                                         widget.onPress(isCheckedB);
                                       }
                                     },

@@ -39,13 +39,13 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
     void plusButtonAction() {
-      if (widget.storage[widget.index].number < provider.limits[widget.storage[widget.index].orderName]!) {
+      if (widget.storage[widget.index].number < provider.limits[widget.storage[widget.index].productKey]!) {
         widget.storage[widget.index].number++;
-        if (provider.order.id == 0) {provider.getFirstOrder(
-            widget.storage[widget.index].orderName,
+        if (provider.order.id == 0) {provider.createOrder(
+            widget.storage[widget.index].productKey,
             widget.storage[widget.index].number);
         } else {
-          provider.changeOrder(widget.storage[widget.index].orderName, widget.storage[widget.index].number);
+          provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         }
         provider.getSum();
       }
@@ -55,9 +55,9 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
       if (widget.storage[widget.index].number > 0) {
         widget.storage[widget.index].number--;
         if (provider.order.id == 0) {
-          provider.getFirstOrder(widget.storage[widget.index].orderName, widget.storage[widget.index].number);
+          provider.createOrder(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         } else {
-          provider.changeOrder(widget.storage[widget.index].orderName, widget.storage[widget.index].number);
+          provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         }
         provider.getSum();
       }

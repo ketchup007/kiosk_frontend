@@ -4,7 +4,7 @@ summary: Munchies Kiosk
 description: Munchies Kiosk App
 
 confinement: strict
-base: core18
+base: core20
 grade: stable
 
 apps:
