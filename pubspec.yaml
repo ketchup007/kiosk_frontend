@@ -3,7 +3,7 @@ description: Munchies Kiosk port from Android to Flutter
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -18,7 +18,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: 3.19.1
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -33,56 +34,57 @@ dependencies:
     sdk: flutter
   intl: any
 
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  http: ^0.13.5
-  provider: ^6.0.0
-  flutter_svg: ^1.1.5
-  flutter_svg_provider: ^1.0.3
-  web_socket_channel: ^2.2.0
-  #lottie: ^1.4.3
-  #rive: ^0.9.1
+  cupertino_icons: ^1.0.8 
+  provider: ^6.1.2 
+  flutter_svg: ^2.0.10+1
+  flutter_svg_provider: ^1.0.7
+  # web_socket_channel: ^2.2.0
+  # lottie: ^1.4.3
+  # rive: ^0.9.1
   auto_size_text: ^3.0.0
-  auto_size_text_field: ^2.1.0
-  geolocator: ^9.0.2
-  geocoding: ^2.0.5
-  network_info_plus: ^1.1.0
-  permission_handler: ^8.1.6
-  #flutter_pdfview: ^1.2.1
-#  flutter_widget_from_html: ^0.9.0
-  #sqflite: ^2.2.2
-  #path: ^1.8.2
-  shared_preferences: ^2.0.15
-  google_maps_flutter: ^2.2.3
-  webview_flutter: ^3.0.4
-  device_info_plus: ^8.0.0
-  fpjs_pro_plugin: ^1.3.0
+  auto_size_text_field: ^2.2.3
+  geolocator: ^12.0.0
+  # geocoding: ^2.0.5
+  network_info_plus: ^5.0.3
+  permission_handler: ^11.3.1
+  # flutter_pdfview: ^1.2.1
+  # flutter_widget_from_html: ^0.9.0
+  # sqflite: ^2.2.2
+  # path: ^1.8.2
+  shared_preferences: ^2.2.3
+  google_maps_flutter: ^2.7.0
+  # webview_flutter: ^3.0.4
+  device_info_plus: ^10.1.0
+  # fpjs_pro_plugin: ^1.3.0
   qr_code_scanner: ^1.0.1
-#  cached_network_image: ^3.2.3
-  pay: ^1.1.0
-  mock_web_server: ^5.0.0-nullsafety.1
-  xdg_desktop_portal: ^0.1.12
-  window_manager: ^0.3.4
+  cached_network_image: ^3.3.1
+  pay: ^2.0.0
+  # mock_web_server: ^5.0.0-nullsafety.1
+  # xdg_desktop_portal: ^0.1.12
+  # window_manager: ^0.3.4
   just_audio: ^0.9.34
-  just_audio_mpv: ^0.1.6
+  # just_audio_mpv: ^0.1.6
   dio: ^5.3.2
   supabase_flutter: ^2.0.0
+  http: ^1.2.1
+  async: ^2.11.0
+  webview_flutter: ^4.8.0
 
-  payu:
-    git:
-      url: https://github.com/PayU-EMEA/PayU-Flutter.git
-      path: payu
+  # payu:
+  #   git:
+  #     url: https://github.com/PayU-EMEA/PayU-Flutter.git
+  #     path: payu
+  #     ref: 1.0.2
 
 
 dependency_overrides:
-   intl: ^0.17.0
+  intl: ^0.17.0
 
 dev_dependencies:
-#  integration_test:
-#    sdk: flutter
+  #  integration_test:
+  #    sdk: flutter
   flutter_test:
     sdk: flutter
 
@@ -93,15 +95,13 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   mockito: ^5.3.2
-  build_runner: ^2.3.3
-
+  build_runner: ^2.4.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -144,7 +144,6 @@ flutter:
     - assets/Regulamin.pdf
     - assets/sounds/beep.mp3
     - assets/audio/
-
 
   fonts:
     - family: GloryBold

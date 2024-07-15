@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/info_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
@@ -152,7 +151,7 @@ class _OrderScreenState extends State<OrderScreen> {
         decoration: const BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
-          image: SVG.Svg('assets/images/background.svg'),
+          image: svg.Svg('assets/images/background.svg'),
           fit: BoxFit.cover)),
         child: Column(
           children: [

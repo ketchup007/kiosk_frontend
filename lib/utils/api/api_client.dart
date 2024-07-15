@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:kiosk_flutter/utils/api/api_response.dart';
 import 'package:kiosk_flutter/utils/api/response/resonse_object.dart';
 
@@ -14,7 +13,8 @@ class ApiClient {
 
   String buildUrl({
     required String endpoint,
-    Map<String, String>? queryParams}) {
+    Map<String, String>? queryParams,
+  }) {
     var apiUri = Uri.parse(_baseUrl);
     print(apiUri);
     print(apiUri.port);
@@ -22,28 +22,28 @@ class ApiClient {
     print(apiPath);
     final uri = Uri(
       scheme: apiUri.scheme,
-      host:apiUri.host,
+      host: apiUri.host,
       port: apiUri.port,
       path: apiPath,
-      queryParameters: queryParams).toString();
+      queryParameters: queryParams,
+    ).toString();
     print("uri is $uri");
     return uri;
   }
 
   Map<String, dynamic> buildHeaders({String? token}) {
-    Map<String,String> headers = {};
+    Map<String, String> headers = {};
 
-    if(token != "") {
+    if (token != "") {
       print(token);
     }
     return headers;
   }
 
   ApiResponse handleResponse(Response response) {
-
     Map<String, dynamic> body = <String, dynamic>{};
 
-    if(response.data.isNotEmpty){
+    if (response.data.isNotEmpty) {
       body = response.data;
     }
     final apiResponse = ApiResponse(response.statusCode!, body);
@@ -56,19 +56,17 @@ class ApiClient {
   }
 
   Future<ResponseObject> get({
-      required String endpoint,
-      required ResponseObject Function(Map<String, dynamic>) serializer,
-      Map<String, String>? queryParams,
-      Map<String, dynamic>? headers,
-      String? token}) async {
-
-    final String url = buildUrl(
-      endpoint: endpoint,
-      queryParams: queryParams);
+    required String endpoint,
+    required ResponseObject Function(Map<String, dynamic>) serializer,
+    Map<String, String>? queryParams,
+    Map<String, dynamic>? headers,
+    String? token,
+  }) async {
+    final String url = buildUrl(endpoint: endpoint, queryParams: queryParams);
     print("url is $url");
 
     Map<String, dynamic> requestHeaders = buildHeaders(token: token);
-    if(headers != null) {
+    if (headers != null) {
       requestHeaders.addAll(headers);
     }
     //in try
@@ -85,5 +83,4 @@ class ApiClient {
   }
 
   void handleError(Response response) {}
-
 }

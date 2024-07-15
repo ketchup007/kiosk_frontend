@@ -23,7 +23,7 @@ class ApiService {
     try {
       // print("in Api Call time est");
       var response = await client
-          .get(Uri.parse(ApiConstants.baseUrl + "/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
+          .get(Uri.parse("${ApiConstants.baseUrl}/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
 
       // print("in Api Call 2 time est${response.statusCode}");
 
@@ -519,7 +519,7 @@ class ApiService {
       print(andr.fingerprint);
 
       var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + "/api/payment/pay/createToken"),
+          Uri.parse("${ApiConstants.baseUrl}/api/payment/pay/createToken"),
           headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer $token'
@@ -682,7 +682,7 @@ class ApiService {
           body: jsonEncode(
               {'phone_number': phoneNumber, 'password_token': token}));
 
-      print(ApiConstants.baseUrl + "/api/login_check");
+      print("${ApiConstants.baseUrl}/api/login_check");
       print("number: $phoneNumber, token: $token");
 
       print(response.body);

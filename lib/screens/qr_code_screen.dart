@@ -1,21 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:flutter/material.dart'; 
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:kiosk_flutter/main.dart';
-import 'package:kiosk_flutter/screens/order_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/screens/order_screen.dart'; 
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
-import 'package:kiosk_flutter/utils/api/api_service.dart';
-import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
-import 'package:kiosk_flutter/widgets/card/gps_wait_popup.dart';
+import 'package:kiosk_flutter/utils/api/api_service.dart'; 
 import 'package:provider/provider.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-//import 'package:lottie/lottie.dart';
-//import 'package:rive/rive.dart';
-import 'package:kiosk_flutter/themes/color.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart'; 
 import 'package:http/http.dart' as http;
 
 import '../models/container_model.dart';
@@ -94,7 +87,7 @@ class _QrCodeScreenState extends State<QrCodeScreen>{
         decoration: const BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
-            image: SVG.Svg('assets/images/background.svg'),
+            image: svg.Svg('assets/images/background.svg'),
             fit: BoxFit.cover)),
           child: Center(
             child: Column(
