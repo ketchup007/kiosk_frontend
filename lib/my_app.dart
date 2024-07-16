@@ -1,33 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/pathSelector.dart';
-import 'package:kiosk_flutter/utils/api/api_constants.dart';
-import 'package:kiosk_flutter/utils/supabase/supabase_manager.dart';
-// import 'package:payu/payu.dart';
-import 'package:provider/provider.dart';
-import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-Future<void> main({String url = ApiConstants.baseUrl}) async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // supabase
-  SupabaseManager.instance.initLocalDB();
-  SupabaseManager.instance.initGlobalDB();
-  final res = await SupabaseManager.instance.signInToLocalDB();
-
-  //payu
-  // Payu.environment = Environment.sandbox;
-  // Payu.debug = true;
-  // Payu.locale = Locale('pl');
-  // Payu.pos = POS(id: '455830');
-
-  //setting up immersive view
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(ChangeNotifierProvider(create: (context) => MainProvider(), child: MyApp(url: url)));
-  });
-}
 
 class MyApp extends StatefulWidget {
   final String url;

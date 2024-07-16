@@ -67,10 +67,10 @@ class SummaryCardState extends State<SummaryCard> {
               widget.onPopUpFinish();
               print("pop");
               if (isPromotionChecked) {
-                print(provider.order.client_phone_number);
-                provider.updateOrderClientPhoneNumber(provider.order.client_phone_number);
+                print(provider.order.clientPhoneNumber);
+                provider.updateOrderClientPhoneNumber(provider.order.clientPhoneNumber);
               } else {
-                provider.updateOrderClientPhoneNumber(provider.order.client_phone_number);
+                provider.updateOrderClientPhoneNumber(provider.order.clientPhoneNumber);
               }
               //provider.changeOrderStatus(1);
               print("done");

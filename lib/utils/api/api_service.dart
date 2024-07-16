@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:kiosk_flutter/models/container_model.dart';
 import 'package:kiosk_flutter/models/pay_methods_model.dart';
 import 'package:kiosk_flutter/models/storage_limits_model.dart';
-import 'package:kiosk_flutter/models/storage_model.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/get_ip.dart';
 import 'package:kiosk_flutter/utils/json_parser.dart';
@@ -22,8 +21,7 @@ class ApiService {
   Future<int?> getTimeEst() async {
     try {
       // print("in Api Call time est");
-      var response = await client
-          .get(Uri.parse("${ApiConstants.baseUrl}/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
+      var response = await client.get(Uri.parse("${ApiConstants.baseUrl}/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
 
       // print("in Api Call 2 time est${response.statusCode}");
 
@@ -37,12 +35,10 @@ class ApiService {
     }
   }
 
-
   Future<String?> getFromLink(String link, http.Client client) async {
     try {
       print("in Api Call $link");
-      var response = await client
-          .get(Uri.parse(link), headers: {'Authorization': 'Bearer $token'});
+      var response = await client.get(Uri.parse(link), headers: {'Authorization': 'Bearer $token'});
 
       print("in Api Call 2 $link, ${response.statusCode}");
 
@@ -65,10 +61,7 @@ class ApiService {
   //Get Data Section
   Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
     try {
-      var response = await client.post(
-          Uri.parse(url + ApiConstants.getProducts),
-          headers: {'Authorization': 'Bearer $token'},
-          body: jsonEncode(<String, String>{'db': db.toString()}));
+      var response = await client.post(Uri.parse(url + ApiConstants.getProducts), headers: {'Authorization': 'Bearer $token'}, body: jsonEncode(<String, String>{'db': db.toString()}));
 
       if (response.statusCode == 200) {
         // print(response.body);
@@ -86,7 +79,7 @@ class ApiService {
   Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client) async {
     try {
       var response = await client.get(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.getStorageState),
+        Uri.parse(ApiConstants.localUrl + ApiConstants.getStorageState),
       );
 
       if (response.statusCode == 200) {
@@ -105,9 +98,9 @@ class ApiService {
   Future<int?> createFirstOrder(http.Client client) async {
     try {
       var response = await client.post(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.order),
-          // headers: {'Authorization': 'Bearer $token'},
-          );
+        Uri.parse(ApiConstants.localUrl + ApiConstants.order),
+        // headers: {'Authorization': 'Bearer $token'},
+      );
 
       print(response.body);
       if (response.statusCode == 201) {
@@ -122,12 +115,13 @@ class ApiService {
   }
 
   // przeniesione do supabase
-  Future<int?> fetchProductState(http.Client client, String product,
-      ) async {
+  Future<int?> fetchProductState(
+    http.Client client,
+    String product,
+  ) async {
     try {
       var response = await client.get(
-          Uri.parse(ApiConstants.localUrl +
-              ApiConstants.getProductStorageState(product)),
+        Uri.parse(ApiConstants.localUrl + ApiConstants.getProductStorageState(product)),
       );
 
       if (response.statusCode == 200) {
@@ -146,7 +140,7 @@ class ApiService {
     print("sms dudu dudy");
     try {
       var response = await client.patch(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.setOrderNumber(id)),
+        Uri.parse(ApiConstants.localUrl + ApiConstants.setOrderNumber(id)),
       );
 
       if (response.statusCode == 200) {
@@ -163,9 +157,7 @@ class ApiService {
 
   Future<List<ContainerModel>?> fetchContainer() async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.getContainersList), headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         // print(response.body);
@@ -181,9 +173,7 @@ class ApiService {
 
   Future<int?> startPaymentSession() async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentCredentials),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentCredentials), headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)["id"];
@@ -198,9 +188,7 @@ class ApiService {
 
   Future<int?> getPaymentAuth() async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payAuth),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.payAuth), headers: {'Authorization': 'Bearer $token'});
 
       print(response.body);
       if (response.statusCode == 200) {
@@ -216,9 +204,7 @@ class ApiService {
 
   Future<String?> fetchTransactionData(int id) async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.transactionStatus(id)), headers: {'Authorization': 'Bearer $token'});
 
       // debugPrint(response.body);
       if (response.statusCode == 200) {
@@ -234,9 +220,7 @@ class ApiService {
 
   Future<String?> fetchOrderData(int id) async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.orderStatus(id)),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.orderStatus(id)), headers: {'Authorization': 'Bearer $token'});
 
       // debugPrint(response.body);
       if (response.statusCode == 200) {
@@ -252,9 +236,7 @@ class ApiService {
 
   Future<List<PayMethodsModel>?> fetchPaymentMethods2(int id) async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payMethodsAuth(id)),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.payMethodsAuth(id)), headers: {'Authorization': 'Bearer $token'});
 
       debugPrint(response.body);
       if (response.statusCode == 200) {
@@ -270,9 +252,7 @@ class ApiService {
 
   Future<List<PayMethodsModel>?> fetchPaymentMethods() async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.getPaymentMethods), headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         print(response.body);
@@ -289,9 +269,7 @@ class ApiService {
 
   Future<String?> fetchPaymentStatus(int id) async {
     try {
-      var response = await http.get(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id)),
-          headers: {'Authorization': 'Bearer $token'});
+      var response = await http.get(Uri.parse(ApiConstants.baseUrl + ApiConstants.paymentNotifyGet(id)), headers: {'Authorization': 'Bearer $token'});
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)["status"];
@@ -321,13 +299,15 @@ class ApiService {
   //Post Data Section
 
   // przeniesione do supabase
-  Future<int?> changeOrderProduct(int id, String orderName, int value,
-      ) async {
+  Future<int?> changeOrderProduct(
+    int id,
+    String orderName,
+    int value,
+  ) async {
     print(orderName);
     print(value);
     try {
-      var response = await http.patch(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrder(id)),
+      var response = await http.patch(Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrder(id)),
           headers: <String, String>{
             'Content-Type': 'application/json'
             // 'Authorization': 'Bearer $token'
@@ -348,12 +328,13 @@ class ApiService {
   }
 
   // przenesione do supabase
-  Future<int?> changeOrderStatus(int id, int value,
-      ) async {
+  Future<int?> changeOrderStatus(
+    int id,
+    int value,
+  ) async {
     print(value);
     try {
-      var response = await http.patch(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrderStatus(id)),
+      var response = await http.patch(Uri.parse(ApiConstants.localUrl + ApiConstants.updateOrderStatus(id)),
           headers: <String, String>{
             'Content-Type': 'application/json'
             // 'Authorization': 'Bearer $token'
@@ -374,19 +355,18 @@ class ApiService {
   }
 
   // przeniesione do supabase
-  Future<int?> setClientNumber(int id, String number, int promoPermission,
-      ) async {
+  Future<int?> setClientNumber(
+    int id,
+    String number,
+    int promoPermission,
+  ) async {
     try {
-      var response = await http.patch(
-          Uri.parse(ApiConstants.localUrl + ApiConstants.setClientNumber(id)),
+      var response = await http.patch(Uri.parse(ApiConstants.localUrl + ApiConstants.setClientNumber(id)),
           headers: <String, String>{
             'Content-Type': 'application/json'
             // 'Authorization': 'Bearer $token'
           },
-          body: jsonEncode(<String, String>{
-            "client_name": "${number}",
-            "promo_permission": promoPermission.toString()
-          }));
+          body: jsonEncode(<String, String>{"client_name": "${number}", "promo_permission": promoPermission.toString()}));
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['accepted'];
@@ -399,17 +379,12 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentBlikOrder(
-      int id, double totalAmount, String blikCode) async {
+  Future<String?> paymentBlikOrder(int id, double totalAmount, String blikCode) async {
     try {
       final amount = totalAmount * 100;
       print('amount ${amount.toStringAsFixed(0)}');
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payBlik),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse(ApiConstants.baseUrl + ApiConstants.payBlik),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -430,21 +405,11 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentCardOrder(
-      int id,
-      double totalAmount,
-      String cardNumber,
-      String expirationMonth,
-      String expirationYear,
-      String cvv) async {
+  Future<String?> paymentCardOrder(int id, double totalAmount, String cardNumber, String expirationMonth, String expirationYear, String cvv) async {
     try {
       final amount = totalAmount * 100;
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse(ApiConstants.baseUrl + ApiConstants.payCard),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -470,8 +435,7 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentCardTokenOrder(
-      int id, double totalAmount, String cardToken) async {
+  Future<String?> paymentCardTokenOrder(int id, double totalAmount, String cardToken) async {
     try {
       final amount = totalAmount * 100;
 
@@ -479,12 +443,8 @@ class ApiService {
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
       print(andr.fingerprint);
 
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payTokenCard),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse(ApiConstants.baseUrl + ApiConstants.payTokenCard),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -509,8 +469,7 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentCardTokenCreate(
-      int id, double totalAmount, String cardToken) async {
+  Future<String?> paymentCardTokenCreate(int id, double totalAmount, String cardToken) async {
     try {
       final amount = totalAmount * 100;
 
@@ -518,12 +477,8 @@ class ApiService {
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
       print(andr.fingerprint);
 
-      var response = await http.post(
-          Uri.parse("${ApiConstants.baseUrl}/api/payment/pay/createToken"),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse("${ApiConstants.baseUrl}/api/payment/pay/createToken"),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -547,8 +502,7 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentGpayTokenOrder(
-      int id, double totalAmount, String GpayToken) async {
+  Future<String?> paymentGpayTokenOrder(int id, double totalAmount, String GpayToken) async {
     try {
       final amount = totalAmount * 100;
 
@@ -557,12 +511,8 @@ class ApiService {
       print(andr.fingerprint);
       print(GpayToken);
 
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payGpay),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse(ApiConstants.baseUrl + ApiConstants.payGpay),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -587,8 +537,7 @@ class ApiService {
     return null;
   }
 
-  Future<String?> paymentApplePayTokenOrder(
-      int id, double totalAmount, String applePayToken) async {
+  Future<String?> paymentApplePayTokenOrder(int id, double totalAmount, String applePayToken) async {
     print(applePayToken);
     print("tt1");
     try {
@@ -597,12 +546,8 @@ class ApiService {
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       IosDeviceInfo andr = await deviceInfo.iosInfo;
 
-      var response = await http.post(
-          Uri.parse(ApiConstants.baseUrl + ApiConstants.payApplePay),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
+      var response = await http.post(Uri.parse(ApiConstants.baseUrl + ApiConstants.payApplePay),
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
           body: jsonEncode({
             "id": id.toString(),
             "customerIp": await gettingIP(),
@@ -633,10 +578,7 @@ class ApiService {
   Future<String?> smsLogin(String phoneNumber, {String url = ApiConstants.baseUrl}) async {
     try {
       print(phoneNumber);
-      var response = await client.post(
-          Uri.parse(url + ApiConstants.smsLogin),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'phone_number': phoneNumber}));
+      var response = await client.post(Uri.parse(url + ApiConstants.smsLogin), headers: {'Content-Type': 'application/json'}, body: jsonEncode({'phone_number': phoneNumber}));
 
       print(response.body);
       if (response.statusCode == 200) {
@@ -653,12 +595,9 @@ class ApiService {
   Future<String?> smsToken(String phoneNumber, String code, {String url = ApiConstants.baseUrl}) async {
     try {
       print("${phoneNumber}, ${code}");
-      var response = await http.post(
-          Uri.parse(url + ApiConstants.getSmsToken),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({'phone_number': phoneNumber, 'code': code}));
+      var response = await http.post(Uri.parse(url + ApiConstants.getSmsToken), headers: {'Content-Type': 'application/json'}, body: jsonEncode({'phone_number': phoneNumber, 'code': code}));
 
-          print(response.body);
+      print(response.body);
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)["status"] == "SUCCESS") {
           return jsonDecode(response.body)["token"];
@@ -676,11 +615,7 @@ class ApiService {
 
   Future<String?> login(String phoneNumber, String token, {String url = ApiConstants.baseUrl}) async {
     try {
-      var response = await http.post(
-          Uri.parse(url + ApiConstants.loginToken),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(
-              {'phone_number': phoneNumber, 'password_token': token}));
+      var response = await http.post(Uri.parse(url + ApiConstants.loginToken), headers: {'Content-Type': 'application/json'}, body: jsonEncode({'phone_number': phoneNumber, 'password_token': token}));
 
       print("${ApiConstants.baseUrl}/api/login_check");
       print("number: $phoneNumber, token: $token");

@@ -7,7 +7,6 @@ import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class BigScreenProductListRow extends StatefulWidget {
   final String name;
   final String ingredients;
@@ -41,9 +40,9 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     void plusButtonAction() {
       if (widget.storage[widget.index].number < provider.limits[widget.storage[widget.index].productKey]!) {
         widget.storage[widget.index].number++;
-        if (provider.order.id == 0) {provider.createOrder(
-            widget.storage[widget.index].productKey,
-            widget.storage[widget.index].number);
+        // TODO: upsert
+        if (provider.order.id == '0') {
+          provider.createOrder(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         } else {
           provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         }
@@ -54,7 +53,8 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     void minusButtonAction() {
       if (widget.storage[widget.index].number > 0) {
         widget.storage[widget.index].number--;
-        if (provider.order.id == 0) {
+        // TODO: upsert
+        if (provider.order.id == '0') {
           provider.createOrder(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
         } else {
           provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
@@ -62,139 +62,180 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
         provider.getSum();
       }
     }
+
     return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
-              child: ProductNetworkImage(
-                size: MediaQuery.of(context).size.width * 0.12,
-                imageName: widget.storage[widget.index].image,
-              )),
-          Container(
-              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                            height: MediaQuery.of(context).size.width*0.06,
-                            child: FittedBox(
-                                child:Text(widget.name,
-                                    textAlign: TextAlign.start,
-                                    textHeightBehavior: const TextHeightBehavior(
-                                        applyHeightToFirstAscent: false),
-                                    style: const TextStyle(
-                                        fontFamily: 'GloryBold',
-                                        fontSize: 25)))),
-                        SizedBox(height: MediaQuery.of(context).size.width*0.04,
-                            child:
-                            AutoSizeText(widget.ingredients,
-                                maxLines: 2,
-                                overflow: TextOverflow.clip,
-                                style: const TextStyle(
-                                    fontFamily: 'GloryLightItalic', fontSize: 15)))]))),
-          Container(
-              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.017, 5, 0),
-              child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.05,
-                  child: FittedBox(
-                      child: Text("${widget.storage[widget.index].price.toStringAsFixed(2)} zł",
-                          style: const TextStyle(
-                              fontFamily: 'GloryLightItalic', fontSize: 15))))),
-          Container(
-              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.015, 0, 0),
-              child: Container(
-                  width: MediaQuery.of(context).size.width * 0.07,
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 2,
-                          color: AppColors.mediumBlue),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Center(
-                      child: FittedBox(child: Text("${widget.storage[widget.index].number} ${AppLocalizations.of(context)!.pcs}",
-                          style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15)))))),
-          Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
+            child: ProductNetworkImage(
+              size: MediaQuery.of(context).size.width * 0.12,
+              imageUrl: widget.storage[widget.index].image,
+            )),
+        Container(
+            padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
+            child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.06,
+                    child: FittedBox(
+                      child: Text(
+                        widget.name,
+                        textAlign: TextAlign.start,
+                        textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                        style: const TextStyle(
+                          fontFamily: 'GloryBold',
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.04,
+                    child: AutoSizeText(
+                      widget.ingredients,
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
+                      style: const TextStyle(
+                        fontFamily: 'GloryLightItalic',
+                        fontSize: 15,
+                      ),
+                    ),
+                  )
+                ]))),
+        Container(
+          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.017, 5, 0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.05,
+            child: FittedBox(
+              child: Text(
+                "${widget.storage[widget.index].price.toStringAsFixed(2)} zł",
+                style: const TextStyle(
+                  fontFamily: 'GloryLightItalic',
+                  fontSize: 15,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.015, 0, 0),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.07,
+            decoration: BoxDecoration(border: Border.all(width: 2, color: AppColors.mediumBlue), borderRadius: BorderRadius.circular(20)),
+            child: Center(
+              child: FittedBox(
+                child: Text(
+                  "${widget.storage[widget.index].number} ${AppLocalizations.of(context)!.pcs}",
+                  style: const TextStyle(
+                    fontFamily: 'GloryMedium',
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
-                          child: Visibility(
-                              visible: widget.isVisibleMinus[widget.index],
-                              maintainState: true,
-                              maintainSize: true,
-                              maintainAnimation: true,
-                              child: InkWell(
-                                onTapDown: (_) {
-                                  minusButtonAction();
-                                  minusButtonActionPerformed = true;
-                                },
-                                onTapCancel: () {
-                                  minusButtonActionPerformed = false;
-                                },
-                                child: SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.06,
-                                    height: MediaQuery.of(context).size.width * 0.06,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if(minusButtonActionPerformed){
-                                            minusButtonActionPerformed = false;
-                                          }else{
-                                            minusButtonAction();
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            shape: const CircleBorder(),
-                                            backgroundColor: AppColors.red),
-                                        child: const Text("-",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 30)))),
-                              ))),
-                      Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
-                          child: Visibility(
-                              visible: widget.isVisiblePlus[widget.index],
-                              maintainState: true,
-                              maintainSize: true,
-                              maintainAnimation: true,
-                              child: InkWell(
-                                onTapDown: (_) {
-                                  plusButtonAction();
-                                  plusButtonActionPerformed = true;
-                                },
-                                onTapCancel: () {
+                Container(
+                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
+                  child: Visibility(
+                    visible: widget.isVisibleMinus[widget.index],
+                    maintainState: true,
+                    maintainSize: true,
+                    maintainAnimation: true,
+                    child: InkWell(
+                      onTapDown: (_) {
+                        minusButtonAction();
+                        minusButtonActionPerformed = true;
+                      },
+                      onTapCancel: () {
+                        minusButtonActionPerformed = false;
+                      },
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.06,
+                        height: MediaQuery.of(context).size.width * 0.06,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (minusButtonActionPerformed) {
+                              minusButtonActionPerformed = false;
+                            } else {
+                              minusButtonAction();
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(shape: const CircleBorder(), backgroundColor: AppColors.red),
+                          child: const Text(
+                            "-",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
+                    child: Visibility(
+                        visible: widget.isVisiblePlus[widget.index],
+                        maintainState: true,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        child: InkWell(
+                          onTapDown: (_) {
+                            plusButtonAction();
+                            plusButtonActionPerformed = true;
+                          },
+                          onTapCancel: () {
+                            plusButtonActionPerformed = false;
+                          },
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.06,
+                            height: MediaQuery.of(context).size.width * 0.06,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (plusButtonActionPerformed) {
                                   plusButtonActionPerformed = false;
-                                },
-                                child: SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.06,
-                                    height: MediaQuery.of(context).size.width * 0.06,
-                                    child: ElevatedButton(
-                                        onPressed: () {
-                                          if(plusButtonActionPerformed){
-                                            plusButtonActionPerformed = false;
-                                          }else {
-                                            plusButtonAction();
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            shape: const CircleBorder(),
-                                            backgroundColor: AppColors.mediumBlue),
-                                        child: const Text("+",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 30)))),
-                              )))]),
-                Text("${(widget.storage[widget.index].price * widget.storage[widget.index].number).toStringAsFixed(2)} zł",
-                    style: const TextStyle(
-                        fontFamily: "GloryMedium",
-                        fontSize: 20))])]);
+                                } else {
+                                  plusButtonAction();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                backgroundColor: AppColors.mediumBlue,
+                              ),
+                              child: const Text(
+                                "+",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )))
+              ],
+            ),
+            Text(
+              "${(widget.storage[widget.index].price * widget.storage[widget.index].number).toStringAsFixed(2)} zł",
+              style: const TextStyle(
+                fontFamily: "GloryMedium",
+                fontSize: 20,
+              ),
+            )
+          ],
+        )
+      ],
+    );
 
     // Your build method implementation...
     // Use widget.name, widget.ingredients, etc. to access the properties.

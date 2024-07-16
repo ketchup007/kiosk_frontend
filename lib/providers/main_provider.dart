@@ -3,28 +3,30 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
-import 'package:kiosk_flutter/models/order_model.dart';
-import 'package:kiosk_flutter/models/storage_model.dart';
+import 'package:kiosk_flutter/models/country_model.dart';
+import 'package:kiosk_flutter/models/menus/product.dart';
+import 'package:kiosk_flutter/models/menus/product_type.dart';
+import 'package:kiosk_flutter/models/orders/order.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';
+import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 
-import 'package:kiosk_flutter/utils/supabase/supabase_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/country_model.dart';
 
 class MainProvider extends ChangeNotifier {
-  List<StorageModel> storage = <StorageModel>[];
+  List<Product> products = [];
+
   Payment payment = Payment();
   final databaseService = DatabaseService();
 
-  List<StorageModel> storagePizza = <StorageModel>[];
-  List<StorageModel> storageDrinks = <StorageModel>[];
-  List<StorageModel> storageBox = <StorageModel>[];
-  List<StorageModel> storageSauce = <StorageModel>[];
-  List<StorageModel> storageCurrent = <StorageModel>[];
-  List<StorageModel> storageOrders = <StorageModel>[];
-  List<StorageModel> storageBeg = <StorageModel>[];
+  List<Product> storagePizza = <Product>[];
+  List<Product> storageDrinks = <Product>[];
+  List<Product> storageBox = <Product>[];
+  List<Product> storageSauce = <Product>[];
+  List<Product> storageCurrent = <Product>[];
+  List<Product> storageOrders = <Product>[];
+  List<Product> storageBeg = <Product>[];
 
   List<CardPaymentToken> cardTokens = <CardPaymentToken>[];
 
@@ -39,9 +41,9 @@ class MainProvider extends ChangeNotifier {
   String phoneNumberToken = "";
   String loginToken = "";
 
-  double sum_temp = 0.1;
+  double sumTemp = 0.1;
   double sum = 0.0;
-  OrderModel order = OrderModel.resetModel();
+  Order order = Order.empty();
   String language = 'pl';
   List<CountryModel> countryList = [];
 
@@ -108,11 +110,11 @@ class MainProvider extends ChangeNotifier {
   getStorageData(context) async {
     if (loading != true && isDone != true) {
       loading = true;
-      storage = await databaseService.getProductInformation();
+      products = await databaseService.getProduct();
       // storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
-      await databaseService.getStorageLimits().then((data) {
-        for (int i = 0; i < data!.length; i++) {
-          limits[data[i].productKey] = data[i].quantity;
+      await databaseService.getStorageLimits().then((storageStates) {
+        for (final storageState in storageStates) {
+          limits[storageState.productId] = storageState.amount;
         }
       });
       breakStorage();
@@ -179,39 +181,31 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  breakStorage() {
-    for (int i = 0; i < storage.length; i++) {
-      switch (storage[i].type) {
-        case 1:
-          {
-            storagePizza.add(storage[i]);
-          }
+  void breakStorage() {
+    for (final product in products) {
+      switch (product.type) {
+        case ProductType.pizza:
+          storagePizza.add(product);
           break;
-
-        case 2:
-          {
-            storageDrinks.add(storage[i]);
-          }
+        case ProductType.drink:
+          storageDrinks.add(product);
           break;
-
-        case 3:
-          {
-            storageSauce.add(storage[i]);
-          }
+        case ProductType.box:
+          storageSauce.add(product);
           break;
-
-        case 4:
-          {
-            storageBox.add(storage[i]);
-          }
+        case ProductType.sauce:
+          storageBox.add(product);
           break;
       }
     }
   }
 
   createOrder(String orderName, int value) async {
-    order.id = await databaseService.createOrder();
-    await databaseService.updateOrderProduct(order.id, orderName, value);
+    final newId = await databaseService.createOrder();
+    order = order.copyWith(id: newId);
+
+    // TODO: po co to?
+    await databaseService.updateOrderProduct(newId, orderName, value);
   }
 
   updateOrderProduct(String orderName, int value) async {
@@ -222,7 +216,7 @@ class MainProvider extends ChangeNotifier {
     await databaseService.updateOrderStatus(order.id, value);
   }
 
-  updateOrderClientPhoneNumber(String phoneNumber) async {
+  updateOrderClientPhoneNumber(String? phoneNumber) async {
     await databaseService.updateOrderClientPhoneNumber(order.id, phoneNumber);
   }
 
@@ -237,8 +231,8 @@ class MainProvider extends ChangeNotifier {
 
   getSum() {
     sum = 0.0;
-    for (var i = 0; i < storage.length; i++) {
-      sum = sum + storage[i].price * storage[i].number;
+    for (var i = 0; i < products.length; i++) {
+      sum = sum + products[i].price * products[i].number;
     }
     notifyListeners();
   }
@@ -261,8 +255,8 @@ class MainProvider extends ChangeNotifier {
     print("in order cancle");
     updateOrderStatus(254);
     order = OrderModel.resetModel();
-    for (int i = 0; i < storage.length; i++) {
-      storage[i].number = 0;
+    for (int i = 0; i < products.length; i++) {
+      products[i].number = 0;
     }
     storageBeg.clear();
     popupDone = false;
@@ -271,8 +265,8 @@ class MainProvider extends ChangeNotifier {
 
   orderFinish() {
     order = OrderModel.resetModel();
-    for (int i = 0; i < storage.length; i++) {
-      storage[i].number = 0;
+    for (int i = 0; i < products.length; i++) {
+      products[i].number = 0;
     }
     storageBeg.clear();
     popupDone = false;
@@ -284,9 +278,9 @@ class MainProvider extends ChangeNotifier {
       storageOrders.removeRange(0, storageOrders.length);
     }
 
-    for (int i = 0; i < storage.length; i++) {
-      if (storage[i].number > 0) {
-        storageOrders.add(storage[i]);
+    for (int i = 0; i < products.length; i++) {
+      if (products[i].number > 0) {
+        storageOrders.add(products[i]);
       }
     }
 
