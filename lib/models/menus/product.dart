@@ -10,7 +10,7 @@ class Product extends Base<Product> {
   final num price;
   final String currency;
   final ProductType type;
-  final String image;
+  final String? image;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;

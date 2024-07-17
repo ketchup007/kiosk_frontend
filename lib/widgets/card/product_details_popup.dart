@@ -6,7 +6,7 @@ import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 class ProductDetailsPopup extends StatelessWidget {
   final String name;
   final String ingredients;
-  final String imageName;
+  final String? imageName;
 
   const ProductDetailsPopup({
     super.key,

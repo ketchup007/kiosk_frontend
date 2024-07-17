@@ -9,7 +9,7 @@ class MunchieProduct extends Base<MunchieProduct> {
   final num price;
   final String currency;
   final ProductType type;
-  final String image;
+  final String? image;
   final List<MunchieIngredient> ingredients; // Zmienione na listę MunchieIngredient
   final DateTime createdAt;
   @override

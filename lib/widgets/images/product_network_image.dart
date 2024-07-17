@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 
 class ProductNetworkImage extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final double size;
 
   const ProductNetworkImage({Key? key, required this.size, required this.imageUrl}) : super(key: key);
@@ -18,7 +18,7 @@ class ProductNetworkImage extends StatelessWidget {
         borderRadius: BorderRadius.circular(size / 5),
         child: Center(
           child: CachedNetworkImage(
-            imageUrl: imageUrl,
+            imageUrl: imageUrl ?? 'https://picsum.photos/200/300',
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
