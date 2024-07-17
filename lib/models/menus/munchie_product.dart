@@ -1,8 +1,7 @@
-import 'package:kiosk_flutter/models/base.dart';
 import 'package:kiosk_flutter/models/menus/munchie_ingredient.dart';
 import 'package:kiosk_flutter/models/menus/product_type.dart';
 
-class MunchieProduct extends Base<MunchieProduct> {
+class MunchieProduct {
   final String munchieId;
   final String productId;
   final String name;
@@ -10,13 +9,12 @@ class MunchieProduct extends Base<MunchieProduct> {
   final String currency;
   final ProductType type;
   final String? image;
-  final List<MunchieIngredient> ingredients; // Zmienione na listę MunchieIngredient
+  final List<MunchieIngredient> ingredients;
   final DateTime createdAt;
-  @override
   final DateTime updatedAt;
   final String translationLanguageId;
 
-  const MunchieProduct({
+  MunchieProduct({
     required this.munchieId,
     required this.productId,
     required this.name,
@@ -24,13 +22,12 @@ class MunchieProduct extends Base<MunchieProduct> {
     required this.currency,
     required this.type,
     required this.image,
-    required this.ingredients, // Inicjalizacja składników
+    required this.ingredients,
     required this.createdAt,
     required this.updatedAt,
     required this.translationLanguageId,
   });
 
-  @override
   MunchieProduct copyWith({
     String? munchieId,
     String? productId,
@@ -39,7 +36,7 @@ class MunchieProduct extends Base<MunchieProduct> {
     String? currency,
     ProductType? type,
     String? image,
-    List<MunchieIngredient>? ingredients, // Kopiowanie składników
+    List<MunchieIngredient>? ingredients,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? translationLanguageId,
@@ -52,7 +49,7 @@ class MunchieProduct extends Base<MunchieProduct> {
       currency: currency ?? this.currency,
       type: type ?? this.type,
       image: image ?? this.image,
-      ingredients: ingredients ?? this.ingredients, // Kopiowanie składników
+      ingredients: ingredients ?? this.ingredients,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       translationLanguageId: translationLanguageId ?? this.translationLanguageId,
@@ -68,14 +65,13 @@ class MunchieProduct extends Base<MunchieProduct> {
       currency: json['currency'] as String,
       type: ProductType.values.firstWhere((e) => e.toString().split('.').last == json['type']),
       image: json['image'] as String,
-      ingredients: (json['ingredients'] as List<dynamic>).map((e) => MunchieIngredient.fromJson(e as Map<String, dynamic>)).toList(), // Inicjalizacja składników z JSON
+      ingredients: (json['ingredients'] as List<dynamic>).map((e) => MunchieIngredient.fromJson(e as Map<String, dynamic>)).toList(),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       translationLanguageId: json['translation_language_id'] as String,
     );
   }
 
-  @override
   Map<String, dynamic> toJson() {
     return {
       'munchie_id': munchieId,
@@ -85,7 +81,7 @@ class MunchieProduct extends Base<MunchieProduct> {
       'currency': currency,
       'type': type.toString().split('.').last,
       'image': image,
-      'ingredients': ingredients.map((e) => e.toJson()).toList(), // Składniki do JSON
+      'ingredients': ingredients.map((e) => e.toJson()).toList(),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
       'translation_language_id': translationLanguageId,
@@ -104,7 +100,7 @@ class MunchieProduct extends Base<MunchieProduct> {
         other.currency == currency &&
         other.type == type &&
         other.image == image &&
-        other.ingredients == ingredients && // Porównywanie składników
+        other.ingredients == ingredients &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt &&
         other.translationLanguageId == translationLanguageId;
@@ -119,15 +115,11 @@ class MunchieProduct extends Base<MunchieProduct> {
         currency.hashCode ^
         type.hashCode ^
         image.hashCode ^
-        ingredients.hashCode ^ // Hashing składników
+        ingredients.hashCode ^
         createdAt.hashCode ^
         updatedAt.hashCode ^
         translationLanguageId.hashCode;
   }
-
-  @override
-  // TODO: implement id
-  String get id => throw UnimplementedError();
 
   String get ingredientNamesAsString => ingredients.map((e) => e.name).join(', ');
 }

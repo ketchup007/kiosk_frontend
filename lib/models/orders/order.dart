@@ -1,7 +1,9 @@
+import 'package:kiosk_flutter/config.dart';
 import 'package:kiosk_flutter/models/base.dart';
 import 'package:kiosk_flutter/models/orders/order_status.dart';
 import 'package:kiosk_flutter/models/orders/origin_type.dart';
 import 'package:kiosk_flutter/models/orders/pickup_number.dart';
+import 'package:uuid/uuid.dart';
 
 class Order extends Base<Order> {
   @override
@@ -121,8 +123,8 @@ class Order extends Base<Order> {
 
   factory Order.empty() {
     return Order(
-      id: '',
-      munchieId: '',
+      id: '${AppConfig.instance.munchieId}_${const Uuid().v4()}',
+      munchieId: AppConfig.instance.munchieId,
       kioskId: '',
       origin: OriginType.values.first,
       status: OrderStatus.values.first,

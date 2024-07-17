@@ -32,39 +32,41 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    setState(() {
-      isVisiblePlus = List<bool>.filled(widget.products.length, true);
-      isVisibleMinus = List<bool>.filled(widget.products.length, false);
-    });
+    isVisiblePlus = List<bool>.filled(widget.products.length, true);
+    isVisibleMinus = List<bool>.filled(widget.products.length, false);
 
     return ListView.builder(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
         itemCount: widget.products.length,
         itemBuilder: (context, index) {
-          provider.getLimit(widget.products[index].productKey);
-          if (provider.limits[widget.products[index].productKey]! <= 0) {
+          final product = widget.products[index];
+
+          provider.refreshLimit(product.productId);
+          int productCount = provider.getProductInOrderCount(product.productId);
+
+          if (provider.limits[product.productId]! <= 0) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = false;
-          } else if (widget.products[index].number == 0) {
+          } else if (productCount == 0) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = false;
-          } else if (widget.products[index].number > 0 && widget.products[index].number < provider.limits[widget.products[index].productKey]!) {
+          } else if (productCount > 0 && productCount < provider.limits[product.productId]!) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = true;
-          } else if (widget.products[index].number == provider.limits[widget.products[index].productKey]!) {
+          } else if (productCount == provider.limits[product.productId]!) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = true;
           }
 
           if (MediaQuery.of(context).size.height > 1000) {
             return BigScreenProductListRow(
-              product: widget.products[index],
+              product: product,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );
           } else {
             return SmallScreenProductListRow(
-              product: widget.products[index],
+              product: product,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );

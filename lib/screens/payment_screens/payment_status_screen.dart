@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/models/orders/order_status.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -37,14 +38,14 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                 {
                   setState(() {
                     status = 1;
-                    provider.updateOrderStatus(2);
+                    provider.updateOrderStatus(OrderStatus.paid);
                   })
                 }
               else if (value == "CANCELED")
                 {
                   setState(() {
                     status = 3;
-                    provider.updateOrderStatus(254);
+                    provider.updateOrderStatus(OrderStatus.canceled);
                   })
                 }
             });

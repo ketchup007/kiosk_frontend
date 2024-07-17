@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:provider/provider.dart';
 
 class BigScreenOrderListRow extends StatelessWidget {
   const BigScreenOrderListRow({super.key, required this.product});
@@ -10,6 +12,9 @@ class BigScreenOrderListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<MainProvider>(context, listen: true);
+
+    int productCount = provider.getProductInOrderCount(product.productId);
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.001),
       child: Row(
@@ -23,7 +28,7 @@ class BigScreenOrderListRow extends StatelessWidget {
               child: Center(
                 child: FittedBox(
                   child: Text(
-                    '${product.number}x',
+                    '${productCount}x',
                     style: const TextStyle(
                       fontFamily: 'GloryLight',
                       fontSize: 30,
@@ -94,7 +99,7 @@ class BigScreenOrderListRow extends StatelessWidget {
               child: Center(
                 child: FittedBox(
                   child: Text(
-                    '${product.number}x',
+                    '${productCount}x',
                     style: const TextStyle(
                       fontFamily: 'GloryLight',
                       fontSize: 12,
@@ -108,7 +113,7 @@ class BigScreenOrderListRow extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: AutoSizeText(
-              '${(product.number * product.price).toStringAsFixed(2)} zł',
+              '${(productCount * product.price).toStringAsFixed(2)} zł',
               textAlign: TextAlign.end,
               maxLines: 1,
               style: const TextStyle(

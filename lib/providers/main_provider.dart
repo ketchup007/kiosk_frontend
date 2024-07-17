@@ -2,17 +2,21 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/config.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/models/menus/munchie_product.dart';
 import 'package:kiosk_flutter/models/menus/product_type.dart';
 import 'package:kiosk_flutter/models/orders/order.dart';
+import 'package:kiosk_flutter/models/orders/order_product.dart';
+import 'package:kiosk_flutter/models/orders/order_status.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';
 import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class MainProvider extends ChangeNotifier {
   List<MunchieProduct> products = [];
@@ -27,6 +31,8 @@ class MainProvider extends ChangeNotifier {
   List<MunchieProduct> storageCurrent = [];
   List<MunchieProduct> storageOrders = [];
   List<MunchieProduct> storageBeg = [];
+
+  List<OrderProduct> orderProducts = [];
 
   List<CardPaymentToken> cardTokens = <CardPaymentToken>[];
 
@@ -44,7 +50,7 @@ class MainProvider extends ChangeNotifier {
   double sumTemp = 0.1;
   double sum = 0.0;
   Order order = Order.empty();
-  String language = 'pl';
+  String languageCode = 'pl';
   List<CountryModel> countryList = [];
 
   String containerDb = 'default';
@@ -110,8 +116,7 @@ class MainProvider extends ChangeNotifier {
   getStorageData(context) async {
     if (loading != true && isDone != true) {
       loading = true;
-      products = await databaseService.getProduct();
-      // storage = (await ApiService(token: loginToken).fetchStorage(http.Client(), db: containerDb, url: MyApp.of(context)!.url))!;
+      products = await databaseService.getProduct(languageId: languageCode);
       await databaseService.getStorageLimits().then((storageStates) {
         for (final storageState in storageStates) {
           limits[storageState.productId] = storageState.amount;
@@ -149,7 +154,7 @@ class MainProvider extends ChangeNotifier {
   begStorageSetup() {
     storageBeg.clear();
     for (int i = 0; i < storagePizza.length; i++) {
-      if (storagePizza[i].number > 0) {
+      if (getProductInOrderCount(storagePizza[i].productId) > 0) {
         break;
       } else if (i == storagePizza.length - 1) {
         storageBeg.add(storagePizza.first);
@@ -157,7 +162,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageDrinks.length; i++) {
-      if (storageDrinks[i].number > 0) {
+      if (getProductInOrderCount(storageDrinks[i].productId) > 0) {
         break;
       } else if (i == storageDrinks.length - 1) {
         storageBeg.add(storageDrinks.first);
@@ -165,7 +170,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageBox.length; i++) {
-      if (storageBox[i].number > 0) {
+      if (getProductInOrderCount(storageBox[i].productId) > 0) {
         break;
       } else if (i == storageBox.length - 1) {
         storageBeg.add(storageBox.first);
@@ -173,7 +178,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageSauce.length; i++) {
-      if (storageSauce[i].number > 0) {
+      if (getProductInOrderCount(storageSauce[i].productId) > 0) {
         break;
       } else if (i == storageSauce.length - 1) {
         storageBeg.add(storageSauce.first);
@@ -200,20 +205,38 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  createOrder(String orderName, int value) async {
-    final newId = await databaseService.createOrder();
-    order = order.copyWith(id: newId);
-
-    // TODO: po co to?
-    await databaseService.updateOrderProduct(newId, orderName, value);
+  Future<void> createOrder(String orderName, int value) async {
+    await databaseService.createOrder(order);
   }
 
-  updateOrderProduct(String orderName, int value) async {
-    await databaseService.updateOrderProduct(order.id, orderName, value);
+  // TODO: co zrobic z storageState? powinna byc tu aktualizacja
+  void addProductToOrder(String productId) {
+    final nextProduct = OrderProduct(
+      id: const Uuid().v4(),
+      munchieId: AppConfig.instance.munchieId,
+      orderId: order.id,
+      productId: productId,
+      updatedAt: DateTime.now(),
+      createdAt: DateTime.now(),
+    );
+
+    orderProducts.add(nextProduct);
+    refreshSum();
   }
 
-  updateOrderStatus(int value) async {
-    await databaseService.updateOrderStatus(order.id, value);
+  // TODO: co zrobic z storageState? powinna byc tu aktualizacja
+  void removeProductToOrder(String productId) {
+    final unwantedProductIndex = orderProducts.lastIndexWhere((element) => element.productId == productId);
+    orderProducts.removeAt(unwantedProductIndex);
+    refreshSum();
+  }
+
+  int getProductInOrderCount(String productId) {
+    return orderProducts.where((element) => element.productId == productId).length;
+  }
+
+  Future<void> updateOrderStatus(OrderStatus status) async {
+    await databaseService.updateOrderStatus(order.id, status);
   }
 
   updateOrderClientPhoneNumber(String? phoneNumber) async {
@@ -229,15 +252,15 @@ class MainProvider extends ChangeNotifier {
     return await getOrderNumber();
   }
 
-  getSum() {
+  refreshSum() {
     sum = 0.0;
     for (var i = 0; i < products.length; i++) {
-      sum = sum + products[i].price * products[i].number;
+      sum = sum + products[i].price * getProductInOrderCount(products[i].productId);
     }
     notifyListeners();
   }
 
-  getLimit(String product) {
+  refreshLimit(String product) {
     databaseService.getStorageStateProduct(product).then((data) {
       limits[product] = data;
     });
@@ -245,32 +268,28 @@ class MainProvider extends ChangeNotifier {
 
   getLimits() {
     databaseService.getStorageLimits().then((data) {
-      for (int i = 0; i < data!.length; i++) {
-        limits[data[i].productKey] = data[i].quantity;
+      for (int i = 0; i < data.length; i++) {
+        limits[data[i].id] = data[i].amount;
       }
     });
   }
 
   orderCancel() {
     print("in order cancle");
-    updateOrderStatus(254);
+    updateOrderStatus(OrderStatus.canceled);
     order = Order.empty();
-    for (int i = 0; i < products.length; i++) {
-      products[i].number = 0;
-    }
+    orderProducts.clear();
     storageBeg.clear();
     popupDone = false;
-    getSum();
+    refreshSum();
   }
 
   orderFinish() {
     order = Order.empty();
-    for (int i = 0; i < products.length; i++) {
-      products[i].number = 0;
-    }
+    orderProducts.clear();
     storageBeg.clear();
     popupDone = false;
-    getSum();
+    refreshSum();
   }
 
   getOrderList() {
@@ -279,7 +298,8 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < products.length; i++) {
-      if (products[i].number > 0) {
+      int productCount = getProductInOrderCount(products[i].productId);
+      if (productCount > 0) {
         storageOrders.add(products[i]);
       }
     }
@@ -288,7 +308,7 @@ class MainProvider extends ChangeNotifier {
   }
 
   changeLanguage(context) {
-    language = Localizations.localeOf(context).toString();
+    languageCode = Localizations.localeOf(context).toString();
 
     notifyListeners();
   }

@@ -21,7 +21,7 @@ class BigScreenProductListRow extends StatefulWidget {
   });
 
   @override
-  _BigScreenProductListRowState createState() => _BigScreenProductListRowState();
+  State<BigScreenProductListRow> createState() => _BigScreenProductListRowState();
 }
 
 class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
@@ -33,30 +33,20 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
     void plusButtonAction() {
-      if (product.number < provider.limits[product.productKey]!) {
-        product.number++;
-        // TODO: upsert
-        if (provider.order.id == '0') {
-          provider.createOrder(product.productKey, product.number);
-        } else {
-          provider.updateOrderProduct(product.productKey, product.number);
-        }
-        provider.getSum();
+      int productCount = provider.getProductInOrderCount(widget.product.productId);
+      if (productCount < provider.limits[widget.product.productId]!) {
+        provider.addProductToOrder(widget.product.productId);
       }
     }
 
     void minusButtonAction() {
-      if (product.number > 0) {
-        product.number--;
-        // TODO: upsert
-        if (provider.order.id == '0') {
-          provider.createOrder(product.productKey, product.number);
-        } else {
-          provider.updateOrderProduct(product.productKey, product.number);
-        }
-        provider.getSum();
+      int productCount = provider.getProductInOrderCount(widget.product.productId);
+      if (productCount > 0) {
+        provider.removeProductToOrder(widget.product.productId);
       }
     }
+
+    int productCount = provider.getProductInOrderCount(widget.product.productId);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,47 +55,52 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.width * 0.12,
-              imageUrl: product.image,
+              imageUrl: widget.product.image,
             )),
         Container(
-            padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
-            child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.4,
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.06,
-                    child: FittedBox(
-                      child: Text(
-                        widget.name,
-                        textAlign: TextAlign.start,
-                        textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
-                        style: const TextStyle(
-                          fontFamily: 'GloryBold',
-                          fontSize: 25,
-                        ),
+          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.06,
+                  child: FittedBox(
+                    child: Text(
+                      widget.product.name,
+                      textAlign: TextAlign.start,
+                      textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
+                      style: const TextStyle(
+                        fontFamily: 'GloryBold',
+                        fontSize: 25,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.04,
-                    child: AutoSizeText(
-                      widget.ingredients,
-                      maxLines: 2,
-                      overflow: TextOverflow.clip,
-                      style: const TextStyle(
-                        fontFamily: 'GloryLightItalic',
-                        fontSize: 15,
-                      ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.04,
+                  child: AutoSizeText(
+                    widget.product.ingredientNamesAsString,
+                    maxLines: 2,
+                    overflow: TextOverflow.clip,
+                    style: const TextStyle(
+                      fontFamily: 'GloryLightItalic',
+                      fontSize: 15,
                     ),
-                  )
-                ]))),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
         Container(
           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.017, 5, 0),
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.05,
             child: FittedBox(
               child: Text(
-                "${product.price.toStringAsFixed(2)} zł",
+                "${widget.product.price.toStringAsFixed(2)} zł",
                 style: const TextStyle(
                   fontFamily: 'GloryLightItalic',
                   fontSize: 15,
@@ -122,7 +117,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${product.number} ${AppLocalizations.of(context)!.pcs}",
+                  "$productCount ${AppLocalizations.of(context)!.pcs}",
                   style: const TextStyle(
                     fontFamily: 'GloryMedium',
                     fontSize: 15,
@@ -221,7 +216,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
               ],
             ),
             Text(
-              "${(product.price * product.number).toStringAsFixed(2)} zł",
+              "${(widget.product.price * productCount).toStringAsFixed(2)} zł",
               style: const TextStyle(
                 fontFamily: "GloryMedium",
                 fontSize: 20,
@@ -236,9 +231,6 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     // Use widget.name, widget.ingredients, etc. to access the properties.
   }
 }
-
-
-
 
 // class BigScreenProductListRow extends StatelessWidget{
 //   String name;

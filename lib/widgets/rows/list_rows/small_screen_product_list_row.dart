@@ -23,7 +23,9 @@ class SmallScreenProductListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
-    //print(product.image);
+
+    int productCount = provider.getProductInOrderCount(product.productId);
+
     return Row(
       children: [
         GestureDetector(
@@ -106,7 +108,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${product.number} ${AppLocalizations.of(context)!.pcs}",
+                  "${productCount} ${AppLocalizations.of(context)!.pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),
@@ -129,14 +131,9 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (product.number > 0) {
-                        product.number--;
-                        if (provider.order.id == 0) {
-                          provider.createOrder(product.productKey, product.number);
-                        } else {
-                          provider.updateOrderProduct(product.productKey, product.number);
-                        }
-                        provider.getSum();
+                      int productCount = provider.getProductInOrderCount(product.productId);
+                      if (productCount > 0) {
+                        provider.removeProductToOrder(product.productId);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -170,15 +167,9 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (product.number < provider.limits[product.productKey]!) {
-                        product.number++;
-                        // TODO: upsert
-                        if (provider.order.id == '0') {
-                          provider.createOrder(product.productKey, product.number);
-                        } else {
-                          provider.updateOrderProduct(product.productKey, product.number);
-                        }
-                        provider.getSum();
+                      int productCount = provider.getProductInOrderCount(product.productId);
+                      if (productCount < provider.limits[product.productId]!) {
+                        provider.addProductToOrder(product.productId);
                       }
                     },
                     style: ElevatedButton.styleFrom(shape: const CircleBorder(), backgroundColor: AppColors.mediumBlue),

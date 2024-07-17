@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:kiosk_flutter/config.dart';
 import 'package:kiosk_flutter/models/orders/order.dart';
 import 'package:kiosk_flutter/models/exceptions/order_exception.dart';
@@ -11,20 +12,15 @@ class OrderRepository {
 
   final SupabaseClient _client;
 
-  Future<String> createOrder() async {
+  Future<void> createOrder(Order order) async {
     try {
-      return await _client
+      return await _client //
           .from('orders')
-          .insert({'munchie_id': AppConfig.instance.munchieId})
-          .select()
-          .single()
-          .then((response) {
-            return Order.fromJson(response).id;
-          })
+          .insert(order.toJson())
           .catchError((error) {
-            print('Database error: $error');
-            throw OrderException('Failed to create order due to database error');
-          });
+        print('Database error: $error');
+        throw OrderException('Failed to create order due to database error');
+      });
     } on OrderException {
       rethrow;
     } catch (e) {
@@ -33,51 +29,58 @@ class OrderRepository {
     }
   }
 
-  // Future<bool> updateOrderProduct(String id, String orderName, int value) async {
-  //   await _client //
-  //       .from('orders')
-  //       .update({orderName: value}).match({'id': id});
-  //   return true;
-  // }
+  Future<void> updateOrder(String id, Map<String, dynamic> data) async {
+    try {
+      return await _client //
+          .from('orders')
+          .update(data)
+          .eq('id', id)
+          .catchError((error) {
+        print('Database error: $error');
+        throw OrderException('Failed to create order due to database error');
+      });
+    } on OrderException {
+      rethrow;
+    } catch (e) {
+      print('Error: $e');
+      throw OrderException('An error occurred while creating the order: $e');
+    }
+  }
 
-  // Future<bool> updateOrderStatus(String id, int value) async {
-  //   await _client //
-  //       .from('orders')
-  //       .update({'status': value}).match({'id': id});
-  //   return true;
-  // }
+  Future<int> getOrderNumber() async {
+    try {
+      return await _client //
+          .from('orders')
+          .select('kds_order_number')
+          .eq('munchie_id', AppConfig.instance.munchieId)
+          .order('id', ascending: false)
+          .limit(2)
+          .then(_findOrderNumber)
+          .catchError((error) {
+        print('Database error: $error');
+        throw OrderException('Failed to create order due to database error');
+      });
+    } on OrderException {
+      rethrow;
+    } catch (e) {
+      print('Error: $e');
+      throw OrderException('An error occurred while creating the order: $e');
+    }
+  }
 
-  // Future<bool> updateOrderClientPhoneNumber(String id, String phoneNumber) async {
-  //   await _client //
-  //       .from('orders')
-  //       .update({'status': 1, 'client_phone_number': phoneNumber}).match({'id': id});
-  //   return true;
-  // }
+  int _findOrderNumber(values) {
+    int orderNumber;
 
-  // Future<int> updateOrderNumber(String id) async {
-  //   final lastorders = await _client //
-  //       .from('orders')
-  //       .select('KDS_order_number')
-  //       .eq('munchie_id', AppConfig.instance.munchieId)
-  //       .order('id', ascending: false)
-  //       .limit(2);
+    List<Order> orders = values.map(Order.fromJson).toList();
+    int lastOrderNumber = orders.last.kdsOrderNumber;
 
-  //   int orderNumber;
-  //   if (lastorders.length == 2) {
-  //     final int lastOrderNumber = lastorders[1]['KDS_order_number'];
-  //     if (lastOrderNumber < 99) {
-  //       orderNumber = lastOrderNumber + 1;
-  //     } else {
-  //       orderNumber = 1;
-  //     }
-  //   } else {
-  //     orderNumber = 1;
-  //   }
-  //   await _client //
-  //       .from('orders')
-  //       .update({'status': 2, 'KDS_order_number': orderNumber}).match({'id': id});
-  //   return orderNumber;
-  // }
+    if (lastOrderNumber < 99) {
+      orderNumber = lastOrderNumber + 1;
+    } else {
+      orderNumber = 1;
+    }
+    return orderNumber;
+  }
 
   // Future<List<StorageLimitsModel>?> getStorageLimits() async {
   //   String storageProducts = 'product_1, product_2, product_3, product_4, product_5, product_6, product_7, product_8, product_9, product_10, product_11, product_12, product_13, '
