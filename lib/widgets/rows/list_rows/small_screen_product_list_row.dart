@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/models/menus/munchie_product.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/product_details_popup.dart';
@@ -8,27 +9,21 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SmallScreenProductListRow extends StatelessWidget {
-  final String name;
-  final String ingredients;
-  final List<StorageModel> storage;
-  final int index;
-  final List<bool> isVisiblePlus;
-  final List<bool> isVisibleMinus;
+  final MunchieProduct product;
+  final bool isVisiblePlus;
+  final bool isVisibleMinus;
 
   const SmallScreenProductListRow({
     super.key,
-    required this.name,
-    required this.ingredients,
-    required this.storage,
-    required this.index,
     required this.isVisiblePlus,
     required this.isVisibleMinus,
+    required this.product,
   });
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
-    //print(storage[index].image);
+    //print(product.image);
     return Row(
       children: [
         GestureDetector(
@@ -36,14 +31,18 @@ class SmallScreenProductListRow extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return ProductDetailsPopup(name: name, ingredients: ingredients, imageName: storage[index].image);
+                  return ProductDetailsPopup(
+                    name: product.name,
+                    ingredients: product.ingredientNamesAsString,
+                    imageName: product.image,
+                  );
                 });
           },
           child: Container(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.height * 0.075,
-              imageUrl: storage[index].image,
+              imageUrl: product.image,
             ),
           ),
         ),
@@ -52,7 +51,11 @@ class SmallScreenProductListRow extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (context) {
-                  return ProductDetailsPopup(name: name, ingredients: ingredients, imageName: storage[index].image);
+                  return ProductDetailsPopup(
+                    name: product.name,
+                    ingredients: product.ingredientNamesAsString,
+                    imageName: product.image,
+                  );
                 });
           },
           child: Column(
@@ -62,7 +65,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.3,
                   child: AutoSizeText(
-                    name,
+                    product.name,
                     textAlign: TextAlign.start,
                     minFontSize: 10,
                     maxFontSize: 17,
@@ -80,7 +83,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: FittedBox(
                     child: Text(
-                      "${storage[index].price.toStringAsFixed(2)} zł",
+                      "${product.price.toStringAsFixed(2)} zł",
                       style: const TextStyle(
                         fontFamily: 'GloryLightItalic',
                         fontSize: 15,
@@ -103,7 +106,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${storage[index].number} ${AppLocalizations.of(context)!.pcs}",
+                  "${product.number} ${AppLocalizations.of(context)!.pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),
@@ -117,7 +120,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             Container(
               padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
               child: Visibility(
-                visible: isVisibleMinus[index],
+                visible: isVisibleMinus,
                 maintainState: true,
                 maintainSize: true,
                 maintainAnimation: true,
@@ -126,12 +129,12 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (storage[index].number > 0) {
-                        storage[index].number--;
+                      if (product.number > 0) {
+                        product.number--;
                         if (provider.order.id == 0) {
-                          provider.createOrder(storage[index].productKey, storage[index].number);
+                          provider.createOrder(product.productKey, product.number);
                         } else {
-                          provider.updateOrderProduct(storage[index].productKey, storage[index].number);
+                          provider.updateOrderProduct(product.productKey, product.number);
                         }
                         provider.getSum();
                       }
@@ -158,7 +161,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             Container(
               padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
               child: Visibility(
-                visible: isVisiblePlus[index],
+                visible: isVisiblePlus,
                 maintainState: true,
                 maintainSize: true,
                 maintainAnimation: true,
@@ -167,13 +170,13 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      if (storage[index].number < provider.limits[storage[index].productKey]!) {
-                        storage[index].number++;
+                      if (product.number < provider.limits[product.productKey]!) {
+                        product.number++;
                         // TODO: upsert
                         if (provider.order.id == '0') {
-                          provider.createOrder(storage[index].productKey, storage[index].number);
+                          provider.createOrder(product.productKey, product.number);
                         } else {
-                          provider.updateOrderProduct(storage[index].productKey, storage[index].number);
+                          provider.updateOrderProduct(product.productKey, product.number);
                         }
                         provider.getSum();
                       }

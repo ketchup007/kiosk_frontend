@@ -121,7 +121,7 @@ class _SumScreenState extends State<SumScreen> {
                         child: Card(
                           elevation: 6,
                           surfaceTintColor: Colors.white,
-                          child: OrderList(storage: provider.storageOrders),
+                          child: OrderList(products: provider.storageOrders),
                         ),
                       ),
                     ],

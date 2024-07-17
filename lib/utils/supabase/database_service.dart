@@ -1,5 +1,5 @@
 import 'package:kiosk_flutter/config.dart';
-import 'package:kiosk_flutter/models/menus/product.dart';
+import 'package:kiosk_flutter/models/menus/munchie_product.dart';
 import 'package:kiosk_flutter/models/storage/storage_state.dart';
 import 'package:kiosk_flutter/utils/supabase/order_repository.dart';
 import 'package:kiosk_flutter/utils/supabase/product_repository.dart';
@@ -28,8 +28,8 @@ class DatabaseService {
   final StorageStateRepository _storageStateRepository;
   final String _munchieId;
 
-  Future<List<Product>> getProduct() async {
-    return await _productRepository.getProducts(munchieId: _munchieId);
+  Future<List<MunchieProduct>> getProduct({String languageId = 'pl'}) async {
+    return await _productRepository.getProducts(munchieId: _munchieId, languageId: languageId);
   }
 
   Future<String> createOrder() async {

@@ -10,10 +10,7 @@ class Product extends Base<Product> {
   final num price;
   final String currency;
   final ProductType type;
-  final String? image;
-  final String? imageBucketUrl;
-  @override
-  final bool synced;
+  final String image;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -24,9 +21,7 @@ class Product extends Base<Product> {
     required this.price,
     required this.currency,
     required this.type,
-    this.image,
-    this.imageBucketUrl,
-    required this.synced,
+    required this.image,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -39,8 +34,6 @@ class Product extends Base<Product> {
     String? currency,
     ProductType? type,
     String? image,
-    String? imageBucketUrl,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -51,8 +44,6 @@ class Product extends Base<Product> {
       currency: currency ?? this.currency,
       type: type ?? this.type,
       image: image ?? this.image,
-      imageBucketUrl: imageBucketUrl ?? this.imageBucketUrl,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -65,8 +56,7 @@ class Product extends Base<Product> {
       price: json['price'] as num,
       currency: json['currency'] as String,
       type: ProductType.values.firstWhere((e) => e.toString().split('.').last == json['type']),
-      image: json['image'] as String?,
-      synced: json['synced'] as bool,
+      image: json['image'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -81,7 +71,6 @@ class Product extends Base<Product> {
       'currency': currency,
       'type': type.toString().split('.').last,
       'image': image,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -98,14 +87,12 @@ class Product extends Base<Product> {
         other.currency == currency &&
         other.type == type &&
         other.image == image &&
-        other.imageBucketUrl == imageBucketUrl &&
-        other.synced == synced &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ nameId.hashCode ^ price.hashCode ^ currency.hashCode ^ type.hashCode ^ image.hashCode ^ imageBucketUrl.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ nameId.hashCode ^ price.hashCode ^ currency.hashCode ^ type.hashCode ^ image.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

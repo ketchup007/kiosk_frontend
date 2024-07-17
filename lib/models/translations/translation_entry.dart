@@ -6,8 +6,6 @@ class TranslationEntry extends Base<TranslationEntry> {
   final String contentId;
   final String translationLanguageId;
   final String translation;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -17,7 +15,6 @@ class TranslationEntry extends Base<TranslationEntry> {
     required this.contentId,
     required this.translationLanguageId,
     required this.translation,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -28,7 +25,6 @@ class TranslationEntry extends Base<TranslationEntry> {
     String? contentId,
     String? translationLanguageId,
     String? translation,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -37,7 +33,6 @@ class TranslationEntry extends Base<TranslationEntry> {
       contentId: contentId ?? this.contentId,
       translationLanguageId: translationLanguageId ?? this.translationLanguageId,
       translation: translation ?? this.translation,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -49,7 +44,6 @@ class TranslationEntry extends Base<TranslationEntry> {
       contentId: json['content_id'] as String,
       translationLanguageId: json['translation_language_id'] as String,
       translation: json['translation'] as String,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -62,7 +56,6 @@ class TranslationEntry extends Base<TranslationEntry> {
       'content_id': contentId,
       'translation_language_id': translationLanguageId,
       'translation': translation,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -77,13 +70,12 @@ class TranslationEntry extends Base<TranslationEntry> {
         other.contentId == contentId &&
         other.translationLanguageId == translationLanguageId &&
         other.translation == translation &&
-        other.synced == synced &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ contentId.hashCode ^ translationLanguageId.hashCode ^ translation.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ contentId.hashCode ^ translationLanguageId.hashCode ^ translation.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

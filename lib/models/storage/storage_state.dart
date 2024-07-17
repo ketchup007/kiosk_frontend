@@ -6,8 +6,6 @@ class StorageState extends Base<StorageState> {
   final String munchieId;
   final String productId;
   final int amount;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -17,7 +15,6 @@ class StorageState extends Base<StorageState> {
     required this.munchieId,
     required this.productId,
     required this.amount,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -28,7 +25,6 @@ class StorageState extends Base<StorageState> {
     String? munchieId,
     String? productId,
     int? amount,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -37,7 +33,6 @@ class StorageState extends Base<StorageState> {
       productId: productId ?? this.productId,
       munchieId: munchieId ?? this.munchieId,
       amount: amount ?? this.amount,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -49,7 +44,6 @@ class StorageState extends Base<StorageState> {
       productId: json['product_id'] as String,
       munchieId: json['munchie_id'] as String,
       amount: json['amount'] as int,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -62,7 +56,6 @@ class StorageState extends Base<StorageState> {
       'munchie_id': munchieId,
       'product_id': productId,
       'amount': amount,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -77,13 +70,12 @@ class StorageState extends Base<StorageState> {
         other.munchieId == munchieId &&
         other.productId == productId &&
         other.amount == amount &&
-        other.synced == synced &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ productId.hashCode ^ munchieId.hashCode ^ amount.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ productId.hashCode ^ munchieId.hashCode ^ amount.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

@@ -31,8 +31,9 @@ class ApiService {
         return jsonDecode(response.body)["time"];
       }
     } catch (e) {
-      log("${e.toString()}");
+      log(e.toString());
     }
+    return null;
   }
 
   Future<String?> getFromLink(String link, http.Client client) async {
@@ -51,29 +52,27 @@ class ApiService {
         //throw Exception('StatusCode ${response.statusCode}');
       }
     } catch (e) {
-      log("${e.toString()}");
+      log(e.toString());
       return "error in ${e.toString()}";
     }
-
-    return "error somewhat";
   }
 
-  //Get Data Section
-  Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
-    try {
-      var response = await client.post(Uri.parse(url + ApiConstants.getProducts), headers: {'Authorization': 'Bearer $token'}, body: jsonEncode(<String, String>{'db': db.toString()}));
+  // //Get Data Section
+  // Future<List<StorageModel>?> fetchStorage(http.Client client, {String db = 'default', String url = ApiConstants.baseUrl}) async {
+  //   try {
+  //     var response = await client.post(Uri.parse(url + ApiConstants.getProducts), headers: {'Authorization': 'Bearer $token'}, body: jsonEncode(<String, String>{'db': db.toString()}));
 
-      if (response.statusCode == 200) {
-        // print(response.body);
-        return compute(JsonParser().parseStorage, response.body);
-      } else {
-        throw Exception('failed to post - StatusCode ${response.statusCode}');
-      }
-    } catch (e) {
-      log("In fetchStorage ${e.toString()}");
-    }
-    return null;
-  }
+  //     if (response.statusCode == 200) {
+  //       // print(response.body);
+  //       return compute(JsonParser().parseStorage, response.body);
+  //     } else {
+  //       throw Exception('failed to post - StatusCode ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     log("In fetchStorage ${e.toString()}");
+  //   }
+  //   return null;
+  // }
 
   // przeniesione do supabase
   Future<List<StorageLimitsModel>?> fetchStorageLimits(http.Client client) async {
@@ -366,7 +365,7 @@ class ApiService {
             'Content-Type': 'application/json'
             // 'Authorization': 'Bearer $token'
           },
-          body: jsonEncode(<String, String>{"client_name": "${number}", "promo_permission": promoPermission.toString()}));
+          body: jsonEncode(<String, String>{"client_name": number, "promo_permission": promoPermission.toString()}));
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body)['accepted'];

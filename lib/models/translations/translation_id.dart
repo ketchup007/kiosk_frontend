@@ -4,8 +4,6 @@ class TranslationId extends Base<TranslationId> {
   @override
   final String id;
   final String description;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -13,7 +11,6 @@ class TranslationId extends Base<TranslationId> {
   const TranslationId({
     required this.id,
     required this.description,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -22,14 +19,12 @@ class TranslationId extends Base<TranslationId> {
   TranslationId copyWith({
     String? id,
     String? description,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
     return TranslationId(
       id: id ?? this.id,
       description: description ?? this.description,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -39,7 +34,6 @@ class TranslationId extends Base<TranslationId> {
     return TranslationId(
       id: json['id'] as String,
       description: json['description'] as String,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -50,7 +44,6 @@ class TranslationId extends Base<TranslationId> {
     return {
       'id': id,
       'description': description,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -60,11 +53,11 @@ class TranslationId extends Base<TranslationId> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is TranslationId && other.id == id && other.description == description && other.synced == synced && other.createdAt == createdAt && other.updatedAt == updatedAt;
+    return other is TranslationId && other.id == id && other.description == description && other.createdAt == createdAt && other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ description.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ description.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

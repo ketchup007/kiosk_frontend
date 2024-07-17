@@ -5,8 +5,6 @@ class MenuProduct extends Base<MenuProduct> {
   final String id;
   final String menuId;
   final String productId;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -15,7 +13,6 @@ class MenuProduct extends Base<MenuProduct> {
     required this.id,
     required this.menuId,
     required this.productId,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -25,7 +22,6 @@ class MenuProduct extends Base<MenuProduct> {
     String? id,
     String? menuId,
     String? productId,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -33,7 +29,6 @@ class MenuProduct extends Base<MenuProduct> {
       id: id ?? this.id,
       menuId: menuId ?? this.menuId,
       productId: productId ?? this.productId,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -44,7 +39,6 @@ class MenuProduct extends Base<MenuProduct> {
       id: json['id'] as String,
       menuId: json['menu_id'] as String,
       productId: json['product_id'] as String,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -56,7 +50,6 @@ class MenuProduct extends Base<MenuProduct> {
       'id': id,
       'menu_id': menuId,
       'product_id': productId,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -66,11 +59,11 @@ class MenuProduct extends Base<MenuProduct> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is MenuProduct && other.id == id && other.menuId == menuId && other.productId == productId && other.synced == synced && other.createdAt == createdAt && other.updatedAt == updatedAt;
+    return other is MenuProduct && other.id == id && other.menuId == menuId && other.productId == productId && other.createdAt == createdAt && other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ menuId.hashCode ^ productId.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ menuId.hashCode ^ productId.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

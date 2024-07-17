@@ -13,8 +13,6 @@ class Order extends Base<Order> {
   final PickupNumber pickupNumber;
   final int kdsOrderNumber;
   final String? clientPhoneNumber;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -28,7 +26,6 @@ class Order extends Base<Order> {
     required this.pickupNumber,
     required this.kdsOrderNumber,
     this.clientPhoneNumber,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -43,7 +40,6 @@ class Order extends Base<Order> {
     PickupNumber? pickupNumber,
     int? kdsOrderNumber,
     String? clientPhoneNumber,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -56,7 +52,6 @@ class Order extends Base<Order> {
       pickupNumber: pickupNumber ?? this.pickupNumber,
       kdsOrderNumber: kdsOrderNumber ?? this.kdsOrderNumber,
       clientPhoneNumber: clientPhoneNumber ?? this.clientPhoneNumber,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -72,7 +67,6 @@ class Order extends Base<Order> {
       pickupNumber: PickupNumber.fromJson(json['pickup_number']),
       kdsOrderNumber: json['kds_order_number'] as int,
       clientPhoneNumber: json['client_phone_number'] as String?,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -89,7 +83,6 @@ class Order extends Base<Order> {
       'pickup_number': pickupNumber.toJson(),
       'kds_order_number': kdsOrderNumber,
       'client_phone_number': clientPhoneNumber,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -108,7 +101,6 @@ class Order extends Base<Order> {
         other.pickupNumber == pickupNumber &&
         other.kdsOrderNumber == kdsOrderNumber &&
         other.clientPhoneNumber == clientPhoneNumber &&
-        other.synced == synced &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
   }
@@ -123,7 +115,6 @@ class Order extends Base<Order> {
         pickupNumber.hashCode ^
         kdsOrderNumber.hashCode ^
         clientPhoneNumber.hashCode ^
-        synced.hashCode ^
         createdAt.hashCode ^
         updatedAt.hashCode;
   }
@@ -138,7 +129,6 @@ class Order extends Base<Order> {
       pickupNumber: PickupNumber.values.first,
       kdsOrderNumber: 0,
       clientPhoneNumber: null,
-      synced: false,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );

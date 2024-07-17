@@ -112,7 +112,7 @@ class SummaryCardState extends State<SummaryCard> {
                   width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
                   height: MediaQuery.of(context).size.height * 0.05,
                   child: FittedBox(child: Text(AppLocalizations.of(context)!.orderSummaryText, style: const TextStyle(fontFamily: 'GloryExtraBold', fontSize: 30, color: AppColors.mediumBlue))))),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.9, height: MediaQuery.of(context).size.height * 0.4, child: OrderList(storage: provider.storageOrders)),
+          SizedBox(width: MediaQuery.of(context).size.width * 0.9, height: MediaQuery.of(context).size.height * 0.4, child: OrderList(products: provider.storageOrders)),
           _paymentState == 0
               ? Container(
                   alignment: AlignmentDirectional.center,

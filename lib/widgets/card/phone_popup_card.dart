@@ -8,15 +8,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 
-class PhonePopupCard extends StatefulWidget{
+class PhonePopupCard extends StatefulWidget {
   final Function onPress;
   final Function onInteraction;
 
-  const PhonePopupCard({
-    Key? key,
-    required this.onPress,
-    required this.onInteraction
-  }): super(key: key);
+  const PhonePopupCard({Key? key, required this.onPress, required this.onInteraction}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PhonePopupCardState();
@@ -35,16 +31,11 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
 
   final TextEditingController _myController = TextEditingController();
 
-  CountryModel _dropdownValue = CountryModel(
-      countryCode: "",
-      dialCode: "",
-      minNumber: 0,
-      maxNumber: 0,
-      format: "");
+  CountryModel _dropdownValue = CountryModel(countryCode: "", dialCode: "", minNumber: 0, maxNumber: 0, format: "");
 
   late MainProvider provider;
 
-  void onPointerDown(PointerEvent){
+  void onPointerDown(PointerDownEvent event) {
     //print("dumpc");
     widget.onInteraction();
   }
@@ -54,72 +45,73 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
     super.initState();
   }
 
+  void changeMain() {
+    setState(() {
+      isCheckedMain = !isCheckedMain;
+      if (isCheckedMain) {
+        isCheckedA = true;
+        isCheckedB = true;
+        isCheckedC = true;
+      } else {
+        isCheckedA = false;
+        isCheckedB = false;
+        isCheckedC = false;
+      }
+    });
+  }
+
+  void changeA() {
+    setState(() {
+      isCheckedA = !isCheckedA;
+      if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+        isCheckedMain = true;
+      } else {
+        isCheckedMain = false;
+      }
+    });
+  }
+
+  void changeB() {
+    setState(() {
+      isCheckedB = !isCheckedB;
+
+      if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+        isCheckedMain = true;
+      } else {
+        isCheckedMain = false;
+      }
+    });
+  }
+
+  void changeC() {
+    setState(() {
+      isCheckedC = !isCheckedC;
+      if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
+        isCheckedMain = true;
+      } else {
+        isCheckedMain = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
-    void changeMain() {
-      setState(() {
-        isCheckedMain = !isCheckedMain;
-        if(isCheckedMain) {
-          isCheckedA = true;
-          isCheckedB = true;
-          isCheckedC = true;
-        }else{
-          isCheckedA = false;
-          isCheckedB = false;
-          isCheckedC = false;
-        }
-      });
-    }
+    bool isBiggerThan1000 = MediaQuery.of(context).size.height > 1000;
 
-    void changeA() {
-      setState(() {
-        isCheckedA = !isCheckedA;
-        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-          isCheckedMain = true;
-        } else {
-          isCheckedMain = false;
-        }});
-    }
-
-    void changeB() {
-      setState(() {
-        isCheckedB = !isCheckedB;
-
-        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-          isCheckedMain = true;
-        } else {
-          isCheckedMain = false;
-        }
-      });
-    }
-
-    void changeC() {
-      setState(() {
-        isCheckedC = !isCheckedC;
-        if (isCheckedA == true && isCheckedB == true && isCheckedC == true) {
-          isCheckedMain = true;
-        } else {
-          isCheckedMain = false;
-        }
-      });
-    }
-
-
-    if(provider.countryList.isEmpty){
+    if (provider.countryList.isEmpty) {
       provider.getCountryCodes();
       return const Text("");
-    }else{
-      if(_dropdownValue.dialCode.isEmpty){
+    } else {
+      if (_dropdownValue.dialCode.isEmpty) {
         _dropdownValue = provider.countryList.first;
       }
       return Listener(
         onPointerDown: onPointerDown,
         child: Center(
           child: SizedBox(
-            height:  MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.6 : MediaQuery.of(context).size.height * 0.85,
+            height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.6 : MediaQuery.of(context).size.height * 0.85,
             width: MediaQuery.of(context).size.width * 0.9,
             child: Card(
               color: Colors.white,
@@ -128,68 +120,98 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.fromLTRB(0,
-                        MediaQuery.of(context).size.height > 1000?  MediaQuery.of(context).size.height * 0.01 : MediaQuery.of(context).size.height * 0.02,
-                        0, MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0 : MediaQuery.of(context).size.width * 0.03),
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.01 : MediaQuery.of(context).size.height * 0.02,
+                      0,
+                      isBiggerThan1000 ? MediaQuery.of(context).size.width * 0 : MediaQuery.of(context).size.width * 0.03,
+                    ),
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
-                        child: FittedBox(
-                            child: Text(AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 30,
-                                fontFamily: "GloryMedium"))))),
+                      width: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
+                      child: FittedBox(
+                        child: Text(
+                          AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 30,
+                            fontFamily: "GloryMedium",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.04, 0, 0, 0),
+                        padding: EdgeInsets.fromLTRB(isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.04, 0, 0, 0),
                         alignment: Alignment.bottomCenter,
                         child: DropdownButton(
                           value: _dropdownValue,
-                          iconSize: MediaQuery.of(context).size.height > 1000 ?  20 : 10,
+                          iconSize: isBiggerThan1000 ? 20 : 10,
                           items: provider.countryList.map<DropdownMenuItem<CountryModel>>((CountryModel value) {
                             return DropdownMenuItem(
                               value: value,
                               child: Container(
-                                  padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0, 0, 0, MediaQuery.of(context).size.width * 0.005),
-                                  child: SizedBox(
-                                      height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.05,
-                                      width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.12 : MediaQuery.of(context).size.width * 0.21,
-                                      child: Text("${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'),
-                                            (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.height > 1000? 20 : 22,
-                                            fontFamily: 'GloryBold')))));
+                                padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0, 0, 0, MediaQuery.of(context).size.width * 0.005),
+                                child: SizedBox(
+                                  height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.05,
+                                  width: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.12 : MediaQuery.of(context).size.width * 0.21,
+                                  child: Text(
+                                    "${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'), (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: isBiggerThan1000 ? 20 : 22,
+                                      fontFamily: 'GloryBold',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
                           }).toList(),
                           onChanged: (CountryModel? value) {
                             setState(() {
                               _dropdownValue = value!;
                             });
-                        })),
+                          },
+                        ),
+                      ),
                       Container(
-                        padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width* 0.04, 0, 0, MediaQuery.of(context).size.height> 1000 ? MediaQuery.of(context).size.height * 0.005 :MediaQuery.of(context).size.height * 0.01),
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width * 0.04, 0, 0, isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.005 : MediaQuery.of(context).size.height * 0.01),
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
-                          width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.5,
+                          width: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.5,
                           child: AutoSizeTextField(
-                                controller: _myController,
-                                showCursor: false,
-                                keyboardType: TextInputType.none,
-                                minFontSize: MediaQuery.of(context).size.height > 1000 ? 20 : 30,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  height: MediaQuery.of(context).size.height * 0.1,
-                                  fontFamily: 'GloryBold'))))]),
+                            controller: _myController,
+                            showCursor: false,
+                            keyboardType: TextInputType.none,
+                            minFontSize: isBiggerThan1000 ? 20 : 30,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              height: MediaQuery.of(context).size.height * 0.1,
+                              fontFamily: 'GloryBold',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.02, 0,
-                        MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.04),
-                    child: Center(child: NumPad(
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      MediaQuery.of(context).size.height * 0.02,
+                      0,
+                      isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.02 : MediaQuery.of(context).size.height * 0.04,
+                    ),
+                    child: Center(
+                      child: NumPad(
                         controller: _myController,
                         maxDigit: _dropdownValue.maxNumber,
-                        buttonSize: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.14 : MediaQuery.of(context).size.width * 0.2))),
+                        buttonSize: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.14 : MediaQuery.of(context).size.width * 0.2,
+                      ),
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,97 +223,105 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
-                              child: FittedBox(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Transform.scale(
-                                        scale: 1.5,
-                                        child: InkWell(
-                                          onTapDown: (_) {
-                                            changeMain();
-                                            changeMainPerformed = true;
-                                          },
-                                          onTapCancel: () {
-                                            changeMainPerformed = false;
-                                          },
-                                          child: Checkbox(
-                                            activeColor: AppColors.green,
-                                            checkColor: Colors.transparent,
-                                            side: MaterialStateBorderSide.resolveWith((states) =>
-                                              const BorderSide(
-                                                width: 1.5,
-                                                color: AppColors.green)),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(5)),
-                                            value: isCheckedMain,
-                                            onChanged: (_) {
-                                              if(changeMainPerformed){
-                                                changeMainPerformed = false;
-                                              }else{
-                                                changeMain();
-                                              }
-                                            }
-                                          ),
-                                        )),
-                                      GestureDetector(
-                                          onTapDown: (_) {
-                                            changeMain();
-                                          },
-                                          child: Text(AppLocalizations.of(context)!.selectAllCheckText,
-                                        style: const TextStyle(
-                                          fontFamily: "GloryMedium",
-                                          fontSize: 16)))]))),
-                            SizedBox(
-                                height:  MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
-                                child: FittedBox(
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        Transform.scale(
-                                          scale: 1.5,
-                                          child: InkWell(
-                                            onTapDown: (_) {
-                                              changeA();
-                                              changeAPerformed = true;
-                                            },
-                                            onTapCancel: (){
-                                              changeAPerformed = false;
-                                            },
-                                            child: Checkbox(
-                                              activeColor: AppColors.green,
-                                              checkColor: Colors.transparent,
-                                              side: MaterialStateBorderSide.resolveWith((states) =>
-                                                const BorderSide(
-                                                  width: 1.5,
-                                                  color: AppColors.green)),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5)),
-                                              value: isCheckedA,
-                                              onChanged: (_) {
-                                                if(changeAPerformed){
-                                                  changeAPerformed = false;
-                                                }else {
-                                                  changeA();
-                                                }
-                                              }),
-                                          )),
-                                        GestureDetector(
-                                          onTapDown: (_) {
-                                            changeA();
-                                          },
-                                          child: Text(AppLocalizations.of(context)!.requiredCheckText,
-                                          style: const TextStyle(
-                                            fontFamily: "GloryMedium",
-                                            fontSize: 16)))]))),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
+                              height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
                               child: FittedBox(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                  Transform.scale(
+                                    Transform.scale(
+                                      scale: 1.5,
+                                      child: InkWell(
+                                        onTapDown: (_) {
+                                          changeMain();
+                                          changeMainPerformed = true;
+                                        },
+                                        onTapCancel: () {
+                                          changeMainPerformed = false;
+                                        },
+                                        child: Checkbox(
+                                            activeColor: AppColors.green,
+                                            checkColor: Colors.transparent,
+                                            side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(width: 1.5, color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                            value: isCheckedMain,
+                                            onChanged: (_) {
+                                              if (changeMainPerformed) {
+                                                changeMainPerformed = false;
+                                              } else {
+                                                changeMain();
+                                              }
+                                            }),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTapDown: (_) {
+                                        changeMain();
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)!.selectAllCheckText,
+                                        style: const TextStyle(
+                                          fontFamily: "GloryMedium",
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
+                              child: FittedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Transform.scale(
+                                        scale: 1.5,
+                                        child: InkWell(
+                                          onTapDown: (_) {
+                                            changeA();
+                                            changeAPerformed = true;
+                                          },
+                                          onTapCancel: () {
+                                            changeAPerformed = false;
+                                          },
+                                          child: Checkbox(
+                                              activeColor: AppColors.green,
+                                              checkColor: Colors.transparent,
+                                              side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(width: 1.5, color: AppColors.green)),
+                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                              value: isCheckedA,
+                                              onChanged: (_) {
+                                                if (changeAPerformed) {
+                                                  changeAPerformed = false;
+                                                } else {
+                                                  changeA();
+                                                }
+                                              }),
+                                        )),
+                                    GestureDetector(
+                                      onTapDown: (_) {
+                                        changeA();
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)!.requiredCheckText,
+                                        style: const TextStyle(
+                                          fontFamily: "GloryMedium",
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
+                              child: FittedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Transform.scale(
                                       scale: 1.5,
                                       child: InkWell(
                                         onTapDown: (_) {
@@ -304,33 +334,38 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         child: Checkbox(
                                             activeColor: AppColors.green,
                                             checkColor: Colors.transparent,
-                                            side: MaterialStateBorderSide.resolveWith((states) =>
-                                              const BorderSide(
-                                                  width: 1.5,
-                                                  color: AppColors.green)),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5)),
+                                            side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(width: 1.5, color: AppColors.green)),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                             value: isCheckedB,
                                             onChanged: (_) {
-                                              if(changeBPerformed) {
+                                              if (changeBPerformed) {
                                                 changeBPerformed = false;
-                                              }else{
+                                              } else {
                                                 changeB();
                                               }
                                             }),
-                                      )),
-                                  GestureDetector(
-                                    onTapDown: (_) {
-                                      changeB();
-                                    },
-                                    child: Text(AppLocalizations.of(context)!.promotionCheckText,
-                                      style: const TextStyle(
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTapDown: (_) {
+                                        changeB();
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)!.promotionCheckText,
+                                        style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16)))]))),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
                             SizedBox(
-                                height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height *0.03 : MediaQuery.of(context).size.height * 0.05,
-                                child: FittedBox(
-                                  child: Row(
+                              height: isBiggerThan1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
+                              child: FittedBox(
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Transform.scale(
@@ -343,60 +378,72 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         child: Checkbox(
                                             activeColor: AppColors.green,
                                             checkColor: Colors.transparent,
-                                            side: MaterialStateBorderSide.resolveWith((states) =>
-                                            const BorderSide(
-                                                width: 1.5,
-                                                color: AppColors.green)),
+                                            side: MaterialStateBorderSide.resolveWith((states) => const BorderSide(width: 1.5, color: AppColors.green)),
                                             shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5)),
+                                              borderRadius: BorderRadius.circular(5),
+                                            ),
                                             value: isCheckedC,
                                             onChanged: (_) {
-                                              if(changeCPerformed) {
+                                              if (changeCPerformed) {
                                                 changeCPerformed = false;
-                                              }else{
+                                              } else {
                                                 changeC();
                                               }
                                             }),
-                                      )),
-                                  GestureDetector(
-                                    onTapDown: (_) {
-                                      changeC();
-                                    },
-                                    child: Text(AppLocalizations.of(context)!.optionalCheckText,
-                                      style: const TextStyle(
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTapDown: (_) {
+                                        changeC();
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)!.optionalCheckText,
+                                        style: const TextStyle(
                                           fontFamily: "GloryMedium",
-                                          fontSize: 16)))])))])),
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Container(
-                          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
-                          child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: InkWell(
-                                onTapDown: (_) {
-                                  if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
-                                    Navigator.of(context).pop();
-                                    provider.order.client_phone_number = _dropdownValue.dialCode + _myController.text;
-                                    widget.onPress(isCheckedB);
-                                  }
-                                },
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
-                                        Navigator.of(context).pop();
-                                        provider.order.client_phone_number = _dropdownValue.dialCode + _myController.text;
-                                        widget.onPress(isCheckedB);
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.green,
-                                        foregroundColor: Colors.black),
-                                    child: AutoSizeText(
-                                        AppLocalizations.of(context)!.confirmButtonLabel,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontFamily: 'GloryBold',
-                                            fontSize:  MediaQuery.of(context).size.height > 1000 ? 30 : 15))),
-                              )))])])))));
+                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.035, MediaQuery.of(context).size.width * 0.05, 0),
+                        child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (isCheckedA == true && _myController.text.length >= _dropdownValue.minNumber) {
+                                Navigator.of(context).pop();
+                                provider.order = provider.order.copyWith(clientPhoneNumber: _dropdownValue.dialCode + _myController.text);
+                                widget.onPress(isCheckedB);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
+                            child: AutoSizeText(
+                              AppLocalizations.of(context)!.confirmButtonLabel,
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontFamily: 'GloryBold',
+                                fontSize: isBiggerThan1000 ? 30 : 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
     }
   }
 }

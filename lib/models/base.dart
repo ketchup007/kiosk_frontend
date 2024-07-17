@@ -3,10 +3,8 @@ abstract class Base<T> {
 
   String get id;
   DateTime get updatedAt;
-  bool get synced;
 
   T copyWith({
-    required bool? synced,
     required DateTime? updatedAt,
   });
 

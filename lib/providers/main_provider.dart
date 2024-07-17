@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
-import 'package:kiosk_flutter/models/menus/product.dart';
+import 'package:kiosk_flutter/models/menus/munchie_product.dart';
 import 'package:kiosk_flutter/models/menus/product_type.dart';
 import 'package:kiosk_flutter/models/orders/order.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -15,18 +15,18 @@ import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MainProvider extends ChangeNotifier {
-  List<Product> products = [];
+  List<MunchieProduct> products = [];
 
   Payment payment = Payment();
   final databaseService = DatabaseService();
 
-  List<Product> storagePizza = <Product>[];
-  List<Product> storageDrinks = <Product>[];
-  List<Product> storageBox = <Product>[];
-  List<Product> storageSauce = <Product>[];
-  List<Product> storageCurrent = <Product>[];
-  List<Product> storageOrders = <Product>[];
-  List<Product> storageBeg = <Product>[];
+  List<MunchieProduct> storagePizza = [];
+  List<MunchieProduct> storageDrinks = [];
+  List<MunchieProduct> storageBox = [];
+  List<MunchieProduct> storageSauce = [];
+  List<MunchieProduct> storageCurrent = [];
+  List<MunchieProduct> storageOrders = [];
+  List<MunchieProduct> storageBeg = [];
 
   List<CardPaymentToken> cardTokens = <CardPaymentToken>[];
 
@@ -254,7 +254,7 @@ class MainProvider extends ChangeNotifier {
   orderCancel() {
     print("in order cancle");
     updateOrderStatus(254);
-    order = OrderModel.resetModel();
+    order = Order.empty();
     for (int i = 0; i < products.length; i++) {
       products[i].number = 0;
     }
@@ -264,7 +264,7 @@ class MainProvider extends ChangeNotifier {
   }
 
   orderFinish() {
-    order = OrderModel.resetModel();
+    order = Order.empty();
     for (int i = 0; i < products.length; i++) {
       products[i].number = 0;
     }

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/storage_model.dart';
+import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
@@ -8,22 +9,16 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BigScreenProductListRow extends StatefulWidget {
-  final String name;
-  final String ingredients;
-  final List<StorageModel> storage;
-  final int index;
-  final List<bool> isVisiblePlus;
-  final List<bool> isVisibleMinus;
+  final MunchieProduct product;
+  final bool isVisiblePlus;
+  final bool isVisibleMinus;
 
   const BigScreenProductListRow({
-    Key? key,
-    required this.name,
-    required this.ingredients,
-    required this.storage,
-    required this.index,
+    super.key,
+    required this.product,
     required this.isVisiblePlus,
     required this.isVisibleMinus,
-  }) : super(key: key);
+  });
 
   @override
   _BigScreenProductListRowState createState() => _BigScreenProductListRowState();
@@ -38,26 +33,26 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
     void plusButtonAction() {
-      if (widget.storage[widget.index].number < provider.limits[widget.storage[widget.index].productKey]!) {
-        widget.storage[widget.index].number++;
+      if (product.number < provider.limits[product.productKey]!) {
+        product.number++;
         // TODO: upsert
         if (provider.order.id == '0') {
-          provider.createOrder(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
+          provider.createOrder(product.productKey, product.number);
         } else {
-          provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
+          provider.updateOrderProduct(product.productKey, product.number);
         }
         provider.getSum();
       }
     }
 
     void minusButtonAction() {
-      if (widget.storage[widget.index].number > 0) {
-        widget.storage[widget.index].number--;
+      if (product.number > 0) {
+        product.number--;
         // TODO: upsert
         if (provider.order.id == '0') {
-          provider.createOrder(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
+          provider.createOrder(product.productKey, product.number);
         } else {
-          provider.updateOrderProduct(widget.storage[widget.index].productKey, widget.storage[widget.index].number);
+          provider.updateOrderProduct(product.productKey, product.number);
         }
         provider.getSum();
       }
@@ -70,7 +65,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.width * 0.12,
-              imageUrl: widget.storage[widget.index].image,
+              imageUrl: product.image,
             )),
         Container(
             padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
@@ -110,7 +105,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             width: MediaQuery.of(context).size.width * 0.05,
             child: FittedBox(
               child: Text(
-                "${widget.storage[widget.index].price.toStringAsFixed(2)} zł",
+                "${product.price.toStringAsFixed(2)} zł",
                 style: const TextStyle(
                   fontFamily: 'GloryLightItalic',
                   fontSize: 15,
@@ -127,7 +122,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${widget.storage[widget.index].number} ${AppLocalizations.of(context)!.pcs}",
+                  "${product.number} ${AppLocalizations.of(context)!.pcs}",
                   style: const TextStyle(
                     fontFamily: 'GloryMedium',
                     fontSize: 15,
@@ -147,7 +142,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                 Container(
                   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
                   child: Visibility(
-                    visible: widget.isVisibleMinus[widget.index],
+                    visible: widget.isVisibleMinus,
                     maintainState: true,
                     maintainSize: true,
                     maintainAnimation: true,
@@ -186,7 +181,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                 Container(
                     padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
                     child: Visibility(
-                        visible: widget.isVisiblePlus[widget.index],
+                        visible: widget.isVisiblePlus,
                         maintainState: true,
                         maintainSize: true,
                         maintainAnimation: true,
@@ -226,7 +221,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
               ],
             ),
             Text(
-              "${(widget.storage[widget.index].price * widget.storage[widget.index].number).toStringAsFixed(2)} zł",
+              "${(product.price * product.number).toStringAsFixed(2)} zł",
               style: const TextStyle(
                 fontFamily: "GloryMedium",
                 fontSize: 20,

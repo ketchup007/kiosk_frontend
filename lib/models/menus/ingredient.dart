@@ -4,8 +4,6 @@ class Ingredient extends Base<Ingredient> {
   @override
   final String id;
   final String nameId;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -13,7 +11,6 @@ class Ingredient extends Base<Ingredient> {
   const Ingredient({
     required this.id,
     required this.nameId,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -22,14 +19,12 @@ class Ingredient extends Base<Ingredient> {
   Ingredient copyWith({
     String? id,
     String? nameId,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
     return Ingredient(
       id: id ?? this.id,
       nameId: nameId ?? this.nameId,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -39,7 +34,6 @@ class Ingredient extends Base<Ingredient> {
     return Ingredient(
       id: json['id'] as String,
       nameId: json['name_id'] as String,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -50,7 +44,6 @@ class Ingredient extends Base<Ingredient> {
     return {
       'id': id,
       'name_id': nameId,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -60,11 +53,11 @@ class Ingredient extends Base<Ingredient> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Ingredient && other.id == id && other.nameId == nameId && other.synced == synced && other.createdAt == createdAt && other.updatedAt == updatedAt;
+    return other is Ingredient && other.id == id && other.nameId == nameId && other.createdAt == createdAt && other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ nameId.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ nameId.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }

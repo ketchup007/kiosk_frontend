@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:kiosk_flutter/models/exceptions/product_exception.dart';
-import 'package:kiosk_flutter/models/menus/product.dart';
+import 'package:kiosk_flutter/models/menus/munchie_product.dart';
 import 'package:kiosk_flutter/utils/supabase/supabase_manager.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,13 +14,14 @@ class ProductRepository {
   final SupabaseClient _client;
   late final StorageFileApi _bucket;
 
-  Future<List<Product>> getProducts({required String munchieId}) async {
+  Future<List<MunchieProduct>> getProducts({required String munchieId, required String languageId}) async {
     try {
       return await _client //
           .from('munchie_products_view')
           .select()
           .eq('munchie_id', munchieId)
-          .then(_createProductWithImageUrl)
+          .eq('translation_language_id', languageId)
+          .then(_createMunchieProduct)
           .catchError((error) {
         print('Database error: $error');
         throw ProductException('Failed to get products due to database error');
@@ -66,10 +67,10 @@ class ProductRepository {
   //       });
   // }
 
-  FutureOr<List<Product>> _createProductWithImageUrl(List<Map<String, dynamic>> response) {
+  FutureOr<List<MunchieProduct>> _createMunchieProduct(List<Map<String, dynamic>> response) {
     return response //
-        .map(Product.fromJson)
-        .map((product) => (product.image == null) ? product : product.copyWith(imageBucketUrl: _bucket.getPublicUrl(product.image!)))
+        .map(MunchieProduct.fromJson)
+        .map((product) => (product.image == null) ? product : product.copyWith(image: _bucket.getPublicUrl(product.image!)))
         .toList();
   }
 }

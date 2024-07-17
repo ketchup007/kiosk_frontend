@@ -7,8 +7,6 @@ class Munchie extends Base<Munchie> {
   final String location;
   final String? description;
   final String menuId;
-  @override
-  final bool synced;
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
@@ -19,7 +17,6 @@ class Munchie extends Base<Munchie> {
     required this.location,
     this.description,
     required this.menuId,
-    required this.synced,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -31,7 +28,6 @@ class Munchie extends Base<Munchie> {
     String? location,
     String? description,
     String? menuId,
-    bool? synced,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -41,7 +37,6 @@ class Munchie extends Base<Munchie> {
       location: location ?? this.location,
       description: description ?? this.description,
       menuId: menuId ?? this.menuId,
-      synced: synced ?? this.synced,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -54,7 +49,6 @@ class Munchie extends Base<Munchie> {
       location: json['location'] as String,
       description: json['description'] as String?,
       menuId: json['menu_id'] as String,
-      synced: json['synced'] as bool,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
@@ -68,7 +62,6 @@ class Munchie extends Base<Munchie> {
       'location': location,
       'description': description,
       'menu_id': menuId,
-      'synced': synced,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
     };
@@ -84,13 +77,12 @@ class Munchie extends Base<Munchie> {
         other.location == location &&
         other.description == description &&
         other.menuId == menuId &&
-        other.synced == synced &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ address.hashCode ^ location.hashCode ^ description.hashCode ^ menuId.hashCode ^ synced.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
+    return id.hashCode ^ address.hashCode ^ location.hashCode ^ description.hashCode ^ menuId.hashCode ^ createdAt.hashCode ^ updatedAt.hashCode;
   }
 }
