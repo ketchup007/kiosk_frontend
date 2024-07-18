@@ -88,20 +88,21 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                             Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))),
                             Container(padding: const EdgeInsets.all(10), child: Text('Twoje zamówienie ma nr $orderNumber', style: const TextStyle(fontSize: 15))),
                             ElevatedButton(
-                                onPressed: () {
-                                  provider.orderFinish();
-                                  provider.changeToPizza();
-                                  provider.notifyListeners();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
-                                },
-                                child: const Text("Zakończ transakcje"))
+                              onPressed: () async {
+                                await provider.orderFinish();
+                                provider.changeToPizza();
+                                provider.notifyListeners();
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                              },
+                              child: const Text("Zakończ transakcje"),
+                            )
                           ])
                         : Column(
                             children: [
                               const Text("Płatność anulowana"),
                               ElevatedButton(
                                 onPressed: () {
-                                  provider.orderFinish();
+                                  provider.orderCancel();
                                   provider.changeToPizza();
                                   provider.notifyListeners();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));

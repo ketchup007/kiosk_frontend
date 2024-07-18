@@ -259,8 +259,8 @@ class SummaryCardState extends State<SummaryCard> {
                                     height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
                                     width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                     child: OutlinedButton(
-                                      onPressed: () {
-                                        provider.orderFinish();
+                                      onPressed: () async {
+                                        await provider.orderFinish();
                                         provider.changeToPizza();
                                         provider.inPayment = false;
                                         provider.notifyListeners();

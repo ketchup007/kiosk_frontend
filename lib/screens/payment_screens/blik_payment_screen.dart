@@ -170,8 +170,8 @@ class BlikPayScreenState extends State<BlikPayScreen> {
                                         style: const TextStyle(fontSize: 15),
                                       )),
                                   ElevatedButton(
-                                    onPressed: () {
-                                      provider.orderFinish();
+                                    onPressed: () async {
+                                      await provider.orderFinish();
                                       provider.changeToPizza();
                                       provider.notifyListeners();
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));

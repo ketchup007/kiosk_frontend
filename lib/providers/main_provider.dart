@@ -284,7 +284,9 @@ class MainProvider extends ChangeNotifier {
     refreshSum();
   }
 
-  orderFinish() {
+  Future<void> orderFinish() async {
+    await databaseService.createOrderProducts(orderProducts);
+
     order = Order.empty();
     orderProducts.clear();
     storageBeg.clear();

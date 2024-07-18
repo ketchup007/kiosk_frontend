@@ -70,7 +70,7 @@ class ProductRepository {
   FutureOr<List<MunchieProduct>> _createMunchieProduct(List<Map<String, dynamic>> response) {
     return response //
         .map(MunchieProduct.fromJson)
-        .map((product) => (product.image == null) ? product : product.copyWith(image: _bucket.getPublicUrl(product.image!)))
+        // .map((product) => (product.image == null) ? product : product.copyWith(image: _bucket.getPublicUrl(product.image!)))
         .toList();
   }
 }

@@ -56,7 +56,7 @@ class Product extends Base<Product> {
       price: json['price'] as num,
       currency: json['currency'] as String,
       type: ProductType.values.firstWhere((e) => e.toString().split('.').last == json['type']),
-      image: json['image'] as String,
+      image: json['image'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
