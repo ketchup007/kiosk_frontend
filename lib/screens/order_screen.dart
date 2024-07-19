@@ -46,9 +46,9 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _periodicTimerStart() {
     timer2?.cancel();
-    timer2 = Timer.periodic(const Duration(seconds: 5), (timers) {
-      provider.getLimits();
-      provider.updateTimeToWait();
+    timer2 = Timer.periodic(const Duration(seconds: 5), (timers) async {
+      await provider.getLimits();
+      await provider.updateTimeToWait();
       setState(() {});
     });
   }
@@ -72,10 +72,10 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _timerStart() {
     timer?.cancel();
-    timer = RestartableTimer(const Duration(minutes: 10), () {
+    timer = RestartableTimer(const Duration(minutes: 10), () async {
       _periodicTimerStop();
       print("in timer start");
-      provider.orderCancel();
+      await provider.orderCancel();
       provider.changeToPizza();
       Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
     });
@@ -83,9 +83,9 @@ class _OrderScreenState extends State<OrderScreen> {
 
   void _startTimerLong() {
     timer?.cancel();
-    timer = RestartableTimer(const Duration(minutes: 30), () {
+    timer = RestartableTimer(const Duration(minutes: 30), () async {
       print("in long timer");
-      provider.orderCancel();
+      await provider.orderCancel();
       provider.changeToPizza();
       Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
     });
@@ -95,10 +95,10 @@ class _OrderScreenState extends State<OrderScreen> {
     timer?.cancel();
   }
 
-  void cancelButtonAction() {
+  void cancelButtonAction() async {
     _periodicTimerStop();
     _timerStop();
-    provider.orderCancel();
+    await provider.orderCancel();
     provider.changeToPizza();
     Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
   }
@@ -131,7 +131,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
-    provider.getStorageData(context);
+    provider.getStorageData();
     return Listener(
       onPointerDown: _resetTimer,
       child: Scaffold(
@@ -325,36 +325,31 @@ class _OrderScreenState extends State<OrderScreen> {
                                 maintainState: true,
                                 maintainSize: true,
                                 maintainAnimation: true,
-                                child: InkWell(
-                                  onTapDown: (_) {
+                                child: ElevatedButton(
+                                  onPressed: () {
                                     cancelButtonAction();
                                   },
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      cancelButtonAction();
-                                    },
-                                    style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                      backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
-                                      shape: MaterialStateProperty.resolveWith(
-                                        (states) => const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(15.0),
-                                            bottomRight: Radius.circular(15.0),
-                                          ),
+                                  style: ButtonStyle(
+                                    foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
+                                    backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
+                                    shape: MaterialStateProperty.resolveWith(
+                                      (states) => const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(15.0),
+                                          bottomRight: Radius.circular(15.0),
                                         ),
                                       ),
-                                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                    child: Container(
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                      child: FittedBox(
-                                        child: Text(
-                                          AppText.current!.cancelButtonLabel,
-                                          style: const TextStyle(
-                                            fontFamily: 'GloryExtraBold',
-                                            fontSize: 18,
-                                          ),
+                                    ),
+                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                  child: Container(
+                                    alignment: Alignment.bottomCenter,
+                                    padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
+                                    child: FittedBox(
+                                      child: Text(
+                                        AppText.current!.cancelButtonLabel,
+                                        style: const TextStyle(
+                                          fontFamily: 'GloryExtraBold',
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),

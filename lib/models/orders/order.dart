@@ -125,7 +125,7 @@ class Order extends Base<Order> {
     return Order(
       id: '${AppConfig.instance.munchieId}_${const Uuid().v4()}',
       munchieId: AppConfig.instance.munchieId,
-      kioskId: '',
+      kioskId: '1',
       origin: OriginType.values.first,
       status: OrderStatus.values.first,
       pickupNumber: PickupNumber.values.first,

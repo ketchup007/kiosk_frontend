@@ -48,7 +48,7 @@ class BigScreenOrderListRow extends StatelessWidget {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.03,
-                  child: FittedBox(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       product.name,
@@ -61,7 +61,7 @@ class BigScreenOrderListRow extends StatelessWidget {
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.025,
-                  child: FittedBox(
+                  child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       product.ingredientNamesAsString,

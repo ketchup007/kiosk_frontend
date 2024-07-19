@@ -101,8 +101,8 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                             children: [
                               const Text("Płatność anulowana"),
                               ElevatedButton(
-                                onPressed: () {
-                                  provider.orderCancel();
+                                onPressed: () async {
+                                  await provider.orderCancel();
                                   provider.changeToPizza();
                                   provider.notifyListeners();
                                   Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));

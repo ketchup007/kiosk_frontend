@@ -69,7 +69,7 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
     );
   }
 
-  void _payment() async {
+  Future<void> _payment() async {
     final result = await ApiService(token: provider.loginToken).paymentCardTokenOrder(widget.id, widget.amount, widget.cardToken.value);
 
     print(result.toString());
@@ -81,7 +81,7 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
         print(jsonDecode(result)["payMethods"]["payMethod"]["value"]);
         widget.cardToken.value = jsonDecode(result)["payMethods"]["payMethod"]["value"];
         provider.cardTokens.add(widget.cardToken);
-        provider.saveCardTokens();
+        await provider.saveCardTokens();
       }
     } catch (e) {
       print("nope");

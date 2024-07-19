@@ -21,7 +21,7 @@ class LanguageButtons extends StatelessWidget {
 
     changeLanguage(String code) {
       MyApp.of(context)?.setLocale(Locale.fromSubtags(languageCode: code));
-      provider.changeLanguage(context);
+      provider.changeLanguage(Localizations.localeOf(context).toString());
     }
 
     return Row(

@@ -132,8 +132,8 @@ class _SumScreenState extends State<SumScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      provider.orderCancel();
+                    onPressed: () async {
+                      await provider.orderCancel();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
                     },
                     child: Text(AppText.current!.cancelOrderButtonLabel),

@@ -41,6 +41,7 @@ class _ProductListState extends State<ProductList> {
         itemBuilder: (context, index) {
           final product = widget.products[index];
 
+          // TODO: await
           provider.refreshLimit(product.productId);
           int productCount = provider.getProductInOrderCount(product.productId);
 

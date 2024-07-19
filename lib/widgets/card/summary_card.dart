@@ -37,10 +37,10 @@ class SummaryCardState extends State<SummaryCard> {
   void _timerStart() {
     print("2 timer start");
     timer?.cancel();
-    timer = RestartableTimer(const Duration(minutes: 1), () {
+    timer = RestartableTimer(const Duration(minutes: 1), () async {
       //print('sec timer');
       print("in summary card timer");
-      provider.orderCancel();
+      await provider.orderCancel();
       provider.changeToPizza();
       provider.inPayment = false;
       provider.notifyListeners();
@@ -319,9 +319,9 @@ class SummaryCardState extends State<SummaryCard> {
                                             height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
                                             width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
                                             child: InkWell(
-                                              onTapDown: (_) {
+                                              onTapDown: (_) async {
                                                 _timerStop();
-                                                provider.orderCancel();
+                                                await provider.orderCancel();
                                                 provider.changeToPizza();
                                                 provider.inPayment = false;
                                                 provider.notifyListeners();
@@ -331,9 +331,9 @@ class SummaryCardState extends State<SummaryCard> {
                                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
                                               },
                                               child: OutlinedButton(
-                                                onPressed: () {
+                                                onPressed: () async {
                                                   _timerStop();
-                                                  provider.orderCancel();
+                                                  await provider.orderCancel();
                                                   provider.changeToPizza();
                                                   provider.inPayment = false;
                                                   provider.notifyListeners();

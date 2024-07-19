@@ -56,7 +56,7 @@ class MainProvider extends ChangeNotifier {
   String containerDb = 'default';
   int timeToWait = 6;
 
-  updateTimeToWait() async {
+  Future<void> updateTimeToWait() async {
     int? newTime = await ApiService(token: loginToken).getTimeEst();
 
     if (newTime != null) {
@@ -64,7 +64,7 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  saveCardTokens() async {
+  Future<void> saveCardTokens() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String json = jsonEncode(CardPaymentToken.toJsonList(cardTokens));
@@ -75,7 +75,7 @@ class MainProvider extends ChangeNotifier {
     print("saved? $result");
   }
 
-  loadCardTokens() async {
+  Future<void> loadCardTokens() async {
     print("load 1");
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     print("load 2");
@@ -97,23 +97,14 @@ class MainProvider extends ChangeNotifier {
 //    print(cardTokens[0].brandImageUrl);
   }
 
-  getloginToken() async {
+  Future<void> getloginToken() async {
     String? json = await ApiService(token: loginToken).login(phoneNumber, phoneNumberToken);
     if (json != null) {
       loginToken = jsonDecode(json)['token'];
     }
   }
 
-  testShare() async {
-    print("in test share");
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setString('test', 'testadasad');
-
-    print(prefs.getString('test'));
-  }
-
-  getStorageData(context) async {
+  Future<void> getStorageData() async {
     if (loading != true && isDone != true) {
       loading = true;
       products = await databaseService.getProduct(languageId: languageCode);
@@ -260,23 +251,23 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  refreshLimit(String product) {
-    databaseService.getStorageStateProduct(product).then((data) {
+  Future<void> refreshLimit(String product) async {
+    await databaseService.getStorageStateProduct(product).then((data) {
       limits[product] = data;
     });
   }
 
-  getLimits() {
-    databaseService.getStorageLimits().then((data) {
+  Future<void> getLimits() async {
+    await databaseService.getStorageLimits().then((data) {
       for (int i = 0; i < data.length; i++) {
         limits[data[i].id] = data[i].amount;
       }
     });
   }
 
-  orderCancel() {
+  Future<void> orderCancel() async {
     print("in order cancle");
-    updateOrderStatus(OrderStatus.canceled);
+    await updateOrderStatus(OrderStatus.canceled);
     order = Order.empty();
     orderProducts.clear();
     storageBeg.clear();
@@ -309,12 +300,13 @@ class MainProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeLanguage(context) {
-    languageCode = Localizations.localeOf(context).toString();
+  changeLanguage(String langCode) {
+    languageCode = langCode;
 
     notifyListeners();
   }
 
+  // TODO: use dart package
   getCountryCodes() async {
     if (countryList.isEmpty) {
       countryList = await readCountries();

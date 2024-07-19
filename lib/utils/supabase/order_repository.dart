@@ -14,7 +14,7 @@ class OrderRepository {
 
   Future<void> createOrder(Order order) async {
     try {
-      return await _client //
+      await _client //
           .from('orders')
           .insert(order.toJson())
           .catchError((error) {
@@ -33,17 +33,16 @@ class OrderRepository {
     try {
       return await _client //
           .from('orders')
-          .update(data)
-          .eq('id', id)
+          .upsert(data)
           .catchError((error) {
         print('Database error: $error');
-        throw OrderException('Failed to create order due to database error');
+        throw OrderException('Failed to upsert order due to database error');
       });
     } on OrderException {
       rethrow;
     } catch (e) {
       print('Error: $e');
-      throw OrderException('An error occurred while creating the order: $e');
+      throw OrderException('An error occurred while upserting the order: $e');
     }
   }
 
@@ -58,13 +57,13 @@ class OrderRepository {
           .then(_findOrderNumber)
           .catchError((error) {
         print('Database error: $error');
-        throw OrderException('Failed to create order due to database error');
+        throw OrderException('Failed to get order number due to database error');
       });
     } on OrderException {
       rethrow;
     } catch (e) {
       print('Error: $e');
-      throw OrderException('An error occurred while creating the order: $e');
+      throw OrderException('An error occurred while getting order number the order: $e');
     }
   }
 
