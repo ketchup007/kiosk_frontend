@@ -117,7 +117,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "$productCount ${AppText.current!.pcs}",
+                  "$productCount ${AppText.current.pcs}",
                   style: const TextStyle(
                     fontFamily: 'GloryMedium',
                     fontSize: 15,
@@ -334,7 +334,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
 //                           color: AppColors.mediumBlue),
 //                       borderRadius: BorderRadius.circular(20)),
 //                   child: Center(
-//                       child: FittedBox(child: Text("${storage[index].number} ${AppText.current!.pcs}",
+//                       child: FittedBox(child: Text("${storage[index].number} ${AppText.current.pcs}",
 //                           style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15)))))),
 //           Column(
 //               mainAxisAlignment: MainAxisAlignment.start,

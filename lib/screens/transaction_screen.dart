@@ -83,7 +83,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       children: [
                         Row(
                           children: [
-                            Text(AppText.current!.priceToPayInfo),
+                            Text(AppText.current.priceToPayInfo),
                             Text('${provider.sum}'),
                           ],
                         ),
@@ -94,7 +94,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           endIndent: 5,
                           color: Colors.black,
                         ),
-                        Text(AppText.current!.conformationInfo)
+                        Text(AppText.current.conformationInfo)
                       ],
                     ),
                   ],

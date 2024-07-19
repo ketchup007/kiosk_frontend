@@ -129,9 +129,15 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     provider = Provider.of<MainProvider>(context, listen: true);
+    provider.createOrder();
     provider.getStorageData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Listener(
       onPointerDown: _resetTimer,
       child: Scaffold(
@@ -194,16 +200,23 @@ class _OrderScreenState extends State<OrderScreen> {
 //Sekcja Przycisków
 //------------------------------------------------------------------------------
                   Container(
-                      alignment: Alignment.topRight,
-                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123,
-                          MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
-                      child: SizedBox(height: MediaQuery.of(context).size.height * 0.11, child: const Text("tu powinna być animacja") //RiveAnimation.asset(
-                          //  'assets/animations/newBody.riv',//Ri
-                          //    alignment: Alignment.bottomRight,)
-                          )),
+                    alignment: Alignment.topRight,
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      MediaQuery.of(context).size.height * 0.123,
+                      MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055,
+                      0,
+                    ),
+                    child: SizedBox(height: MediaQuery.of(context).size.height * 0.11, child: const Text("tu powinna być animacja") //RiveAnimation.asset(
+                        //  'assets/animations/newBody.riv',//Ri
+                        //    alignment: Alignment.bottomRight,)
+                        ),
+                  ),
                   Container(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         EdgeCategoryButton(
                           cardState: _cardState,
                           onPressed: () {
@@ -217,11 +230,11 @@ class _OrderScreenState extends State<OrderScreen> {
                             }
                           },
                           number: 1,
-                          text: AppText.current!.pizzaItemLabel,
+                          text: AppText.current.pizzaItemLabel,
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppText.current!.drinksItemLabel,
+                          text: AppText.current.drinksItemLabel,
                           number: 2,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -236,7 +249,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppText.current!.boxesItemLabel,
+                          text: AppText.current.boxesItemLabel,
                           number: 3,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -251,7 +264,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppText.current!.saucesItemLabel,
+                          text: AppText.current.saucesItemLabel,
                           number: 4,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -265,44 +278,53 @@ class _OrderScreenState extends State<OrderScreen> {
                           },
                         ),
                         ConfirmCategoryButton(
-                            cardState: _cardState,
-                            onPressed: () {
-                              if (provider.inPayment != true) {
-                                _periodicTimerStop();
-                                _startTimerLong();
-                                provider.changeToPizza();
-                                setState(() {
-                                  provider.getOrderList();
-                                  _cardState = 4;
-                                });
+                          cardState: _cardState,
+                          onPressed: () {
+                            if (provider.inPayment != true) {
+                              _periodicTimerStop();
+                              _startTimerLong();
+                              provider.changeToPizza();
+                              setState(() {
+                                provider.getOrderList();
+                                _cardState = 4;
+                              });
 
-                                if (!provider.popupDone) {
-                                  if (provider.sum != 0) {
-                                    provider.begStorageSetup();
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return BuyMorePopup(onPress: (number) {
-                                            setState(() {
-                                              _cardState = number;
-                                            });
+                              if (!provider.popupDone) {
+                                if (provider.sum != 0) {
+                                  provider.begStorageSetup();
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return BuyMorePopup(onPress: (number) {
+                                          setState(() {
+                                            _cardState = number;
                                           });
                                         });
-                                  }
+                                      });
                                 }
                               }
-                            },
-                            number: 5,
-                            text: AppText.current!.summaryButtonLabel)
-                      ])),
+                            }
+                          },
+                          number: 5,
+                          text: AppText.current.summaryButtonLabel,
+                        ),
+                      ],
+                    ),
+                  ),
                   Container(
                     alignment: Alignment.topRight,
-                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.123,
-                        MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055, 0),
-                    child: SizedBox(height: MediaQuery.of(context).size.height * 0.11, child: const Text("tu powinna być animacja") //RiveAnimation.asset(
-                        //    'assets/animations/newArms.riv',
-                        //      alignment: Alignment.bottomRight)
-                        ),
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      MediaQuery.of(context).size.height * 0.123,
+                      MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.065 : MediaQuery.of(context).size.width * 0.055,
+                      0,
+                    ),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.11, child: const Text("tu powinna być animacja"),
+                      // RiveAnimation.asset(
+                      //    'assets/animations/newArms.riv',
+                      //      alignment: Alignment.bottomRight)
+                    ),
                   ),
 //------------------------------------------------------------------------------
 //Sekcja stopki
@@ -346,7 +368,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
                                     child: FittedBox(
                                       child: Text(
-                                        AppText.current!.cancelButtonLabel,
+                                        AppText.current.cancelButtonLabel,
                                         style: const TextStyle(
                                           fontFamily: 'GloryExtraBold',
                                           fontSize: 18,
@@ -376,15 +398,27 @@ class _OrderScreenState extends State<OrderScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                      height: MediaQuery.of(context).size.height * 0.025,
-                                      child: FittedBox(child: Text(AppText.current!.orderTotalText, style: const TextStyle(fontSize: 20, fontFamily: 'GloryLight')))),
+                                    height: MediaQuery.of(context).size.height * 0.025,
+                                    child: FittedBox(
+                                      child: Text(
+                                        AppText.current.orderTotalText,
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: 'GloryLight',
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.04,
                                     child: FittedBox(
                                       child: Text(
                                         '${provider.sum.toStringAsFixed(2)} zł',
-                                        textHeightBehavior:
-                                            const TextHeightBehavior(applyHeightToFirstAscent: false, applyHeightToLastDescent: false, leadingDistribution: TextLeadingDistribution.even),
+                                        textHeightBehavior: const TextHeightBehavior(
+                                          applyHeightToFirstAscent: false,
+                                          applyHeightToLastDescent: false,
+                                          leadingDistribution: TextLeadingDistribution.even,
+                                        ),
                                         style: const TextStyle(
                                           fontSize: 40,
                                           fontFamily: 'GloryBold',
@@ -397,7 +431,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     width: MediaQuery.of(context).size.width * 0.35,
                                     child: FittedBox(
                                       child: Text(
-                                        AppText.current!.paymentConformationText,
+                                        AppText.current.paymentConformationText,
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: 'GloryLightItalic',
@@ -444,7 +478,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
                                         child: FittedBox(
                                           child: Text(
-                                            AppText.current!.summaryButtonLabel,
+                                            AppText.current.summaryButtonLabel,
                                             style: const TextStyle(
                                               fontFamily: 'GloryExtraBold',
                                               fontSize: 18,

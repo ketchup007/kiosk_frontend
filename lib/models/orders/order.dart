@@ -123,9 +123,10 @@ class Order extends Base<Order> {
 
   factory Order.empty() {
     return Order(
-      id: '${AppConfig.instance.munchieId}_${const Uuid().v4()}',
+      // id: '${AppConfig.instance.munchieId}_${const Uuid().v4()}',
+      id: const Uuid().v4(),
       munchieId: AppConfig.instance.munchieId,
-      kioskId: '1',
+      kioskId: AppConfig.instance.kioskId,
       origin: OriginType.values.first,
       status: OrderStatus.values.first,
       pickupNumber: PickupNumber.values.first,

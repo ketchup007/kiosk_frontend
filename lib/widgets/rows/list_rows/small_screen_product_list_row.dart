@@ -108,7 +108,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${productCount} ${AppText.current!.pcs}",
+                  "${productCount} ${AppText.current.pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),

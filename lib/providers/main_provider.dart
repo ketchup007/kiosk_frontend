@@ -196,7 +196,7 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createOrder(String orderName, int value) async {
+  Future<void> createOrder() async {
     await databaseService.createOrder(order);
   }
 

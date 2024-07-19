@@ -16,7 +16,7 @@ class OrderRepository {
     try {
       await _client //
           .from('orders')
-          .insert(order.toJson())
+          .upsert(order.toJson())
           .catchError((error) {
         print('Database error: $error');
         throw OrderException('Failed to create order due to database error');
@@ -33,16 +33,17 @@ class OrderRepository {
     try {
       return await _client //
           .from('orders')
-          .upsert(data)
+          .update(data)
+          .eq('id', id)
           .catchError((error) {
         print('Database error: $error');
-        throw OrderException('Failed to upsert order due to database error');
+        throw OrderException('Failed to update order due to database error');
       });
     } on OrderException {
       rethrow;
     } catch (e) {
       print('Error: $e');
-      throw OrderException('An error occurred while upserting the order: $e');
+      throw OrderException('An error occurred while updating the order: $e');
     }
   }
 

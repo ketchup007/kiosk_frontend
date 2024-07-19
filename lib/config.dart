@@ -55,6 +55,13 @@ class AppConfig {
         Flavor.production => '4',
       };
 
+  String get kioskId => switch (_flavor) {
+        Flavor.mock => '1',
+        Flavor.development => '80000000-0000-0000-0000-000000000001',
+        Flavor.staging => '1',
+        Flavor.production => '1',
+      };
+
   String get localDatabaseUrl => switch (_flavor) {
         Flavor.mock => '4',
         Flavor.development => 'http://127.0.0.1:64321',
