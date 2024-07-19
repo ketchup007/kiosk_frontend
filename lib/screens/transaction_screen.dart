@@ -7,7 +7,7 @@ import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class TransactionScreen extends StatefulWidget {
   const TransactionScreen({super.key});
@@ -83,7 +83,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       children: [
                         Row(
                           children: [
-                            Text(AppLocalizations.of(context)!.priceToPayInfo),
+                            Text(AppText.current!.priceToPayInfo),
                             Text('${provider.sum}'),
                           ],
                         ),
@@ -94,7 +94,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           endIndent: 5,
                           color: Colors.black,
                         ),
-                        Text(AppLocalizations.of(context)!.conformationInfo)
+                        Text(AppText.current!.conformationInfo)
                       ],
                     ),
                   ],

@@ -6,7 +6,7 @@ import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/product_details_popup.dart';
 import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class SmallScreenProductListRow extends StatelessWidget {
   final MunchieProduct product;
@@ -108,7 +108,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${productCount} ${AppLocalizations.of(context)!.pcs}",
+                  "${productCount} ${AppText.current!.pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),

@@ -5,7 +5,7 @@ import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
 import 'package:provider/provider.dart';
 //import 'package:rive/rive.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 import '../../themes/color.dart';
 import '../../widgets/buttons/category_buttons.dart';
@@ -86,7 +86,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                               width: MediaQuery.of(context).size.width * 0.55,
                               child: FittedBox(
                                 child: Text(
-                                  AppLocalizations.of(context)!.begPopupTitle,
+                                  AppText.current!.begPopupTitle,
                                   textHeightBehavior: const TextHeightBehavior(
                                     applyHeightToFirstAscent: false,
                                     applyHeightToLastDescent: false,
@@ -106,7 +106,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                               width: MediaQuery.of(context).size.width * 0.54,
                               height: MediaQuery.of(context).size.height * 0.06,
                               child: AutoSizeText(
-                                AppLocalizations.of(context)!.begPopupInformation,
+                                AppText.current!.begPopupInformation,
                                 maxLines: 3,
                                 overflow: TextOverflow.clip,
                                 style: const TextStyle(
@@ -132,7 +132,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             Navigator.of(context).pop();
                           },
                           number: 1,
-                          text: AppLocalizations.of(context)!.pizzaItemLabel,
+                          text: AppText.current!.pizzaItemLabel,
                         ),
                         CategoryButton(
                           cardState: 10, //Number to make it not equal
@@ -142,7 +142,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             Navigator.of(context).pop();
                           },
                           number: 2,
-                          text: AppLocalizations.of(context)!.drinksItemLabel,
+                          text: AppText.current!.drinksItemLabel,
                         ),
                         CategoryButton(
                           cardState: 10, //Number to make it not equal
@@ -152,7 +152,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             Navigator.of(context).pop();
                           },
                           number: 3,
-                          text: AppLocalizations.of(context)!.boxesItemLabel,
+                          text: AppText.current!.boxesItemLabel,
                         ),
                         CategoryButton(
                           cardState: 10, //Number to make it not equal
@@ -162,7 +162,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             Navigator.of(context).pop();
                           },
                           number: 4,
-                          text: AppLocalizations.of(context)!.saucesItemLabel,
+                          text: AppText.current!.saucesItemLabel,
                         )
                       ],
                     ),
@@ -172,7 +172,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                       width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.27 : MediaQuery.of(context).size.width * 0.40,
                       child: FittedBox(
                         child: Text(
-                          AppLocalizations.of(context)!.productPropositionText,
+                          AppText.current!.productPropositionText,
                           style: const TextStyle(
                             fontFamily: 'GloryExtraBold',
                             fontSize: 30,
@@ -210,7 +210,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                             style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                             child: FittedBox(
                               child: Text(
-                                AppLocalizations.of(context)!.goToSummaryButtonLabel,
+                                AppText.current!.goToSummaryButtonLabel,
                                 style: const TextStyle(
                                   fontFamily: 'GloryMedium',
                                   fontSize: 25,

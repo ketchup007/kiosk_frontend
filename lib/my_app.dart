@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/pathSelector.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
   final String url;
@@ -29,8 +30,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       locale: _locale,
       title: 'Munchies Kiosk',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: const [
+        AppText.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppText.delegate.supportedLocales,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         useMaterial3: true,

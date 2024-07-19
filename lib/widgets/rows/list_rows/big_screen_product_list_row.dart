@@ -6,7 +6,7 @@ import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class BigScreenProductListRow extends StatefulWidget {
   final MunchieProduct product;
@@ -117,7 +117,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "$productCount ${AppLocalizations.of(context)!.pcs}",
+                  "$productCount ${AppText.current!.pcs}",
                   style: const TextStyle(
                     fontFamily: 'GloryMedium',
                     fontSize: 15,
@@ -334,7 +334,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
 //                           color: AppColors.mediumBlue),
 //                       borderRadius: BorderRadius.circular(20)),
 //                   child: Center(
-//                       child: FittedBox(child: Text("${storage[index].number} ${AppLocalizations.of(context)!.pcs}",
+//                       child: FittedBox(child: Text("${storage[index].number} ${AppText.current!.pcs}",
 //                           style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15)))))),
 //           Column(
 //               mainAxisAlignment: MainAxisAlignment.start,

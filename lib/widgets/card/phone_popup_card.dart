@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/buttons/num_pad.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -130,7 +130,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                       width: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
                       child: FittedBox(
                         child: Text(
-                          AppLocalizations.of(context)!.enterPhoneNumberText.toUpperCase(),
+                          AppText.current!.enterPhoneNumberText.toUpperCase(),
                           style: const TextStyle(
                             fontSize: 30,
                             fontFamily: "GloryMedium",
@@ -258,7 +258,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeMain();
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!.selectAllCheckText,
+                                        AppText.current!.selectAllCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -304,7 +304,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeA();
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!.requiredCheckText,
+                                        AppText.current!.requiredCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -351,7 +351,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeB();
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!.promotionCheckText,
+                                        AppText.current!.promotionCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -397,7 +397,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeC();
                                       },
                                       child: Text(
-                                        AppLocalizations.of(context)!.optionalCheckText,
+                                        AppText.current!.optionalCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -426,7 +426,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                             child: AutoSizeText(
-                              AppLocalizations.of(context)!.confirmButtonLabel,
+                              AppText.current!.confirmButtonLabel,
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'GloryBold',

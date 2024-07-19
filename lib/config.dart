@@ -50,7 +50,7 @@ class AppConfig {
 
   String get munchieId => switch (_flavor) {
         Flavor.mock => '4',
-        Flavor.development => '70000000-0000-0000-0000-000000000004',
+        Flavor.development => '70000000-0000-0000-0000-000000000001',
         Flavor.staging => '4',
         Flavor.production => '4',
       };

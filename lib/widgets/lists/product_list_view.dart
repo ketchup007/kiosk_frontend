@@ -44,7 +44,7 @@ class _ProductListState extends State<ProductList> {
           provider.refreshLimit(product.productId);
           int productCount = provider.getProductInOrderCount(product.productId);
 
-          if (provider.limits[product.productId]! <= 0) {
+          if ((provider.limits[product.productId] ?? 0) <= 0) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = false;
           } else if (productCount == 0) {

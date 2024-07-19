@@ -10,7 +10,7 @@ import 'package:kiosk_flutter/widgets/lists/order_list_view.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
 
@@ -87,7 +87,7 @@ class _SumScreenState extends State<SumScreen> {
                   children: [
                     Column(
                       children: [
-                        Row(children: [Text(AppLocalizations.of(context)!.priceToPayInfo), Text('${provider.sum}')]),
+                        Row(children: [Text(AppText.current!.priceToPayInfo), Text('${provider.sum}')]),
                         const Divider(
                           height: 20,
                           thickness: 5,
@@ -95,7 +95,7 @@ class _SumScreenState extends State<SumScreen> {
                           endIndent: 5,
                           color: Colors.black,
                         ),
-                        Text(AppLocalizations.of(context)!.conformationInfo)
+                        Text(AppText.current!.conformationInfo)
                       ],
                     ),
                     ElevatedButton(
@@ -103,7 +103,7 @@ class _SumScreenState extends State<SumScreen> {
                         //provider.payment.startTransaction(11);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionScreen()));
                       },
-                      child: Text(AppLocalizations.of(context)!.paymentButtonLabel),
+                      child: Text(AppText.current!.paymentButtonLabel),
                     ),
                   ],
                 ),
@@ -114,7 +114,7 @@ class _SumScreenState extends State<SumScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(AppLocalizations.of(context)!.summaryInfo),
+                      Text(AppText.current!.summaryInfo),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         width: MediaQuery.of(context).size.width * 0.9,
@@ -136,13 +136,13 @@ class _SumScreenState extends State<SumScreen> {
                       provider.orderCancel();
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
                     },
-                    child: Text(AppLocalizations.of(context)!.cancelOrderButtonLabel),
+                    child: Text(AppText.current!.cancelOrderButtonLabel),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
                     },
-                    child: Text(AppLocalizations.of(context)!.editOrderButtonLabel),
+                    child: Text(AppText.current!.editOrderButtonLabel),
                   )
                 ],
               )

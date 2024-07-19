@@ -195,10 +195,10 @@ class MainProvider extends ChangeNotifier {
         case ProductType.drink:
           storageDrinks.add(product);
           break;
-        case ProductType.box:
+        case ProductType.sauce:
           storageSauce.add(product);
           break;
-        case ProductType.sauce:
+        case ProductType.box:
           storageBox.add(product);
           break;
       }

@@ -7,7 +7,7 @@ import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/widgets/card/summary_card.dart';
 
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
@@ -217,11 +217,11 @@ class _OrderScreenState extends State<OrderScreen> {
                             }
                           },
                           number: 1,
-                          text: AppLocalizations.of(context)!.pizzaItemLabel,
+                          text: AppText.current!.pizzaItemLabel,
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppLocalizations.of(context)!.drinksItemLabel,
+                          text: AppText.current!.drinksItemLabel,
                           number: 2,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -236,7 +236,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppLocalizations.of(context)!.boxesItemLabel,
+                          text: AppText.current!.boxesItemLabel,
                           number: 3,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -251,7 +251,7 @@ class _OrderScreenState extends State<OrderScreen> {
                         ),
                         CategoryButton(
                           cardState: _cardState,
-                          text: AppLocalizations.of(context)!.saucesItemLabel,
+                          text: AppText.current!.saucesItemLabel,
                           number: 4,
                           onPressed: () {
                             if (provider.inPayment != true) {
@@ -293,7 +293,7 @@ class _OrderScreenState extends State<OrderScreen> {
                               }
                             },
                             number: 5,
-                            text: AppLocalizations.of(context)!.summaryButtonLabel)
+                            text: AppText.current!.summaryButtonLabel)
                       ])),
                   Container(
                     alignment: Alignment.topRight,
@@ -350,7 +350,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                       padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
                                       child: FittedBox(
                                         child: Text(
-                                          AppLocalizations.of(context)!.cancelButtonLabel,
+                                          AppText.current!.cancelButtonLabel,
                                           style: const TextStyle(
                                             fontFamily: 'GloryExtraBold',
                                             fontSize: 18,
@@ -382,7 +382,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                 children: [
                                   SizedBox(
                                       height: MediaQuery.of(context).size.height * 0.025,
-                                      child: FittedBox(child: Text(AppLocalizations.of(context)!.orderTotalText, style: const TextStyle(fontSize: 20, fontFamily: 'GloryLight')))),
+                                      child: FittedBox(child: Text(AppText.current!.orderTotalText, style: const TextStyle(fontSize: 20, fontFamily: 'GloryLight')))),
                                   SizedBox(
                                     height: MediaQuery.of(context).size.height * 0.04,
                                     child: FittedBox(
@@ -402,7 +402,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                     width: MediaQuery.of(context).size.width * 0.35,
                                     child: FittedBox(
                                       child: Text(
-                                        AppLocalizations.of(context)!.paymentConformationText,
+                                        AppText.current!.paymentConformationText,
                                         style: const TextStyle(
                                           fontSize: 15,
                                           fontFamily: 'GloryLightItalic',
@@ -449,7 +449,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
                                         child: FittedBox(
                                           child: Text(
-                                            AppLocalizations.of(context)!.summaryButtonLabel,
+                                            AppText.current!.summaryButtonLabel,
                                             style: const TextStyle(
                                               fontFamily: 'GloryExtraBold',
                                               fontSize: 18,
