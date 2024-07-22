@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/config.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/models/menus/product_type.dart';
 import 'package:kiosk_flutter/models/orders/order.dart';
 import 'package:kiosk_flutter/models/orders/order_product.dart';
@@ -19,18 +19,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class MainProvider extends ChangeNotifier {
-  List<MunchieProduct> products = [];
+  List<ProductTranslated> products = [];
 
   Payment payment = Payment();
   final databaseService = DatabaseService();
 
-  List<MunchieProduct> storagePizza = [];
-  List<MunchieProduct> storageDrinks = [];
-  List<MunchieProduct> storageBox = [];
-  List<MunchieProduct> storageSauce = [];
-  List<MunchieProduct> storageCurrent = [];
-  List<MunchieProduct> storageOrders = [];
-  List<MunchieProduct> storageBeg = [];
+  List<ProductTranslated> storagePizza = [];
+  List<ProductTranslated> storageDrinks = [];
+  List<ProductTranslated> storageBox = [];
+  List<ProductTranslated> storageSauce = [];
+  List<ProductTranslated> storageCurrent = [];
+  List<ProductTranslated> storageOrders = [];
+  List<ProductTranslated> storageBeg = [];
 
   List<OrderProduct> orderProducts = [];
 
@@ -183,7 +183,7 @@ class MainProvider extends ChangeNotifier {
         case ProductType.pizza:
           storagePizza.add(product);
           break;
-        case ProductType.drink:
+        case ProductType.drink || ProductType.coffee:
           storageDrinks.add(product);
           break;
         case ProductType.sauce:

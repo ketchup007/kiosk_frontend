@@ -3,6 +3,7 @@
 enum ProductType {
   pizza('pizza'),
   drink('drink'),
+  coffee('coffee'),
   box('box'),
   sauce('sauce');
 

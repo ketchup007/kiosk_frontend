@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/product_details_popup.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class SmallScreenProductListRow extends StatelessWidget {
-  final MunchieProduct product;
+  final ProductTranslated product;
   final bool isVisiblePlus;
   final bool isVisibleMinus;
 

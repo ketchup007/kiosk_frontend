@@ -1,5 +1,5 @@
 import 'package:kiosk_flutter/config.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/models/orders/order.dart';
 import 'package:kiosk_flutter/models/orders/order_product.dart';
 import 'package:kiosk_flutter/models/orders/order_status.dart';
@@ -35,7 +35,7 @@ class DatabaseService {
   final OrderProductsRepository _orderProductsRepository;
   final String _munchieId;
 
-  Future<List<MunchieProduct>> getProduct({String languageId = 'pl'}) async {
+  Future<List<ProductTranslated>> getProduct({String languageId = 'pl'}) async {
     return await _productRepository.getProducts(munchieId: _munchieId, languageId: languageId);
   }
 

@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class BigScreenOrderListRow extends StatelessWidget {
   const BigScreenOrderListRow({super.key, required this.product});
 
-  final MunchieProduct product;
+  final ProductTranslated product;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
-import 'package:kiosk_flutter/models/menus/munchie_ingredient.dart';
+import 'package:kiosk_flutter/models/menus/ingredient_translated.dart';
 import 'package:kiosk_flutter/models/menus/product_type.dart';
 
-class MunchieProduct {
+class ProductTranslated {
   final String munchieId;
   final String productId;
   final String name;
@@ -9,12 +9,12 @@ class MunchieProduct {
   final String currency;
   final ProductType type;
   final String? image;
-  final List<MunchieIngredient> ingredients;
+  final List<IngredientTranslated> ingredients;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String translationLanguageId;
 
-  MunchieProduct({
+  ProductTranslated({
     required this.munchieId,
     required this.productId,
     required this.name,
@@ -28,7 +28,7 @@ class MunchieProduct {
     required this.translationLanguageId,
   });
 
-  MunchieProduct copyWith({
+  ProductTranslated copyWith({
     String? munchieId,
     String? productId,
     String? name,
@@ -36,12 +36,12 @@ class MunchieProduct {
     String? currency,
     ProductType? type,
     String? image,
-    List<MunchieIngredient>? ingredients,
+    List<IngredientTranslated>? ingredients,
     DateTime? createdAt,
     DateTime? updatedAt,
     String? translationLanguageId,
   }) {
-    return MunchieProduct(
+    return ProductTranslated(
       munchieId: munchieId ?? this.munchieId,
       productId: productId ?? this.productId,
       name: name ?? this.name,
@@ -56,8 +56,8 @@ class MunchieProduct {
     );
   }
 
-  factory MunchieProduct.fromJson(Map<String, dynamic> json) {
-    return MunchieProduct(
+  factory ProductTranslated.fromJson(Map<String, dynamic> json) {
+    return ProductTranslated(
       munchieId: json['munchie_id'] as String,
       productId: json['product_id'] as String,
       name: json['name'] as String,
@@ -65,7 +65,7 @@ class MunchieProduct {
       currency: json['currency'] as String,
       type: ProductType.fromJson(json['type'] as String),
       image: json['image'] as String?,
-      ingredients: (json['ingredients'] as List<dynamic>).map((e) => MunchieIngredient.fromJson(e as Map<String, dynamic>)).toList(),
+      ingredients: (json['ingredients'] as List<dynamic>).map((e) => IngredientTranslated.fromJson(e as Map<String, dynamic>)).toList(),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       translationLanguageId: json['translation_language_id'] as String,
@@ -92,7 +92,7 @@ class MunchieProduct {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is MunchieProduct &&
+    return other is ProductTranslated &&
         other.munchieId == munchieId &&
         other.productId == productId &&
         other.name == name &&

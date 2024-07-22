@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/big_screen_product_list_row.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/small_screen_product_list_row.dart';
 import 'package:provider/provider.dart';
 
 class ProductList extends StatefulWidget {
-  final List<MunchieProduct> products;
+  final List<ProductTranslated> products;
 
   const ProductList({
     super.key,

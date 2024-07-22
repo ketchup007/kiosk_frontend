@@ -1,6 +1,6 @@
 import 'package:kiosk_flutter/models/base.dart';
 
-class MunchieIngredient extends Base<MunchieIngredient> {
+class IngredientTranslated extends Base<IngredientTranslated> {
   @override
   final String id;
   final String name;
@@ -8,7 +8,7 @@ class MunchieIngredient extends Base<MunchieIngredient> {
   @override
   final DateTime updatedAt;
 
-  const MunchieIngredient({
+  const IngredientTranslated({
     required this.id,
     required this.name,
     required this.createdAt,
@@ -16,13 +16,13 @@ class MunchieIngredient extends Base<MunchieIngredient> {
   });
 
   @override
-  MunchieIngredient copyWith({
+  IngredientTranslated copyWith({
     String? id,
     String? name,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
-    return MunchieIngredient(
+    return IngredientTranslated(
       id: id ?? this.id,
       name: name ?? this.name,
       createdAt: createdAt ?? this.createdAt,
@@ -30,8 +30,8 @@ class MunchieIngredient extends Base<MunchieIngredient> {
     );
   }
 
-  factory MunchieIngredient.fromJson(Map<String, dynamic> json) {
-    return MunchieIngredient(
+  factory IngredientTranslated.fromJson(Map<String, dynamic> json) {
+    return IngredientTranslated(
       id: json['id'] as String,
       name: json['name'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -53,7 +53,7 @@ class MunchieIngredient extends Base<MunchieIngredient> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is MunchieIngredient && other.id == id && other.name == name && other.createdAt == createdAt && other.updatedAt == updatedAt;
+    return other is IngredientTranslated && other.id == id && other.name == name && other.createdAt == createdAt && other.updatedAt == updatedAt;
   }
 
   @override

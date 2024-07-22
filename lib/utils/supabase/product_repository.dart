@@ -1,20 +1,20 @@
 import 'dart:async';
 import 'package:kiosk_flutter/models/exceptions/product_exception.dart';
-import 'package:kiosk_flutter/models/menus/munchie_product.dart';
+import 'package:kiosk_flutter/models/menus/product_translated.dart';
 import 'package:kiosk_flutter/utils/supabase/supabase_manager.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProductRepository {
   ProductRepository({
     SupabaseClient? client,
-  }) : _client = client ?? SupabaseManager.instance.clientGlobalDB {
+  }) : _client = client ?? SupabaseManager.instance.clientLocalDB {
     _bucket = _client.storage.from('Product_Images');
   }
 
   final SupabaseClient _client;
   late final StorageFileApi _bucket;
 
-  Future<List<MunchieProduct>> getProducts({required String munchieId, required String languageId}) async {
+  Future<List<ProductTranslated>> getProducts({required String munchieId, required String languageId}) async {
     try {
       return await _client //
           .from('munchie_products_view')
@@ -67,9 +67,9 @@ class ProductRepository {
   //       });
   // }
 
-  FutureOr<List<MunchieProduct>> _createMunchieProduct(List<Map<String, dynamic>> response) {
+  FutureOr<List<ProductTranslated>> _createMunchieProduct(List<Map<String, dynamic>> response) {
     return response //
-        .map(MunchieProduct.fromJson)
+        .map(ProductTranslated.fromJson)
         // .map((product) => (product.image == null) ? product : product.copyWith(image: _bucket.getPublicUrl(product.image!)))
         .toList();
   }
