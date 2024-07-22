@@ -17,7 +17,7 @@ class ProductRepository {
   Future<List<ProductTranslated>> getProducts({required String munchieId, required String languageId}) async {
     try {
       return await _client //
-          .from('munchie_products_view')
+          .from('products_translated_view')
           .select()
           .eq('munchie_id', munchieId)
           .eq('translation_language_id', languageId)
