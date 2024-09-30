@@ -55,6 +55,9 @@ dependencies:
   async: ^2.11.0
   webview_flutter: ^4.8.0
   uuid: ^4.4.2
+  equatable: ^2.0.5
+  collection: ^1.18.0
+  rxdart: ^0.28.0
 
   # payu:
   #   git:

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
-import 'package:kiosk_flutter/models/orders/order_status.dart';
+import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/new_payu_screen.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +68,10 @@ class SummaryCardState extends State<SummaryCard> {
               widget.onPopUpFinish();
               print("pop");
               if (isPromotionChecked) {
-                print(provider.order.clientPhoneNumber);
-                provider.updateOrderClientPhoneNumber(provider.order.clientPhoneNumber);
+                print(provider.order?.clientPhoneNumber);
+                provider.updateOrderClientPhoneNumber(provider.order?.clientPhoneNumber);
               } else {
-                provider.updateOrderClientPhoneNumber(provider.order.clientPhoneNumber);
+                provider.updateOrderClientPhoneNumber(provider.order?.clientPhoneNumber);
               }
               //provider.changeOrderStatus(1);
               print("done");

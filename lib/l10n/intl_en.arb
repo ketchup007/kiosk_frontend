@@ -1,4 +1,6 @@
 {
+    "@@locale": "en",
+    
     "touchScreenInfo": "Touch Screen, to Order",
     "pizzaItemLabel": "Pizza",
     "drinksItemLabel": "Drinks",

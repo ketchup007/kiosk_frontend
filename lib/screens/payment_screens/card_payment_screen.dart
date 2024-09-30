@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/payment_screens/payment_status_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 // import 'package:payu/payu.dart';

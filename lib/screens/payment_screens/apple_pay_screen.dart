@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/payment_screens/payment_status_screen.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
-// import 'package:payu/payu.dart' as payu;
-import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import 'dart:convert';
 import 'package:pay/pay.dart';
-
-import 'display_frame_screen.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert';
 
 class ApplePayScreen extends StatefulWidget {
   final double amount;
@@ -37,7 +33,7 @@ class ApplePayScreenState extends State<ApplePayScreen> {
         decoration: const BoxDecoration(
           color: Colors.white,
           image: DecorationImage(
-            image: svg.Svg('assets/images/background.svg'),
+            image: Svg('assets/images/background.svg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -115,10 +111,10 @@ class ApplePayScreenState extends State<ApplePayScreen> {
                       onPressed: () {
                         _didTapHandleWarningContinue3DS(context, redirectUrl, widget.id);
                       },
-                      child: Text(''),
+                      child: const Text(''),
                     ),
             ),
-            Text('new'),
+            const Text('new'),
           ],
         ),
       ),

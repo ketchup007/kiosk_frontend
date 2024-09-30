@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/payment_screens/payment_status_screen.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
-import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
-import 'package:kiosk_flutter/widgets/mobile_payment.dart';
-// import 'package:payu/payu.dart' as PayU;
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
-// import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'dart:convert';
 import 'package:pay/pay.dart';
-import 'dart:io';
-
-import 'display_frame_screen.dart';
 
 class MyGooglePayScreen extends StatefulWidget {
   final double amount;
@@ -38,7 +28,7 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen> {
       backgroundColor: Colors.transparent,
       appBar: null,
       body: Container(
-        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: SVG.Svg('assets/images/background.svg'), fit: BoxFit.cover)),
+        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: Svg('assets/images/background.svg'), fit: BoxFit.cover)),
         child: Column(
           children: [
             PayUTopBar(onPress: () {}, amount: provider.sum),

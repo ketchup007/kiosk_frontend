@@ -48,18 +48,11 @@ class AppConfig {
         Flavor.production => 'production',
       };
 
-  String get munchieId => switch (_flavor) {
-        Flavor.mock => '4',
-        Flavor.development => '70000000-0000-0000-0000-000000000001',
-        Flavor.staging => '4',
-        Flavor.production => '4',
-      };
-
-  String get kioskId => switch (_flavor) {
-        Flavor.mock => '1',
-        Flavor.development => '80000000-0000-0000-0000-000000000001',
-        Flavor.staging => '1',
-        Flavor.production => '1',
+  int get apsId => switch (_flavor) {
+        Flavor.mock => 1,
+        Flavor.development => 1,
+        Flavor.staging => 1,
+        Flavor.production => 1,
       };
 
   String get localDatabaseUrl => switch (_flavor) {

@@ -8,28 +8,13 @@ class SupabaseManager {
 
   static SupabaseManager get instance => _instance;
 
-  late SupabaseClient clientLocalDB;
-  late SupabaseClient clientGlobalDB;
+  SupabaseClient clientLocalDB = SupabaseClient(
+    AppConfig.instance.localDatabaseUrl,
+    AppConfig.instance.localDatabaseKey,
+  );
 
-  void initLocalDB() {
-    clientLocalDB = SupabaseClient(AppConfig.instance.localDatabaseUrl, AppConfig.instance.localDatabaseKey);
-  }
-
-  void initGlobalDB() {
-    clientGlobalDB = SupabaseClient(AppConfig.instance.globalDatabaseUrl, AppConfig.instance.globalDatabaseKey);
-  }
-
-  // Future<AuthResponse> signInToLocalDB() async {
-  //   final response = await clientLocalDB.auth.signInWithPassword(
-  //     phone: AppConfig.instance.databaseAuthPassword,
-  //     password: AppConfig.instance.databaseAuthPassword,
-  //   );
-  //   return response;
-  // }
-
-  // autentykacja w bazie globalnej nie jest włączona, zrobiłem funkcje na przyszlosc
-  // Future<AuthResponse> signInToGlobalDB() async {
-  //   final response = await clientGlobalDB.auth.signInWithPassword(phone: SupabaseConstants.globalDBAuthPhoneNumber, password: SupabaseConstants.globalDBAuthPassword);
-  //   return response;
-  //}
+  SupabaseClient clientGlobalDB = SupabaseClient(
+    AppConfig.instance.globalDatabaseUrl,
+    AppConfig.instance.globalDatabaseKey,
+  );
 }

@@ -1,4 +1,6 @@
-{
+{    
+    "@@locale": "pl",
+
     "touchScreenInfo": "Przyciśnij Ekran, aby zamówić",
     "pizzaItemLabel": "Pizza",
     "drinksItemLabel": "Napoje",

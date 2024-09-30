@@ -1,20 +1,24 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
+
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:provider/provider.dart';
 
 class BigScreenOrderListRow extends StatelessWidget {
-  const BigScreenOrderListRow({super.key, required this.product});
+  const BigScreenOrderListRow({
+    super.key,
+    required this.item,
+  });
 
-  final ProductTranslated product;
+  final MenuItemWithDescription item;
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    int productCount = provider.getProductInOrderCount(product.productId);
+    int productCount = provider.getQuantityOfItemInOrder(item.itemDescription.id);
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.001),
       child: Row(
@@ -51,7 +55,7 @@ class BigScreenOrderListRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      product.name,
+                      item.itemDescription.name(context),
                       style: const TextStyle(
                         fontFamily: 'GloryBold',
                         fontSize: 25,
@@ -64,7 +68,7 @@ class BigScreenOrderListRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      product.ingredientNamesAsString,
+                      item.itemDescription.description(context),
                       style: const TextStyle(
                         fontFamily: 'GloryLightItalic',
                         fontSize: 15,
@@ -79,7 +83,7 @@ class BigScreenOrderListRow extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.05,
             child: FittedBox(
               child: Text(
-                '${product.price.toStringAsFixed(2)} zł',
+                '${item.menuItemPrice.price.toStringAsFixed(2)} zł',
                 style: const TextStyle(
                   fontFamily: 'GloryLightItalic',
                   fontSize: 15,
@@ -113,7 +117,7 @@ class BigScreenOrderListRow extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.1,
             child: AutoSizeText(
-              '${(productCount * product.price).toStringAsFixed(2)} zł',
+              '${(productCount * item.menuItemPrice.price).toStringAsFixed(2)} zł',
               textAlign: TextAlign.end,
               maxLines: 1,
               style: const TextStyle(

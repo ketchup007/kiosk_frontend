@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
@@ -9,13 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class BigScreenProductListRow extends StatefulWidget {
-  final ProductTranslated product;
+  final MenuItemWithDescription item;
   final bool isVisiblePlus;
   final bool isVisibleMinus;
 
   const BigScreenProductListRow({
     super.key,
-    required this.product,
+    required this.item,
     required this.isVisiblePlus,
     required this.isVisibleMinus,
   });
@@ -33,20 +33,22 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
     void plusButtonAction() {
-      int productCount = provider.getProductInOrderCount(widget.product.productId);
-      if (productCount < provider.limits[widget.product.productId]!) {
-        provider.addProductToOrder(widget.product.productId);
+      if (widget.item.itemDescription.id != null) {
+        int productCount = provider.getQuantityOfItemInOrder(widget.item.itemDescription.id);
+        if (productCount < provider.limits[widget.item.itemDescription.id]!) {
+          provider.addProductToOrder(widget.item.itemDescription.id!);
+        }
       }
     }
 
     void minusButtonAction() {
-      int productCount = provider.getProductInOrderCount(widget.product.productId);
+      int productCount = provider.getQuantityOfItemInOrder(widget.item.itemDescription.id);
       if (productCount > 0) {
-        provider.removeProductToOrder(widget.product.productId);
+        provider.removeProductToOrder(widget.item.itemDescription.id);
       }
     }
 
-    int productCount = provider.getProductInOrderCount(widget.product.productId);
+    int productCount = provider.getQuantityOfItemInOrder(widget.item.itemDescription.id);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +57,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.width * 0.12,
-              imageUrl: widget.product.image,
+              imageUrl: widget.item.itemDescription.image,
             )),
         Container(
           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
@@ -68,7 +70,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                   height: MediaQuery.of(context).size.width * 0.06,
                   child: FittedBox(
                     child: Text(
-                      widget.product.name,
+                      widget.item.itemDescription.name(context),
                       textAlign: TextAlign.start,
                       textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
                       style: const TextStyle(
@@ -81,7 +83,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.04,
                   child: AutoSizeText(
-                    widget.product.ingredientNamesAsString,
+                    widget.item.itemDescription.description(context),
                     maxLines: 2,
                     overflow: TextOverflow.clip,
                     style: const TextStyle(
@@ -100,7 +102,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             width: MediaQuery.of(context).size.width * 0.05,
             child: FittedBox(
               child: Text(
-                "${widget.product.price.toStringAsFixed(2)} zł",
+                "${widget.item.menuItemPrice.price.toStringAsFixed(2)} zł",
                 style: const TextStyle(
                   fontFamily: 'GloryLightItalic',
                   fontSize: 15,
@@ -216,7 +218,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
               ],
             ),
             Text(
-              "${(widget.product.price * productCount).toStringAsFixed(2)} zł",
+              "${(widget.item.menuItemPrice.price * productCount).toStringAsFixed(2)} zł",
               style: const TextStyle(
                 fontFamily: "GloryMedium",
                 fontSize: 20,

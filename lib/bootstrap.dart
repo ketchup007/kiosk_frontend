@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
-import 'package:kiosk_flutter/utils/supabase/supabase_manager.dart';
 // import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
@@ -14,8 +13,6 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      SupabaseManager.instance.initLocalDB();
-      SupabaseManager.instance.initGlobalDB();
       // final res = await SupabaseManager.instance.signInToLocalDB();
 
       // supabase

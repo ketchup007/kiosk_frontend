@@ -43,7 +43,7 @@ class _ProductListState extends State<ProductList> {
 
           // TODO: await
           provider.refreshLimit(product.productId);
-          int productCount = provider.getProductInOrderCount(product.productId);
+          int productCount = provider.getQuantityOfItemInOrder(product.productId);
 
           if ((provider.limits[product.productId] ?? 0) <= 0) {
             isVisiblePlus[index] = false;
@@ -61,13 +61,13 @@ class _ProductListState extends State<ProductList> {
 
           if (MediaQuery.of(context).size.height > 1000) {
             return BigScreenProductListRow(
-              product: product,
+              item: product,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );
           } else {
             return SmallScreenProductListRow(
-              product: product,
+              item: product,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );

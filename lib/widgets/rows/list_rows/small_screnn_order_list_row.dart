@@ -1,20 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:provider/provider.dart';
 
 class SmallScreenOrderListRow extends StatelessWidget {
-  const SmallScreenOrderListRow({super.key, required this.product});
+  const SmallScreenOrderListRow({super.key, required this.item});
 
-  final ProductTranslated product;
+  final MenuItemWithDescription item;
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    int productCount = provider.getProductInOrderCount(product.productId);
+    int productCount = provider.getQuantityOfItemInOrder(item.itemDescription.id);
 
     return Container(
       padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.02),
@@ -49,7 +49,7 @@ class SmallScreenOrderListRow extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: AutoSizeText(
-                  product.name,
+                  item.itemDescription.name(context),
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: 'GloryBold',
@@ -67,7 +67,7 @@ class SmallScreenOrderListRow extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: AutoSizeText(
-                    '${product.price.toStringAsFixed(2)} zł',
+                    '${item.menuItemPrice.price.toStringAsFixed(2)} zł',
                     textAlign: TextAlign.end,
                     maxLines: 1,
                     style: const TextStyle(
@@ -104,7 +104,7 @@ class SmallScreenOrderListRow extends StatelessWidget {
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.15,
                     child: AutoSizeText(
-                      '${(productCount * product.price).toStringAsFixed(2)} zł',
+                      '${(productCount * item.menuItemPrice.price).toStringAsFixed(2)} zł',
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       style: const TextStyle(

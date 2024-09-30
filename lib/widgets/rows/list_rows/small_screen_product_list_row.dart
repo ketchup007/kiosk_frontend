@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/product_details_popup.dart';
@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class SmallScreenProductListRow extends StatelessWidget {
-  final ProductTranslated product;
+  final MenuItemWithDescription item;
   final bool isVisiblePlus;
   final bool isVisibleMinus;
 
@@ -17,14 +17,14 @@ class SmallScreenProductListRow extends StatelessWidget {
     super.key,
     required this.isVisiblePlus,
     required this.isVisibleMinus,
-    required this.product,
+    required this.item,
   });
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    int productCount = provider.getProductInOrderCount(product.productId);
+    int productCount = provider.getQuantityOfItemInOrder(item.itemDescription.id);
 
     return Row(
       children: [
@@ -34,9 +34,9 @@ class SmallScreenProductListRow extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return ProductDetailsPopup(
-                    name: product.name,
-                    ingredients: product.ingredientNamesAsString,
-                    imageName: product.image,
+                    name: item.itemDescription.name(context),
+                    ingredients: item.itemDescription.description(context),
+                    imageName: item.itemDescription.image,
                   );
                 });
           },
@@ -44,7 +44,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.height * 0.075,
-              imageUrl: product.image,
+              imageUrl: item.itemDescription.image,
             ),
           ),
         ),
@@ -54,9 +54,9 @@ class SmallScreenProductListRow extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return ProductDetailsPopup(
-                    name: product.name,
-                    ingredients: product.ingredientNamesAsString,
-                    imageName: product.image,
+                    name: item.itemDescription.name(context),
+                    ingredients: item.itemDescription.description(context),
+                    imageName: item.itemDescription.image,
                   );
                 });
           },
@@ -67,7 +67,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.3,
                   child: AutoSizeText(
-                    product.name,
+                    item.itemDescription.name(context),
                     textAlign: TextAlign.start,
                     minFontSize: 10,
                     maxFontSize: 17,
@@ -85,7 +85,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.1,
                   child: FittedBox(
                     child: Text(
-                      "${product.price.toStringAsFixed(2)} zł",
+                      "${item.menuItemPrice.price.toStringAsFixed(2)} zł",
                       style: const TextStyle(
                         fontFamily: 'GloryLightItalic',
                         fontSize: 15,
@@ -108,7 +108,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "${productCount} ${AppText.current.pcs}",
+                  "$productCount ${AppText.current.pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),
@@ -131,9 +131,9 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      int productCount = provider.getProductInOrderCount(product.productId);
+                      int productCount = provider.getQuantityOfItemInOrder(item.itemDescription.id);
                       if (productCount > 0) {
-                        provider.removeProductToOrder(product.productId);
+                        provider.removeProductToOrder(item.itemDescription.id);
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -167,9 +167,11 @@ class SmallScreenProductListRow extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.1,
                   child: ElevatedButton(
                     onPressed: () {
-                      int productCount = provider.getProductInOrderCount(product.productId);
-                      if (productCount < provider.limits[product.productId]!) {
-                        provider.addProductToOrder(product.productId);
+                      if (item.itemDescription.id != null) {
+                        int productCount = provider.getQuantityOfItemInOrder(item.itemDescription.id);
+                        if (productCount < provider.limits[item.itemDescription.id]!) {
+                          provider.addProductToOrder(item.itemDescription.id!);
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(shape: const CircleBorder(), backgroundColor: AppColors.mediumBlue),

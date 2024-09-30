@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kiosk_flutter/models/orders/order_status.dart';
+import 'package:kiosk_flutter/models/backend_models.dart';
 
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 

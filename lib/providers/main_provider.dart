@@ -3,40 +3,36 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/config.dart';
+import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/models/country_model.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
-import 'package:kiosk_flutter/models/menus/product_type.dart';
-import 'package:kiosk_flutter/models/orders/order.dart';
-import 'package:kiosk_flutter/models/orders/order_product.dart';
-import 'package:kiosk_flutter/models/orders/order_status.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/read_json.dart';
 import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
+import 'package:collection/collection.dart';
 
 class MainProvider extends ChangeNotifier {
-  List<ProductTranslated> products = [];
+  List<ItemDescription> products = [];
 
   Payment payment = Payment();
   final databaseService = DatabaseService();
 
-  List<ProductTranslated> storagePizza = [];
-  List<ProductTranslated> storageDrinks = [];
-  List<ProductTranslated> storageBox = [];
-  List<ProductTranslated> storageSauce = [];
-  List<ProductTranslated> storageCurrent = [];
-  List<ProductTranslated> storageOrders = [];
-  List<ProductTranslated> storageBeg = [];
+  List<ItemDescription> storagePizza = [];
+  List<ItemDescription> storageDrinks = [];
+  List<ItemDescription> storageBox = [];
+  List<ItemDescription> storageSauce = [];
+  List<ItemDescription> storageCurrent = [];
+  List<ItemDescription> storageOrders = [];
+  List<ItemDescription> storageBeg = [];
 
-  List<OrderProduct> orderProducts = [];
+  List<ApsOrderItem> orderItems = [];
 
   List<CardPaymentToken> cardTokens = <CardPaymentToken>[];
 
-  Map<String, int> limits = HashMap();
+  Map<int, int> limits = HashMap();
 
   bool loading = false;
   bool isDone = false;
@@ -49,7 +45,7 @@ class MainProvider extends ChangeNotifier {
 
   double sumTemp = 0.1;
   double sum = 0.0;
-  Order order = Order.empty();
+  ApsOrder? order;
   String languageCode = 'pl';
   List<CountryModel> countryList = [];
 
@@ -107,12 +103,11 @@ class MainProvider extends ChangeNotifier {
   Future<void> getStorageData() async {
     if (loading != true && isDone != true) {
       loading = true;
-      products = await databaseService.getProduct(languageId: languageCode);
-      await databaseService.getStorageLimits().then((storageStates) {
-        for (final storageState in storageStates) {
-          limits[storageState.productId] = storageState.amount;
-        }
-      });
+      products = await databaseService.getAllItemDescriptions();
+
+      final itemIds = products.map((e) => e.id).whereNotNull().toList();
+      refreshLimit(itemIds: itemIds);
+
       breakStorage();
       storageCurrent = storagePizza;
       loading = false;
@@ -145,7 +140,7 @@ class MainProvider extends ChangeNotifier {
   begStorageSetup() {
     storageBeg.clear();
     for (int i = 0; i < storagePizza.length; i++) {
-      if (getProductInOrderCount(storagePizza[i].productId) > 0) {
+      if (getQuantityOfItemInOrder(storagePizza[i].id) > 0) {
         break;
       } else if (i == storagePizza.length - 1) {
         storageBeg.add(storagePizza.first);
@@ -153,7 +148,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageDrinks.length; i++) {
-      if (getProductInOrderCount(storageDrinks[i].productId) > 0) {
+      if (getQuantityOfItemInOrder(storageDrinks[i].id) > 0) {
         break;
       } else if (i == storageDrinks.length - 1) {
         storageBeg.add(storageDrinks.first);
@@ -161,7 +156,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageBox.length; i++) {
-      if (getProductInOrderCount(storageBox[i].productId) > 0) {
+      if (getQuantityOfItemInOrder(storageBox[i].id) > 0) {
         break;
       } else if (i == storageBox.length - 1) {
         storageBeg.add(storageBox.first);
@@ -169,7 +164,7 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < storageSauce.length; i++) {
-      if (getProductInOrderCount(storageSauce[i].productId) > 0) {
+      if (getQuantityOfItemInOrder(storageSauce[i].id) > 0) {
         break;
       } else if (i == storageSauce.length - 1) {
         storageBeg.add(storageSauce.first);
@@ -179,63 +174,76 @@ class MainProvider extends ChangeNotifier {
 
   void breakStorage() {
     for (final product in products) {
-      switch (product.type) {
-        case ProductType.pizza:
+      switch (product.category) {
+        case ItemCategory.snack:
           storagePizza.add(product);
           break;
-        case ProductType.drink || ProductType.coffee:
+        case ItemCategory.drink || ItemCategory.coffee:
           storageDrinks.add(product);
           break;
-        case ProductType.sauce:
+        case ItemCategory.sauce:
           storageSauce.add(product);
           break;
-        case ProductType.box:
+        case ItemCategory.takeAwayBox:
           storageBox.add(product);
+          break;
+        case ItemCategory.paperTray:
+          break;
+        case ItemCategory.cup:
+          break;
+        case ItemCategory.sugar:
           break;
       }
     }
   }
 
   Future<void> createOrder() async {
-    await databaseService.createOrder(order);
+    await databaseService.createOrder(order!);
   }
 
-  // TODO: co zrobic z storageState? powinna byc tu aktualizacja
-  void addProductToOrder(String productId) {
-    final nextProduct = OrderProduct(
-      id: const Uuid().v4(),
-      munchieId: AppConfig.instance.munchieId,
-      orderId: order.id,
-      productId: productId,
+  void addProductToOrder(int itemId) {
+    final nextProduct = ApsOrderItem(
+      apsId: AppConfig.instance.apsId,
+      apsOrderId: order!.id!,
+      itemId: itemId,
+      status: ItemStatus.reserved,
       updatedAt: DateTime.now(),
       createdAt: DateTime.now(),
     );
 
-    orderProducts.add(nextProduct);
+    orderItems.add(nextProduct);
     refreshSum();
   }
 
   // TODO: co zrobic z storageState? powinna byc tu aktualizacja
-  void removeProductToOrder(String productId) {
-    final unwantedProductIndex = orderProducts.lastIndexWhere((element) => element.productId == productId);
-    orderProducts.removeAt(unwantedProductIndex);
+  void removeProductToOrder(int? itemId) {
+    final unwantedProductIndex = orderItems.lastIndexWhere((element) => element.itemId == itemId);
+    orderItems.removeAt(unwantedProductIndex);
     refreshSum();
   }
 
-  int getProductInOrderCount(String productId) {
-    return orderProducts.where((element) => element.productId == productId).length;
+  int getQuantityOfItemInOrder(int? itemId) {
+    return orderItems.where((element) => element.itemId == itemId).length;
   }
 
   Future<void> updateOrderStatus(OrderStatus status) async {
-    await databaseService.updateOrderStatus(order.id, status);
+    if (order != null && order?.id != null) {
+      await databaseService.updateOrderStatus(order!.id!, status);
+    }
   }
 
   updateOrderClientPhoneNumber(String? phoneNumber) async {
-    await databaseService.updateOrderClientPhoneNumber(order.id, phoneNumber);
+    if (order != null && order?.id != null) {
+      await databaseService.updateOrderClientPhoneNumber(order!.id!, phoneNumber);
+    }
   }
 
   Future<int> getOrderNumber() async {
-    return await databaseService.updateOrderNumber(order.id);
+    if (order != null && order?.id != null) {
+      return await databaseService.updateOrderNumber(orderId: order!.id!);
+    } else {
+      return -1;
+    }
   }
 
   Future<int> testRoute() async {
@@ -246,21 +254,17 @@ class MainProvider extends ChangeNotifier {
   refreshSum() {
     sum = 0.0;
     for (var i = 0; i < products.length; i++) {
-      sum = sum + products[i].price * getProductInOrderCount(products[i].productId);
+      sum = sum + products[i].price * getQuantityOfItemInOrder(products[i].id);
     }
     notifyListeners();
   }
 
-  Future<void> refreshLimit(String product) async {
-    await databaseService.getStorageStateProduct(product).then((data) {
-      limits[product] = data;
-    });
-  }
-
-  Future<void> getLimits() async {
-    await databaseService.getStorageLimits().then((data) {
-      for (int i = 0; i < data.length; i++) {
-        limits[data[i].id] = data[i].amount;
+  Future<void> refreshLimit({
+    required List<int> itemIds,
+  }) async {
+    await databaseService.getAvailableItems(itemIds: itemIds).then((availableItems) {
+      for (final availableItem in availableItems) {
+        limits[availableItem.itemId] = availableItem.availableQuantity;
       }
     });
   }
@@ -268,18 +272,18 @@ class MainProvider extends ChangeNotifier {
   Future<void> orderCancel() async {
     print("in order cancle");
     await updateOrderStatus(OrderStatus.canceled);
-    order = Order.empty();
-    orderProducts.clear();
+    order = null;
+    orderItems.clear();
     storageBeg.clear();
     popupDone = false;
     refreshSum();
   }
 
   Future<void> orderFinish() async {
-    await databaseService.createOrderProducts(orderProducts);
+    await databaseService.createOrderItems(orderItems);
 
-    order = Order.empty();
-    orderProducts.clear();
+    order = null;
+    orderItems.clear();
     storageBeg.clear();
     popupDone = false;
     refreshSum();
@@ -291,8 +295,8 @@ class MainProvider extends ChangeNotifier {
     }
 
     for (int i = 0; i < products.length; i++) {
-      int productCount = getProductInOrderCount(products[i].productId);
-      if (productCount > 0) {
+      int itemQuantity = getQuantityOfItemInOrder(products[i].id);
+      if (itemQuantity > 0) {
         storageOrders.add(products[i]);
       }
     }
