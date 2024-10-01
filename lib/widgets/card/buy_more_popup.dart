@@ -187,7 +187,7 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.3,
                       child: ProductList(
-                        products: provider.storageBeg,
+                        menuItems: provider.storageBeg,
                       ),
                     ),
                   ),

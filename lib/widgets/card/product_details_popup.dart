@@ -6,13 +6,13 @@ import 'package:kiosk_flutter/widgets/images/product_network_image.dart';
 class ProductDetailsPopup extends StatelessWidget {
   final String name;
   final String ingredients;
-  final String? imageName;
+  final String? imageUrl;
 
   const ProductDetailsPopup({
     super.key,
     required this.name,
     required this.ingredients,
-    required this.imageName,
+    required this.imageUrl,
   });
 
   @override
@@ -58,7 +58,7 @@ class ProductDetailsPopup extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.03, MediaQuery.of(context).size.height * 0.02, 0, 0),
                     child: ProductNetworkImage(
                       size: MediaQuery.of(context).size.width * 0.3,
-                      imageUrl: imageName,
+                      imageName: imageUrl,
                     ),
                   ),
                   Container(

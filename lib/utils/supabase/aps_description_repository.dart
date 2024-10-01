@@ -22,7 +22,7 @@ class ApsDescriptionRepository {
   /// [apsId] the ID of the APS description to fetch.
   ///
   /// Throws [ApsException] if any error occurs during the fetching process.
-  Future<ApsDescription> getAps({required String apsId}) async {
+  Future<ApsDescription> getAps({required int apsId}) async {
     try {
       // Fetch the APS description by its ID
       final response = await _clientGlobal.from(_tableName).select().eq('id', apsId).limit(1).single();
@@ -40,7 +40,7 @@ class ApsDescriptionRepository {
   /// [apsId] the ID of the APS description to stream.
   ///
   /// Emits [ApsDescription] objects as updates occur in the database.
-  Stream<ApsDescription> apsStream({required String apsId}) {
+  Stream<ApsDescription> apsStream({required int apsId}) {
     return _clientGlobal
         .from(_tableName)
         .stream(primaryKey: ['id'])

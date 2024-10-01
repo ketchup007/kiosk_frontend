@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/models/menus/product_translated.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/big_screen_product_list_row.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/small_screen_product_list_row.dart';
 import 'package:provider/provider.dart';
 
 class ProductList extends StatefulWidget {
-  final List<ProductTranslated> products;
+  final List<MenuItemWithDescription> menuItems;
 
   const ProductList({
     super.key,
-    required this.products,
+    required this.menuItems,
   });
 
   @override
@@ -24,50 +24,50 @@ class _ProductListState extends State<ProductList> {
   @override
   void initState() {
     super.initState();
-    isVisiblePlus = List<bool>.filled(widget.products.length, true);
-    isVisibleMinus = List<bool>.filled(widget.products.length, false);
+    isVisiblePlus = List<bool>.filled(widget.menuItems.length, true);
+    isVisibleMinus = List<bool>.filled(widget.menuItems.length, false);
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    isVisiblePlus = List<bool>.filled(widget.products.length, true);
-    isVisibleMinus = List<bool>.filled(widget.products.length, false);
+    isVisiblePlus = List<bool>.filled(widget.menuItems.length, true);
+    isVisibleMinus = List<bool>.filled(widget.menuItems.length, false);
+
+    provider.refreshLimit();
 
     return ListView.builder(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        itemCount: widget.products.length,
+        itemCount: widget.menuItems.length,
         itemBuilder: (context, index) {
-          final product = widget.products[index];
+          final menuItem = widget.menuItems[index];
 
-          // TODO: await
-          provider.refreshLimit(product.productId);
-          int productCount = provider.getQuantityOfItemInOrder(product.productId);
+          int productCount = provider.getQuantityOfItemInOrder(menuItem.itemDescription.id);
 
-          if ((provider.limits[product.productId] ?? 0) <= 0) {
+          if ((provider.limits[menuItem.itemDescription.id] ?? 0) <= 0) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = false;
           } else if (productCount == 0) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = false;
-          } else if (productCount > 0 && productCount < provider.limits[product.productId]!) {
+          } else if (productCount > 0 && productCount < provider.limits[menuItem.itemDescription.id]!) {
             isVisiblePlus[index] = true;
             isVisibleMinus[index] = true;
-          } else if (productCount == provider.limits[product.productId]!) {
+          } else if (productCount == provider.limits[menuItem.itemDescription.id]!) {
             isVisiblePlus[index] = false;
             isVisibleMinus[index] = true;
           }
 
           if (MediaQuery.of(context).size.height > 1000) {
             return BigScreenProductListRow(
-              item: product,
+              item: menuItem,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );
           } else {
             return SmallScreenProductListRow(
-              item: product,
+              item: menuItem,
               isVisiblePlus: isVisiblePlus[index],
               isVisibleMinus: isVisibleMinus[index],
             );

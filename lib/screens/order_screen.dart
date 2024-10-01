@@ -47,7 +47,7 @@ class _OrderScreenState extends State<OrderScreen> {
   void _periodicTimerStart() {
     timer2?.cancel();
     timer2 = Timer.periodic(const Duration(seconds: 5), (timers) async {
-      await provider.getLimits();
+      await provider.refreshLimit();
       await provider.updateTimeToWait();
       setState(() {});
     });
@@ -536,7 +536,7 @@ class _OrderScreenState extends State<OrderScreen> {
                                         ),
                                       ),
                                     )
-                                  : ProductList(products: provider.storageCurrent),
+                                  : ProductList(menuItems: provider.storageCurrent),
                             ),
                     ),
                   ),

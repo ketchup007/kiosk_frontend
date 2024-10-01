@@ -14,7 +14,7 @@ class MenuRepository {
 
   final SupabaseClient _clientLocal;
 
-  Future<Menu> getMenu({required String menuId}) async {
+  Future<Menu> getMenu({required int menuId}) async {
     try {
       return await _clientLocal //
           .from(_tableMenu)
@@ -35,7 +35,7 @@ class MenuRepository {
     }
   }
 
-  Stream<Menu> menuStream({required String menuId}) {
+  Stream<Menu> menuStream({required int menuId}) {
     return _clientLocal //
         .from(_tableMenu)
         .stream(primaryKey: ['id'])
@@ -49,7 +49,7 @@ class MenuRepository {
         });
   }
 
-  Future<List<MenuItemPrice>> getMenuItems({required String menuId}) async {
+  Future<List<MenuItemPrice>> getMenuItems({required int menuId}) async {
     try {
       return await _clientLocal //
           .from(_tableMenuItemPrice)
@@ -68,7 +68,7 @@ class MenuRepository {
     }
   }
 
-  Stream<List<MenuItemPrice>> menuItemPriceStream({required String menuId}) {
+  Stream<List<MenuItemPrice>> menuItemPriceStream({required int menuId}) {
     return _clientLocal //
         .from(_tableMenuItemPrice)
         .stream(primaryKey: ['menu_id', 'item_id']) // Klucz główny

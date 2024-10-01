@@ -36,7 +36,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                   return ProductDetailsPopup(
                     name: item.itemDescription.name(context),
                     ingredients: item.itemDescription.description(context),
-                    imageName: item.itemDescription.image,
+                    imageUrl: item.itemDescription.image,
                   );
                 });
           },
@@ -44,7 +44,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.height * 0.075,
-              imageUrl: item.itemDescription.image,
+              imageName: item.itemDescription.image,
             ),
           ),
         ),
@@ -56,7 +56,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                   return ProductDetailsPopup(
                     name: item.itemDescription.name(context),
                     ingredients: item.itemDescription.description(context),
-                    imageName: item.itemDescription.image,
+                    imageUrl: item.itemDescription.image,
                   );
                 });
           },

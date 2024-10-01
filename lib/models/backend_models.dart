@@ -6,14 +6,14 @@ import 'package:flutter/widgets.dart';
 class Storage with EquatableMixin {
   final int? id;
   final String storageName;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const Storage({
     this.id,
     required this.storageName,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Storage.fromJson(Map<String, dynamic> json) {
@@ -29,8 +29,8 @@ class Storage with EquatableMixin {
     return {
       // 'id': id,
       'storage_name': storageName,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -58,8 +58,8 @@ class StorageItemSlot with EquatableMixin {
   final String slotName;
   final int currentQuantity;
   final int maxQuantity;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const StorageItemSlot({
     required this.storageId,
@@ -67,8 +67,8 @@ class StorageItemSlot with EquatableMixin {
     required this.slotName,
     required this.currentQuantity,
     required this.maxQuantity,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory StorageItemSlot.fromJson(Map<String, dynamic> json) {
@@ -90,8 +90,8 @@ class StorageItemSlot with EquatableMixin {
       'slot_name': slotName,
       'current_quantity': currentQuantity,
       'max_quantity': maxQuantity,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -262,16 +262,16 @@ class User with EquatableMixin {
   final String username;
   final String email;
   final String? fullName;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const User({
     this.id,
     required this.username,
     required this.email,
     this.fullName,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -291,8 +291,8 @@ class User with EquatableMixin {
       'username': username,
       'email': email,
       'full_name': fullName,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -323,16 +323,16 @@ class Vehicle with EquatableMixin {
   final String vehicleIdentifier;
   final String licensePlate;
   final int? capacity;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const Vehicle({
     this.id,
     required this.vehicleIdentifier,
     required this.licensePlate,
     this.capacity,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Vehicle.fromJson(Map<String, dynamic> json) {
@@ -352,8 +352,8 @@ class Vehicle with EquatableMixin {
       'vehicle_identifier': vehicleIdentifier,
       'license_plate': licensePlate,
       'capacity': capacity,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -383,15 +383,15 @@ class Trolley with EquatableMixin {
   final int? id;
   final String trolleyNumber;
   final int? maxCapacity;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const Trolley({
     this.id,
     required this.trolleyNumber,
     this.maxCapacity,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Trolley.fromJson(Map<String, dynamic> json) {
@@ -409,8 +409,8 @@ class Trolley with EquatableMixin {
       // 'id': id,
       'trolley_number': trolleyNumber,
       'max_capacity': maxCapacity,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -446,8 +446,8 @@ class StorageOrder with EquatableMixin {
   final int? deliveredBy;
   final int? vehicleId;
   final StorageOrderPurpose purpose;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const StorageOrder({
     this.id,
@@ -461,8 +461,8 @@ class StorageOrder with EquatableMixin {
     this.deliveredBy,
     this.vehicleId,
     required this.purpose,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory StorageOrder.fromJson(Map<String, dynamic> json) {
@@ -496,8 +496,8 @@ class StorageOrder with EquatableMixin {
       'delivered_by': deliveredBy,
       'vehicle_id': vehicleId,
       'storage_order_purpose': purpose.value,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -541,15 +541,15 @@ class StorageOrderItem with EquatableMixin {
   final int storageOrderId;
   final int itemDescriptionId;
   final int quantity;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const StorageOrderItem({
     required this.storageOrderId,
     required this.itemDescriptionId,
     required this.quantity,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory StorageOrderItem.fromJson(Map<String, dynamic> json) {
@@ -567,8 +567,8 @@ class StorageOrderItem with EquatableMixin {
       'storage_order_id': storageOrderId,
       'item_description_id': itemDescriptionId,
       'quantity': quantity,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -596,15 +596,15 @@ class StorageOrderTrolley with EquatableMixin {
   final int storageOrderId;
   final int trolleyId;
   final String? positionInVehicle;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   StorageOrderTrolley({
     required this.storageOrderId,
     required this.trolleyId,
     this.positionInVehicle,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory StorageOrderTrolley.fromJson(Map<String, dynamic> json) {
@@ -622,8 +622,8 @@ class StorageOrderTrolley with EquatableMixin {
       'storage_order_id': storageOrderId,
       'trolley_id': trolleyId,
       'position_in_vehicle': positionInVehicle,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -681,8 +681,8 @@ class ItemDescription with EquatableMixin {
   final String? allergensUa;
   final ItemCategory category;
   final String? image;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const ItemDescription({
     this.id,
@@ -697,8 +697,8 @@ class ItemDescription with EquatableMixin {
     this.allergensUa,
     required this.category,
     this.image,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ItemDescription.fromJson(Map<String, dynamic> json) {
@@ -734,8 +734,8 @@ class ItemDescription with EquatableMixin {
       'allergens_ua': allergensUa,
       'category': category.value,
       'image': image,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -820,15 +820,15 @@ class Menu with EquatableMixin {
   final int? id;
   final String name;
   final String? description;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const Menu({
     this.id,
     required this.name,
     this.description,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Menu.fromJson(Map<String, dynamic> json) {
@@ -846,8 +846,8 @@ class Menu with EquatableMixin {
       // 'id': id,
       'name': name,
       'description': description,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -875,15 +875,15 @@ class MenuItemPrice with EquatableMixin {
   final int menuId;
   final int itemId;
   final double price;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const MenuItemPrice({
     required this.menuId,
     required this.itemId,
     required this.price,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory MenuItemPrice.fromJson(Map<String, dynamic> json) {
@@ -901,8 +901,8 @@ class MenuItemPrice with EquatableMixin {
       'menu_id': menuId,
       'item_id': itemId,
       'price': price,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -1079,8 +1079,8 @@ class ApsDescription with EquatableMixin {
   final int storageId;
   final int menuId;
   final ApsState state;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const ApsDescription({
     this.id,
@@ -1090,8 +1090,8 @@ class ApsDescription with EquatableMixin {
     required this.storageId,
     required this.menuId,
     required this.state,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ApsDescription.fromJson(Map<String, dynamic> json) {
@@ -1117,8 +1117,8 @@ class ApsDescription with EquatableMixin {
       'storage_id': storageId,
       'menu_id': menuId,
       'state': state.value,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -1208,24 +1208,24 @@ class ApsOrder with EquatableMixin {
   final int apsId;
   final OriginType origin;
   final OrderStatus status;
-  final PickupNumber pickupNumber;
-  final int kdsOrderNumber;
+  final PickupNumber? pickupNumber;
+  final int? kdsOrderNumber;
   final String? clientPhoneNumber;
   final int estimatedTime;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const ApsOrder({
     this.id,
     required this.apsId,
     required this.origin,
     required this.status,
-    required this.pickupNumber,
-    required this.kdsOrderNumber,
+    this.pickupNumber,
+    this.kdsOrderNumber,
     this.clientPhoneNumber,
     required this.estimatedTime,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ApsOrder.fromJson(Map<String, dynamic> json) {
@@ -1249,12 +1249,12 @@ class ApsOrder with EquatableMixin {
       'aps_id': apsId,
       'origin': origin.value,
       'status': status.value,
-      'pickup_number': pickupNumber.value,
+      'pickup_number': pickupNumber?.value,
       'kds_order_number': kdsOrderNumber,
       'client_phone_number': clientPhoneNumber,
       'estimated_time': estimatedTime,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 
@@ -1325,8 +1325,8 @@ class ApsOrderItem with EquatableMixin {
   final int apsId;
   final int itemId;
   final ItemStatus status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const ApsOrderItem({
     this.id,
@@ -1334,8 +1334,8 @@ class ApsOrderItem with EquatableMixin {
     required this.apsId,
     required this.itemId,
     required this.status,
-    required this.createdAt,
-    required this.updatedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory ApsOrderItem.fromJson(Map<String, dynamic> json) {
@@ -1357,8 +1357,8 @@ class ApsOrderItem with EquatableMixin {
       'aps_id': apsId,
       'item_id': itemId,
       'status': status.value,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
+      'created_at': createdAt?.toIso8601String(),
+      'updated_at': updatedAt?.toIso8601String(),
     };
   }
 

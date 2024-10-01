@@ -27,7 +27,6 @@ class ApiService {
 
       if (response.statusCode == 200) {
         // print("in Api Call 3 ${response.body}");
-        String? output = response.body;
         return jsonDecode(response.body)["time"];
       }
     } catch (e) {
@@ -470,8 +469,6 @@ class ApiService {
 
   Future<String?> paymentCardTokenCreate(int id, double totalAmount, String cardToken) async {
     try {
-      final amount = totalAmount * 100;
-
       DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
       AndroidDeviceInfo andr = await deviceInfo.androidInfo;
       print(andr.fingerprint);

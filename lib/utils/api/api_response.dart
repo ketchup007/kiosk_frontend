@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ApiResponse {
   int statusCode;
   Map<String, dynamic> body;

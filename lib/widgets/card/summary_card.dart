@@ -43,7 +43,6 @@ class SummaryCardState extends State<SummaryCard> {
       await provider.orderCancel();
       provider.changeToPizza();
       provider.inPayment = false;
-      provider.notifyListeners();
       setState(() {
         _paymentState = 0;
       });
@@ -88,8 +87,6 @@ class SummaryCardState extends State<SummaryCard> {
                   ),
                 );
               }
-
-              provider.notifyListeners();
             });
           });
     }
@@ -98,6 +95,7 @@ class SummaryCardState extends State<SummaryCard> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
+    final size = MediaQuery.of(context).size;
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -113,8 +111,8 @@ class SummaryCardState extends State<SummaryCard> {
         children: [
           Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
-              height: MediaQuery.of(context).size.height * 0.05,
+              width: size.height > 1000 ? size.width * 0.4 : size.width * 0.6,
+              height: size.height * 0.05,
               child: FittedBox(
                 child: Text(
                   AppText.current.orderSummaryText,
@@ -127,25 +125,29 @@ class SummaryCardState extends State<SummaryCard> {
               ),
             ),
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.9, height: MediaQuery.of(context).size.height * 0.4, child: OrderList(products: provider.storageOrders)),
+          SizedBox(
+            width: size.width * 0.9,
+            height: size.height * 0.4,
+            child: OrderList(storageOrders: provider.storageOrders),
+          ),
           _paymentState == 0
               ? Container(
                   alignment: AlignmentDirectional.center,
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, MediaQuery.of(context).size.width * 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, size.height * 0.05, size.width * 0, 0),
                   child: InkWell(
                     onTapDown: (_) {
                       makePayment();
                     },
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.86 : MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.height * 0.05 : MediaQuery.of(context).size.height * 0.075,
+                      width: size.height > 1000 ? size.width * 0.86 : size.width * 0.8,
+                      height: size.height > 1000 ? size.height * 0.05 : size.height * 0.075,
                       child: ElevatedButton(
                         onPressed: () {
                           makePayment();
                         },
                         style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.5,
+                          width: size.height > 1000 ? size.width * 0.4 : size.width * 0.5,
                           child: FittedBox(
                             child: Text(
                               AppText.current.makePaymentButtonLabel,
@@ -159,7 +161,7 @@ class SummaryCardState extends State<SummaryCard> {
                       ),
                     ),
                   ))
-              : MediaQuery.of(context).size.height > 1000
+              : size.height > 1000
                   ? FutureBuilder(
                       future: provider.payment.startTransaction(provider.sum),
                       builder: (context, snapshot) {
@@ -168,15 +170,15 @@ class SummaryCardState extends State<SummaryCard> {
                           return Column(
                             children: [
                               SizedBox(
-                                height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.height * 0.1 : MediaQuery.of(context).size.height * 0.17,
-                                width: MediaQuery.of(context).size.width * 0.86,
+                                height: size.width > 1000 ? size.height * 0.1 : size.height * 0.17,
+                                width: size.width * 0.86,
                                 child: Card(
                                   color: AppColors.green,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: [
                                       SizedBox(
-                                        height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.04 : MediaQuery.of(context).size.width * 0.08,
+                                        height: size.width > 1000 ? size.width * 0.04 : size.width * 0.08,
                                         child: FittedBox(
                                           child: Text(
                                             AppText.current.paymentStartedText.toUpperCase(),
@@ -188,8 +190,8 @@ class SummaryCardState extends State<SummaryCard> {
                                         ),
                                       ),
                                       SizedBox(
-                                        height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.03 : MediaQuery.of(context).size.width * 0.06,
-                                        width: MediaQuery.of(context).size.width * 0.8,
+                                        height: size.width > 1000 ? size.width * 0.03 : size.width * 0.06,
+                                        width: size.width * 0.8,
                                         child: FittedBox(
                                           child: Text(
                                             AppText.current.paymentInfoText,
@@ -221,8 +223,8 @@ class SummaryCardState extends State<SummaryCard> {
                               _timerStop();
                               return Column(children: [
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.1,
-                                  width: MediaQuery.of(context).size.width * 0.86,
+                                  height: size.height * 0.1,
+                                  width: size.width * 0.86,
                                   child: Card(
                                     color: AppColors.green,
                                     child: Center(
@@ -254,16 +256,15 @@ class SummaryCardState extends State<SummaryCard> {
                                   ),
                                 ),
                                 Container(
-                                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
+                                  padding: EdgeInsets.fromLTRB(0, size.height * 0.01, 0, 0),
                                   child: SizedBox(
-                                    height: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.height * 0.03 : MediaQuery.of(context).size.height * 0.05,
-                                    width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
+                                    height: size.width > 1000 ? size.height * 0.03 : size.height * 0.05,
+                                    width: size.width > 1000 ? size.width * 0.2 : size.width * 0.4,
                                     child: OutlinedButton(
                                       onPressed: () async {
                                         await provider.orderFinish();
                                         provider.changeToPizza();
                                         provider.inPayment = false;
-                                        provider.notifyListeners();
                                         setState(() {
                                           _paymentState = 0;
                                         });
@@ -288,8 +289,8 @@ class SummaryCardState extends State<SummaryCard> {
                               return Column(
                                 children: [
                                   SizedBox(
-                                    height: MediaQuery.of(context).size.height * 0.1,
-                                    width: MediaQuery.of(context).size.width * 0.86,
+                                    height: size.height * 0.1,
+                                    width: size.width * 0.86,
                                     child: Card(
                                       color: AppColors.red,
                                       child: Column(
@@ -310,21 +311,20 @@ class SummaryCardState extends State<SummaryCard> {
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.01, 0, 0),
+                                    padding: EdgeInsets.fromLTRB(0, size.height * 0.01, 0, 0),
                                     child: Row(
                                       children: [
                                         Container(
-                                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.02, 0, 0, 0),
+                                          padding: EdgeInsets.fromLTRB(size.width * 0.02, 0, 0, 0),
                                           child: SizedBox(
-                                            height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
-                                            width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
+                                            height: size.height > 1000 ? size.width * 0.05 : size.width * 0.1,
+                                            width: size.height > 1000 ? size.width * 0.2 : size.width * 0.4,
                                             child: InkWell(
                                               onTapDown: (_) async {
                                                 _timerStop();
                                                 await provider.orderCancel();
                                                 provider.changeToPizza();
                                                 provider.inPayment = false;
-                                                provider.notifyListeners();
                                                 setState(() {
                                                   _paymentState = 0;
                                                 });
@@ -336,7 +336,6 @@ class SummaryCardState extends State<SummaryCard> {
                                                   await provider.orderCancel();
                                                   provider.changeToPizza();
                                                   provider.inPayment = false;
-                                                  provider.notifyListeners();
                                                   setState(() {
                                                     _paymentState = 0;
                                                   });
@@ -357,11 +356,10 @@ class SummaryCardState extends State<SummaryCard> {
                                           ),
                                         ),
                                         Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.45 : MediaQuery.of(context).size.width * 0.05, 0, 0, 0),
+                                          padding: EdgeInsets.fromLTRB(size.height > 1000 ? size.width * 0.45 : size.width * 0.05, 0, 0, 0),
                                           child: SizedBox(
-                                            height: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.05 : MediaQuery.of(context).size.width * 0.1,
-                                            width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.2 : MediaQuery.of(context).size.width * 0.4,
+                                            height: size.height > 1000 ? size.width * 0.05 : size.width * 0.1,
+                                            width: size.height > 1000 ? size.width * 0.2 : size.width * 0.4,
                                             child: InkWell(
                                               onTapDown: (_) {
                                                 _timerStop();
@@ -407,8 +405,8 @@ class SummaryCardState extends State<SummaryCard> {
                         }
                       })
                   : SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.18,
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: size.height * 0.18,
+                      width: size.width * 0.8,
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const NewPayUScreen()));

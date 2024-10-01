@@ -57,7 +57,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
             child: ProductNetworkImage(
               size: MediaQuery.of(context).size.width * 0.12,
-              imageUrl: widget.item.itemDescription.image,
+              imageName: widget.item.itemDescription.image,
             )),
         Container(
           padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),

@@ -52,17 +52,21 @@ class StorageStateRepository {
           'aps_id_input': apsId,
           'item_ids': itemIds,
         },
-      ).single();
+      );
 
       List<AvailableItem> availableItems = [];
 
-      availableItemsResponse.forEach((key, value) {
-        availableItems.add(AvailableItem.fromJson(value as Map<String, dynamic>));
-      });
+      if (availableItemsResponse is Map) {
+        availableItemsResponse.forEach((key, value) {
+          availableItems.add(AvailableItem.fromJson(value as Map<String, dynamic>));
+        });
+      } else {
+        availableItemsResponse.forEach((value) {
+          availableItems.add(AvailableItem.fromJson(value as Map<String, dynamic>));
+        });
+      }
 
       return availableItems;
-    } on MenuException {
-      rethrow;
     } catch (e) {
       print('Error: $e');
       throw MenuException('An error occurred while fetching storage states: $e');
