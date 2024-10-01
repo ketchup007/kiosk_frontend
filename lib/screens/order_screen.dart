@@ -6,7 +6,7 @@ import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/card/buy_more_popup.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/widgets/card/summary_card.dart';
 
@@ -77,7 +77,7 @@ class _OrderScreenState extends State<OrderScreen> {
       print("in timer start");
       await provider.orderCancel();
       provider.changeToPizza();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
     });
   }
 
@@ -87,7 +87,7 @@ class _OrderScreenState extends State<OrderScreen> {
       print("in long timer");
       await provider.orderCancel();
       provider.changeToPizza();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
     });
   }
 
@@ -100,7 +100,7 @@ class _OrderScreenState extends State<OrderScreen> {
     _timerStop();
     await provider.orderCancel();
     provider.changeToPizza();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
   }
 
   void sumButtonAction() {

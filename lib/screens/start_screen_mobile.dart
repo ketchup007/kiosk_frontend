@@ -3,21 +3,20 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/login_screen.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
+import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../themes/color.dart';
-
-class MobileStartScreen extends StatefulWidget {
-  const MobileStartScreen({super.key});
+class StartScreenMobile extends StatefulWidget {
+  const StartScreenMobile({super.key});
 
   @override
   State<StatefulWidget> createState() => _MobileStartScreen();
 }
 
-class _MobileStartScreen extends State<MobileStartScreen> {
+class _MobileStartScreen extends State<StartScreenMobile> {
   int state = 0; //0 - undetermined, 1 - login, 2- logged
 
   @override
@@ -124,7 +123,7 @@ class _MobileStartScreen extends State<MobileStartScreen> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                                   onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                   },
                                   child: const Text(
                                     "Place Order",

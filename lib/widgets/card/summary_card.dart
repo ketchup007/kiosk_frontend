@@ -5,7 +5,7 @@ import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/new_payu_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 
 import 'package:kiosk_flutter/widgets/lists/order_list_view.dart';
 import 'package:kiosk_flutter/widgets/card/phone_popup_card.dart';
@@ -46,7 +46,7 @@ class SummaryCardState extends State<SummaryCard> {
       setState(() {
         _paymentState = 0;
       });
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
     });
   }
 
@@ -268,7 +268,7 @@ class SummaryCardState extends State<SummaryCard> {
                                         setState(() {
                                           _paymentState = 0;
                                         });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                       },
                                       style: OutlinedButton.styleFrom(foregroundColor: AppColors.red, side: const BorderSide(color: AppColors.red, width: 1)),
                                       child: AutoSizeText(
@@ -328,7 +328,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                 setState(() {
                                                   _paymentState = 0;
                                                 });
-                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                                Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                               },
                                               child: OutlinedButton(
                                                 onPressed: () async {
@@ -339,7 +339,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                   setState(() {
                                                     _paymentState = 0;
                                                   });
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                                 },
                                                 style: OutlinedButton.styleFrom(foregroundColor: AppColors.red, side: const BorderSide(color: AppColors.red, width: 1)),
                                                 child: FittedBox(

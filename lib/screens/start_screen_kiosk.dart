@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/themes/color.dart';
-// import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
-class StartScreen extends StatefulWidget {
-  const StartScreen({super.key});
+class StartScreenKiosk extends StatefulWidget {
+  const StartScreenKiosk({super.key});
 
   @override
-  State<StatefulWidget> createState() => _StartScreenState();
+  State<StatefulWidget> createState() => _StartScreenKioskState();
 }
 
-class _StartScreenState extends State<StartScreen> {
+class _StartScreenKioskState extends State<StartScreenKiosk> {
   void goToOrderPage(context) {
     if (MediaQuery.of(context).size.height < 1000) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const QrCodeScreen()));
@@ -72,7 +71,7 @@ class _StartScreenState extends State<StartScreen> {
                       child: Material(
                         type: MaterialType.transparency,
                         child: Ink.image(
-                          image: const SVG.Svg('assets/images/touch.svg'),
+                          image: const svg.Svg('assets/images/touch.svg'),
                           height: MediaQuery.of(context).size.height * 0.2,
                           fit: BoxFit.fitHeight,
                         ),

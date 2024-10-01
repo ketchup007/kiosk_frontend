@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
@@ -163,7 +163,7 @@ class BlikPayScreenState extends State<BlikPayScreen> {
                                   onPressed: () async {
                                     await provider.orderFinish();
                                     provider.changeToPizza();
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                   },
                                   child: const Text("Zakończ transakcje"),
                                 )

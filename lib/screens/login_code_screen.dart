@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -88,7 +88,7 @@ class _LoginCodeState extends State<LoginCodeScreen> {
                               //print(value);
                               print(jsonDecode(value)['token']);
                             });
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                           }
                         });
                       },

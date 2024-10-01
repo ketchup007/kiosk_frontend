@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:kiosk_flutter/widgets/lists/order_list_view.dart';
 
-import 'package:kiosk_flutter/screens/start_screen.dart';
+import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
@@ -124,7 +124,7 @@ class _SumScreenState extends State<SumScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     await provider.orderCancel();
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                   },
                   child: Text(AppText.of(context).cancelOrderButtonLabel),
                 ),
