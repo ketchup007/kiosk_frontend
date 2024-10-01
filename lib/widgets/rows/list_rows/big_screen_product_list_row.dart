@@ -70,7 +70,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                   height: MediaQuery.of(context).size.width * 0.06,
                   child: FittedBox(
                     child: Text(
-                      widget.item.itemDescription.name(context),
+                      widget.item.itemDescription.name(Localizations.localeOf(context).languageCode),
                       textAlign: TextAlign.start,
                       textHeightBehavior: const TextHeightBehavior(applyHeightToFirstAscent: false),
                       style: const TextStyle(
@@ -83,7 +83,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                 SizedBox(
                   height: MediaQuery.of(context).size.width * 0.04,
                   child: AutoSizeText(
-                    widget.item.itemDescription.description(context),
+                    widget.item.itemDescription.description(Localizations.localeOf(context).languageCode),
                     maxLines: 2,
                     overflow: TextOverflow.clip,
                     style: const TextStyle(
@@ -119,7 +119,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "$productCount ${AppText.current.pcs}",
+                  "$productCount ${AppText.of(context).pcs}",
                   style: const TextStyle(
                     fontFamily: 'GloryMedium',
                     fontSize: 15,
@@ -336,7 +336,7 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
 //                           color: AppColors.mediumBlue),
 //                       borderRadius: BorderRadius.circular(20)),
 //                   child: Center(
-//                       child: FittedBox(child: Text("${storage[index].number} ${AppText.current.pcs}",
+//                       child: FittedBox(child: Text("${storage[index].number} ${AppText.of(context).pcs}",
 //                           style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15)))))),
 //           Column(
 //               mainAxisAlignment: MainAxisAlignment.start,

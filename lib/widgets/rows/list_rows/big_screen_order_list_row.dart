@@ -55,7 +55,7 @@ class BigScreenOrderListRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      item.itemDescription.name(context),
+                      item.itemDescription.name(Localizations.localeOf(context).languageCode),
                       style: const TextStyle(
                         fontFamily: 'GloryBold',
                         fontSize: 25,
@@ -68,7 +68,7 @@ class BigScreenOrderListRow extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      item.itemDescription.description(context),
+                      item.itemDescription.description(Localizations.localeOf(context).languageCode),
                       style: const TextStyle(
                         fontFamily: 'GloryLightItalic',
                         fontSize: 15,

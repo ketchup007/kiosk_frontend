@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 // import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class AddCardScreen extends StatefulWidget {
   final int id;
@@ -23,61 +23,53 @@ class AddCardScreenState extends State<AddCardScreen> {
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(image: svg.Svg('assets/images/background.svg'), fit: BoxFit.cover),
-        ),
-        child: Column(
-          children: [
-            PayUTopBar(onPress: () {}, amount: provider.sum),
-            // AddCardWidget(
-            //   configuration: AddCardWidgetConfiguration(
-            //     cvvDecoration: const AddCardWidgetTextInputDecoration(hintText: "cvv hint"),
-            //     dateDecoration: const AddCardWidgetTextInputDecoration(hintText: "date hint"),
-            //     numberDecoration: const AddCardWidgetTextInputDecoration(hintText: "number hint"),
-            //     isFooterVisible: false,
-            //   ),
-            //   onCreated: (service) => _service = service,
-            // ),
-            // TextButton(
-            //   onPressed: () => _tokenizer(false).then(
-            //     (value) => Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => TokenPaymentScreen(
-            //           cardToken: value,
-            //           id: widget.id,
-            //           amount: widget.amount,
-            //           save: false,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            //   child: const Text("Use"),
-            // ),
-            // TextButton(
-            //   onPressed: () => _tokenizer(true).then(
-            //     (value) => Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => TokenPaymentScreen(
-            //           cardToken: value,
-            //           id: widget.id,
-            //           amount: widget.amount,
-            //           save: true,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            //   child: const Text("Use and save"),
-            // ),
-            // const TermsAndConditionsWidget(),
-          ],
-        ),
+    return Background(
+      child: Column(
+        children: [
+          PayUTopBar(onPress: () {}, amount: provider.sum),
+          // AddCardWidget(
+          //   configuration: AddCardWidgetConfiguration(
+          //     cvvDecoration: const AddCardWidgetTextInputDecoration(hintText: "cvv hint"),
+          //     dateDecoration: const AddCardWidgetTextInputDecoration(hintText: "date hint"),
+          //     numberDecoration: const AddCardWidgetTextInputDecoration(hintText: "number hint"),
+          //     isFooterVisible: false,
+          //   ),
+          //   onCreated: (service) => _service = service,
+          // ),
+          // TextButton(
+          //   onPressed: () => _tokenizer(false).then(
+          //     (value) => Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => TokenPaymentScreen(
+          //           cardToken: value,
+          //           id: widget.id,
+          //           amount: widget.amount,
+          //           save: false,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          //   child: const Text("Use"),
+          // ),
+          // TextButton(
+          //   onPressed: () => _tokenizer(true).then(
+          //     (value) => Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => TokenPaymentScreen(
+          //           cardToken: value,
+          //           id: widget.id,
+          //           amount: widget.amount,
+          //           save: true,
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          //   child: const Text("Use and save"),
+          // ),
+          // const TermsAndConditionsWidget(),
+        ],
       ),
     );
   }

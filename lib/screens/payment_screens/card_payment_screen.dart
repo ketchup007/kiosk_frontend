@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 // import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class CardPayScreen extends StatefulWidget {
   final double amount;
@@ -38,137 +38,126 @@ class CardPayScreenState extends State<CardPayScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: svg.Svg('assets/images/background.svg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Colors.lime,
+    return Background(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.lime,
+              ),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      "<",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: Colors.lime,
+                        fontSize: 60,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text(
-                        "<",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.lime,
-                          fontSize: 60,
-                        ),
-                      ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: Image.asset(
+                    'assets/images/payULogos/payULogoLime.png',
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  child: Text(
+                    "${provider.sum.toStringAsFixed(2)} zł",
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      color: AppColors.darkGreen,
+                      fontSize: 20,
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Image.asset(
-                      'assets/images/payULogos/payULogoLime.png',
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: Text(
-                      "${provider.sum.toStringAsFixed(2)} zł",
-                      textAlign: TextAlign.end,
-                      style: const TextStyle(
-                        color: AppColors.darkGreen,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TextFormField(
-                      controller: cardController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(19)],
-                      decoration: const InputDecoration(hintText: "Numer Karty"),
-                    ),
+          ),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextFormField(
+                    controller: cardController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(19)],
+                    decoration: const InputDecoration(hintText: "Numer Karty"),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
-                      controller: monthController,
-                      decoration: const InputDecoration(hintText: "Miesiąc"),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextFormField(
+                    controller: monthController,
+                    decoration: const InputDecoration(hintText: "Miesiąc"),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
-                      controller: yearController,
-                      decoration: const InputDecoration(hintText: "rok"),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextFormField(
+                    controller: yearController,
+                    decoration: const InputDecoration(hintText: "rok"),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextFormField(
-                      controller: cvvController,
-                      decoration: const InputDecoration(hintText: "cvv"),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: TextFormField(
+                    controller: cvvController,
+                    decoration: const InputDecoration(hintText: "cvv"),
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        print(monthController.text);
-                        print(yearController.text);
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      print(monthController.text);
+                      print(yearController.text);
 
-                        ApiService(token: provider.loginToken)
-                            .paymentCardOrder(widget.id, widget.amount, cardController.text, monthController.text, yearController.text, cvvController.text)
-                            .then((value) {
-                          String statusCode = jsonDecode(value!)["status"];
-                          if (statusCode == "WARNING_CONTINUE_REDIRECT") {
-                            print(1);
-                          } else if (statusCode == "WARNING_CONTINUE_3DS") {
-                            print(2);
-                            _didTapHandleWarningContinue3DS(context, jsonDecode(value)["redirectUri"], widget.id);
-                          } else if (statusCode == "SUCCESS") {
-                            print(3);
-                          } else if (statusCode == "WARNING_CONTINUE_CVV") {
-                            print(4);
-                          }
-                        });
-                      },
-                      child: const Text(""))
-                ],
-              ),
+                      ApiService(token: provider.loginToken)
+                          .paymentCardOrder(widget.id, widget.amount, cardController.text, monthController.text, yearController.text, cvvController.text)
+                          .then((value) {
+                        String statusCode = jsonDecode(value!)["status"];
+                        if (statusCode == "WARNING_CONTINUE_REDIRECT") {
+                          print(1);
+                        } else if (statusCode == "WARNING_CONTINUE_3DS") {
+                          print(2);
+                          _didTapHandleWarningContinue3DS(context, jsonDecode(value)["redirectUri"], widget.id);
+                        } else if (statusCode == "SUCCESS") {
+                          print(3);
+                        } else if (statusCode == "WARNING_CONTINUE_CVV") {
+                          print(4);
+                        }
+                      });
+                    },
+                    child: const Text(""))
+              ],
             ),
-            // AddCardWidget(
-            //   configuration: AddCardWidgetConfiguration(
-            //       cvvDecoration: const AddCardWidgetTextInputDecoration(hintText: "cvv hint"),
-            //       dateDecoration: const AddCardWidgetTextInputDecoration(hintText: "date hint"),
-            //       numberDecoration: const AddCardWidgetTextInputDecoration(hintText: "number hint"),
-            //       isFooterVisible: false),
-            //   onCreated: (service) => _service = service,
-            // ),
-            TextButton(onPressed: () => _tokenizer(false, context), child: const Text('Use')),
-            TextButton(onPressed: () => _tokenizer(true, context), child: const Text('Also use xd'))
-          ],
-        ),
+          ),
+          // AddCardWidget(
+          //   configuration: AddCardWidgetConfiguration(
+          //       cvvDecoration: const AddCardWidgetTextInputDecoration(hintText: "cvv hint"),
+          //       dateDecoration: const AddCardWidgetTextInputDecoration(hintText: "date hint"),
+          //       numberDecoration: const AddCardWidgetTextInputDecoration(hintText: "number hint"),
+          //       isFooterVisible: false),
+          //   onCreated: (service) => _service = service,
+          // ),
+          TextButton(onPressed: () => _tokenizer(false, context), child: const Text('Use')),
+          TextButton(onPressed: () => _tokenizer(true, context), child: const Text('Also use xd'))
+        ],
       ),
     );
   }

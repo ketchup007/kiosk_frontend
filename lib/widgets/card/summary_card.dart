@@ -115,7 +115,7 @@ class SummaryCardState extends State<SummaryCard> {
               height: size.height * 0.05,
               child: FittedBox(
                 child: Text(
-                  AppText.current.orderSummaryText,
+                  AppText.of(context).orderSummaryText,
                   style: const TextStyle(
                     fontFamily: 'GloryExtraBold',
                     fontSize: 30,
@@ -150,7 +150,7 @@ class SummaryCardState extends State<SummaryCard> {
                           width: size.height > 1000 ? size.width * 0.4 : size.width * 0.5,
                           child: FittedBox(
                             child: Text(
-                              AppText.current.makePaymentButtonLabel,
+                              AppText.of(context).makePaymentButtonLabel,
                               style: const TextStyle(
                                 fontFamily: 'GloryBold',
                                 fontSize: 30,
@@ -181,7 +181,7 @@ class SummaryCardState extends State<SummaryCard> {
                                         height: size.width > 1000 ? size.width * 0.04 : size.width * 0.08,
                                         child: FittedBox(
                                           child: Text(
-                                            AppText.current.paymentStartedText.toUpperCase(),
+                                            AppText.of(context).paymentStartedText.toUpperCase(),
                                             style: const TextStyle(
                                               fontFamily: 'GloryExtraBold',
                                               fontSize: 25,
@@ -194,7 +194,7 @@ class SummaryCardState extends State<SummaryCard> {
                                         width: size.width * 0.8,
                                         child: FittedBox(
                                           child: Text(
-                                            AppText.current.paymentInfoText,
+                                            AppText.of(context).paymentInfoText,
                                             style: const TextStyle(
                                               fontFamily: 'GloryMedium',
                                               fontSize: 20,
@@ -230,7 +230,7 @@ class SummaryCardState extends State<SummaryCard> {
                                     child: Center(
                                       child: Column(
                                         children: [
-                                          Text(AppText.current.paymentAcceptedText.toUpperCase(), style: const TextStyle(fontFamily: 'GloryExtraBold', fontSize: 25)),
+                                          Text(AppText.of(context).paymentAcceptedText.toUpperCase(), style: const TextStyle(fontFamily: 'GloryExtraBold', fontSize: 25)),
                                           FutureBuilder(
                                               future: provider.getOrderNumber(),
                                               builder: (context2, snapshot2) {
@@ -272,7 +272,7 @@ class SummaryCardState extends State<SummaryCard> {
                                       },
                                       style: OutlinedButton.styleFrom(foregroundColor: AppColors.red, side: const BorderSide(color: AppColors.red, width: 1)),
                                       child: AutoSizeText(
-                                        AppText.current.returnButtonLabel,
+                                        AppText.of(context).returnButtonLabel,
                                         style: const TextStyle(
                                           fontSize: 17,
                                           fontFamily: 'GloryMedium',
@@ -298,7 +298,7 @@ class SummaryCardState extends State<SummaryCard> {
                                         children: [
                                           FittedBox(
                                             child: Text(
-                                              AppText.current.paymentCancelledText.toUpperCase(),
+                                              AppText.of(context).paymentCancelledText.toUpperCase(),
                                               style: const TextStyle(
                                                 fontFamily: 'GloryExtraBold',
                                                 fontSize: 25,
@@ -344,7 +344,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                 style: OutlinedButton.styleFrom(foregroundColor: AppColors.red, side: const BorderSide(color: AppColors.red, width: 1)),
                                                 child: FittedBox(
                                                   child: Text(
-                                                    AppText.current.returnButtonLabel,
+                                                    AppText.of(context).returnButtonLabel,
                                                     style: const TextStyle(
                                                       fontSize: 17,
                                                       fontFamily: 'GloryMedium',
@@ -379,7 +379,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                                                 child: FittedBox(
                                                   child: Text(
-                                                    AppText.current.tryAgainButtonLabel,
+                                                    AppText.of(context).tryAgainButtonLabel,
                                                     style: const TextStyle(
                                                       fontSize: 17,
                                                       fontFamily: 'GloryMedium',

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'dart:convert';
 import 'package:pay/pay.dart';
 
@@ -24,36 +24,31 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen> {
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: Svg('assets/images/background.svg'), fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            PayUTopBar(onPress: () {}, amount: provider.sum),
-            GooglePayButton(
-                paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
-                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-                onPaymentResult: (result) {
-                  var list = result.values.toList();
-                  var json = list[2]["tokenizationData"]["token"];
-                  var value = base64.encode(utf8.encode(json));
+    return Background(
+      child: Column(
+        children: [
+          PayUTopBar(onPress: () {}, amount: provider.sum),
+          GooglePayButton(
+              paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
+              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+              onPaymentResult: (result) {
+                var list = result.values.toList();
+                var json = list[2]["tokenizationData"]["token"];
+                var value = base64.encode(utf8.encode(json));
 
-                  ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, value).then((result) {
-                    print(result);
-                    String statusCode = jsonDecode(result!)["status"];
+                ApiService(token: provider.loginToken).paymentGpayTokenOrder(widget.id, widget.amount, value).then((result) {
+                  print(result);
+                  String statusCode = jsonDecode(result!)["status"];
 
-                    if (statusCode == "WARNING_CONTINUE_REDIRECT") {
-                    } else if (statusCode == "WARNING_CONTINUE_3DS") {
-                      _didTapHandleWarningContinue3DS(context, jsonDecode(result)["redirectUri"], widget.id);
-                    } else if (statusCode == "SUCCESS") {
-                    } else if (statusCode == "WARNING_CONTINUE_CVV") {}
-                  });
-                },
-                paymentItems: [PaymentItem(label: "total", amount: provider.sum.toString(), status: PaymentItemStatus.final_price)]),
-          ],
-        ),
+                  if (statusCode == "WARNING_CONTINUE_REDIRECT") {
+                  } else if (statusCode == "WARNING_CONTINUE_3DS") {
+                    _didTapHandleWarningContinue3DS(context, jsonDecode(result)["redirectUri"], widget.id);
+                  } else if (statusCode == "SUCCESS") {
+                  } else if (statusCode == "WARNING_CONTINUE_CVV") {}
+                });
+              },
+              paymentItems: [PaymentItem(label: "total", amount: provider.sum.toString(), status: PaymentItemStatus.final_price)]),
+        ],
       ),
     );
   }

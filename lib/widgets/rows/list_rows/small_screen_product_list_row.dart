@@ -34,8 +34,8 @@ class SmallScreenProductListRow extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return ProductDetailsPopup(
-                    name: item.itemDescription.name(context),
-                    ingredients: item.itemDescription.description(context),
+                    name: item.itemDescription.name(Localizations.localeOf(context).languageCode),
+                    ingredients: item.itemDescription.description(Localizations.localeOf(context).languageCode),
                     imageUrl: item.itemDescription.image,
                   );
                 });
@@ -54,8 +54,8 @@ class SmallScreenProductListRow extends StatelessWidget {
                 context: context,
                 builder: (context) {
                   return ProductDetailsPopup(
-                    name: item.itemDescription.name(context),
-                    ingredients: item.itemDescription.description(context),
+                    name: item.itemDescription.name(Localizations.localeOf(context).languageCode),
+                    ingredients: item.itemDescription.description(Localizations.localeOf(context).languageCode),
                     imageUrl: item.itemDescription.image,
                   );
                 });
@@ -67,7 +67,7 @@ class SmallScreenProductListRow extends StatelessWidget {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.3,
                   child: AutoSizeText(
-                    item.itemDescription.name(context),
+                    item.itemDescription.name(Localizations.localeOf(context).languageCode),
                     textAlign: TextAlign.start,
                     minFontSize: 10,
                     maxFontSize: 17,
@@ -108,7 +108,7 @@ class SmallScreenProductListRow extends StatelessWidget {
             child: Center(
               child: FittedBox(
                 child: Text(
-                  "$productCount ${AppText.current.pcs}",
+                  "$productCount ${AppText.of(context).pcs}",
                   style: const TextStyle(fontFamily: 'GloryMedium', fontSize: 15),
                 ),
               ),

@@ -5,5 +5,5 @@ import 'package:kiosk_flutter/utils/api/api_constants.dart';
 
 void main({String url = ApiConstants.baseUrl}) {
   AppConfig.initialize(flavor: Flavor.mock);
-  bootstrap(() => MyApp(url: url));
+  bootstrap(() => const MyApp());
 }

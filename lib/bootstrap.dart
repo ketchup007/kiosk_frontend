@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:kiosk_flutter/utils/api/api_constants.dart';
 // import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
@@ -65,8 +64,4 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
       }
     },
   );
-}
-
-Future<void> main({String url = ApiConstants.baseUrl}) async {
-  WidgetsFlutterBinding.ensureInitialized();
 }

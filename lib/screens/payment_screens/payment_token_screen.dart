@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 // import 'package:payu/payu.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class TokenPaymentScreen extends StatefulWidget {
   final CardPaymentToken cardToken;
@@ -35,36 +35,25 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: svg.Svg('assets/images/background.svg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            PayUTopBar(onPress: () {}, amount: provider.sum),
-            ElevatedButton(
-              onPressed: () {
-                print("click");
-                print(widget.cardToken.value);
-                if (warning) {
-                  _didTapHandleWarningContinue3DS(context, url, widget.id);
-                } else {
-                  _payment();
-                }
-              },
-              child: Text(
-                "use card ${widget.cardToken.cardNumberMasked}",
-              ),
+    return Background(
+      child: Column(
+        children: [
+          PayUTopBar(onPress: () {}, amount: provider.sum),
+          ElevatedButton(
+            onPressed: () {
+              print("click");
+              print(widget.cardToken.value);
+              if (warning) {
+                _didTapHandleWarningContinue3DS(context, url, widget.id);
+              } else {
+                _payment();
+              }
+            },
+            child: Text(
+              "use card ${widget.cardToken.cardNumberMasked}",
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as SVG;
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
@@ -26,111 +27,63 @@ class _StartScreenState extends State<StartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: SVG.Svg('assets/images/background.svg'), fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            Center(child: LanguageButtons(ribbonHeight: MediaQuery.of(context).size.height * 0.1, ribbonWidth: MediaQuery.of(context).size.width * 0.1)),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: InkWell(
-                  onTapDown: (_) => goToOrderPage(context),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
-                        child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg', width: MediaQuery.of(context).size.width * 0.65),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints.tightFor(width: MediaQuery.of(context).size.width * 0.65),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
-                              onPressed: () => goToOrderPage(context),
-                              child: FittedBox(
-                                child: Text(
-                                  AppText.current.touchScreenInfo,
-                                  maxLines: 1,
-                                  style: const TextStyle(
-                                    fontSize: 36,
-                                    fontFamily: 'GloryMedium',
-                                  ),
-                                ),
-                              ),
+    return Background(
+      child: Column(
+        children: [
+          Center(
+            child: LanguageButtons(
+              ribbonHeight: MediaQuery.of(context).size.height * 0.1,
+              ribbonWidth: MediaQuery.of(context).size.width * 0.1,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: InkWell(
+                onTap: () => goToOrderPage(context),
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
+                      child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg', width: MediaQuery.of(context).size.width * 0.65),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
+                          onPressed: () => goToOrderPage(context),
+                          child: Text(
+                            AppText.of(context).touchScreenInfo,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 30,
+                              fontFamily: 'GloryMedium',
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ),
                       ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
-                        child: Material(
-                          type: MaterialType.transparency,
-                          child: Ink.image(
-                            image: const SVG.Svg('assets/images/touch.svg'),
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            fit: BoxFit.fitHeight,
-                          ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+                      child: Material(
+                        type: MaterialType.transparency,
+                        child: Ink.image(
+                          image: const SVG.Svg('assets/images/touch.svg'),
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          fit: BoxFit.fitHeight,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
-            /*
-              Container(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.15, 0, 0),
-                  child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg',
-                      width: MediaQuery.of(context).size.width * 0.65)),
-              Container(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
-                  child: ConstrainedBox(
-                      constraints: BoxConstraints.tightFor(
-                          width: MediaQuery.of(context).size.width * 0.65),
-                      child: InkWell(
-                        onTapDown: (_) => goToOrderPage(context),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.green,
-                                foregroundColor: Colors.black),
-                              onPressed: () => goToOrderPage(context),
-                              child: FittedBox(
-                                  child: Text(AppText.current.touchScreenInfo,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                          fontSize: 36, fontFamily: 'GloryMedium'))),),
-                        ),
-                      ))),
-              Container(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
-                  child: Material(
-                      type: MaterialType.transparency,
-                      child: InkWell(
-                          onTapDown: (_) => goToOrderPage(context),
-                          child: Ink.image(
-                            image: const SVG.Svg('assets/images/touch.svg'),
-                            height: MediaQuery.of(context).size.height * 0.2,
-                            fit: BoxFit.fitHeight,)))),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.03, 0),
-                  alignment: Alignment.bottomRight,
-                  height: MediaQuery.of(context).size.height * 0.22,
-                    child:const Text("heh")
-                ))
-
-               */
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

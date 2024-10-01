@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import 'package:kiosk_flutter/my_app.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/screens/order_screen.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -80,70 +79,63 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       }
     }
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: svg.Svg('assets/images/background.svg'), fit: BoxFit.cover)),
-        child: Center(
-          child: Column(
-            children: [
-              Container(padding: const EdgeInsets.symmetric(vertical: 10), child: const Text("Zeskanuj kod Qr punktu sprzedaży")),
-              Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: QRView(
-                      key: qrKey, onQRViewCreated: _onQRViewCreated, overlay: QrScannerOverlayShape(borderColor: Colors.orange, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: 250))),
-              MyApp.of(context)?.url == ApiConstants.baseUrl
-                  ? Container()
-                  : ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          resultText = "${MyApp.of(context)?.url}/api/containers/get/gujh1yNBfR";
-                          status = 1;
-                        });
-                      },
-                      child: const Text("test button"),
-                    ),
-              status == 1
-                  ? FutureBuilder(
-                      future: future,
-                      builder: (context, snapshot) {
-                        print("4");
-                        if (snapshot.hasError) {
-                          print("5");
-                          return const Text("error");
-                        }
-                        print("6");
+    return Background(
+      child: Center(
+        child: Column(
+          children: [
+            Container(padding: const EdgeInsets.symmetric(vertical: 10), child: const Text("Zeskanuj kod Qr punktu sprzedaży")),
+            Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: QRView(
+                    key: qrKey, onQRViewCreated: _onQRViewCreated, overlay: QrScannerOverlayShape(borderColor: Colors.orange, borderRadius: 10, borderLength: 30, borderWidth: 10, cutOutSize: 250))),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  resultText = "${ApiConstants.baseUrl}/api/containers/get/gujh1yNBfR";
+                  status = 1;
+                });
+              },
+              child: const Text("test button"),
+            ),
+            status == 1
+                ? FutureBuilder(
+                    future: future,
+                    builder: (context, snapshot) {
+                      print("4");
+                      if (snapshot.hasError) {
+                        print("5");
+                        return const Text("error");
+                      }
+                      print("6");
 
-                        print("${snapshot.hasData}, ${snapshot.data}");
-                        if (snapshot.hasData) {
-                          print("7");
-                          String data = snapshot.data as String;
-                          ContainerModel container = ContainerModel.fromJson(jsonDecode(data));
-                          print(container.address);
-                          print("8");
-                          return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                              child: Text("Przyciśnij poniższy przycisk aby złożyć zamówienie w punkcie sprzedaży ${container.address}"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                provider.containerDb = container.db;
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
-                              },
-                              child: const Text("Dalej"),
-                            ),
-                          ]);
-                        }
-                        print("9");
-                        return const CircularProgressIndicator();
-                      })
-                  : Container()
-            ],
-          ),
+                      print("${snapshot.hasData}, ${snapshot.data}");
+                      if (snapshot.hasData) {
+                        print("7");
+                        String data = snapshot.data as String;
+                        ContainerModel container = ContainerModel.fromJson(jsonDecode(data));
+                        print(container.address);
+                        print("8");
+                        return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                            child: Text("Przyciśnij poniższy przycisk aby złożyć zamówienie w punkcie sprzedaży ${container.address}"),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              provider.containerDb = container.db;
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+                            },
+                            child: const Text("Dalej"),
+                          ),
+                        ]);
+                      }
+                      print("9");
+                      return const CircularProgressIndicator();
+                    })
+                : Container()
+          ],
         ),
       ),
     );

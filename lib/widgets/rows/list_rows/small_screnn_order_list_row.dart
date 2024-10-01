@@ -49,7 +49,7 @@ class SmallScreenOrderListRow extends StatelessWidget {
               child: Container(
                 alignment: Alignment.centerLeft,
                 child: AutoSizeText(
-                  item.itemDescription.name(context),
+                  item.itemDescription.name(Localizations.localeOf(context).languageCode),
                   maxLines: 1,
                   style: const TextStyle(
                     fontFamily: 'GloryBold',

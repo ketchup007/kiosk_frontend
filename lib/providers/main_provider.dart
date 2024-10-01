@@ -46,7 +46,6 @@ class MainProvider extends ChangeNotifier {
   double sumTemp = 0.1;
   double sum = 0.0;
   ApsOrder? order;
-  String languageCode = 'pl';
   List<CountryModel> countryList = [];
 
   String containerDb = 'default';
@@ -320,12 +319,6 @@ class MainProvider extends ChangeNotifier {
         storageOrders.add(menuItems[i]);
       }
     }
-
-    notifyListeners();
-  }
-
-  changeLanguage(String langCode) {
-    languageCode = langCode;
 
     notifyListeners();
   }

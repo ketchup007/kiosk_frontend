@@ -1,0 +1,41 @@
+{
+    "@@locale": "uk",
+    
+    "touchScreenInfo": "Торкніться екрана, щоб замовити",
+    "pizzaItemLabel": "Піца",
+    "drinksItemLabel": "Напої",
+    "boxesItemLabel": "Коробки",
+    "saucesItemLabel": "Соуси",
+    "cancelButtonLabel": "Скасувати",
+    "confirmButtonLabel": "Підтвердити",
+    "priceToPayInfo": "Загальна вартість замовлення",
+    "conformationInfo": "Система не надає підтвердження транзакції",
+    "paymentButtonLabel": "Розпочати оплату",
+    "summaryInfo": "Підсумок замовлення",
+    "cancelOrderButtonLabel": "Скасувати замовлення",
+    "editOrderButtonLabel": "Редагувати замовлення",
+
+    "summaryButtonLabel": "Підсумок",
+    "orderTotalText": "Загальна сума замовлення",
+    "paymentConformationText": "Система не надає підтвердження транзакції",
+    "orderSummaryText": "Підсумок замовлення",
+    "makePaymentButtonLabel": "Здійснити оплату",
+    "paymentStartedText": "Оплата розпочата",
+    "paymentInfoText": "Дотримуйтесь інструкцій, показаних на терміналі нижче",
+    "paymentCancelledText": "Оплату скасовано",
+    "returnButtonLabel": "Повернутися",
+    "tryAgainButtonLabel": "Спробувати ще раз",
+    "paymentAcceptedText": "Оплату прийнято",
+    "pcs": "шт",
+
+    "enterPhoneNumberText": "Введіть номер телефону",
+    "selectAllCheckText": "Вибрати все",
+    "requiredCheckText": "Обов'язково",
+    "promotionCheckText": "Текст перевірки акції",
+    "optionalCheckText": "Необов'язково",
+
+    "begPopupTitle": "Ей! Це все?",
+    "begPopupInformation": "Ознайомтесь з іншими нашими продуктами, щоб завершити замовлення або перейдіть до підсумку замовлення",
+    "productPropositionText": "Пропоновані продукти",
+    "goToSummaryButtonLabel": "Перейти до підсумку"
+}

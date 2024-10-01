@@ -130,7 +130,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                       width: isBiggerThan1000 ? MediaQuery.of(context).size.width * 0.5 : MediaQuery.of(context).size.width * 0.7,
                       child: FittedBox(
                         child: Text(
-                          AppText.current.enterPhoneNumberText.toUpperCase(),
+                          AppText.of(context).enterPhoneNumberText.toUpperCase(),
                           style: const TextStyle(
                             fontSize: 30,
                             fontFamily: "GloryMedium",
@@ -258,7 +258,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeMain();
                                       },
                                       child: Text(
-                                        AppText.current.selectAllCheckText,
+                                        AppText.of(context).selectAllCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -304,7 +304,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeA();
                                       },
                                       child: Text(
-                                        AppText.current.requiredCheckText,
+                                        AppText.of(context).requiredCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -351,7 +351,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeB();
                                       },
                                       child: Text(
-                                        AppText.current.promotionCheckText,
+                                        AppText.of(context).promotionCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -397,7 +397,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                                         changeC();
                                       },
                                       child: Text(
-                                        AppText.current.optionalCheckText,
+                                        AppText.of(context).optionalCheckText,
                                         style: const TextStyle(
                                           fontFamily: "GloryMedium",
                                           fontSize: 16,
@@ -426,7 +426,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
                             },
                             style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
                             child: AutoSizeText(
-                              AppText.current.confirmButtonLabel,
+                              AppText.of(context).confirmButtonLabel,
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'GloryBold',

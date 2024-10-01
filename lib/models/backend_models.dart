@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'dart:typed_data';
 
-import 'package:flutter/widgets.dart';
-
 class Storage with EquatableMixin {
   final int? id;
   final String storageName;
@@ -776,39 +774,39 @@ class ItemDescription with EquatableMixin {
   @override
   List<Object?> get props => [id, namePl, nameEn, nameUa, descriptionPl, descriptionEn, descriptionUa, allergensPl, allergensEn, allergensUa, category, image, createdAt, updatedAt];
 
-  String name(BuildContext context) {
-    switch (Localizations.localeOf(context).languageCode) {
+  String name(String languageCode) {
+    switch (languageCode) {
       case 'pl':
         return namePl;
       case 'en':
         return nameEn;
-      case 'ua':
+      case 'uk':
         return nameUa;
       default:
         return nameEn;
     }
   }
 
-  String description(BuildContext context) {
-    switch (Localizations.localeOf(context).languageCode) {
+  String description(String languageCode) {
+    switch (languageCode) {
       case 'pl':
         return descriptionPl ?? '';
       case 'en':
         return descriptionEn ?? '';
-      case 'ua':
+      case 'uk':
         return descriptionUa ?? '';
       default:
         return descriptionEn ?? '';
     }
   }
 
-  String allergens(BuildContext context) {
-    switch (Localizations.localeOf(context).languageCode) {
+  String allergens(String languageCode) {
+    switch (languageCode) {
       case 'pl':
         return allergensPl ?? '';
       case 'en':
         return allergensEn ?? '';
-      case 'ua':
+      case 'uk':
         return allergensUa ?? '';
       default:
         return allergensEn ?? '';

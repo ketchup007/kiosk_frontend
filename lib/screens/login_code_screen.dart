@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
-import 'package:kiosk_flutter/my_app.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/themes/color.dart';
+import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 
@@ -26,85 +26,77 @@ class _LoginCodeState extends State<LoginCodeScreen> {
   Widget build(context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: svg.Svg('assets/images/background.svg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              LanguageButtons(ribbonHeight: MediaQuery.of(context).size.height * 0.1, ribbonWidth: MediaQuery.of(context).size.width * 0.1),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                width: MediaQuery.of(context).size.width * 0.8,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Po otrzymaniu kodu dostępu, wpisz go w poniższe pole aby dokończyć proces logowania',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: "GloryMedium",
+    return Background(
+      child: Center(
+        child: Column(
+          children: [
+            LanguageButtons(
+              ribbonHeight: MediaQuery.of(context).size.height * 0.1,
+              ribbonWidth: MediaQuery.of(context).size.width * 0.1,
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              width: MediaQuery.of(context).size.width * 0.8,
+              alignment: Alignment.center,
+              child: const Text(
+                'Po otrzymaniu kodu dostępu, wpisz go w poniższe pole aby dokończyć proces logowania',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: "GloryMedium",
+                ),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: TextField(
+                  controller: codeController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "kod dostępu",
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: TextField(
-                    controller: codeController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "kod dostępu",
-                    ),
-                  ),
-                ),
-              ),
-              state == 0
-                  ? Container(
-                      padding: const EdgeInsets.all(20),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
-                        onPressed: () {
-                          // print(codeController.text);
-                          ApiService(token: provider.loginToken) //
-                              .smsToken(provider.phoneNumber, codeController.text, url: MyApp.of(context)!.url)
-                              .then((value) {
-                            // print("first check $value");
-                            if (value != null) {
-                              provider.phoneNumberToken = value;
-                            }
+            ),
+            state == 0
+                ? Container(
+                    padding: const EdgeInsets.all(20),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
+                      onPressed: () {
+                        // print(codeController.text);
+                        ApiService(token: provider.loginToken) //
+                            .smsToken(provider.phoneNumber, codeController.text, url: ApiConstants.baseUrl)
+                            .then((value) {
+                          // print("first check $value");
+                          if (value != null) {
+                            provider.phoneNumberToken = value;
+                          }
 
-                            setState(() {
-                              state = 1;
-                            });
-                            if (value != "NO_ACCESS") {
-                              SharedPreferences.getInstance().then((pref) {
-                                pref.setString("phone_number", provider.phoneNumber);
-                                pref.setString("phone_number_token", provider.phoneNumberToken);
-                              });
-                              ApiService(token: provider.loginToken).login(provider.phoneNumber, provider.phoneNumberToken, url: MyApp.of(context)!.url).then((value) {
-                                print("seccond check $value");
-                                provider.loginToken = jsonDecode(value!)['token'];
-                                //print(value);
-                                print(jsonDecode(value)['token']);
-                              });
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
-                            }
+                          setState(() {
+                            state = 1;
                           });
-                        },
-                        child: const Text("zaloguj"),
-                      ),
-                    )
-                  : Text(provider.phoneNumberToken)
-            ],
-          ),
+                          if (value != "NO_ACCESS") {
+                            SharedPreferences.getInstance().then((pref) {
+                              pref.setString("phone_number", provider.phoneNumber);
+                              pref.setString("phone_number_token", provider.phoneNumberToken);
+                            });
+                            ApiService(token: provider.loginToken).login(provider.phoneNumber, provider.phoneNumberToken, url: ApiConstants.baseUrl).then((value) {
+                              print("seccond check $value");
+                              provider.loginToken = jsonDecode(value!)['token'];
+                              //print(value);
+                              print(jsonDecode(value)['token']);
+                            });
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                          }
+                        });
+                      },
+                      child: const Text("zaloguj"),
+                    ),
+                  )
+                : Text(provider.phoneNumberToken)
+          ],
         ),
       ),
     );

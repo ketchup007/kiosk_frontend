@@ -1,47 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:kiosk_flutter/pathSelector.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiosk_flutter/features/language/cubit/language_cubit.dart';
+import 'package:kiosk_flutter/path_selector.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class MyApp extends StatefulWidget {
-  final String url;
-
-  const MyApp({super.key, required this.url});
+  const MyApp({super.key});
 
   @override
-  _MyAppState createState() => _MyAppState();
-
-  static _MyAppState? of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale.fromSubtags(languageCode: 'pl');
-  String url = '';
-
-  void setLocale(Locale value) {
-    setState(() {
-      _locale = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    url = widget.url;
-    return MaterialApp(
-      locale: _locale,
-      title: 'Munchies Kiosk',
-      localizationsDelegates: const [
-        AppText.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LanguageCubit(),
+        ),
       ],
-      supportedLocales: AppText.delegate.supportedLocales,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        useMaterial3: true,
+      child: Builder(
+        builder: (context) {
+          final Locale locale = context.select((LanguageCubit cubit) => cubit.state);
+          return MaterialApp(
+            locale: locale,
+            title: 'Munchies Kiosk',
+            localizationsDelegates: const [
+              AppText.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppText.delegate.supportedLocales,
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              useMaterial3: true,
+            ),
+            home: const PathSelector(),
+          );
+        },
       ),
-      home: const PathSelector(),
     );
   }
 }

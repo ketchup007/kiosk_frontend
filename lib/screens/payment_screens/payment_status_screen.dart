@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/start_screen.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 
 class PaymentStatusScreen extends StatefulWidget {
   final int id;
@@ -63,54 +63,47 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
       }
     } else {}
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(color: Colors.white, image: DecorationImage(image: svg.Svg('assets/images/background.svg'), fit: BoxFit.cover)),
-        child: Column(
-          children: [
-            PayUTopBar(onPress: () {}, amount: provider.sum),
-            status == 0
-                ? Column(
-                    children: [
-                      Container(padding: const EdgeInsets.all(20), child: const Text("Płatność rozpoczęta")),
-                      SizedBox(width: MediaQuery.of(context).size.width * 0.5, height: MediaQuery.of(context).size.width * 0.5, child: const CircularProgressIndicator())
-                    ],
-                  )
-                : status == 1
-                    ? Column(children: [
-                        Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))),
-                        const CircularProgressIndicator()
-                      ])
-                    : status == 2
-                        ? Column(children: [
-                            Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))),
-                            Container(padding: const EdgeInsets.all(10), child: Text('Twoje zamówienie ma nr $orderNumber', style: const TextStyle(fontSize: 15))),
+    return Background(
+      child: Column(
+        children: [
+          PayUTopBar(onPress: () {}, amount: provider.sum),
+          status == 0
+              ? Column(
+                  children: [
+                    Container(padding: const EdgeInsets.all(20), child: const Text("Płatność rozpoczęta")),
+                    SizedBox(width: MediaQuery.of(context).size.width * 0.5, height: MediaQuery.of(context).size.width * 0.5, child: const CircularProgressIndicator())
+                  ],
+                )
+              : status == 1
+                  ? Column(
+                      children: [Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))), const CircularProgressIndicator()])
+                  : status == 2
+                      ? Column(children: [
+                          Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))),
+                          Container(padding: const EdgeInsets.all(10), child: Text('Twoje zamówienie ma nr $orderNumber', style: const TextStyle(fontSize: 15))),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await provider.orderFinish();
+                              provider.changeToPizza();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                            },
+                            child: const Text("Zakończ transakcje"),
+                          )
+                        ])
+                      : Column(
+                          children: [
+                            const Text("Płatność anulowana"),
                             ElevatedButton(
                               onPressed: () async {
-                                await provider.orderFinish();
+                                await provider.orderCancel();
                                 provider.changeToPizza();
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
                               },
                               child: const Text("Zakończ transakcje"),
-                            )
-                          ])
-                        : Column(
-                            children: [
-                              const Text("Płatność anulowana"),
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await provider.orderCancel();
-                                  provider.changeToPizza();
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
-                                },
-                                child: const Text("Zakończ transakcje"),
-                              ),
-                            ],
-                          ),
-          ],
-        ),
+                            ),
+                          ],
+                        ),
+        ],
       ),
     );
   }

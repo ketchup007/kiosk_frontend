@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
@@ -25,98 +25,82 @@ class ApplePayScreenState extends State<ApplePayScreen> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MainProvider>(context, listen: true);
-    print("heh?");
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: Svg('assets/images/background.svg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: [
-            PayUTopBar(onPress: () {}, amount: provider.sum),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: !warning
-                  ? ApplePayButton(
-                      paymentConfiguration: PaymentConfiguration.fromJsonString(defaultApplePay),
-                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
-                      onPaymentResult: (result) {
-                        print("------------------");
+    return Background(
+      child: Column(
+        children: [
+          PayUTopBar(onPress: () {}, amount: provider.sum),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: !warning
+                ? ApplePayButton(
+                    paymentConfiguration: PaymentConfiguration.fromJsonString(defaultApplePay),
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+                    onPaymentResult: (result) {
+                      print("------------------");
 
-                        var temp = jsonDecode(result["token"]);
-                        print(temp["version"]);
-                        print(temp["data"]);
-                        print(temp["signature"]);
-                        print(temp["header"]);
+                      var temp = jsonDecode(result["token"]);
+                      print(temp["version"]);
+                      print(temp["data"]);
+                      print(temp["signature"]);
+                      print(temp["header"]);
 
-                        var headerData = {
-                          "ephemeralPublicKey": temp["header"]["ephemeralPublicKey"],
-                          "publicKeyHash": temp["header"]["publicKeyHash"],
-                          "transactionId": temp["header"]["transactionId"]
-                        };
+                      var headerData = {"ephemeralPublicKey": temp["header"]["ephemeralPublicKey"], "publicKeyHash": temp["header"]["publicKeyHash"], "transactionId": temp["header"]["transactionId"]};
 
-                        var data = {'version': temp["version"], 'data': temp["data"], 'signature': temp["signature"], 'header': headerData};
+                      var data = {'version': temp["version"], 'data': temp["data"], 'signature': temp["signature"], 'header': headerData};
 
-                        var json = jsonEncode(data);
+                      var json = jsonEncode(data);
 
-                        print("-------------------");
-                        print("json");
-                        print(json);
+                      print("-------------------");
+                      print("json");
+                      print(json);
 
-                        print("------------------");
+                      print("------------------");
 
-                        var value = base64.encode(utf8.encode(json));
-                        print("value");
-                        print(value);
+                      var value = base64.encode(utf8.encode(json));
+                      print("value");
+                      print(value);
 
-                        ApiService(token: provider.loginToken).paymentApplePayTokenOrder(widget.id, widget.amount, value).then((result) {
-                          print(result);
-                          String statusCode = jsonDecode(result!)["status"]["statusCode"];
+                      ApiService(token: provider.loginToken).paymentApplePayTokenOrder(widget.id, widget.amount, value).then((result) {
+                        print(result);
+                        String statusCode = jsonDecode(result!)["status"]["statusCode"];
 
-                          if (statusCode == "WARNING_CONTINUE_REDIRECT") {
-                          } else if (statusCode == "WARNING_CONTINUE_3DS") {
-                            setState(() {
-                              redirectUrl = jsonDecode(result)["redirectUri"];
-                              warning = true;
-                            });
+                        if (statusCode == "WARNING_CONTINUE_REDIRECT") {
+                        } else if (statusCode == "WARNING_CONTINUE_3DS") {
+                          setState(() {
+                            redirectUrl = jsonDecode(result)["redirectUri"];
+                            warning = true;
+                          });
 
-                            _didTapHandleWarningContinue3DS(context, jsonDecode(result)["redirectUri"], widget.id);
-                          } else if (statusCode == "SUCCESS") {
-                          } else if (statusCode == "WARNING_CONTINUE_CVV") {}
-                        });
-                      },
-                      style: ApplePayButtonStyle.black,
-                      type: ApplePayButtonType.buy,
-                      width: 200,
-                      height: 50,
-                      paymentItems: [
-                        PaymentItem(
-                          label: "total",
-                          amount: provider.sum.toString(),
-                          status: PaymentItemStatus.final_price,
-                        ),
-                      ],
-                      loadingIndicator: const Center(
-                        child: CircularProgressIndicator(),
+                          _didTapHandleWarningContinue3DS(context, jsonDecode(result)["redirectUri"], widget.id);
+                        } else if (statusCode == "SUCCESS") {
+                        } else if (statusCode == "WARNING_CONTINUE_CVV") {}
+                      });
+                    },
+                    style: ApplePayButtonStyle.black,
+                    type: ApplePayButtonType.buy,
+                    width: 200,
+                    height: 50,
+                    paymentItems: [
+                      PaymentItem(
+                        label: "total",
+                        amount: provider.sum.toString(),
+                        status: PaymentItemStatus.final_price,
                       ),
-                    )
-                  : ElevatedButton(
-                      onPressed: () {
-                        _didTapHandleWarningContinue3DS(context, redirectUrl, widget.id);
-                      },
-                      child: const Text(''),
+                    ],
+                    loadingIndicator: const Center(
+                      child: CircularProgressIndicator(),
                     ),
-            ),
-            const Text('new'),
-          ],
-        ),
+                  )
+                : ElevatedButton(
+                    onPressed: () {
+                      _didTapHandleWarningContinue3DS(context, redirectUrl, widget.id);
+                    },
+                    child: const Text(''),
+                  ),
+          ),
+          const Text('new'),
+        ],
       ),
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
+import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -26,128 +26,117 @@ class _SumScreenState extends State<SumScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: null,
-      body: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-            image: svg.Svg('assets/images/background.svg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          alignment: Alignment.topRight,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.05, 0),
-                child: LanguageButtons(
-                  ribbonHeight: MediaQuery.of(context).size.height * 0.08,
-                  ribbonWidth: MediaQuery.of(context).size.width * 0.075,
-                ),
+    return Background(
+      child: Container(
+        alignment: Alignment.topRight,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 0, MediaQuery.of(context).size.width * 0.05, 0),
+              child: LanguageButtons(
+                ribbonHeight: MediaQuery.of(context).size.height * 0.08,
+                ribbonWidth: MediaQuery.of(context).size.width * 0.075,
               ),
-              Center(
-                child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg', width: MediaQuery.of(context).size.width * 0.6),
-              ),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Card(
-                    surfaceTintColor: Colors.amber,
-                    elevation: 6,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const Text('Name'),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          height: MediaQuery.of(context).size.height * 0.03,
-                          child: const Card(surfaceTintColor: Colors.white, child: Center(child: Text('Temp'))),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            provider.payment.priceToAscii(123);
-                          },
-                          child: const Text('Change'),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+            ),
+            Center(
+              child: SvgPicture.asset('assets/images/MuchiesLogoPlain.svg', width: MediaQuery.of(context).size.width * 0.6),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.1, 0, 0),
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        Row(children: [Text(AppText.current.priceToPayInfo), Text('${provider.sum}')]),
-                        const Divider(
-                          height: 20,
-                          thickness: 5,
-                          indent: 20,
-                          endIndent: 5,
-                          color: Colors.black,
-                        ),
-                        Text(AppText.current.conformationInfo)
-                      ],
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        //provider.payment.startTransaction(11);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionScreen()));
-                      },
-                      child: Text(AppText.current.paymentButtonLabel),
-                    ),
-                  ],
-                ),
-              ),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Card(
+                  surfaceTintColor: Colors.amber,
+                  elevation: 6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(AppText.current.summaryInfo),
+                      const Text('Name'),
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: Card(
-                          elevation: 6,
-                          surfaceTintColor: Colors.white,
-                          child: OrderList(storageOrders: provider.storageOrders),
-                        ),
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.03,
+                        child: const Card(surfaceTintColor: Colors.white, child: Center(child: Text('Temp'))),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          provider.payment.priceToAscii(123);
+                        },
+                        child: const Text('Change'),
+                      )
                     ],
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      await provider.orderCancel();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
-                    },
-                    child: Text(AppText.current.cancelOrderButtonLabel),
+                  Column(
+                    children: [
+                      Row(children: [Text(AppText.of(context).priceToPayInfo), Text('${provider.sum}')]),
+                      const Divider(
+                        height: 20,
+                        thickness: 5,
+                        indent: 20,
+                        endIndent: 5,
+                        color: Colors.black,
+                      ),
+                      Text(AppText.of(context).conformationInfo)
+                    ],
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+                      //provider.payment.startTransaction(11);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionScreen()));
                     },
-                    child: Text(AppText.current.editOrderButtonLabel),
-                  )
+                    child: Text(AppText.of(context).paymentButtonLabel),
+                  ),
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+            Center(
+              child: Container(
+                padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.05, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(AppText.of(context).summaryInfo),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Card(
+                        elevation: 6,
+                        surfaceTintColor: Colors.white,
+                        child: OrderList(storageOrders: provider.storageOrders),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await provider.orderCancel();
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreen()));
+                  },
+                  child: Text(AppText.of(context).cancelOrderButtonLabel),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+                  },
+                  child: Text(AppText.of(context).editOrderButtonLabel),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

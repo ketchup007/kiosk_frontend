@@ -100,15 +100,7 @@
 //
 //   @override
 //   Widget build(context) {
-//     return Scaffold(
-//       backgroundColor: Colors.transparent,
-//       appBar: null,
-//       body: Container(
-//         decoration: const BoxDecoration(
-//           color: Colors.white,
-//           image:  DecorationImage(
-//               image: SVG.Svg('assets/images/background.svg'),
-//               fit: BoxFit.cover)),
+//     return  Background(
 //         child: Center(
 //           child: Column(
 //             children: [
@@ -137,7 +129,7 @@
 //             ],
 //           ),
 //         ),
-//       )
+//       
 //     );
 //   }
 // }
