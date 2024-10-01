@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/config.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
-import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/utils/payment_sockets.dart';
-import 'package:kiosk_flutter/utils/read_json.dart';
 import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,8 +43,6 @@ class MainProvider extends ChangeNotifier {
 
   double sumTemp = 0.1;
   double sum = 0.0;
-  ApsOrder? order;
-  List<CountryModel> countryList = [];
 
   String containerDb = 'default';
   int timeToWait = 6;
@@ -205,20 +201,20 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createOrder() async {
-    order = ApsOrder(
-      apsId: AppConfig.instance.apsId,
-      origin: OriginType.kiosk,
-      status: OrderStatus.duringOrdering,
-      estimatedTime: 0,
-      kdsOrderNumber: null,
-      pickupNumber: null,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-    );
+  // Future<void> createOrder() async {
+  //   order = ApsOrder(
+  //     apsId: AppConfig.instance.apsId,
+  //     origin: OriginType.kiosk,
+  //     status: OrderStatus.duringOrdering,
+  //     estimatedTime: 0,
+  //     kdsOrderNumber: null,
+  //     pickupNumber: null,
+  //     createdAt: DateTime.now(),
+  //     updatedAt: DateTime.now(),
+  //   );
 
-    await databaseService.createOrder(order!);
-  }
+  //   order = await databaseService.createOrder(order!);
+  // }
 
   void addProductToOrder(int itemId) {
     final nextProduct = ApsOrderItem(
@@ -321,13 +317,5 @@ class MainProvider extends ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  // TODO: use dart package
-  getCountryCodes() async {
-    if (countryList.isEmpty) {
-      countryList = await readCountries();
-      notifyListeners();
-    }
   }
 }

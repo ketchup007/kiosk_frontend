@@ -131,8 +131,6 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    provider = Provider.of<MainProvider>(context, listen: true);
-    provider.createOrder();
     provider.getStorageData();
   }
 
@@ -348,9 +346,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                   cancelButtonAction();
                                 },
                                 style: ButtonStyle(
-                                  foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                  backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.red),
-                                  shape: MaterialStateProperty.resolveWith(
+                                  foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
+                                  backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.red),
+                                  shape: WidgetStateProperty.resolveWith(
                                     (states) => const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(15.0),
@@ -458,9 +456,9 @@ class _OrderScreenState extends State<OrderScreen> {
                                       sumButtonAction();
                                     },
                                     style: ButtonStyle(
-                                      foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                      backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
-                                      shape: MaterialStateProperty.resolveWith(
+                                      foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
+                                      backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.green),
+                                      shape: WidgetStateProperty.resolveWith(
                                         (states) => const RoundedRectangleBorder(
                                           borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(15.0),

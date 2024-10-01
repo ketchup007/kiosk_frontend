@@ -58,8 +58,11 @@ dependencies:
   equatable: ^2.0.5
   collection: ^1.18.0
   rxdart: ^0.28.0
-  flutter_bloc: ^8.1.6
-
+  flutter_bloc: ^8.1.6 
+  phone_form_field: ^9.2.8
+  freezed_annotation: ^2.4.4
+  json_annotation: ^4.9.0
+  
   # payu:
   #   git:
   #     url: https://github.com/PayU-EMEA/PayU-Flutter.git
@@ -78,7 +81,9 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   mockito: ^5.3.2
-  build_runner: ^2.4.11
+  build_runner: ^2.4.13
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
 
 flutter:
   uses-material-design: true
@@ -112,7 +117,6 @@ flutter:
     - assets/animations/robotBack.riv
     - assets/animations/newBody.riv
     - assets/animations/newArms.riv
-    - assets/data/countries.json
     - assets/images/robotAnimation/orderMenuRobot/newRobotBeg.png
     - assets/images/payULogos/payULogoBlack.png
     - assets/images/payULogos/payULogoLime.png

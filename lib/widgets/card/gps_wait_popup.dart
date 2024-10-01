@@ -97,7 +97,7 @@ class GpsWaitPopupState extends State<GpsWaitPopup> {
                                           _state = 1;
                                         });
                                       },
-                                      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll<Color>(Colors.white38)),
+                                      style: const ButtonStyle(backgroundColor: WidgetStatePropertyAll<Color>(Colors.white38)),
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
@@ -168,9 +168,9 @@ class GpsWaitPopupState extends State<GpsWaitPopup> {
                                               child: ElevatedButton(
                                                 onPressed: widget.onPress,
                                                 style: ButtonStyle(
-                                                  foregroundColor: MaterialStateProperty.resolveWith((states) => Colors.white),
-                                                  backgroundColor: MaterialStateProperty.resolveWith((states) => AppColors.green),
-                                                  shape: MaterialStateProperty.resolveWith(
+                                                  foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
+                                                  backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.green),
+                                                  shape: WidgetStateProperty.resolveWith(
                                                     (states) => const RoundedRectangleBorder(
                                                       borderRadius: BorderRadius.only(
                                                         bottomLeft: Radius.circular(15.0),

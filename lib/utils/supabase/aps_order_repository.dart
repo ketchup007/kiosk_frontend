@@ -37,15 +37,20 @@ class ApsOrderRepository {
     }
   }
 
-  Future<void> createApsOrder({required ApsOrder order}) async {
+  Future<ApsOrder> createApsOrder({required ApsOrder order}) async {
     try {
-      await _clientLocal //
+      final response = await _clientLocal
           .from(_tableApsOrder)
-          .insert(order.toJson())
+          .insert(order.toJson()) // Wstawianie zamówienia
+          .select() // Zwraca wstawiony rekord z bazy danych
+          .single() // Upewniamy się, że zwracany jest tylko jeden rekord
           .catchError((error) {
         print('Database error: $error');
         throw OrderException('Failed to create APS order due to database error');
       });
+
+      // Przekształcamy odpowiedź na obiekt ApsOrder
+      return ApsOrder.fromJson(response);
     } on OrderException {
       rethrow;
     } catch (e) {
@@ -205,4 +210,56 @@ class ApsOrderRepository {
   //     throw OrderException('An error occurred while getting APS order item history: $e');
   //   }
   // }
+  Stream<ApsOrder> streamApsOrder({required int orderId}) {
+    return _clientLocal //
+        .from(_tableApsOrder)
+        .stream(primaryKey: ['id'])
+        .eq('id', orderId)
+        .limit(1)
+        .map((orderData) {
+          if (orderData.isNotEmpty) {
+            return ApsOrder.fromJson(orderData.first); // Zwracamy tylko jedno zamówienie
+          } else {
+            throw OrderException('No APS order found with id: $orderId');
+          }
+        })
+        .handleError((error) {
+          print('Database error: $error');
+          throw OrderException('Failed to stream APS order: $error');
+        });
+  }
+
+  Stream<List<ApsOrderItem>> streamApsOrderItems({required int orderId}) {
+    return _clientLocal //
+        .from(_tableApsOrderItem)
+        .stream(primaryKey: ['id'])
+        .eq('aps_order_id', orderId)
+        .map((itemsData) => itemsData.map<ApsOrderItem>((item) => ApsOrderItem.fromJson(item)).toList())
+        .handleError((error) {
+          print('Database error: $error');
+          throw OrderException('Failed to stream APS order items: $error');
+        });
+  }
+
+  Stream<List<ApsOrder>> streamAllApsOrders() {
+    return _clientLocal //
+        .from(_tableApsOrder)
+        .stream(primaryKey: ['id'])
+        .map((ordersData) => ordersData.map<ApsOrder>((order) => ApsOrder.fromJson(order)).toList())
+        .handleError((error) {
+          print('Database error: $error');
+          throw OrderException('Failed to stream all APS orders: $error');
+        });
+  }
+
+  Stream<List<ApsOrderItem>> streamAllApsOrderItems() {
+    return _clientLocal //
+        .from(_tableApsOrderItem)
+        .stream(primaryKey: ['id'])
+        .map((itemsData) => itemsData.map<ApsOrderItem>((item) => ApsOrderItem.fromJson(item)).toList())
+        .handleError((error) {
+          print('Database error: $error');
+          throw OrderException('Failed to stream all APS order items: $error');
+        });
+  }
 }

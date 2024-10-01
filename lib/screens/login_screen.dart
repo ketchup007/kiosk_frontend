@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
-import 'package:kiosk_flutter/models/country_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/login_code_screen.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 import 'package:provider/provider.dart';
-
 import '../themes/color.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,114 +17,112 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final loginController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  CountryModel _dropdownValue = CountryModel(countryCode: "", dialCode: "", minNumber: 0, maxNumber: 0, format: "");
+  final phoneController = PhoneController(initialValue: const PhoneNumber(isoCode: IsoCode.PL, nsn: ''));
+  final FocusNode phoneFocusNode = FocusNode();
+  final formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     final provider = Provider.of<MainProvider>(context, listen: true);
 
-    if (provider.countryList.isEmpty) {
-      provider.getCountryCodes();
-      return const Text("");
-    } else {
-      if (_dropdownValue.dialCode.isEmpty) {
-        _dropdownValue = provider.countryList.first;
-      }
-
-      return Background(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(child: LanguageButtons(ribbonHeight: MediaQuery.of(context).size.height * 0.1, ribbonWidth: MediaQuery.of(context).size.width * 0.1)),
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: const Text(
-                "Aby się zalogować podaj numer telefonu",
-                style: TextStyle(
-                  fontSize: 21,
-                  fontFamily: "GloryBold",
-                ),
-              ),
+    return Background(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: LanguageButtons(
+              ribbonHeight: MediaQuery.of(context).size.height * 0.1,
+              ribbonWidth: MediaQuery.of(context).size.width * 0.1,
             ),
-            const Text("na podany nr zostanie wysłany kod potrzebny do zalogowania", textAlign: TextAlign.center),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  alignment: Alignment.bottomCenter,
-                  child: DropdownButton(
-                    value: _dropdownValue,
-                    iconSize: 10,
-                    items: provider.countryList.map<DropdownMenuItem<CountryModel>>((CountryModel value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0, 10, 0, MediaQuery.of(context).size.width * 0.005),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            width: MediaQuery.of(context).size.width * 0.23,
-                            child: Text(
-                              "${value.countryCode.toUpperCase().replaceAllMapped(RegExp(r'[A-Z]'), (match) => String.fromCharCode(match.group(0)!.codeUnitAt(0) + 127397))} ${value.dialCode}",
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height > 1000 ? 20 : 22,
-                                fontFamily: 'GloryBold',
-                              ),
-                            ),
-                          ),
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: const Text(
+                    "Aby się zalogować podaj numer telefonu",
+                    style: TextStyle(
+                      fontSize: 21,
+                      fontFamily: "GloryBold",
+                    ),
+                  ),
+                ),
+                const Text(
+                  "na podany nr zostanie wysłany kod potrzebny do zalogowania",
+                  textAlign: TextAlign.center,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                  child: Form(
+                    key: formKey,
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 400),
+                      child: PhoneFormField(
+                        controller: phoneController,
+                        focusNode: phoneFocusNode,
+                        autofillHints: const [AutofillHints.telephoneNumber],
+                        countrySelectorNavigator: const CountrySelectorNavigator.bottomSheet(
+                          favorites: [IsoCode.PL, IsoCode.GB, IsoCode.UA],
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (CountryModel? value) {
-                      setState(() {
-                        _dropdownValue = value!;
-                      });
-                    },
+                        validator: PhoneValidator.compose([
+                          PhoneValidator.validMobile(context),
+                        ]),
+                        decoration: const InputDecoration(
+                          labelText: 'Numer Telefonu',
+                          border: OutlineInputBorder(),
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                      ),
+                    ),
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: TextField(
-                      maxLength: _dropdownValue.maxNumber,
-                      keyboardType: TextInputType.number,
-                      controller: loginController,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Numer Telefonu",
-                      ),
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.green,
+                      foregroundColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        final phoneNumber = phoneController.value.international;
+                        ApiService(token: provider.loginToken).smsLogin(phoneNumber, url: ApiConstants.baseUrl).then((value) {
+                          if (value == "SMS_SEND") {
+                            provider.phoneNumber = phoneNumber;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginCodeScreen(),
+                              ),
+                            );
+                          }
+                        });
+                      }
+                    },
+                    child: const Text(
+                      "Wyślij SMS",
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
                     ),
                   ),
                 ),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: AppColors.green, foregroundColor: Colors.black),
-                onPressed: () {
-                  if (loginController.text.length >= _dropdownValue.minNumber) {
-                    print("login: ${_dropdownValue.dialCode} ${loginController.text}");
-                    ApiService(token: provider.loginToken).smsLogin(_dropdownValue.dialCode + loginController.text, url: ApiConstants.baseUrl).then((value) {
-                      if (value == "SMS_SEND") {
-                        provider.phoneNumber = _dropdownValue.dialCode + loginController.text;
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginCodeScreen()));
-                      }
-                    });
-                  }
-                },
-                child: const Text("Wyślij SMS"),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    phoneController.dispose();
+    phoneFocusNode.dispose();
+    super.dispose();
   }
 }

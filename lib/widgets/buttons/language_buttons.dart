@@ -78,29 +78,25 @@ class LanguageButton extends StatelessWidget {
       onTap: () {
         context.read<LanguageCubit>().changeLanguage(locale);
       },
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(0, 0, 5, 0),
-        child: SizedBox(
-          width: ribbonWidth,
-          height: ribbonHeight,
-          child: IconButton(
-            onPressed: () {
-              context.read<LanguageCubit>().changeLanguage(locale);
-            },
-            alignment: Alignment.bottomCenter,
-            padding: EdgeInsets.fromLTRB(0, 0, 0, ribbonWidth * 0.1),
-            icon: Image.asset(
-              locale.imagePath,
-              width: ribbonWidth * 0.85,
-              height: ribbonWidth * 0.85,
-            ),
-            style: IconButton.styleFrom(
-              backgroundColor: AppColors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(ribbonWidth * 0.5),
-                  bottomRight: Radius.circular(ribbonWidth * 0.5),
-                ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+        child: IconButton(
+          onPressed: () {
+            context.read<LanguageCubit>().changeLanguage(locale);
+          },
+          alignment: Alignment.bottomCenter,
+          padding: const EdgeInsets.all(10),
+          icon: Image.asset(
+            locale.imagePath,
+            width: ribbonWidth * 0.85,
+            height: ribbonWidth * 0.85,
+          ),
+          style: IconButton.styleFrom(
+            backgroundColor: AppColors.blue,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(160),
+                bottomRight: Radius.circular(160),
               ),
             ),
           ),
