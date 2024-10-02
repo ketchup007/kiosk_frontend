@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as svg;
 import 'package:kiosk_flutter/common/widgets/background.dart';
-import 'package:kiosk_flutter/screens/order_screen.dart';
+import 'package:kiosk_flutter/features/order/views/order_page.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/screens/qr_code_screen.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
@@ -18,9 +18,9 @@ class StartScreenKiosk extends StatefulWidget {
 class _StartScreenKioskState extends State<StartScreenKiosk> {
   void goToOrderPage(context) {
     if (MediaQuery.of(context).size.height < 1000) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const QrCodeScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const QrCodeScreen()));
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const OrderPage()));
     }
   }
 

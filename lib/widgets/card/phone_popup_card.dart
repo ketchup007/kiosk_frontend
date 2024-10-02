@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/buttons/num_pad.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
@@ -181,7 +182,7 @@ class _PhonePopupCardState extends State<PhonePopupCard> {
             if (formKey.currentState!.validate()) {
               Navigator.of(context).pop();
               final phoneNumber = phoneController.value.international;
-              provider.order = provider.order?.copyWith(clientPhoneNumber: phoneNumber);
+              context.read<OrderBloc>().add(OrderEvent.updatePhoneNumber(phoneNumber));
               widget.onPress(isCheckedB);
             }
           },

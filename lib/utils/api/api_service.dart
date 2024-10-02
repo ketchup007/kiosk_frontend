@@ -18,22 +18,22 @@ class ApiService {
     required this.token,
   });
 
-  Future<int?> getTimeEst() async {
-    try {
-      // print("in Api Call time est");
-      var response = await client.get(Uri.parse("${ApiConstants.baseUrl}/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
+  // Future<int?> getTimeEst() async {
+  //   try {
+  //     // print("in Api Call time est");
+  //     var response = await client.get(Uri.parse("${ApiConstants.baseUrl}/api/orders/getOrderTime"), headers: {'Authorization': 'Bearer $token'});
 
-      // print("in Api Call 2 time est${response.statusCode}");
+  //     // print("in Api Call 2 time est${response.statusCode}");
 
-      if (response.statusCode == 200) {
-        // print("in Api Call 3 ${response.body}");
-        return jsonDecode(response.body)["time"];
-      }
-    } catch (e) {
-      log(e.toString());
-    }
-    return null;
-  }
+  //     if (response.statusCode == 200) {
+  //       // print("in Api Call 3 ${response.body}");
+  //       return jsonDecode(response.body)["time"];
+  //     }
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  //   return null;
+  // }
 
   Future<String?> getFromLink(String link, http.Client client) async {
     try {

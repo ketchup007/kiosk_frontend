@@ -42,7 +42,7 @@ class SummaryCardState extends State<SummaryCard> {
       print("in summary card timer");
       await provider.orderCancel();
       provider.changeToPizza();
-      provider.inPayment = false;
+
       setState(() {
         _paymentState = 0;
       });
@@ -78,7 +78,6 @@ class SummaryCardState extends State<SummaryCard> {
                 setState(() {
                   _paymentState = 1;
                 });
-                provider.inPayment = true;
               } else {
                 Navigator.push(
                   context,
@@ -264,7 +263,7 @@ class SummaryCardState extends State<SummaryCard> {
                                       onPressed: () async {
                                         await provider.orderFinish();
                                         provider.changeToPizza();
-                                        provider.inPayment = false;
+
                                         setState(() {
                                           _paymentState = 0;
                                         });
@@ -324,7 +323,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                 _timerStop();
                                                 await provider.orderCancel();
                                                 provider.changeToPizza();
-                                                provider.inPayment = false;
+
                                                 setState(() {
                                                   _paymentState = 0;
                                                 });
@@ -335,7 +334,7 @@ class SummaryCardState extends State<SummaryCard> {
                                                   _timerStop();
                                                   await provider.orderCancel();
                                                   provider.changeToPizza();
-                                                  provider.inPayment = false;
+
                                                   setState(() {
                                                     _paymentState = 0;
                                                   });

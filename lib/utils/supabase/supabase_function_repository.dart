@@ -30,10 +30,10 @@ class SupabaseFunctionRepository {
         availableItemsResponse.forEach((key, value) {
           availableItems.add(AvailableItem.fromJson(value as Map<String, dynamic>));
         });
-      } else {
-        availableItemsResponse.forEach((value) {
+      } else if (availableItemsResponse is List) {
+        for (var value in availableItemsResponse) {
           availableItems.add(AvailableItem.fromJson(value as Map<String, dynamic>));
-        });
+        }
       }
 
       return availableItems;

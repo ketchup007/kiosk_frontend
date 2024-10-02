@@ -11,7 +11,6 @@ import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collection/collection.dart';
 
 class MainProvider extends ChangeNotifier {
   List<MenuItemWithDescription> menuItems = [];
@@ -19,13 +18,13 @@ class MainProvider extends ChangeNotifier {
   Payment payment = Payment();
   final databaseService = DatabaseService();
 
-  List<MenuItemWithDescription> storagePizza = [];
-  List<MenuItemWithDescription> storageDrinks = [];
-  List<MenuItemWithDescription> storageBox = [];
-  List<MenuItemWithDescription> storageSauce = [];
-  List<MenuItemWithDescription> storageCurrent = [];
-  List<MenuItemWithDescription> storageOrders = [];
-  List<MenuItemWithDescription> storageBeg = [];
+  // List<MenuItemWithDescription> storagePizza = [];
+  // List<MenuItemWithDescription> storageDrinks = [];
+  // List<MenuItemWithDescription> storageBox = [];
+  // List<MenuItemWithDescription> storageSauce = [];
+  // List<MenuItemWithDescription> storageCurrent = [];
+  // List<MenuItemWithDescription> storageOrders = [];
+  // List<MenuItemWithDescription> storageBeg = [];
 
   List<ApsOrderItem> orderItems = [];
 
@@ -35,7 +34,6 @@ class MainProvider extends ChangeNotifier {
 
   bool loading = false;
   bool isDone = false;
-  bool popupDone = false;
 
   String phoneNumber = "";
   String phoneNumberToken = "";
@@ -46,23 +44,6 @@ class MainProvider extends ChangeNotifier {
 
   String containerDb = 'default';
   int timeToWait = 6;
-
-  bool _inPayment = false;
-
-  set inPayment(bool value) {
-    _inPayment = value;
-    notifyListeners();
-  }
-
-  bool get inPayment => _inPayment;
-
-  Future<void> updateTimeToWait() async {
-    int? newTime = await ApiService(token: loginToken).getTimeEst();
-
-    if (newTime != null) {
-      timeToWait = newTime;
-    }
-  }
 
   Future<void> saveCardTokens() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -104,102 +85,102 @@ class MainProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getStorageData() async {
-    if (loading != true && isDone != true) {
-      loading = true;
-      // products = await databaseService.getAllItemDescriptions();
-      menuItems = await databaseService.menuItemsWithDescriptionsStream(apsId: AppConfig.instance.apsId).first;
+  // Future<void> getStorageData() async {
+  //   if (loading != true && isDone != true) {
+  //     loading = true;
+  //     // products = await databaseService.getAllItemDescriptions();
+  //     menuItems = await databaseService.menuItemsWithDescriptionsStream(apsId: AppConfig.instance.apsId).first;
 
-      refreshLimit();
+  //     refreshLimit();
 
-      breakStorage();
-      storageCurrent = storagePizza;
-      loading = false;
-      isDone = true;
+  //     breakStorage();
+  //     storageCurrent = storagePizza;
+  //     loading = false;
+  //     isDone = true;
 
-      notifyListeners();
-    }
-  }
+  //     notifyListeners();
+  //   }
+  // }
 
-  changeToPizza() {
-    storageCurrent = storagePizza;
-    notifyListeners();
-  }
+  // changeToPizza() {
+  //   storageCurrent = storagePizza;
+  //   notifyListeners();
+  // }
 
-  changeToDrinks() {
-    storageCurrent = storageDrinks;
-    notifyListeners();
-  }
+  // changeToDrinks() {
+  //   storageCurrent = storageDrinks;
+  //   notifyListeners();
+  // }
 
-  changeToBox() {
-    storageCurrent = storageBox;
-    notifyListeners();
-  }
+  // changeToBox() {
+  //   storageCurrent = storageBox;
+  //   notifyListeners();
+  // }
 
-  changeToSauces() {
-    storageCurrent = storageSauce;
-    notifyListeners();
-  }
+  // changeToSauces() {
+  //   storageCurrent = storageSauce;
+  //   notifyListeners();
+  // }
 
-  begStorageSetup() {
-    storageBeg.clear();
-    for (int i = 0; i < storagePizza.length; i++) {
-      if (getQuantityOfItemInOrder(storagePizza[i].itemDescription.id) > 0) {
-        break;
-      } else if (i == storagePizza.length - 1) {
-        storageBeg.add(storagePizza.first);
-      }
-    }
+  // begStorageSetup() {
+  //   storageBeg.clear();
+  //   for (int i = 0; i < storagePizza.length; i++) {
+  //     if (getQuantityOfItemInOrder(storagePizza[i].itemDescription.id) > 0) {
+  //       break;
+  //     } else if (i == storagePizza.length - 1) {
+  //       storageBeg.add(storagePizza.first);
+  //     }
+  //   }
 
-    for (int i = 0; i < storageDrinks.length; i++) {
-      if (getQuantityOfItemInOrder(storageDrinks[i].itemDescription.id) > 0) {
-        break;
-      } else if (i == storageDrinks.length - 1) {
-        storageBeg.add(storageDrinks.first);
-      }
-    }
+  //   for (int i = 0; i < storageDrinks.length; i++) {
+  //     if (getQuantityOfItemInOrder(storageDrinks[i].itemDescription.id) > 0) {
+  //       break;
+  //     } else if (i == storageDrinks.length - 1) {
+  //       storageBeg.add(storageDrinks.first);
+  //     }
+  //   }
 
-    for (int i = 0; i < storageBox.length; i++) {
-      if (getQuantityOfItemInOrder(storageBox[i].itemDescription.id) > 0) {
-        break;
-      } else if (i == storageBox.length - 1) {
-        storageBeg.add(storageBox.first);
-      }
-    }
+  //   for (int i = 0; i < storageBox.length; i++) {
+  //     if (getQuantityOfItemInOrder(storageBox[i].itemDescription.id) > 0) {
+  //       break;
+  //     } else if (i == storageBox.length - 1) {
+  //       storageBeg.add(storageBox.first);
+  //     }
+  //   }
 
-    for (int i = 0; i < storageSauce.length; i++) {
-      if (getQuantityOfItemInOrder(storageSauce[i].itemDescription.id) > 0) {
-        break;
-      } else if (i == storageSauce.length - 1) {
-        storageBeg.add(storageSauce.first);
-      }
-    }
-  }
+  //   for (int i = 0; i < storageSauce.length; i++) {
+  //     if (getQuantityOfItemInOrder(storageSauce[i].itemDescription.id) > 0) {
+  //       break;
+  //     } else if (i == storageSauce.length - 1) {
+  //       storageBeg.add(storageSauce.first);
+  //     }
+  //   }
+  // }
 
-  void breakStorage() {
-    for (final menuItem in menuItems) {
-      switch (menuItem.itemDescription.category) {
-        case ItemCategory.snack:
-          storagePizza.add(menuItem);
-          break;
-        case ItemCategory.drink || ItemCategory.coffee:
-          storageDrinks.add(menuItem);
-          break;
-        case ItemCategory.sauce:
-          storageSauce.add(menuItem);
-          break;
-        case ItemCategory.takeAwayBox:
-          storageBox.add(menuItem);
-          break;
-        case ItemCategory.paperTray:
-          break;
-        case ItemCategory.cup:
-          break;
-        case ItemCategory.sugar:
-          break;
-      }
-    }
-  }
+  // void breakStorage() {
+  //   for (final menuItem in menuItems) {
+  //     switch (menuItem.itemDescription.category) {
+  //       case ItemCategory.snack:
+  //         storagePizza.add(menuItem);
+  //         break;
+  //       case ItemCategory.drink || ItemCategory.coffee:
+  //         storageDrinks.add(menuItem);
+  //         break;
+  //       case ItemCategory.sauce:
+  //         storageSauce.add(menuItem);
+  //         break;
+  //       case ItemCategory.takeAwayBox:
+  //         storageBox.add(menuItem);
+  //         break;
+  //       case ItemCategory.paperTray:
+  //         break;
+  //       case ItemCategory.cup:
+  //         break;
+  //       case ItemCategory.sugar:
+  //         break;
+  //     }
+  //   }
+  // }
 
   // Future<void> createOrder() async {
   //   order = ApsOrder(
@@ -227,25 +208,25 @@ class MainProvider extends ChangeNotifier {
     );
 
     orderItems.add(nextProduct);
-    refreshSum();
+    // refreshSum();
   }
 
   // TODO: co zrobic z storageState? powinna byc tu aktualizacja
-  void removeProductToOrder(int? itemId) {
-    final unwantedProductIndex = orderItems.lastIndexWhere((element) => element.itemId == itemId);
-    orderItems.removeAt(unwantedProductIndex);
-    refreshSum();
-  }
+  // void removeProductToOrder(int? itemId) {
+  //   final unwantedProductIndex = orderItems.lastIndexWhere((element) => element.itemId == itemId);
+  //   orderItems.removeAt(unwantedProductIndex);
+  //   // refreshSum();
+  // }
 
-  int getQuantityOfItemInOrder(int? itemId) {
-    return orderItems.where((element) => element.itemId == itemId).length;
-  }
+  // int getQuantityOfItemInOrder(int? itemId) {
+  //   return orderItems.where((element) => element.itemId == itemId).length;
+  // }
 
-  Future<void> updateOrderStatus(OrderStatus status) async {
-    if (order != null && order?.id != null) {
-      await databaseService.updateOrderStatus(order!.id!, status);
-    }
-  }
+  // Future<void> updateOrderStatus(OrderStatus status) async {
+  //   if (order != null && order?.id != null) {
+  //     await databaseService.updateOrderStatus(order!.id!, status);
+  //   }
+  // }
 
   updateOrderClientPhoneNumber(String? phoneNumber) async {
     if (order != null && order?.id != null) {
@@ -266,23 +247,23 @@ class MainProvider extends ChangeNotifier {
     return await getOrderNumber();
   }
 
-  refreshSum() {
-    sum = 0.0;
-    for (var i = 0; i < menuItems.length; i++) {
-      sum = sum + menuItems[i].menuItemPrice.price * getQuantityOfItemInOrder(menuItems[i].itemDescription.id);
-    }
-    notifyListeners();
-  }
+  // refreshSum() {
+  //   sum = 0.0;
+  //   for (var i = 0; i < menuItems.length; i++) {
+  //     sum = sum + menuItems[i].menuItemPrice.price * getQuantityOfItemInOrder(menuItems[i].itemDescription.id);
+  //   }
+  //   notifyListeners();
+  // }
 
-  Future<void> refreshLimit() async {
-    final itemIds = menuItems.map((menuItem) => menuItem.itemDescription.id).whereNotNull().toList();
-    await databaseService.getAvailableItems(itemIds: itemIds).then((availableItems) {
-      for (final availableItem in availableItems) {
-        limits[availableItem.itemId] = availableItem.availableQuantity;
-      }
-    });
-    notifyListeners();
-  }
+  // Future<void> refreshLimit() async {
+  //   final itemIds = menuItems.map((menuItem) => menuItem.itemDescription.id).whereNotNull().toList();
+  //   await databaseService.getAvailableItems(itemIds: itemIds).then((availableItems) {
+  //     for (final availableItem in availableItems) {
+  //       limits[availableItem.itemId] = availableItem.availableQuantity;
+  //     }
+  //   });
+  //   notifyListeners();
+  // }
 
   Future<void> orderCancel() async {
     print("in order cancle");
@@ -290,8 +271,7 @@ class MainProvider extends ChangeNotifier {
     order = null;
     orderItems.clear();
     storageBeg.clear();
-    popupDone = false;
-    refreshSum();
+    // refreshSum();
   }
 
   Future<void> orderFinish() async {
@@ -300,22 +280,21 @@ class MainProvider extends ChangeNotifier {
     order = null;
     orderItems.clear();
     storageBeg.clear();
-    popupDone = false;
-    refreshSum();
+    // refreshSum();
   }
 
-  getOrderList() {
-    if (storageOrders.isNotEmpty) {
-      storageOrders.removeRange(0, storageOrders.length);
-    }
+  // getOrderList() {
+  //   if (storageOrders.isNotEmpty) {
+  //     storageOrders.removeRange(0, storageOrders.length);
+  //   }
 
-    for (int i = 0; i < menuItems.length; i++) {
-      int itemQuantity = getQuantityOfItemInOrder(menuItems[i].itemDescription.id);
-      if (itemQuantity > 0) {
-        storageOrders.add(menuItems[i]);
-      }
-    }
+  //   for (int i = 0; i < menuItems.length; i++) {
+  //     int itemQuantity = getQuantityOfItemInOrder(menuItems[i].itemDescription.id);
+  //     if (itemQuantity > 0) {
+  //       storageOrders.add(menuItems[i]);
+  //     }
+  //   }
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }

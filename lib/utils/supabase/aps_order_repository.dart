@@ -18,62 +18,47 @@ class ApsOrderRepository {
 
   Future<ApsOrder> getApsOrder({required int orderId}) async {
     try {
-      return await _clientLocal //
+      final response = await _clientLocal //
           .from(_tableApsOrder)
           .select()
           .eq('id', orderId)
           .limit(1)
-          .single()
-          .then((value) => ApsOrder.fromJson(value))
-          .catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to get APS order due to database error');
-      });
-    } on OrderException {
-      rethrow;
+          .single();
+
+      return ApsOrder.fromJson(response);
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while getting APS order: $e');
+      print('Error while fetching APS order: $e');
+      throw OrderException('Failed to get APS order with ID: $orderId');
     }
   }
 
   Future<ApsOrder> createApsOrder({required ApsOrder order}) async {
     try {
-      final response = await _clientLocal
+      final response = await _clientLocal //
           .from(_tableApsOrder)
-          .insert(order.toJson()) // Wstawianie zamówienia
-          .select() // Zwraca wstawiony rekord z bazy danych
-          .single() // Upewniamy się, że zwracany jest tylko jeden rekord
-          .catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to create APS order due to database error');
-      });
+          .insert(order.toJson())
+          .select()
+          .single();
 
-      // Przekształcamy odpowiedź na obiekt ApsOrder
       return ApsOrder.fromJson(response);
-    } on OrderException {
-      rethrow;
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while creating APS order: $e');
+      print('Error while creating APS order: $e');
+      throw OrderException('Failed to create APS order');
     }
   }
 
-  Future<void> updateApsOrder({required int orderId, required Map<String, dynamic> data}) async {
+  Future<void> updateApsOrder({
+    required int orderId,
+    required Map<String, dynamic> data,
+  }) async {
     try {
       await _clientLocal //
           .from(_tableApsOrder)
           .update(data)
-          .eq('id', orderId)
-          .catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to update APS order due to database error');
-      });
-    } on OrderException {
-      rethrow;
+          .eq('id', orderId);
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while updating APS order: $e');
+      print('Error while updating APS order: $e');
+      throw OrderException('Failed to update APS order with ID: $orderId');
     }
   }
 
@@ -109,65 +94,47 @@ class ApsOrderRepository {
 
   Future<int> getKdsOrderNumber({required int apsId}) async {
     try {
-      return await _clientLocal //
+      final response = await _clientLocal //
           .from(_tableApsOrder)
           .select('kds_order_number')
           .eq('aps_id', apsId)
           .order('id', ascending: false)
           .limit(1)
-          .then((response) {
-        if (response.isNotEmpty) {
-          return response[0]['kds_order_number'] as int;
-        } else {
-          throw OrderException('No KDS order number found for APS ID: $apsId');
-        }
-      }).catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to get KDS order number due to database error');
-      });
-    } on OrderException {
-      rethrow;
+          .single();
+
+      return response['kds_order_number'] as int;
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while getting KDS order number: $e');
+      print('Error while fetching KDS order number: $e');
+      throw OrderException('Failed to get KDS order number for APS ID: $apsId');
     }
   }
 
   Future<List<ApsOrderItem>> getApsOrderItems({required int orderId}) async {
     try {
-      return await _clientLocal //
+      final items = await _clientLocal //
           .from(_tableApsOrderItem)
           .select()
-          .eq('aps_order_id', orderId)
-          .then((items) => items.map(ApsOrderItem.fromJson).toList())
-          .catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to get APS order items due to database error');
-      });
-    } on OrderException {
-      rethrow;
+          .eq('aps_order_id', orderId);
+
+      return items.map<ApsOrderItem>(ApsOrderItem.fromJson).toList();
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while getting APS order items: $e');
+      print('Error while fetching APS order items: $e');
+      throw OrderException('Failed to get APS order items for order ID: $orderId');
     }
   }
 
   Future<void> createApsOrderItems({required List<ApsOrderItem> orderItems}) async {
     try {
-      final itemsToInsert = orderItems.map((item) => item.toJson()).toList();
+      final itemsToInsert = orderItems //
+          .map((item) => item.toJson())
+          .toList();
 
       await _clientLocal //
           .from(_tableApsOrderItem)
-          .insert(itemsToInsert)
-          .catchError((error) {
-        print('Database error: $error');
-        throw OrderException('Failed to create APS order items due to database error');
-      });
-    } on OrderException {
-      rethrow;
+          .insert(itemsToInsert);
     } catch (e) {
-      print('Error: $e');
-      throw OrderException('An error occurred while creating APS order items: $e');
+      print('Error while creating APS order items: $e');
+      throw OrderException('Failed to create APS order items');
     }
   }
 
@@ -210,6 +177,7 @@ class ApsOrderRepository {
   //     throw OrderException('An error occurred while getting APS order item history: $e');
   //   }
   // }
+
   Stream<ApsOrder> streamApsOrder({required int orderId}) {
     return _clientLocal //
         .from(_tableApsOrder)
@@ -218,9 +186,9 @@ class ApsOrderRepository {
         .limit(1)
         .map((orderData) {
           if (orderData.isNotEmpty) {
-            return ApsOrder.fromJson(orderData.first); // Zwracamy tylko jedno zamówienie
+            return ApsOrder.fromJson(orderData.first);
           } else {
-            throw OrderException('No APS order found with id: $orderId');
+            throw OrderException('No APS order found with ID: $orderId');
           }
         })
         .handleError((error) {
@@ -261,5 +229,42 @@ class ApsOrderRepository {
           print('Database error: $error');
           throw OrderException('Failed to stream all APS order items: $error');
         });
+  }
+
+  Future<void> updateApsOrderItems({
+    required int orderId,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      await _clientLocal //
+          .from(_tableApsOrderItem)
+          .update(data)
+          .eq('aps_order_id', orderId);
+    } catch (e) {
+      print('Error while updating APS order items: $e');
+      throw OrderException('Failed to update APS order items for order ID: $orderId');
+    }
+  }
+
+  Future<void> deleteOrderItem({required int orderItemId}) async {
+    try {
+      // TODO: czy zmieniac status, czy faktycznie usuwac?
+      await _clientLocal //
+          .from(_tableApsOrderItem)
+          .delete()
+          .eq('id', orderItemId);
+    } catch (e) {
+      throw OrderException('Failed to delete APS order item ID: $orderItemId');
+    }
+  }
+
+  Future<void> createOrderItem({required ApsOrderItem orderItem}) async {
+    try {
+      await _clientLocal //
+          .from(_tableApsOrderItem)
+          .insert(orderItem.toJson());
+    } catch (e) {
+      throw OrderException('Failed to create APS order item');
+    }
   }
 }

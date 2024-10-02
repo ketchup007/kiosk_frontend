@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/models/menu_item_with_description.dart';
-import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/big_screen_product_list_row.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/small_screen_product_list_row.dart';
-import 'package:provider/provider.dart';
 
 class ProductList extends StatefulWidget {
-  final List<MenuItemWithDescription> menuItems;
+  final List<MenuItemWithDescription> items;
 
   const ProductList({
     super.key,
-    required this.menuItems,
+    required this.items,
   });
 
   @override
@@ -24,24 +22,20 @@ class _ProductListState extends State<ProductList> {
   @override
   void initState() {
     super.initState();
-    isVisiblePlus = List<bool>.filled(widget.menuItems.length, true);
-    isVisibleMinus = List<bool>.filled(widget.menuItems.length, false);
+    isVisiblePlus = List<bool>.filled(widget.items.length, true);
+    isVisibleMinus = List<bool>.filled(widget.items.length, false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MainProvider>(context, listen: true);
-
-    isVisiblePlus = List<bool>.filled(widget.menuItems.length, true);
-    isVisibleMinus = List<bool>.filled(widget.menuItems.length, false);
-
-    provider.refreshLimit();
+    isVisiblePlus = List<bool>.filled(widget.items.length, true);
+    isVisibleMinus = List<bool>.filled(widget.items.length, false);
 
     return ListView.builder(
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        itemCount: widget.menuItems.length,
+        itemCount: widget.items.length,
         itemBuilder: (context, index) {
-          final menuItem = widget.menuItems[index];
+          final menuItem = widget.items[index];
 
           int productCount = provider.getQuantityOfItemInOrder(menuItem.itemDescription.id);
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
-import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
-import 'package:provider/provider.dart';
 
 class BlikPayScreen extends StatefulWidget {
   final double amount;
@@ -19,7 +19,6 @@ class BlikPayScreen extends StatefulWidget {
 }
 
 class BlikPayScreenState extends State<BlikPayScreen> {
-  late MainProvider provider;
   TextEditingController controller = TextEditingController();
 
   int status = 0;
@@ -27,12 +26,10 @@ class BlikPayScreenState extends State<BlikPayScreen> {
   bool blikFlag = false;
   bool smsFlag = false;
 
-  bool inPayment = false;
   bool paymentDone = false;
 
   @override
   Widget build(context) {
-    provider = Provider.of<MainProvider>(context, listen: true);
     print("status: $status");
     if (status == 1) {
       if (!blikFlag) {
@@ -41,7 +38,7 @@ class BlikPayScreenState extends State<BlikPayScreen> {
               setState(() {
                 if (value == "COMPLETED") {
                   status = 2;
-                  provider.updateOrderStatus(OrderStatus.paid);
+                  context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.paid));
                 }
               })
             });

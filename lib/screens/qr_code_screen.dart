@@ -3,15 +3,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
-import 'package:kiosk_flutter/screens/order_screen.dart';
+import 'package:kiosk_flutter/features/order/views/order_page.dart';
+import 'package:kiosk_flutter/models/container_model.dart';
+import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_constants.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
-
-import '../models/container_model.dart';
-import '../providers/main_provider.dart';
 
 class QrCodeScreen extends StatefulWidget {
   const QrCodeScreen({Key? key}) : super(key: key);
@@ -125,7 +124,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                           ElevatedButton(
                             onPressed: () {
                               provider.containerDb = container.db;
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderPage()));
                             },
                             child: const Text("Dalej"),
                           ),
