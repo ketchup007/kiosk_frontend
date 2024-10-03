@@ -12,9 +12,11 @@ class OrderState with _$OrderState {
     @Default(LoadingStatus.none) LoadingStatus menuItemsStatus,
     @Default(LoadingStatus.none) LoadingStatus orderItemsStatus,
     @Default(LoadingStatus.none) LoadingStatus orderChangeStatus,
+    @Default(LoadingStatus.none) LoadingStatus kdsOrderNumberStatus,
     @Default(LoadingStatus.none) LoadingStatus cancelOrderStatus,
     @Default(LoadingStatus.none) LoadingStatus addItemStatus,
     @Default(LoadingStatus.none) LoadingStatus removeItemStatus,
+    @Default(null) ApsOrder? order,
     @Default(TabCategory.snack) TabCategory selectedTab,
     @Default([]) List<AvailableItem> availableItems,
     @Default([]) List<MenuItemWithDescription> menuItemsWithDescriptions,
@@ -28,7 +30,7 @@ class OrderState with _$OrderState {
         orderItemsStatus,
       ]);
 
-  LoadingStatus get buttonEnabled => LoadingStatus.merge([
+  LoadingStatus get buttonStatus => LoadingStatus.merge([
         cancelOrderStatus,
         addItemStatus,
         removeItemStatus,
@@ -56,7 +58,6 @@ class OrderState with _$OrderState {
     double total = 0.0;
 
     for (final orderItem in orderItems) {
-      // TODO: czy jest szansa ze menuItemsWithDescriptions będzie puste?
       final menuItem = menuItemsWithDescriptions.firstWhereOrNull(
         (menuItem) => menuItem.menuItemPrice.itemId == orderItem.itemId,
       );
@@ -103,10 +104,7 @@ class OrderState with _$OrderState {
   }
 
   int getQuantityOfItemInOrder(int itemId) {
-    // Przefiltruj pozycje zamówienia, aby znaleźć te z pasującym itemId
     final orderedItems = orderItems.where((orderItem) => orderItem.itemId == itemId).toList();
-
-    // Zwraca liczbę znalezionych pozycji zamówienia
     return orderedItems.length;
   }
 
@@ -116,7 +114,20 @@ class OrderState with _$OrderState {
       (item) => item.itemId == itemId,
     );
 
-    // Zwraca dostępny stan magazynowy, jeśli istnieje, w przeciwnym wypadku 0
     return availableItem?.availableQuantity ?? 0;
+  }
+
+  List<MenuItemWithDescription> getOrderList() {
+    List<MenuItemWithDescription> orderList = [];
+
+    for (final menuItem in menuItemsWithDescriptions) {
+      int itemQuantity = getQuantityOfItemInOrder(menuItem.itemDescription.id!);
+
+      if (itemQuantity > 0) {
+        orderList.add(menuItem);
+      }
+    }
+
+    return orderList;
   }
 }

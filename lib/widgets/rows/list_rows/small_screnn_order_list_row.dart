@@ -13,8 +13,8 @@ class SmallScreenOrderListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final quantity = context.select<OrderState, int>(
-        (state) => state.getQuantityOfItemInOrder(item.itemDescription.id!),
+      final quantity = context.select<OrderBloc, int>(
+        (bloc) => bloc.state.getQuantityOfItemInOrder(item.itemDescription.id!),
       );
       return Container(
         padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.width * 0.02),

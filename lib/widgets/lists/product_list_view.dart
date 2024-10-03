@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/big_screen_product_list_row.dart';
 import 'package:kiosk_flutter/widgets/rows/list_rows/small_screen_product_list_row.dart';
@@ -16,56 +18,38 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
-  List<bool> isVisiblePlus = [];
-  List<bool> isVisibleMinus = [];
-
-  @override
-  void initState() {
-    super.initState();
-    isVisiblePlus = List<bool>.filled(widget.items.length, true);
-    isVisibleMinus = List<bool>.filled(widget.items.length, false);
-  }
-
   @override
   Widget build(BuildContext context) {
-    isVisiblePlus = List<bool>.filled(widget.items.length, true);
-    isVisibleMinus = List<bool>.filled(widget.items.length, false);
-
     return ListView.builder(
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-        itemCount: widget.items.length,
-        itemBuilder: (context, index) {
-          final menuItem = widget.items[index];
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+      itemCount: widget.items.length,
+      itemBuilder: (context, index) {
+        final item = widget.items[index];
 
-          int productCount = provider.getQuantityOfItemInOrder(menuItem.itemDescription.id);
+        final quantity = context.select<OrderBloc, int>(
+          (bloc) => bloc.state.getQuantityOfItemInOrder(item.itemDescription.id!),
+        );
+        final availableQuantity = context.select<OrderBloc, int>(
+          (bloc) => bloc.state.getAvailableQuantity(item.itemDescription.id!),
+        );
 
-          if ((provider.limits[menuItem.itemDescription.id] ?? 0) <= 0) {
-            isVisiblePlus[index] = false;
-            isVisibleMinus[index] = false;
-          } else if (productCount == 0) {
-            isVisiblePlus[index] = true;
-            isVisibleMinus[index] = false;
-          } else if (productCount > 0 && productCount < provider.limits[menuItem.itemDescription.id]!) {
-            isVisiblePlus[index] = true;
-            isVisibleMinus[index] = true;
-          } else if (productCount == provider.limits[menuItem.itemDescription.id]!) {
-            isVisiblePlus[index] = false;
-            isVisibleMinus[index] = true;
-          }
+        bool isVisiblePlus = availableQuantity > 0 && quantity < availableQuantity;
+        bool isVisibleMinus = quantity > 0;
 
-          if (MediaQuery.of(context).size.height > 1000) {
-            return BigScreenProductListRow(
-              item: menuItem,
-              isVisiblePlus: isVisiblePlus[index],
-              isVisibleMinus: isVisibleMinus[index],
-            );
-          } else {
-            return SmallScreenProductListRow(
-              item: menuItem,
-              isVisiblePlus: isVisiblePlus[index],
-              isVisibleMinus: isVisibleMinus[index],
-            );
-          }
-        });
+        if (MediaQuery.of(context).size.height > 1000) {
+          return BigScreenProductListRow(
+            item: item,
+            isVisiblePlus: isVisiblePlus,
+            isVisibleMinus: isVisibleMinus,
+          );
+        } else {
+          return SmallScreenProductListRow(
+            item: item,
+            isVisiblePlus: isVisiblePlus,
+            isVisibleMinus: isVisibleMinus,
+          );
+        }
+      },
+    );
   }
 }

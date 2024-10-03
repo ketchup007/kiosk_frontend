@@ -9,7 +9,9 @@ class OrderEvent with _$OrderEvent {
   const factory OrderEvent.changeTabCategory(TabCategory category) = _ChangeTabCategory;
   const factory OrderEvent.updatePhoneNumber(String phoneNumber) = _UpdatePhoneNumber;
   const factory OrderEvent.updateOrderStatus(OrderStatus status) = _UpdateOrderStatus;
+  const factory OrderEvent.getKDSOrderNumber() = _GetKDSOrderNumber;
   const factory OrderEvent.cancelOrder() = _CancelOrder;
+  const factory OrderEvent.finishOrder() = _FinishOrder;
   const factory OrderEvent.addItemToOrder(int itemId) = _AddItemToOrder;
   const factory OrderEvent.removeItemToOrder(int itemId) = _RemoveItemToOrder;
 }

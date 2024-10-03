@@ -6,9 +6,9 @@ import 'package:kiosk_flutter/features/order/services/order_service.dart';
 import 'package:kiosk_flutter/path_selector.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/utils/supabase/aps_description_repository.dart';
 import 'package:kiosk_flutter/utils/supabase/aps_order_repository.dart';
-import 'package:kiosk_flutter/utils/supabase/database_service.dart';
 import 'package:kiosk_flutter/utils/supabase/item_description_repository.dart';
 import 'package:kiosk_flutter/utils/supabase/menu_repository.dart';
 import 'package:kiosk_flutter/utils/supabase/supabase_function_repository.dart';
@@ -23,7 +23,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
-    RepositoryProvider.of<ApsOrderService>(context).dispose();
+    RepositoryProvider.of<OrderService>(context).dispose();
     super.dispose();
   }
 
@@ -38,9 +38,9 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(create: (context) => ApsOrderRepository()),
         RepositoryProvider(create: (context) => SupabaseFunctionRepository()),
         //
-        RepositoryProvider(create: (context) => DatabaseService()),
+        RepositoryProvider(create: (context) => PaymentService()),
         RepositoryProvider(
-          create: (context) => ApsOrderService(
+          create: (context) => OrderService(
             orderRepository: RepositoryProvider.of(context),
             apsRepository: RepositoryProvider.of(context),
             itemRepository: RepositoryProvider.of(context),
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: Builder(
           builder: (context) {
-            final Locale locale = context.select((LanguageCubit cubit) => cubit.state);
+            final locale = context.select<LanguageCubit, Locale>((cubit) => cubit.state);
             return MaterialApp(
               locale: locale,
               title: 'Munchies Kiosk',

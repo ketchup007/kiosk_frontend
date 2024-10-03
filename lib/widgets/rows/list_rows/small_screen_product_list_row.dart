@@ -47,8 +47,8 @@ class _SmallScreenProductListRowState extends State<SmallScreenProductListRow> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        final quantity = context.select<OrderState, int>(
-          (state) => state.getQuantityOfItemInOrder(widget.item.itemDescription.id!),
+        final quantity = context.select<OrderBloc, int>(
+          (bloc) => bloc.state.getQuantityOfItemInOrder(widget.item.itemDescription.id!),
         );
 
         return Row(

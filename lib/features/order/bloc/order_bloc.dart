@@ -16,7 +16,7 @@ part 'generated/order_bloc.freezed.dart';
 
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc({
-    required ApsOrderService apsOrderService,
+    required OrderService apsOrderService,
   })  : _apsOrderService = apsOrderService,
         super(OrderState()) {
     on<_CreateNewOrder>(_onCreateNewOrder);
@@ -26,18 +26,31 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<_ChangeTabCategory>(_onChangeTabCategory);
     on<_UpdatePhoneNumber>(_onUpdatePhoneNumber);
     on<_UpdateOrderStatus>(_onUpdateOrderStatus);
+    on<_GetKDSOrderNumber>(_onGetKDSOrderNumber);
     on<_CancelOrder>(_onCancelOrder);
+    on<_FinishOrder>(_onFinishOrder);
     on<_AddItemToOrder>(_onAddItemToOrder);
     on<_RemoveItemToOrder>(_onRemoveItemToOrder);
   }
 
-  final ApsOrderService _apsOrderService;
+  final OrderService _apsOrderService;
 
   FutureOr<void> _onCreateNewOrder(_CreateNewOrder event, Emitter<OrderState> emit) async {
     emit(state.copyWith(newOrderStatus: LoadingStatus.loading));
     try {
       await _apsOrderService.createNewOrder();
-      emit(state.copyWith(newOrderStatus: LoadingStatus.success));
+      await emit.forEach(
+        _apsOrderService.orderStream,
+        onData: (order) {
+          return state.copyWith(
+            newOrderStatus: LoadingStatus.success,
+            order: order,
+          );
+        },
+        onError: (error, stackTrace) {
+          return state.copyWith(newOrderStatus: LoadingStatus.error);
+        },
+      );
     } catch (e) {
       emit(state.copyWith(newOrderStatus: LoadingStatus.error));
     }
@@ -133,6 +146,16 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     }
   }
 
+  FutureOr<void> _onGetKDSOrderNumber(_GetKDSOrderNumber event, Emitter<OrderState> emit) async {
+    emit(state.copyWith(kdsOrderNumberStatus: LoadingStatus.loading));
+    try {
+      await _apsOrderService.getKDSOrderNumber();
+      emit(state.copyWith(kdsOrderNumberStatus: LoadingStatus.success));
+    } catch (e) {
+      emit(state.copyWith(kdsOrderNumberStatus: LoadingStatus.error));
+    }
+  }
+
   FutureOr<void> _onCancelOrder(_CancelOrder event, Emitter<OrderState> emit) async {
     emit(state.copyWith(cancelOrderStatus: LoadingStatus.loading));
     try {
@@ -141,6 +164,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     } catch (e) {
       emit(state.copyWith(cancelOrderStatus: LoadingStatus.error));
     }
+  }
+
+  FutureOr<void> _onFinishOrder(_FinishOrder event, Emitter<OrderState> emit) {
+    _apsOrderService.finishOrder();
   }
 
   FutureOr<void> _onAddItemToOrder(_AddItemToOrder event, Emitter<OrderState> emit) async {

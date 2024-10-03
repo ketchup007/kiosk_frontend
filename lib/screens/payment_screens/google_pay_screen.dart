@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
@@ -25,10 +26,18 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen> {
     provider = Provider.of<MainProvider>(context, listen: true);
 
     return Background(
-      child: Column(
-        children: [
-          PayUTopBar(onPress: () {}, amount: provider.sum),
-          GooglePayButton(
+      child: Builder(builder: (context) {
+        final double totalOrderAmount = context.select<OrderBloc, double>(
+          (bloc) => bloc.state.totalOrderAmount,
+        );
+
+        return Column(
+          children: [
+            PayUTopBar(
+              onPress: () {},
+              amount: totalOrderAmount,
+            ),
+            GooglePayButton(
               paymentConfiguration: PaymentConfiguration.fromJsonString(defaultGooglePay),
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
               onPaymentResult: (result) {
@@ -47,9 +56,17 @@ class MyGooglePayScreenState extends State<MyGooglePayScreen> {
                   } else if (statusCode == "WARNING_CONTINUE_CVV") {}
                 });
               },
-              paymentItems: [PaymentItem(label: "total", amount: provider.sum.toString(), status: PaymentItemStatus.final_price)]),
-        ],
-      ),
+              paymentItems: [
+                PaymentItem(
+                  label: "total",
+                  amount: totalOrderAmount.toString(),
+                  status: PaymentItemStatus.final_price,
+                ),
+              ],
+            ),
+          ],
+        );
+      }),
     );
   }
 

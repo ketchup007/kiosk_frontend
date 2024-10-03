@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
@@ -38,14 +39,15 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                 {
                   setState(() {
                     status = 1;
-                    provider.updateOrderStatus(OrderStatus.paid);
+
+                    context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.paid));
                   })
                 }
               else if (value == "CANCELED")
                 {
                   setState(() {
                     status = 3;
-                    provider.updateOrderStatus(OrderStatus.canceled);
+                    context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.canceled));
                   })
                 }
             });
@@ -66,7 +68,18 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
     return Background(
       child: Column(
         children: [
-          PayUTopBar(onPress: () {}, amount: provider.sum),
+          Builder(
+            builder: (context) {
+              final double totalOrderAmount = context.select<OrderBloc, double>(
+                (bloc) => bloc.state.totalOrderAmount,
+              );
+
+              return PayUTopBar(
+                onPress: () {},
+                amount: totalOrderAmount,
+              );
+            },
+          ),
           status == 0
               ? Column(
                   children: [
@@ -82,9 +95,8 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                           Container(padding: const EdgeInsets.all(10), child: const Text("Płatność zakończona powodzeniem", style: TextStyle(fontSize: 20))),
                           Container(padding: const EdgeInsets.all(10), child: Text('Twoje zamówienie ma nr $orderNumber', style: const TextStyle(fontSize: 15))),
                           ElevatedButton(
-                            onPressed: () async {
-                              await provider.orderFinish();
-                              provider.changeToPizza();
+                            onPressed: () {
+                              context.read<OrderBloc>().add(const OrderEvent.finishOrder());
                               Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                             },
                             child: const Text("Zakończ transakcje"),
@@ -94,9 +106,8 @@ class PaymentStatusScreenState extends State<PaymentStatusScreen> {
                           children: [
                             const Text("Płatność anulowana"),
                             ElevatedButton(
-                              onPressed: () async {
-                                await provider.orderCancel();
-                                provider.changeToPizza();
+                              onPressed: () {
+                                context.read<OrderBloc>().add(const OrderEvent.cancelOrder());
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                               },
                               child: const Text("Zakończ transakcje"),

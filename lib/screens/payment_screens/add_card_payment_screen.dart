@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/widgets/bars/payu_top_bar.dart';
 // import 'package:payu/payu.dart';
@@ -26,7 +27,18 @@ class AddCardScreenState extends State<AddCardScreen> {
     return Background(
       child: Column(
         children: [
-          PayUTopBar(onPress: () {}, amount: provider.sum),
+          Builder(
+            builder: (context) {
+              final double totalOrderAmount = context.select<OrderBloc, double>(
+                (bloc) => bloc.state.totalOrderAmount,
+              );
+
+              return PayUTopBar(
+                onPress: () {},
+                amount: totalOrderAmount,
+              );
+            },
+          ),
           // AddCardWidget(
           //   configuration: AddCardWidgetConfiguration(
           //     cvvDecoration: const AddCardWidgetTextInputDecoration(hintText: "cvv hint"),

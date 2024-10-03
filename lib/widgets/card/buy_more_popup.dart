@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
 import 'package:kiosk_flutter/widgets/lists/product_list_view.dart';
@@ -178,7 +179,10 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     child: SizedBox(
                       height: size.height * 0.3,
                       child: Builder(builder: (context) {
-                        final suggestItems = context.select((OrderBloc bloc) => bloc.state.suggestItemsForPurchase());
+                        final List<MenuItemWithDescription> suggestItems = context.select<OrderBloc, List<MenuItemWithDescription>>(
+                          (bloc) => bloc.state.suggestItemsForPurchase(),
+                        );
+
                         return ProductList(
                           items: suggestItems,
                         );

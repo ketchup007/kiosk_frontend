@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/card_token_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -38,7 +39,15 @@ class TokenPaymentScreenState extends State<TokenPaymentScreen> {
     return Background(
       child: Column(
         children: [
-          PayUTopBar(onPress: () {}, amount: provider.sum),
+          Builder(builder: (context) {
+            final totalOrderAmount = context.select<OrderBloc, double>(
+              (bloc) => bloc.state.totalOrderAmount,
+            );
+            return PayUTopBar(
+              onPress: () {},
+              amount: totalOrderAmount,
+            );
+          }),
           ElevatedButton(
             onPressed: () {
               print("click");

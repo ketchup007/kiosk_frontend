@@ -17,8 +17,8 @@ class BigScreenOrderListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final quantity = context.select<OrderState, int>(
-        (state) => state.getQuantityOfItemInOrder(item.itemDescription.id!),
+      final quantity = context.select<OrderBloc, int>(
+        (bloc) => bloc.state.getQuantityOfItemInOrder(item.itemDescription.id!),
       );
 
       return Container(

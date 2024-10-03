@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/pay_methods_model.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/payment_screens/add_card_payment_screen.dart';
@@ -51,75 +52,84 @@ class _NewPayUScreenState extends State<NewPayUScreen> {
     }
 
     return Background(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          PayUTopBar(onPress: () => Navigator.pop(context), amount: provider.sum),
-          Container(
-            padding: const EdgeInsets.all(10),
-            alignment: Alignment.center,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.05,
-              child: const Text(
-                "Wybierz metodę płatności",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
+      child: Builder(builder: (context) {
+        final totalOrderAmount = context.select<OrderBloc, double>(
+          (bloc) => bloc.state.totalOrderAmount,
+        );
+
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            PayUTopBar(
+              onPress: () => Navigator.pop(context),
+              amount: totalOrderAmount,
+            ),
+            Container(
+              padding: const EdgeInsets.all(10),
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.05,
+                child: const Text(
+                  "Wybierz metodę płatności",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: FutureBuilder(
-              future: _future,
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  print(snapshot.error);
-                  return const Text("error");
-                }
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: FutureBuilder(
+                future: _future,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return const Text("error");
+                  }
 
-                if (snapshot.hasData) {
-                  id = snapshot.data as int;
-                  return GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, childAspectRatio: 3 / 2, crossAxisSpacing: 20, mainAxisSpacing: 20),
-                    itemCount: blockList.length,
-                    itemBuilder: (context, index) {
-                      return SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        child: GestureDetector(
-                          onTap: () {
-                            if (blockList[index].value == "blik") {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: provider.sum, id: id)));
-                            } else if (blockList[index].value == "c") {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: provider.sum, id: id)));
-                            } else if (blockList[index].value == "card") {
-                              Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blockList[index].id!], id: id, amount: provider.sum, save: false)));
-                            } else if (blockList[index].value == "ap") {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MyGooglePayScreen(amount: provider.sum, id: id)));
-                            } else if (blockList[index].value == "jp") {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ApplePayScreen(amount: provider.sum, id: id)));
-                            }
-                          },
-                          child: Image.network(
-                            blockList[index].brandImageUrl,
+                  if (snapshot.hasData) {
+                    id = snapshot.data as int;
+                    return GridView.builder(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, childAspectRatio: 3 / 2, crossAxisSpacing: 20, mainAxisSpacing: 20),
+                      itemCount: blockList.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (blockList[index].value == "blik") {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => BlikPayScreen(amount: totalOrderAmount, id: id)));
+                              } else if (blockList[index].value == "c") {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(amount: totalOrderAmount, id: id)));
+                              } else if (blockList[index].value == "card") {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => TokenPaymentScreen(cardToken: provider.cardTokens[blockList[index].id!], id: id, amount: totalOrderAmount, save: false)));
+                              } else if (blockList[index].value == "ap") {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MyGooglePayScreen(amount: totalOrderAmount, id: id)));
+                              } else if (blockList[index].value == "jp") {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => ApplePayScreen(amount: totalOrderAmount, id: id)));
+                              }
+                            },
+                            child: Image.network(
+                              blockList[index].brandImageUrl,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                }
+                        );
+                      },
+                    );
+                  }
 
-                return const CircularProgressIndicator();
-              },
+                  return const CircularProgressIndicator();
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        );
+      }),
     );
   }
 

@@ -123,21 +123,6 @@ class ApsOrderRepository {
     }
   }
 
-  Future<void> createApsOrderItems({required List<ApsOrderItem> orderItems}) async {
-    try {
-      final itemsToInsert = orderItems //
-          .map((item) => item.toJson())
-          .toList();
-
-      await _clientLocal //
-          .from(_tableApsOrderItem)
-          .insert(itemsToInsert);
-    } catch (e) {
-      print('Error while creating APS order items: $e');
-      throw OrderException('Failed to create APS order items');
-    }
-  }
-
   // Future<List<ApsOrderHistory>> getApsOrderHistory({required String orderId}) async {
   //   try {
   //     return await _clientLocal
@@ -246,9 +231,22 @@ class ApsOrderRepository {
     }
   }
 
+  Future<void> deleteApsOrderItems({
+    required int orderId,
+  }) async {
+    try {
+      await _clientLocal //
+          .from(_tableApsOrderItem)
+          .delete()
+          .eq('aps_order_id', orderId);
+    } catch (e) {
+      print('Error while deleting APS order items: $e');
+      throw OrderException('Failed to delete APS order items for order ID: $orderId');
+    }
+  }
+
   Future<void> deleteOrderItem({required int orderItemId}) async {
     try {
-      // TODO: czy zmieniac status, czy faktycznie usuwac?
       await _clientLocal //
           .from(_tableApsOrderItem)
           .delete()

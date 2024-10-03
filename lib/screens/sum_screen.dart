@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
-import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:provider/provider.dart';
-
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
+import 'package:kiosk_flutter/features/order/views/order_page.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
+import 'package:kiosk_flutter/utils/payment_sockets.dart';
 import 'package:kiosk_flutter/widgets/lists/order_list_view.dart';
-
 import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
-import 'package:kiosk_flutter/screens/order_screen.dart';
-
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 import 'package:kiosk_flutter/screens/transaction_screen.dart';
@@ -24,8 +23,6 @@ class SumScreen extends StatefulWidget {
 class _SumScreenState extends State<SumScreen> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MainProvider>(context, listen: true);
-
     return Background(
       child: Container(
         alignment: Alignment.topRight,
@@ -60,7 +57,7 @@ class _SumScreenState extends State<SumScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          provider.payment.priceToAscii(123);
+                          RepositoryProvider.of<PaymentService>(context).priceToAscii(123);
                         },
                         child: const Text('Change'),
                       )
@@ -77,7 +74,21 @@ class _SumScreenState extends State<SumScreen> {
                 children: [
                   Column(
                     children: [
-                      Row(children: [Text(AppText.of(context).priceToPayInfo), Text('${provider.sum}')]),
+                      Row(
+                        children: [
+                          Text(AppText.of(context).priceToPayInfo),
+                          Builder(
+                            builder: (context) {
+                              final totalOrderAmount = context.select<OrderBloc, double>(
+                                (bloc) => bloc.state.totalOrderAmount,
+                              );
+                              return Text(
+                                '$totalOrderAmount',
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                       const Divider(
                         height: 20,
                         thickness: 5,
@@ -90,10 +101,12 @@ class _SumScreenState extends State<SumScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      //provider.payment.startTransaction(11);
+                      RepositoryProvider.of<PaymentService>(context).startTransaction(11);
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionScreen()));
                     },
-                    child: Text(AppText.of(context).paymentButtonLabel),
+                    child: Text(
+                      AppText.of(context).paymentButtonLabel,
+                    ),
                   ),
                 ],
               ),
@@ -111,7 +124,15 @@ class _SumScreenState extends State<SumScreen> {
                       child: Card(
                         elevation: 6,
                         surfaceTintColor: Colors.white,
-                        child: OrderList(storageOrders: provider.storageOrders),
+                        child: Builder(
+                          builder: (context) {
+                            final orderedItems = context.select<OrderBloc, List<MenuItemWithDescription>>(
+                              (bloc) => bloc.state.getOrderList(),
+                            );
+
+                            return OrderList(orderedItems: orderedItems);
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -122,15 +143,15 @@ class _SumScreenState extends State<SumScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () async {
-                    await provider.orderCancel();
+                  onPressed: () {
+                    context.read<OrderBloc>().add(const OrderEvent.cancelOrder());
                     Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                   },
                   child: Text(AppText.of(context).cancelOrderButtonLabel),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const OrderPage()));
                   },
                   child: Text(AppText.of(context).editOrderButtonLabel),
                 )

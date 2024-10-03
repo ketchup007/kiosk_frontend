@@ -9,8 +9,8 @@ import 'package:kiosk_flutter/utils/supabase/menu_repository.dart';
 import 'package:kiosk_flutter/utils/supabase/supabase_function_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ApsOrderService {
-  ApsOrderService({
+class OrderService {
+  OrderService({
     required ApsOrderRepository orderRepository,
     required MenuRepository menuRepository,
     required ItemDescriptionRepository itemRepository,
@@ -46,6 +46,17 @@ class ApsOrderService {
     _orderSubject.add(createdOrder);
   }
 
+  // Stream zamówienia z repozytorium, który nasłuchuje na zmiany w zamówieniu
+  Stream<ApsOrder?> get orderStream {
+    return _orderSubject.switchMap((order) {
+      if (order != null && order.id != null) {
+        return _orderRepository.streamApsOrder(orderId: order.id!);
+      } else {
+        return Stream.value(null);
+      }
+    });
+  }
+
   // Stream dla elementów zamówienia
   Stream<List<ApsOrderItem>> apsOrderItemsStream() {
     return _orderSubject.switchMap((order) {
@@ -56,9 +67,6 @@ class ApsOrderService {
       }
     });
   }
-
-  // Funkcja do uzyskania aktualnego zamówienia jako strumienia
-  Stream<ApsOrder?> get orderStream => _orderSubject.stream;
 
   // Zamknij stream, kiedy nie jest potrzebny
   void dispose() {
@@ -142,11 +150,8 @@ class ApsOrderService {
         );
 
         // Aktualizacja statusu wszystkich pozycji zamówienia na "canceled"
-        final updateOrderItemsStatus = _orderRepository.updateApsOrderItems(
+        final updateOrderItemsStatus = _orderRepository.deleteApsOrderItems(
           orderId: order.id!,
-          data: {
-            'status': ItemStatus.canceled.value,
-          },
         );
 
         // Poczekaj na zakończenie obu operacji
@@ -201,5 +206,25 @@ class ApsOrderService {
         },
       );
     }
+  }
+
+  void finishOrder() {
+    _orderSubject.add(null);
+  }
+
+  Future<int?> getKDSOrderNumber() async {
+    // TODO: moze wyrzucanie exception? i jak nie bedzie zamowienia to ekran strartowy by zaczac od nowa?
+    final orderId = _orderSubject.valueOrNull?.id;
+    if (orderId != null) {
+      final int orderNumber = await _orderRepository.getKdsOrderNumber(apsId: AppConfig.instance.apsId);
+      await _orderRepository.updateApsOrder(
+        orderId: orderId,
+        data: {
+          'kds_order_number': orderNumber,
+        },
+      );
+      return orderNumber;
+    }
+    return null;
   }
 }

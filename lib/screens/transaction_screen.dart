@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
+import 'package:kiosk_flutter/utils/payment_sockets.dart';
 
 import 'package:kiosk_flutter/widgets/buttons/language_buttons.dart';
 
-import 'package:kiosk_flutter/providers/main_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
 
 class TransactionScreen extends StatefulWidget {
@@ -19,9 +20,13 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.paymentInProgress));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<MainProvider>(context, listen: true);
-    provider.updateOrderStatus(OrderStatus.paymentInProgress);
     return Background(
       child: Container(
         alignment: Alignment.topRight,
@@ -58,10 +63,11 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         child: const Card(surfaceTintColor: Colors.white, child: Center(child: Text('Temp'))),
                       ),
                       ElevatedButton(
-                          onPressed: () {
-                            provider.payment.priceToAscii(123);
-                          },
-                          child: const Text('Change'))
+                        onPressed: () {
+                          RepositoryProvider.of<PaymentService>(context).priceToAscii(123);
+                        },
+                        child: const Text('Change'),
+                      )
                     ],
                   ),
                 ),
@@ -78,7 +84,15 @@ class _TransactionScreenState extends State<TransactionScreen> {
                       Row(
                         children: [
                           Text(AppText.of(context).priceToPayInfo),
-                          Text('${provider.sum}'),
+                          Builder(
+                            builder: (context) {
+                              final double totalOrderAmount = context.select<OrderBloc, double>(
+                                (bloc) => bloc.state.totalOrderAmount,
+                              );
+
+                              return Text('$totalOrderAmount');
+                            },
+                          ),
                         ],
                       ),
                       const Divider(
@@ -94,30 +108,37 @@ class _TransactionScreenState extends State<TransactionScreen> {
                 ],
               ),
             ),
-            FutureBuilder(
-              future: provider.payment.startTransaction(provider.sum),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasError) {
-                    return const Text('Error');
-                  } else if (snapshot.hasData) {
-                    if (snapshot.data.toString() == "0") {
-                      provider.updateOrderStatus(OrderStatus.paid);
-                    } else {
-                      print("in transaction");
-                      provider.updateOrderStatus(OrderStatus.canceled);
-                    }
+            Builder(
+              builder: (context) {
+                final double totalOrderAmount = context.select<OrderBloc, double>(
+                  (bloc) => bloc.state.totalOrderAmount,
+                );
 
-                    return Text(snapshot.data.toString());
-                  } else {
-                    print(snapshot.data);
-                    return const Text('Empty data');
-                  }
-                } else {
-                  return const Text('snapshot.connectionState');
-                }
+                return FutureBuilder(
+                  future: RepositoryProvider.of<PaymentService>(context).startTransaction(totalOrderAmount),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        return const Text('Error');
+                      } else if (snapshot.hasData) {
+                        if (snapshot.data.toString() == "0") {
+                          context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.paid));
+                        } else {
+                          context.read<OrderBloc>().add(const OrderEvent.updateOrderStatus(OrderStatus.canceled));
+                        }
+
+                        return Text(snapshot.data.toString());
+                      } else {
+                        print(snapshot.data);
+                        return const Text('Empty data');
+                      }
+                    } else {
+                      return const Text('snapshot.connectionState');
+                    }
+                  },
+                );
               },
             ),
           ],

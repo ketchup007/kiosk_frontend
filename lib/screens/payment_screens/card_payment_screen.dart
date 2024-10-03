@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
+import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
@@ -76,14 +77,19 @@ class CardPayScreenState extends State<CardPayScreen> {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.2,
-                  child: Text(
-                    "${provider.sum.toStringAsFixed(2)} zł",
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      color: AppColors.darkGreen,
-                      fontSize: 20,
-                    ),
-                  ),
+                  child: Builder(builder: (context) {
+                    final totalOrderAmount = context.select<OrderBloc, double>(
+                      (bloc) => bloc.state.totalOrderAmount,
+                    );
+                    return Text(
+                      "${totalOrderAmount.toStringAsFixed(2)} zł",
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                        color: AppColors.darkGreen,
+                        fontSize: 20,
+                      ),
+                    );
+                  }),
                 ),
               ],
             ),

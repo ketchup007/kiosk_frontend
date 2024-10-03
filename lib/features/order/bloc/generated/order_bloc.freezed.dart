@@ -216,6 +216,30 @@ abstract class _UpdateOrderStatus implements OrderEvent {
 
 /// @nodoc
 
+class _$GetKDSOrderNumberImpl implements _GetKDSOrderNumber {
+  const _$GetKDSOrderNumberImpl();
+
+  @override
+  String toString() {
+    return 'OrderEvent.getKDSOrderNumber()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$GetKDSOrderNumberImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
+
+abstract class _GetKDSOrderNumber implements OrderEvent {
+  const factory _GetKDSOrderNumber() = _$GetKDSOrderNumberImpl;
+}
+
+/// @nodoc
+
 class _$CancelOrderImpl implements _CancelOrder {
   const _$CancelOrderImpl();
 
@@ -236,6 +260,30 @@ class _$CancelOrderImpl implements _CancelOrder {
 
 abstract class _CancelOrder implements OrderEvent {
   const factory _CancelOrder() = _$CancelOrderImpl;
+}
+
+/// @nodoc
+
+class _$FinishOrderImpl implements _FinishOrder {
+  const _$FinishOrderImpl();
+
+  @override
+  String toString() {
+    return 'OrderEvent.finishOrder()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FinishOrderImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+}
+
+abstract class _FinishOrder implements OrderEvent {
+  const factory _FinishOrder() = _$FinishOrderImpl;
 }
 
 /// @nodoc
@@ -307,9 +355,11 @@ mixin _$OrderState {
   LoadingStatus get menuItemsStatus => throw _privateConstructorUsedError;
   LoadingStatus get orderItemsStatus => throw _privateConstructorUsedError;
   LoadingStatus get orderChangeStatus => throw _privateConstructorUsedError;
+  LoadingStatus get kdsOrderNumberStatus => throw _privateConstructorUsedError;
   LoadingStatus get cancelOrderStatus => throw _privateConstructorUsedError;
   LoadingStatus get addItemStatus => throw _privateConstructorUsedError;
   LoadingStatus get removeItemStatus => throw _privateConstructorUsedError;
+  ApsOrder? get order => throw _privateConstructorUsedError;
   TabCategory get selectedTab => throw _privateConstructorUsedError;
   List<AvailableItem> get availableItems => throw _privateConstructorUsedError;
   List<MenuItemWithDescription> get menuItemsWithDescriptions =>
@@ -335,9 +385,11 @@ abstract class $OrderStateCopyWith<$Res> {
       LoadingStatus menuItemsStatus,
       LoadingStatus orderItemsStatus,
       LoadingStatus orderChangeStatus,
+      LoadingStatus kdsOrderNumberStatus,
       LoadingStatus cancelOrderStatus,
       LoadingStatus addItemStatus,
       LoadingStatus removeItemStatus,
+      ApsOrder? order,
       TabCategory selectedTab,
       List<AvailableItem> availableItems,
       List<MenuItemWithDescription> menuItemsWithDescriptions,
@@ -364,9 +416,11 @@ class _$OrderStateCopyWithImpl<$Res, $Val extends OrderState>
     Object? menuItemsStatus = null,
     Object? orderItemsStatus = null,
     Object? orderChangeStatus = null,
+    Object? kdsOrderNumberStatus = null,
     Object? cancelOrderStatus = null,
     Object? addItemStatus = null,
     Object? removeItemStatus = null,
+    Object? order = freezed,
     Object? selectedTab = null,
     Object? availableItems = null,
     Object? menuItemsWithDescriptions = null,
@@ -393,6 +447,10 @@ class _$OrderStateCopyWithImpl<$Res, $Val extends OrderState>
           ? _value.orderChangeStatus
           : orderChangeStatus // ignore: cast_nullable_to_non_nullable
               as LoadingStatus,
+      kdsOrderNumberStatus: null == kdsOrderNumberStatus
+          ? _value.kdsOrderNumberStatus
+          : kdsOrderNumberStatus // ignore: cast_nullable_to_non_nullable
+              as LoadingStatus,
       cancelOrderStatus: null == cancelOrderStatus
           ? _value.cancelOrderStatus
           : cancelOrderStatus // ignore: cast_nullable_to_non_nullable
@@ -405,6 +463,10 @@ class _$OrderStateCopyWithImpl<$Res, $Val extends OrderState>
           ? _value.removeItemStatus
           : removeItemStatus // ignore: cast_nullable_to_non_nullable
               as LoadingStatus,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as ApsOrder?,
       selectedTab: null == selectedTab
           ? _value.selectedTab
           : selectedTab // ignore: cast_nullable_to_non_nullable
@@ -439,9 +501,11 @@ abstract class _$$OrderStateImplCopyWith<$Res>
       LoadingStatus menuItemsStatus,
       LoadingStatus orderItemsStatus,
       LoadingStatus orderChangeStatus,
+      LoadingStatus kdsOrderNumberStatus,
       LoadingStatus cancelOrderStatus,
       LoadingStatus addItemStatus,
       LoadingStatus removeItemStatus,
+      ApsOrder? order,
       TabCategory selectedTab,
       List<AvailableItem> availableItems,
       List<MenuItemWithDescription> menuItemsWithDescriptions,
@@ -466,9 +530,11 @@ class __$$OrderStateImplCopyWithImpl<$Res>
     Object? menuItemsStatus = null,
     Object? orderItemsStatus = null,
     Object? orderChangeStatus = null,
+    Object? kdsOrderNumberStatus = null,
     Object? cancelOrderStatus = null,
     Object? addItemStatus = null,
     Object? removeItemStatus = null,
+    Object? order = freezed,
     Object? selectedTab = null,
     Object? availableItems = null,
     Object? menuItemsWithDescriptions = null,
@@ -495,6 +561,10 @@ class __$$OrderStateImplCopyWithImpl<$Res>
           ? _value.orderChangeStatus
           : orderChangeStatus // ignore: cast_nullable_to_non_nullable
               as LoadingStatus,
+      kdsOrderNumberStatus: null == kdsOrderNumberStatus
+          ? _value.kdsOrderNumberStatus
+          : kdsOrderNumberStatus // ignore: cast_nullable_to_non_nullable
+              as LoadingStatus,
       cancelOrderStatus: null == cancelOrderStatus
           ? _value.cancelOrderStatus
           : cancelOrderStatus // ignore: cast_nullable_to_non_nullable
@@ -507,6 +577,10 @@ class __$$OrderStateImplCopyWithImpl<$Res>
           ? _value.removeItemStatus
           : removeItemStatus // ignore: cast_nullable_to_non_nullable
               as LoadingStatus,
+      order: freezed == order
+          ? _value.order
+          : order // ignore: cast_nullable_to_non_nullable
+              as ApsOrder?,
       selectedTab: null == selectedTab
           ? _value.selectedTab
           : selectedTab // ignore: cast_nullable_to_non_nullable
@@ -536,9 +610,11 @@ class _$OrderStateImpl extends _OrderState {
       this.menuItemsStatus = LoadingStatus.none,
       this.orderItemsStatus = LoadingStatus.none,
       this.orderChangeStatus = LoadingStatus.none,
+      this.kdsOrderNumberStatus = LoadingStatus.none,
       this.cancelOrderStatus = LoadingStatus.none,
       this.addItemStatus = LoadingStatus.none,
       this.removeItemStatus = LoadingStatus.none,
+      this.order = null,
       this.selectedTab = TabCategory.snack,
       final List<AvailableItem> availableItems = const [],
       final List<MenuItemWithDescription> menuItemsWithDescriptions = const [],
@@ -565,6 +641,9 @@ class _$OrderStateImpl extends _OrderState {
   final LoadingStatus orderChangeStatus;
   @override
   @JsonKey()
+  final LoadingStatus kdsOrderNumberStatus;
+  @override
+  @JsonKey()
   final LoadingStatus cancelOrderStatus;
   @override
   @JsonKey()
@@ -572,6 +651,9 @@ class _$OrderStateImpl extends _OrderState {
   @override
   @JsonKey()
   final LoadingStatus removeItemStatus;
+  @override
+  @JsonKey()
+  final ApsOrder? order;
   @override
   @JsonKey()
   final TabCategory selectedTab;
@@ -605,7 +687,7 @@ class _$OrderStateImpl extends _OrderState {
 
   @override
   String toString() {
-    return 'OrderState(newOrderStatus: $newOrderStatus, availableItemsStatus: $availableItemsStatus, menuItemsStatus: $menuItemsStatus, orderItemsStatus: $orderItemsStatus, orderChangeStatus: $orderChangeStatus, cancelOrderStatus: $cancelOrderStatus, addItemStatus: $addItemStatus, removeItemStatus: $removeItemStatus, selectedTab: $selectedTab, availableItems: $availableItems, menuItemsWithDescriptions: $menuItemsWithDescriptions, orderItems: $orderItems)';
+    return 'OrderState(newOrderStatus: $newOrderStatus, availableItemsStatus: $availableItemsStatus, menuItemsStatus: $menuItemsStatus, orderItemsStatus: $orderItemsStatus, orderChangeStatus: $orderChangeStatus, kdsOrderNumberStatus: $kdsOrderNumberStatus, cancelOrderStatus: $cancelOrderStatus, addItemStatus: $addItemStatus, removeItemStatus: $removeItemStatus, order: $order, selectedTab: $selectedTab, availableItems: $availableItems, menuItemsWithDescriptions: $menuItemsWithDescriptions, orderItems: $orderItems)';
   }
 
   @override
@@ -623,12 +705,15 @@ class _$OrderStateImpl extends _OrderState {
                 other.orderItemsStatus == orderItemsStatus) &&
             (identical(other.orderChangeStatus, orderChangeStatus) ||
                 other.orderChangeStatus == orderChangeStatus) &&
+            (identical(other.kdsOrderNumberStatus, kdsOrderNumberStatus) ||
+                other.kdsOrderNumberStatus == kdsOrderNumberStatus) &&
             (identical(other.cancelOrderStatus, cancelOrderStatus) ||
                 other.cancelOrderStatus == cancelOrderStatus) &&
             (identical(other.addItemStatus, addItemStatus) ||
                 other.addItemStatus == addItemStatus) &&
             (identical(other.removeItemStatus, removeItemStatus) ||
                 other.removeItemStatus == removeItemStatus) &&
+            (identical(other.order, order) || other.order == order) &&
             (identical(other.selectedTab, selectedTab) ||
                 other.selectedTab == selectedTab) &&
             const DeepCollectionEquality()
@@ -647,9 +732,11 @@ class _$OrderStateImpl extends _OrderState {
       menuItemsStatus,
       orderItemsStatus,
       orderChangeStatus,
+      kdsOrderNumberStatus,
       cancelOrderStatus,
       addItemStatus,
       removeItemStatus,
+      order,
       selectedTab,
       const DeepCollectionEquality().hash(_availableItems),
       const DeepCollectionEquality().hash(_menuItemsWithDescriptions),
@@ -671,9 +758,11 @@ abstract class _OrderState extends OrderState {
       final LoadingStatus menuItemsStatus,
       final LoadingStatus orderItemsStatus,
       final LoadingStatus orderChangeStatus,
+      final LoadingStatus kdsOrderNumberStatus,
       final LoadingStatus cancelOrderStatus,
       final LoadingStatus addItemStatus,
       final LoadingStatus removeItemStatus,
+      final ApsOrder? order,
       final TabCategory selectedTab,
       final List<AvailableItem> availableItems,
       final List<MenuItemWithDescription> menuItemsWithDescriptions,
@@ -691,11 +780,15 @@ abstract class _OrderState extends OrderState {
   @override
   LoadingStatus get orderChangeStatus;
   @override
+  LoadingStatus get kdsOrderNumberStatus;
+  @override
   LoadingStatus get cancelOrderStatus;
   @override
   LoadingStatus get addItemStatus;
   @override
   LoadingStatus get removeItemStatus;
+  @override
+  ApsOrder? get order;
   @override
   TabCategory get selectedTab;
   @override

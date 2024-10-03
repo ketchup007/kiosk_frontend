@@ -2,9 +2,11 @@ import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kiosk_flutter/common/loading_status.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/l10n/generated/l10n.dart';
+import 'package:kiosk_flutter/models/menu_item_with_description.dart';
 import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/widgets/buttons/category_buttons.dart';
@@ -95,13 +97,13 @@ class _OrderPageState extends State<OrderPage> {
                               padding: const EdgeInsets.fromLTRB(1, 0, 0, 0),
                               height: MediaQuery.of(context).size.height * 0.08,
                               width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.18 : MediaQuery.of(context).size.width * 0.25,
-                              child: Visibility(
-                                visible: !provider.inPayment,
-                                maintainState: true,
-                                maintainSize: true,
-                                maintainAnimation: true,
-                                child: ElevatedButton(
-                                  onPressed: _cancelOrder,
+                              child: Builder(builder: (context) {
+                                final LoadingStatus buttonStatus = context.select<OrderBloc, LoadingStatus>(
+                                  (bloc) => bloc.state.buttonStatus,
+                                );
+
+                                return ElevatedButton(
+                                  onPressed: buttonStatus.isNotLoading ? _cancelOrder : null,
                                   style: ButtonStyle(
                                     foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
                                     backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.red),
@@ -128,8 +130,8 @@ class _OrderPageState extends State<OrderPage> {
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.18 + 2 : MediaQuery.of(context).size.width * 0.25 + 2,
@@ -166,7 +168,9 @@ class _OrderPageState extends State<OrderPage> {
                                   height: MediaQuery.of(context).size.height * 0.04,
                                   child: FittedBox(
                                     child: Builder(builder: (context) {
-                                      final totalOrderAmount = context.select((OrderBloc bloc) => bloc.state.totalOrderAmount);
+                                      final double totalOrderAmount = context.select<OrderBloc, double>(
+                                        (bloc) => bloc.state.totalOrderAmount,
+                                      );
                                       return Text(
                                         '${totalOrderAmount.toStringAsFixed(2)} zł',
                                         textHeightBehavior: const TextHeightBehavior(
@@ -204,47 +208,40 @@ class _OrderPageState extends State<OrderPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.08,
                               width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.18 : MediaQuery.of(context).size.width * 0.25,
-                              child: Visibility(
-                                visible: !provider.inPayment,
-                                maintainState: true,
-                                maintainSize: true,
-                                maintainAnimation: true,
-                                child: InkWell(
-                                  onTapDown: (_) {
-                                    _summaryPressed();
-                                  },
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      _summaryPressed();
-                                    },
-                                    style: ButtonStyle(
-                                      foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
-                                      backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.green),
-                                      shape: WidgetStateProperty.resolveWith(
-                                        (states) => const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(15.0),
-                                            bottomRight: Radius.circular(15.0),
-                                          ),
+                              child: Builder(builder: (context) {
+                                final LoadingStatus buttonStatus = context.select<OrderBloc, LoadingStatus>(
+                                  (bloc) => bloc.state.buttonStatus,
+                                );
+
+                                return ElevatedButton(
+                                  onPressed: buttonStatus.isNotLoading ? _summaryPressed : null,
+                                  style: ButtonStyle(
+                                    foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
+                                    backgroundColor: WidgetStateProperty.resolveWith((states) => AppColors.green),
+                                    shape: WidgetStateProperty.resolveWith(
+                                      (states) => const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(15.0),
+                                          bottomRight: Radius.circular(15.0),
                                         ),
                                       ),
-                                    ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                                    child: Container(
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
-                                      child: FittedBox(
-                                        child: Text(
-                                          AppText.of(context).summaryButtonLabel,
-                                          style: const TextStyle(
-                                            fontFamily: 'GloryExtraBold',
-                                            fontSize: 18,
-                                          ),
+                                    ),
+                                  ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                                  child: Container(
+                                    alignment: Alignment.bottomCenter,
+                                    padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height * 0.02),
+                                    child: FittedBox(
+                                      child: Text(
+                                        AppText.of(context).summaryButtonLabel,
+                                        style: const TextStyle(
+                                          fontFamily: 'GloryExtraBold',
+                                          fontSize: 18,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
+                                );
+                              }),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.height > 1000 ? MediaQuery.of(context).size.width * 0.18 + 2 : MediaQuery.of(context).size.width * 0.25 + 2,
@@ -263,7 +260,9 @@ class _OrderPageState extends State<OrderPage> {
                   ),
                 ),
                 Builder(builder: (context) {
-                  final selectedTab = context.select((OrderBloc bloc) => bloc.state.selectedTab);
+                  final TabCategory selectedTab = context.select<OrderBloc, TabCategory>(
+                    (bloc) => bloc.state.selectedTab,
+                  );
                   return Container(
                     alignment: Alignment.center,
                     padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.27, 0, 0),
@@ -287,7 +286,10 @@ class _OrderPageState extends State<OrderPage> {
                               surfaceTintColor: Colors.white,
                               child: Builder(
                                 builder: (context) {
-                                  final items = context.select((OrderBloc bloc) => bloc.state.menuItemsBySelectedTab());
+                                  final List<MenuItemWithDescription> items = context.select<OrderBloc, List<MenuItemWithDescription>>(
+                                    (bloc) => bloc.state.menuItemsBySelectedTab(),
+                                  );
+
                                   return ProductList(items: items);
                                 },
                               ),
@@ -339,7 +341,9 @@ class _Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      final selectedTab = context.select((OrderBloc bloc) => bloc.state.selectedTab);
+      final TabCategory selectedTab = context.select<OrderBloc, TabCategory>(
+        (bloc) => bloc.state.selectedTab,
+      );
 
       return Container(
         padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.055, MediaQuery.of(context).size.height * 0.20, 0, 0),

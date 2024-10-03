@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-class Payment {
+class PaymentService {
+  PaymentService();
+
   int pedState = 0;
 
   checkState() async {

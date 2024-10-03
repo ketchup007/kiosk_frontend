@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiosk_flutter/common/widgets/background.dart';
 import 'package:kiosk_flutter/features/order/bloc/order_bloc.dart';
 import 'package:kiosk_flutter/models/backend_models.dart';
+import 'package:kiosk_flutter/providers/main_provider.dart';
 import 'package:kiosk_flutter/screens/start_screen_kiosk.dart';
 import 'package:kiosk_flutter/themes/color.dart';
 import 'package:kiosk_flutter/utils/api/api_service.dart';
+import 'package:provider/provider.dart';
 
 class BlikPayScreen extends StatefulWidget {
   final double amount;
@@ -19,6 +20,7 @@ class BlikPayScreen extends StatefulWidget {
 }
 
 class BlikPayScreenState extends State<BlikPayScreen> {
+  late MainProvider provider;
   TextEditingController controller = TextEditingController();
 
   int status = 0;
@@ -30,6 +32,7 @@ class BlikPayScreenState extends State<BlikPayScreen> {
 
   @override
   Widget build(context) {
+    provider = Provider.of<MainProvider>(context, listen: true);
     print("status: $status");
     if (status == 1) {
       if (!blikFlag) {
@@ -88,16 +91,23 @@ class BlikPayScreenState extends State<BlikPayScreen> {
                     'assets/images/payULogos/payULogoLime.png',
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: Text(
-                    "${provider.sum.toStringAsFixed(2)} zł",
-                    textAlign: TextAlign.end,
-                    style: const TextStyle(
-                      color: AppColors.darkGreen,
-                      fontSize: 20,
-                    ),
-                  ),
+                Builder(
+                  builder: (context) {
+                    final totalOrderAmount = context.select<OrderBloc, double>(
+                      (bloc) => bloc.state.totalOrderAmount,
+                    );
+                    return SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: Text(
+                        "${totalOrderAmount.toStringAsFixed(2)} zł",
+                        textAlign: TextAlign.end,
+                        style: const TextStyle(
+                          color: AppColors.darkGreen,
+                          fontSize: 20,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -158,8 +168,7 @@ class BlikPayScreenState extends State<BlikPayScreen> {
                                     )),
                                 ElevatedButton(
                                   onPressed: () async {
-                                    await provider.orderFinish();
-                                    provider.changeToPizza();
+                                    context.read<OrderBloc>().add(const OrderEvent.finishOrder());
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => const StartScreenKiosk()));
                                   },
                                   child: const Text("Zakończ transakcje"),

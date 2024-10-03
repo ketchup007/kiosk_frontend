@@ -5,22 +5,22 @@ import 'package:kiosk_flutter/widgets/rows/list_rows/big_screen_order_list_row.d
 import 'package:kiosk_flutter/widgets/rows/list_rows/small_screnn_order_list_row.dart';
 
 class OrderList extends StatelessWidget {
-  final List<MenuItemWithDescription> storageOrders;
+  final List<MenuItemWithDescription> orderedItems;
 
   const OrderList({
     super.key,
-    required this.storageOrders,
+    required this.orderedItems,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: storageOrders.length,
+      itemCount: orderedItems.length,
       itemBuilder: (context, index) {
         if (MediaQuery.of(context).size.height > 1000) {
-          return BigScreenOrderListRow(item: storageOrders[index]);
+          return BigScreenOrderListRow(item: orderedItems[index]);
         } else {
-          return SmallScreenOrderListRow(item: storageOrders[index]);
+          return SmallScreenOrderListRow(item: orderedItems[index]);
         }
       },
     );
