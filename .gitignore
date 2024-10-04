@@ -48,5 +48,10 @@ app.*.map.json
 /ios/
 /windows/
 
-*/generated/*
+/lib/main.dart
+/test/*
+**/generated/*.*
 pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
