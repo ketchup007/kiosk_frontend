@@ -27,6 +27,7 @@ class _ProductNetworkImageState extends State<ProductNetworkImage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: Key(widget.imageName ?? 'image_placeholder'),
       height: widget.size,
       width: widget.size,
       decoration: BoxDecoration(border: Border.all(width: widget.size / 20, color: AppColors.beige), borderRadius: BorderRadius.circular(widget.size / 4)),
@@ -34,6 +35,8 @@ class _ProductNetworkImageState extends State<ProductNetworkImage> {
         borderRadius: BorderRadius.circular(widget.size / 5),
         child: Center(
           child: CachedNetworkImage(
+            key: Key(imagePublicUrl ?? 'image_placeholder'),
+            cacheKey: imagePublicUrl,
             imageUrl: imagePublicUrl ?? 'https://picsum.photos/200/300',
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),

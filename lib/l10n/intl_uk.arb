@@ -37,5 +37,6 @@
     "begPopupTitle": "Ей! Це все?",
     "begPopupInformation": "Ознайомтесь з іншими нашими продуктами, щоб завершити замовлення або перейдіть до підсумку замовлення",
     "productPropositionText": "Пропоновані продукти",
-    "goToSummaryButtonLabel": "Перейти до підсумку"
+    "goToSummaryButtonLabel": "Перейти до підсумку",
+    "coffeeItemLabel": "Кава"
 }

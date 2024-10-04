@@ -53,11 +53,12 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
-              child: ProductNetworkImage(
-                size: MediaQuery.of(context).size.width * 0.12,
-                imageName: widget.item.itemDescription.image,
-              )),
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.025, 5, 5, 0),
+            child: ProductNetworkImage(
+              size: MediaQuery.of(context).size.width * 0.12,
+              imageName: widget.item.itemDescription.image,
+            ),
+          ),
           Container(
             padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height * 0.008, 5, 0),
             child: SizedBox(
@@ -147,7 +148,11 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                         height: MediaQuery.of(context).size.width * 0.06,
                         child: ElevatedButton(
                           onPressed: minusButtonAction,
-                          style: ElevatedButton.styleFrom(shape: const CircleBorder(), backgroundColor: AppColors.red),
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColors.red,
+                            padding: EdgeInsets.zero,
+                          ),
                           child: const Text(
                             "-",
                             style: TextStyle(
@@ -160,30 +165,35 @@ class _BigScreenProductListRowState extends State<BigScreenProductListRow> {
                     ),
                   ),
                   Container(
-                      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
-                      child: Visibility(
-                          visible: widget.isVisiblePlus,
-                          maintainState: true,
-                          maintainSize: true,
-                          maintainAnimation: true,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            height: MediaQuery.of(context).size.width * 0.06,
-                            child: ElevatedButton(
-                              onPressed: plusButtonAction,
-                              style: ElevatedButton.styleFrom(
-                                shape: const CircleBorder(),
-                                backgroundColor: AppColors.mediumBlue,
-                              ),
-                              child: const Text(
-                                "+",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                ),
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.01, MediaQuery.of(context).size.height * 0.005, 0, 0),
+                    child: Visibility(
+                      visible: widget.isVisiblePlus,
+                      maintainState: true,
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.06,
+                        height: MediaQuery.of(context).size.width * 0.06,
+                        child: ElevatedButton(
+                          onPressed: plusButtonAction,
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            backgroundColor: AppColors.mediumBlue,
+                            padding: EdgeInsets.zero,
+                          ),
+                          child: const Center(
+                            child: Text(
+                              "+",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
                               ),
                             ),
-                          )))
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Text(

@@ -179,9 +179,11 @@ class _BuyMorePopupState extends State<BuyMorePopup> {
                     child: SizedBox(
                       height: size.height * 0.3,
                       child: Builder(builder: (context) {
-                        final List<MenuItemWithDescription> suggestItems = context.select<OrderBloc, List<MenuItemWithDescription>>(
-                          (bloc) => bloc.state.suggestItemsForPurchase(),
-                        );
+                        // final List<MenuItemWithDescription> suggestItems = context.select<OrderBloc, List<MenuItemWithDescription>>(
+                        //   (bloc) => bloc.state.suggestItemsForPurchase(),
+                        // );
+
+                        final List<MenuItemWithDescription> suggestItems = context.read<OrderBloc>().state.suggestItemsForPurchase();
 
                         return ProductList(
                           items: suggestItems,

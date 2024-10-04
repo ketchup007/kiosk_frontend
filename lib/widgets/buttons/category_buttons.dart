@@ -1,6 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import '../../themes/color.dart';
+import 'package:kiosk_flutter/themes/color.dart';
 
 class CategoryButton extends StatelessWidget {
   final bool selected;
@@ -24,8 +23,8 @@ class CategoryButton extends StatelessWidget {
     return InkWell(
       onTapDown: (_) => onPressed(),
       child: Container(
-        height: selected ? screenHeight * 0.10 : screenHeight * 0.07,
-        width: screenWidth * 0.18,
+        height: selected ? screenHeight * 0.08 : screenHeight * 0.07,
+        width: screenWidth * 0.133,
         padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
         child: ElevatedButton(
           onPressed: onPressed,
@@ -43,13 +42,12 @@ class CategoryButton extends StatelessWidget {
             ),
             elevation: WidgetStateProperty.resolveWith((states) => 0.0),
           ),
-          child: SizedBox(
-            width: screenWidth * 0.18,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
                   child: Container(
                     height: screenWidth * 0.06,
                     width: screenWidth * 0.06,
@@ -68,26 +66,30 @@ class CategoryButton extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-                  alignment: Alignment.bottomCenter,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0, left: 4.0, right: 4.0),
                   child: SizedBox(
                     height: screenHeight * 0.02,
                     width: screenWidth * 0.17,
-                    child: AutoSizeText(
-                      text,
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: selected ? Colors.white : AppColors.darkBlue,
-                        fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
-                        fontSize: 21,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        text,
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: selected ? Colors.white : AppColors.darkBlue,
+                          fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
+                          fontSize: 21,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -119,7 +121,7 @@ class EdgeCategoryButton extends StatelessWidget {
         InkWell(
           onTapDown: (_) => onPressed(),
           child: Container(
-            height: screenHeight * 0.1,
+            height: screenHeight * 0.08,
             width: screenWidth * 0.18,
             padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
             child: ElevatedButton(
@@ -139,42 +141,52 @@ class EdgeCategoryButton extends StatelessWidget {
                 elevation: WidgetStateProperty.resolveWith((states) => 0.0),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
-                    child: Container(
-                      height: screenWidth * 0.06,
-                      width: screenWidth * 0.06,
-                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.darkBlue),
-                      child: Center(
-                        child: FittedBox(
-                          child: Text(
-                            "$number",
-                            style: TextStyle(
-                              color: selected ? Colors.white : AppColors.lightBlue,
-                              fontFamily: 'GloryExtraBold',
-                              fontSize: 45,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Container(
+                        height: screenWidth * 0.06,
+                        width: screenWidth * 0.06,
+                        decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.darkBlue),
+                        child: Center(
+                          child: FittedBox(
+                            child: Text(
+                              "$number",
+                              style: TextStyle(
+                                color: selected ? Colors.white : AppColors.lightBlue,
+                                fontFamily: 'GloryExtraBold',
+                                fontSize: 45,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(
-                      height: screenHeight * 0.02,
-                      width: screenWidth * 0.17,
-                      child: AutoSizeText(
-                        text,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: selected ? Colors.white : AppColors.darkBlue,
-                          fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
-                          fontSize: 21,
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 8.0 + (selected ? 0 : screenHeight * 0.01),
+                        left: 4.0,
+                        right: 4.0,
+                      ),
+                      child: SizedBox(
+                        height: screenHeight * 0.02,
+                        width: screenWidth * 0.17,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            text,
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: selected ? Colors.white : AppColors.darkBlue,
+                              fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
+                              fontSize: 21,
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -185,7 +197,7 @@ class EdgeCategoryButton extends StatelessWidget {
           ),
         ),
         Visibility(
-          visible: selected,
+          visible: !selected,
           maintainState: true,
           maintainSize: true,
           maintainAnimation: true,
@@ -233,13 +245,11 @@ class SummaryButton extends StatelessWidget {
           onPressed();
         },
         child: Container(
-          height: screenHeight * 0.1,
+          height: screenHeight * 0.08,
           width: screenWidth * 0.18,
           padding: EdgeInsets.fromLTRB(0, 0, screenWidth * 0.01, 0),
           child: ElevatedButton(
-            onPressed: () {
-              onPressed();
-            },
+            onPressed: onPressed,
             style: ButtonStyle(
               padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
               foregroundColor: WidgetStateProperty.resolveWith((states) => Colors.white),
@@ -255,45 +265,51 @@ class SummaryButton extends StatelessWidget {
               elevation: WidgetStateProperty.resolveWith((states) => 0.0),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, screenHeight * 0.01, 0, 0),
-                  child: Container(
-                    height: screenWidth * 0.06,
-                    width: screenWidth * 0.06,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.darkGreen),
-                    child: Center(
-                      child: FittedBox(
-                        child: Text(
-                          "$number",
-                          style: TextStyle(
-                            color: selected ? Colors.white : AppColors.lightBlue,
-                            fontFamily: 'GloryExtraBold',
-                            fontSize: 45,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Container(
+                      height: screenWidth * 0.06,
+                      width: screenWidth * 0.06,
+                      decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.darkGreen),
+                      child: Center(
+                        child: FittedBox(
+                          child: Text(
+                            "$number",
+                            style: TextStyle(
+                              color: selected ? Colors.white : AppColors.lightBlue,
+                              fontFamily: 'GloryExtraBold',
+                              fontSize: 45,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(0, screenHeight * 0.005, 0, 0),
-                  alignment: Alignment.bottomCenter,
-                  child: Center(
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 8.0 + (selected ? 0 : screenHeight * 0.01),
+                      left: 4.0,
+                      right: 4.0,
+                    ),
                     child: SizedBox(
                       height: screenHeight * 0.02,
-                      width: screenWidth * 0.16,
-                      child: AutoSizeText(
-                        text,
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        minFontSize: 10,
-                        maxFontSize: 21,
-                        style: TextStyle(
-                          color: selected ? Colors.white : AppColors.darkGreen,
-                          fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
-                          fontSize: 21,
+                      width: screenWidth * 0.17,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          text,
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: selected ? Colors.white : AppColors.darkGreen,
+                            fontFamily: selected ? 'GloryExtraBold' : 'GloryMedium',
+                            fontSize: 21,
+                          ),
                         ),
                       ),
                     ),
@@ -305,7 +321,7 @@ class SummaryButton extends StatelessWidget {
         ),
       ),
       Visibility(
-        visible: selected,
+        visible: !selected,
         maintainState: true,
         maintainSize: true,
         maintainAnimation: true,

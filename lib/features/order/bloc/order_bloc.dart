@@ -160,7 +160,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     emit(state.copyWith(cancelOrderStatus: LoadingStatus.loading));
     try {
       await _apsOrderService.cancelOrder();
-      emit(state.copyWith(cancelOrderStatus: LoadingStatus.success));
+
+      emit(state.copyWith(
+        cancelOrderStatus: LoadingStatus.success,
+        selectedTab: TabCategory.snack,
+      ));
     } catch (e) {
       emit(state.copyWith(cancelOrderStatus: LoadingStatus.error));
     }
@@ -183,7 +187,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   FutureOr<void> _onRemoveItemToOrder(_RemoveItemToOrder event, Emitter<OrderState> emit) async {
     emit(state.copyWith(removeItemStatus: LoadingStatus.info));
     try {
-      final orderItemId = state.orderItems.firstWhereOrNull((element) => element.id == event.itemId)?.id;
+      final orderItemId = state.orderItems.firstWhereOrNull((element) => element.itemId == event.itemId)?.id;
       if (orderItemId != null) {
         await _apsOrderService.removeItemFromOrder(orderItemId);
       }

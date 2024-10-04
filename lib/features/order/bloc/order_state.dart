@@ -1,6 +1,6 @@
 part of 'order_bloc.dart';
 
-enum TabCategory { snack, drink, takeAwayBox, sauce, coffee, summary }
+enum TabCategory { snack, drink, coffee, takeAwayBox, sauce, summary }
 
 @freezedState
 class OrderState with _$OrderState {
@@ -46,9 +46,9 @@ class OrderState with _$OrderState {
     return switch (selectedTab) {
       TabCategory.snack => menuItemsByCategory(ItemCategory.snack),
       TabCategory.drink => menuItemsByCategory(ItemCategory.drink),
+      TabCategory.coffee => menuItemsByCategory(ItemCategory.coffee),
       TabCategory.takeAwayBox => menuItemsByCategory(ItemCategory.takeAwayBox),
       TabCategory.sauce => menuItemsByCategory(ItemCategory.sauce),
-      TabCategory.coffee => menuItemsByCategory(ItemCategory.coffee),
       TabCategory.summary => [],
     };
   }
@@ -77,9 +77,9 @@ class OrderState with _$OrderState {
     final List<ItemCategory> categories = [
       ItemCategory.snack,
       ItemCategory.drink,
+      ItemCategory.coffee,
       ItemCategory.takeAwayBox,
       ItemCategory.sauce,
-      ItemCategory.coffee,
     ];
 
     for (final category in categories) {

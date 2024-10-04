@@ -28,7 +28,7 @@ class _OrderPageState extends State<OrderPage> {
   @override
   void initState() {
     super.initState();
-
+    context.read<OrderBloc>().add(const OrderEvent.createNewOrder());
     _timerStart();
   }
 
@@ -369,9 +369,18 @@ class _Buttons extends StatelessWidget {
               },
             ),
             CategoryButton(
+              selected: selectedTab == TabCategory.coffee,
+              text: AppText.of(context).coffeeItemLabel,
+              number: 3,
+              onPressed: () {
+                timerStart();
+                context.read<OrderBloc>().add(const OrderEvent.changeTabCategory(TabCategory.coffee));
+              },
+            ),
+            CategoryButton(
               selected: selectedTab == TabCategory.takeAwayBox,
               text: AppText.of(context).boxesItemLabel,
-              number: 3,
+              number: 4,
               onPressed: () {
                 timerStart();
                 context.read<OrderBloc>().add(const OrderEvent.changeTabCategory(TabCategory.takeAwayBox));
@@ -380,7 +389,7 @@ class _Buttons extends StatelessWidget {
             CategoryButton(
               selected: selectedTab == TabCategory.sauce,
               text: AppText.of(context).saucesItemLabel,
-              number: 4,
+              number: 5,
               onPressed: () {
                 timerStart();
                 context.read<OrderBloc>().add(const OrderEvent.changeTabCategory(TabCategory.sauce));
@@ -389,7 +398,7 @@ class _Buttons extends StatelessWidget {
             SummaryButton(
               selected: selectedTab == TabCategory.summary,
               onPressed: summaryPressed,
-              number: 5,
+              number: 6,
               text: AppText.of(context).summaryButtonLabel,
             ),
           ],

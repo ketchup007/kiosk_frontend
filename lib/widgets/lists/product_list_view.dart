@@ -26,29 +26,33 @@ class _ProductListState extends State<ProductList> {
       itemBuilder: (context, index) {
         final item = widget.items[index];
 
-        final quantity = context.select<OrderBloc, int>(
-          (bloc) => bloc.state.getQuantityOfItemInOrder(item.itemDescription.id!),
-        );
-        final availableQuantity = context.select<OrderBloc, int>(
-          (bloc) => bloc.state.getAvailableQuantity(item.itemDescription.id!),
-        );
+        return Builder(
+          builder: (context) {
+            final quantity = context.select<OrderBloc, int>(
+              (bloc) => bloc.state.getQuantityOfItemInOrder(item.itemDescription.id!),
+            );
+            final availableQuantity = context.select<OrderBloc, int>(
+              (bloc) => bloc.state.getAvailableQuantity(item.itemDescription.id!),
+            );
 
-        bool isVisiblePlus = availableQuantity > 0 && quantity < availableQuantity;
-        bool isVisibleMinus = quantity > 0;
+            bool isVisiblePlus = availableQuantity > 0 && quantity < availableQuantity;
+            bool isVisibleMinus = quantity > 0;
 
-        if (MediaQuery.of(context).size.height > 1000) {
-          return BigScreenProductListRow(
-            item: item,
-            isVisiblePlus: isVisiblePlus,
-            isVisibleMinus: isVisibleMinus,
-          );
-        } else {
-          return SmallScreenProductListRow(
-            item: item,
-            isVisiblePlus: isVisiblePlus,
-            isVisibleMinus: isVisibleMinus,
-          );
-        }
+            if (MediaQuery.of(context).size.height > 1000) {
+              return BigScreenProductListRow(
+                item: item,
+                isVisiblePlus: isVisiblePlus,
+                isVisibleMinus: isVisibleMinus,
+              );
+            } else {
+              return SmallScreenProductListRow(
+                item: item,
+                isVisiblePlus: isVisiblePlus,
+                isVisibleMinus: isVisibleMinus,
+              );
+            }
+          },
+        );
       },
     );
   }

@@ -1,6 +1,162 @@
 import 'package:equatable/equatable.dart';
 import 'dart:typed_data';
 
+enum StorageOrderStatus {
+  preparedForProduction('prepared_for_production'),
+  packed('packed'),
+  onTheWay('on_the_way'),
+  delivered('delivered'),
+  cancelled('cancelled');
+
+  final String value;
+  const StorageOrderStatus(this.value);
+
+  factory StorageOrderStatus.fromString(String str) {
+    return StorageOrderStatus.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum StorageOrderPurpose {
+  restocking('restocking'),
+  disposal('disposal'),
+  return_('return');
+
+  final String value;
+  const StorageOrderPurpose(this.value);
+
+  factory StorageOrderPurpose.fromString(String str) {
+    return StorageOrderPurpose.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum OriginType {
+  kiosk('kiosk'),
+  phone('phone');
+
+  final String value;
+  const OriginType(this.value);
+
+  factory OriginType.fromString(String str) {
+    return OriginType.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum OrderStatus {
+  duringOrdering('during_ordering'),
+  paymentInProgress('payment_in_progress'),
+  paid('paid'),
+  acceptedForExecution('accepted_for_execution'),
+  orderProcessingHasStarted('order_processing_has_started'),
+  firstItemWaitingForRecipient('first_item_waiting_for_recipient'),
+  readyForPickup('ready_for_pickup'),
+  pickedUp('picked_up'),
+  canceled('canceled');
+
+  final String value;
+  const OrderStatus(this.value);
+
+  factory OrderStatus.fromString(String str) {
+    return OrderStatus.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum PickupNumber {
+  one('1'),
+  two('2'),
+  three('3');
+
+  final String value;
+  const PickupNumber(this.value);
+
+  factory PickupNumber.fromString(String str) {
+    return PickupNumber.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum ItemStatus {
+  reserved('reserved'),
+  queued('queued'),
+  placingTray('placing_tray'),
+  trayPlaced('tray_placed'),
+  drinkPositionReserved('drink_position_reserved'),
+  coffeePositionReserved('coffee_position_reserved'),
+  bagPositionReserved('bag_position_reserved'),
+  inR1Arm('in_r1_arm'),
+  preBaking('pre_baking'),
+  remainingBaking('remaining_baking'),
+  readyToCreateData('ready_to_create_data'),
+  readyToPickR2('ready_to_pick_R2'),
+  inR2Arm('in_r2_arm'),
+  onConveyor('on_conveyor'),
+  readyToReceive('ready_to_receive'),
+  waitingForClient('waiting_for_client'),
+  received('received'),
+  canceled('canceled');
+
+  final String value;
+  const ItemStatus(this.value);
+
+  factory ItemStatus.fromString(String str) {
+    return ItemStatus.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum ItemCategory {
+  snack('snack'),
+  drink('drink'),
+  coffee('coffee'),
+  takeAwayBox('take_away_box'),
+  sauce('sauce'),
+  paperTray('paper_tray'),
+  cup('cup'),
+  sugar('sugar');
+
+  final String value;
+  const ItemCategory(this.value);
+
+  factory ItemCategory.fromString(String str) {
+    return ItemCategory.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
+enum ApsState {
+  active('active'),
+  inactive('inactive'),
+  malfunction('malfunction'),
+  duringDelivery('during_delivery');
+
+  final String value;
+  const ApsState(this.value);
+
+  factory ApsState.fromString(String str) {
+    return ApsState.values.firstWhere((e) => e.value == str);
+  }
+
+  @override
+  String toString() => value;
+}
+
 class Storage with EquatableMixin {
   final int? id;
   final String storageName;
@@ -18,8 +174,8 @@ class Storage with EquatableMixin {
     return Storage(
       id: json['id'],
       storageName: json['storage_name'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -76,8 +232,8 @@ class StorageItemSlot with EquatableMixin {
       slotName: json['slot_name'],
       currentQuantity: json['current_quantity'],
       maxQuantity: json['max_quantity'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -221,40 +377,6 @@ class ApsOrderItemHistory with EquatableMixin {
   List<Object?> get props => [apsOrderItemId, apsOrderId, apsId, timestamp, status];
 }
 
-enum StorageOrderStatus {
-  preparedForProduction('prepared_for_production'),
-  packed('packed'),
-  onTheWay('on_the_way'),
-  delivered('delivered'),
-  cancelled('cancelled');
-
-  final String value;
-  const StorageOrderStatus(this.value);
-
-  factory StorageOrderStatus.fromString(String str) {
-    return StorageOrderStatus.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
-enum StorageOrderPurpose {
-  restocking('restocking'),
-  disposal('disposal'),
-  return_('return');
-
-  final String value;
-  const StorageOrderPurpose(this.value);
-
-  factory StorageOrderPurpose.fromString(String str) {
-    return StorageOrderPurpose.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
 class User with EquatableMixin {
   final int? id;
   final String username;
@@ -278,8 +400,8 @@ class User with EquatableMixin {
       username: json['username'],
       email: json['email'],
       fullName: json['full_name'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -339,8 +461,8 @@ class Vehicle with EquatableMixin {
       vehicleIdentifier: json['vehicle_identifier'],
       licensePlate: json['license_plate'],
       capacity: json['capacity'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -397,8 +519,8 @@ class Trolley with EquatableMixin {
       id: json['id'],
       trolleyNumber: json['trolley_number'],
       maxCapacity: json['max_capacity'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -476,8 +598,8 @@ class StorageOrder with EquatableMixin {
       deliveredBy: json['delivered_by'],
       vehicleId: json['vehicle_id'],
       purpose: StorageOrderPurpose.fromString(json['storage_order_purpose']),
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -555,8 +677,8 @@ class StorageOrderItem with EquatableMixin {
       storageOrderId: json['storage_order_id'],
       itemDescriptionId: json['item_description_id'],
       quantity: json['quantity'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -610,8 +732,8 @@ class StorageOrderTrolley with EquatableMixin {
       storageOrderId: json['storage_order_id'],
       trolleyId: json['trolley_id'],
       positionInVehicle: json['position_in_vehicle'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -643,27 +765,6 @@ class StorageOrderTrolley with EquatableMixin {
 
   @override
   List<Object?> get props => [storageOrderId, trolleyId, positionInVehicle, createdAt, updatedAt];
-}
-
-enum ItemCategory {
-  snack('snack'),
-  drink('drink'),
-  coffee('coffee'),
-  takeAwayBox('take_away_box'),
-  sauce('sauce'),
-  paperTray('paper_tray'),
-  cup('cup'),
-  sugar('sugar');
-
-  final String value;
-  const ItemCategory(this.value);
-
-  factory ItemCategory.fromString(String str) {
-    return ItemCategory.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
 }
 
 class ItemDescription with EquatableMixin {
@@ -713,8 +814,8 @@ class ItemDescription with EquatableMixin {
       allergensUa: json['allergens_ua'],
       category: ItemCategory.fromString(json['category']),
       image: json['image'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -834,8 +935,8 @@ class Menu with EquatableMixin {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -889,8 +990,8 @@ class MenuItemPrice with EquatableMixin {
       menuId: json['menu_id'],
       itemId: json['item_id'],
       price: json['price'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -1052,23 +1153,6 @@ class Point {
   }
 }
 
-enum ApsState {
-  active('active'),
-  inactive('inactive'),
-  malfunction('malfunction'),
-  duringDelivery('during_delivery');
-
-  final String value;
-  const ApsState(this.value);
-
-  factory ApsState.fromString(String str) {
-    return ApsState.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
 class ApsDescription with EquatableMixin {
   final int? id;
   final String name;
@@ -1101,8 +1185,8 @@ class ApsDescription with EquatableMixin {
       storageId: json['storage_id'],
       menuId: json['menu_id'],
       state: ApsState.fromString(json['state']),
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -1148,59 +1232,6 @@ class ApsDescription with EquatableMixin {
   List<Object?> get props => [id, name, address, location, storageId, menuId, state, createdAt, updatedAt];
 }
 
-enum OriginType {
-  kiosk('kiosk'),
-  phone('phone');
-
-  final String value;
-  const OriginType(this.value);
-
-  factory OriginType.fromString(String str) {
-    return OriginType.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
-enum OrderStatus {
-  duringOrdering('during_ordering'),
-  paymentInProgress('payment_in_progress'),
-  paid('paid'),
-  acceptedForExecution('accepted_for_execution'),
-  orderProcessingHasStarted('order_processing_has_started'),
-  firstItemWaitingForRecipient('first_item_waiting_for_recipient'),
-  readyForPickup('ready_for_pickup'),
-  pickedUp('picked_up'),
-  canceled('canceled');
-
-  final String value;
-  const OrderStatus(this.value);
-
-  factory OrderStatus.fromString(String str) {
-    return OrderStatus.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
-enum PickupNumber {
-  one('1'),
-  two('2'),
-  three('3');
-
-  final String value;
-  const PickupNumber(this.value);
-
-  factory PickupNumber.fromString(String str) {
-    return PickupNumber.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
 class ApsOrder with EquatableMixin {
   final int? id;
   final int apsId;
@@ -1232,12 +1263,12 @@ class ApsOrder with EquatableMixin {
       apsId: json['aps_id'],
       origin: OriginType.fromString(json['origin']),
       status: OrderStatus.fromString(json['status']),
-      pickupNumber: PickupNumber.fromString(json['pickup_number']),
+      pickupNumber: json['pickup_number'] != null ? PickupNumber.fromString(json['pickup_number']) : null,
       kdsOrderNumber: json['kds_order_number'],
       clientPhoneNumber: json['client_phone_number'],
       estimatedTime: json['estimated_time'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 
@@ -1286,37 +1317,6 @@ class ApsOrder with EquatableMixin {
   List<Object?> get props => [id, apsId, origin, status, pickupNumber, kdsOrderNumber, clientPhoneNumber, estimatedTime, createdAt, updatedAt];
 }
 
-enum ItemStatus {
-  reserved('reserved'),
-  queued('queued'),
-  placingTray('placing_tray'),
-  trayPlaced('tray_placed'),
-  drinkPositionReserved('drink_position_reserved'),
-  coffeePositionReserved('coffee_position_reserved'),
-  bagPositionReserved('bag_position_reserved'),
-  inR1Arm('in_r1_arm'),
-  preBaking('pre_baking'),
-  remainingBaking('remaining_baking'),
-  readyToCreateData('ready_to_create_data'),
-  readyToPickR2('ready_to_pick_R2'),
-  inR2Arm('in_r2_arm'),
-  onConveyor('on_conveyor'),
-  readyToReceive('ready_to_receive'),
-  waitingForClient('waiting_for_client'),
-  received('received'),
-  canceled('canceled');
-
-  final String value;
-  const ItemStatus(this.value);
-
-  factory ItemStatus.fromString(String str) {
-    return ItemStatus.values.firstWhere((e) => e.value == str);
-  }
-
-  @override
-  String toString() => value;
-}
-
 class ApsOrderItem with EquatableMixin {
   final int? id;
   final int apsOrderId;
@@ -1343,8 +1343,8 @@ class ApsOrderItem with EquatableMixin {
       apsId: json['aps_id'],
       itemId: json['item_id'],
       status: ItemStatus.fromString(json['status']),
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: json['created_at'] != null ? DateTime.parse(json['created_at']) : null,
+      updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : null,
     );
   }
 

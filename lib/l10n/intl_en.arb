@@ -37,5 +37,6 @@
     "begPopupTitle": "Hey! That's all?",
     "begPopupInformation": "Look at the rest of our products to finish the order or go straight to the order summary",
     "productPropositionText": "Proposed Products",
-    "goToSummaryButtonLabel": "Go to Summary"
+    "goToSummaryButtonLabel": "Go to Summary",
+    "coffeeItemLabel": "Coffee"
 }
