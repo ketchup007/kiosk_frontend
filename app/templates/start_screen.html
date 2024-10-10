@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Ekran startowy{% endblock %}
+
+{% block content %}
+<div class="language-buttons">
+    <a href="{{ url_for('set_language', lang='pl') }}">PL</a>
+    <a href="{{ url_for('set_language', lang='en') }}">EN</a>
+    <a href="{{ url_for('set_language', lang='uk') }}">UA</a>
+</div>
+
+<div class="logo">
+    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="Munchies Logo">
+</div>
+
+{% if aps_state == 'active' %}
+    <div class="start-button">
+        <a href="{{ url_for('start_order') }}">{{ _('Dotknij ekranu, aby rozpocząć') }}</a>
+    </div>
+{% else %}
+    <div class="kiosk-status">
+        <p>{{ _('Kiosk jest chwilowo wyłączony') }}</p>
+        <p>{{ _('Przepraszamy za utrudnienia') }}</p>
+    </div>
+{% endif %}
+{% endblock %}

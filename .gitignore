@@ -1,0 +1,22 @@
+# Środowisko wirtualne
+venv/
+env/
+
+# Pliki konfiguracyjne
+.env
+
+# Pliki cache Pythona
+__pycache__/
+*.pyc
+
+# Logi
+*.log
+
+# Pliki IDE
+.vscode/
+.idea/
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+specyfikacja.md
