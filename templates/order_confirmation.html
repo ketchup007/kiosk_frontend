@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ _('Potwierdzenie zamówienia - Kiosk Munchies') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="language-selector">
+            <button onclick="changeLanguage('pl')">PL</button>
+            <button onclick="changeLanguage('en')">EN</button>
+            <button onclick="changeLanguage('ua')">UA</button>
+        </div>
+    </header>
+    
+    <main class="confirmation-page">
+        <h1>{{ _('Potwierdzenie zamówienia') }}</h1>
+        
+        <div class="confirmation-details">
+            <p>{{ _('Numer zamówienia:') }} <span id="order-number"></span></p>
+            <p>{{ _('Szacowany czas oczekiwania:') }} <span id="estimated-time"></span> {{ _('minut') }}</p>
+        </div>
+
+        <div class="pickup-instructions">
+            <h2>{{ _('Instrukcje odbioru') }}</h2>
+            <p>{{ _('Prosimy o odebranie zamówienia z okienka numer') }} <span id="pickup-number"></span>.</p>
+            <p>{{ _('Dziękujemy za skorzystanie z naszych usług!') }}</p>
+        </div>
+
+        <button id="return-to-main" class="return-button">{{ _('Powrót do ekranu głównego') }}</button>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/order_confirmation.js') }}"></script>
+</body>
+</html>

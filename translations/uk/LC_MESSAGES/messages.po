@@ -1,4 +1,4 @@
-# Polish translations for PROJECT.
+# Ukrainian translations for PROJECT.
 # Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
@@ -7,179 +7,179 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-11 14:00+0200\n"
-"PO-Revision-Date: 2024-10-11 14:03+0200\n"
+"POT-Creation-Date: 2024-10-11 14:57+0200\n"
+"PO-Revision-Date: 2024-10-11 14:57+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: pl\n"
-"Language-Team: pl <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/main.py:37
+#: app/main.py:38
 msgid "Przepraszamy za niedogodności. Prosimy spróbować później."
-msgstr "Przepraszamy za niedogodności. Prosimy spróbować później."
+msgstr "Вибачте за незручності. Будь ласка, спробуйте пізніше."
 
-#: app/main.py:58
+#: app/main.py:59
 msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
-msgstr "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
+msgstr "Неможливо розпочати замовлення. Спробуйте ще раз пізніше."
 
-#: app/main.py:82 app/main.py:96 app/main.py:116 app/main.py:129
-#: app/main.py:153 app/main.py:166 app/main.py:189 app/main.py:202
+#: app/main.py:83 app/main.py:97 app/main.py:117 app/main.py:130
+#: app/main.py:154 app/main.py:167 app/main.py:190 app/main.py:203
 msgid "Nie znaleziono aktywnego zamówienia."
-msgstr "Nie znaleziono aktywnego zamówienia."
+msgstr "Активне замовлення не знайдено."
 
-#: app/main.py:91
+#: app/main.py:92
 msgid "Nie udało się anulować zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się anulować zamówienia. Spróbuj ponownie."
+msgstr "Не вдалося скасувати замовлення. Спробуйте ще раз."
 
-#: app/main.py:105
+#: app/main.py:106
 msgid "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
+msgstr "Не вдалося оновити замовлення. Спробуйте ще раз."
 
-#: app/main.py:142
+#: app/main.py:143
 msgid "Nie udało się przejść do płatności. Spróbuj ponownie."
-msgstr "Nie udało się przejść do płatności. Spróbuj ponownie."
+msgstr "Не вдалося перейти до оплати. Спробуйте ще раз."
 
-#: app/main.py:161
+#: app/main.py:162
 msgid "Nie udało się anulować płatności. Spróbuj ponownie."
-msgstr "Nie udało się anulować płatności. Spróbuj ponownie."
+msgstr "Не вдалося скасувати оплату. Спробуйте ще раз."
 
-#: app/main.py:197
+#: app/main.py:198
 msgid "Nie udało się pobrać szczegółów zamówienia."
-msgstr "Nie udało się pobrać szczegółów zamówienia."
+msgstr "Не вдалося отримати деталі замовлення."
 
-#: app/main.py:211
+#: app/main.py:212
 msgid "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
+msgstr "Не вдалося завершити замовлення. Спробуйте ще раз."
 
 #: templates/order_confirmation.html:6
 msgid "Potwierdzenie zamówienia - Kiosk Munchies"
-msgstr "Potwierdzenie zamówienia - Kiosk Munchies"
+msgstr "Підтвердження замовлення - Кіоск Munchies"
 
 #: templates/order_confirmation.html:19
 msgid "Potwierdzenie zamówienia"
-msgstr "Potwierdzenie zamówienia"
+msgstr "Підтвердження замовлення"
 
 #: templates/order_confirmation.html:22
 msgid "Numer zamówienia:"
-msgstr "Numer zamówienia:"
+msgstr "Номер замовлення:"
 
 #: templates/order_confirmation.html:23
 msgid "Szacowany czas oczekiwania:"
-msgstr "Szacowany czas oczekiwania:"
+msgstr "Орієнтовний час очікування:"
 
 #: templates/order_confirmation.html:23
 msgid "minut"
-msgstr "minut"
+msgstr "хвилин"
 
 #: templates/order_confirmation.html:27
 msgid "Instrukcje odbioru"
-msgstr "Instrukcje odbioru"
+msgstr "Інструкції з отримання"
 
 #: templates/order_confirmation.html:28
 msgid "Prosimy o odebranie zamówienia z okienka numer"
-msgstr "Prosimy o odebranie zamówienia z okienka numer"
+msgstr "Будь ласка, заберіть замовлення з вікна номер"
 
 #: templates/order_confirmation.html:29
 msgid "Dziękujemy za skorzystanie z naszych usług!"
-msgstr "Dziękujemy za skorzystanie z naszych usług!"
+msgstr "Дякуємо за користування нашими послугами!"
 
 #: templates/order_confirmation.html:32
 msgid "Powrót do ekranu głównego"
-msgstr "Powrót do ekranu głównego"
+msgstr "Повернутися на головний екран"
 
 #: templates/order_page.html:6
 msgid "Zamówienie - Kiosk Munchies"
-msgstr "Zamówienie - Kiosk Munchies"
+msgstr "Замовлення - Кіоск Munchies"
 
 #: templates/order_page.html:20
 msgid "Wszystkie"
-msgstr "Wszystkie"
+msgstr "Всі"
 
 #: templates/order_page.html:21
 msgid "Przekąski"
-msgstr "Przekąski"
+msgstr "Закуски"
 
 #: templates/order_page.html:22
 msgid "Napoje"
-msgstr "Napoje"
+msgstr "Напої"
 
 #: templates/order_page.html:23
 msgid "Kawa"
-msgstr "Kawa"
+msgstr "Кава"
 
 #: templates/order_page.html:24
 msgid "Opakowania"
-msgstr "Opakowania"
+msgstr "Упаковка"
 
 #: templates/order_page.html:25
 msgid "Sosy"
-msgstr "Sosy"
+msgstr "Соуси"
 
 #: templates/order_page.html:33 templates/order_summary.html:35
 msgid "Anuluj zamówienie"
-msgstr "Anuluj zamówienie"
+msgstr "Скасувати замовлення"
 
 #: templates/order_page.html:34
 msgid "Suma: "
-msgstr "Suma: "
+msgstr "Сума: "
 
 #: templates/order_page.html:35 templates/order_summary.html:19
 msgid "Podsumowanie zamówienia"
-msgstr "Podsumowanie zamówienia"
+msgstr "Підсумок замовлення"
 
 #: templates/order_summary.html:6
 msgid "Podsumowanie zamówienia - Kiosk Munchies"
-msgstr "Podsumowanie zamówienia - Kiosk Munchies"
+msgstr "Підсумок замовлення - Кіоск Munchies"
 
 #: templates/order_summary.html:26
 msgid "Sugerowane produkty"
-msgstr "Sugerowane produkty"
+msgstr "Рекомендовані продукти"
 
 #: templates/order_summary.html:31
 msgid "Suma zamówienia:"
-msgstr "Suma zamówienia:"
+msgstr "Сума замовлення:"
 
 #: templates/order_summary.html:36
 msgid "Przejdź do płatności"
-msgstr "Przejdź do płatności"
+msgstr "Перейти до оплати"
 
 #: templates/payment.html:6
 msgid "Płatność - Kiosk Munchies"
-msgstr "Płatność - Kiosk Munchies"
+msgstr "Оплата - Кіоск Munchies"
 
 #: templates/payment.html:19
 msgid "Płatność"
-msgstr "Płatność"
+msgstr "Оплата"
 
 #: templates/payment.html:26
 msgid "Wybierz metodę płatności"
-msgstr "Wybierz metodę płatności"
+msgstr "Виберіть спосіб оплати"
 
 #: templates/payment.html:28
 msgid "Karta płatnicza"
-msgstr "Karta płatnicza"
+msgstr "Платіжна картка"
 
 #: templates/payment.html:38
 msgid "Anuluj płatność"
-msgstr "Anuluj płatność"
+msgstr "Скасувати оплату"
 
 #: templates/payment.html:39
 msgid "Potwierdź płatność"
-msgstr "Potwierdź płatność"
+msgstr "Підтвердити оплату"
 
 #: templates/start_screen.html:6
 msgid "Kiosk Munchies"
-msgstr "Kiosk Munchies"
-
-#: templates/start_screen.html:22
-msgid "Dotknij ekranu, aby rozpocząć"
-msgstr "Dotknij ekranu, aby rozpocząć"
+msgstr "Кіоск Munchies"
 
 #: templates/start_screen.html:24
+msgid "Dotknij ekranu, aby rozpocząć"
+msgstr "Торкніться екрану, щоб почати"
+
+#: templates/start_screen.html:26
 msgid "Kiosk jest chwilowo wyłączony"
-msgstr "Kiosk jest chwilowo wyłączony"
+msgstr "Кіоск тимчасово недоступний"

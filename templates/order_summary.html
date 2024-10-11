@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ _('Podsumowanie zamówienia - Kiosk Munchies') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="language-selector">
+            <button onclick="changeLanguage('pl')">PL</button>
+            <button onclick="changeLanguage('en')">EN</button>
+            <button onclick="changeLanguage('ua')">UA</button>
+        </div>
+    </header>
+    
+    <main class="order-summary-page">
+        <h1>{{ _('Podsumowanie zamówienia') }}</h1>
+        
+        <div id="order-items" class="order-items">
+            <!-- Produkty będą dynamicznie dodawane tutaj przez JavaScript -->
+        </div>
+
+        <div id="suggested-products" class="suggested-products">
+            <h2>{{ _('Sugerowane produkty') }}</h2>
+            <!-- Sugerowane produkty będą dynamicznie dodawane tutaj przez JavaScript -->
+        </div>
+
+        <div class="order-total">
+            <h2>{{ _('Suma zamówienia:') }} <span id="total-amount">0.00</span> PLN</h2>
+        </div>
+
+        <div class="action-buttons">
+            <button id="cancel-order" class="cancel-button">{{ _('Anuluj zamówienie') }}</button>
+            <button id="proceed-to-payment" class="proceed-button">{{ _('Przejdź do płatności') }}</button>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/order_summary.js') }}"></script>
+</body>
+</html>

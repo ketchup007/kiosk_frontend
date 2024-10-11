@@ -1,8 +1,0 @@
-msgid "Dotknij ekranu, aby rozpocząć"
-msgstr "Торкніться екрану, щоб почати"
-
-msgid "Kiosk jest chwilowo wyłączony"
-msgstr "Кіоск тимчасово недоступний"
-
-msgid "Przepraszamy za utrudnienia"
-msgstr "Перепрошуємо за незручності"

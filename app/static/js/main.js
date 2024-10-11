@@ -1,1 +1,0 @@
-console.log("Kiosk samoobsługowy - aplikacja uruchomiona");

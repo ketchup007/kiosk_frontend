@@ -1,13 +1,8 @@
-# Środowisko wirtualne
 venv/
-env/
-
-# Pliki konfiguracyjne
 .env
-
-# Pliki cache Pythona
 __pycache__/
 *.pyc
+<<<<<<< Updated upstream
 
 # Logi
 *.log
@@ -20,3 +15,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 specyfikacja.md
+=======
+*.txt
+>>>>>>> Stashed changes
