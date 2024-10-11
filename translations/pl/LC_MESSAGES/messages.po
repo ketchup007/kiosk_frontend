@@ -1,0 +1,8 @@
+msgid "Dotknij ekranu, aby rozpocząć"
+msgstr "Dotknij ekranu, aby rozpocząć"
+
+msgid "Kiosk jest chwilowo wyłączony"
+msgstr "Kiosk jest chwilowo wyłączony"
+
+msgid "Przepraszamy za utrudnienia"
+msgstr "Przepraszamy za utrudnienia"

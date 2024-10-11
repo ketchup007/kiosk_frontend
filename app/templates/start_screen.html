@@ -4,9 +4,9 @@
 
 {% block content %}
 <div class="language-buttons">
-    <a href="{{ url_for('set_language', lang='pl') }}">PL</a>
-    <a href="{{ url_for('set_language', lang='en') }}">EN</a>
-    <a href="{{ url_for('set_language', lang='uk') }}">UA</a>
+    <a href="{{ url_for('main.set_language', lang='pl') }}">PL</a>
+    <a href="{{ url_for('main.set_language', lang='en') }}">EN</a>
+    <a href="{{ url_for('main.set_language', lang='uk') }}">UA</a>
 </div>
 
 <div class="logo">
@@ -15,7 +15,7 @@
 
 {% if aps_state == 'active' %}
     <div class="start-button">
-        <a href="{{ url_for('start_order') }}">{{ _('Dotknij ekranu, aby rozpocząć') }}</a>
+        <a href="{{ url_for('main.start_order') }}">{{ _('Dotknij ekranu, aby rozpocząć') }}</a>
     </div>
 {% else %}
     <div class="kiosk-status">

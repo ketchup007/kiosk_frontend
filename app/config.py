@@ -10,3 +10,4 @@ class Config:
     SUPABASE_CENTRAL_URL = os.environ.get('SUPABASE_CENTRAL_URL')
     SUPABASE_CENTRAL_KEY = os.environ.get('SUPABASE_CENTRAL_KEY')
     LANGUAGES = ['pl', 'en', 'uk']
+    BABEL_DEFAULT_LOCALE = 'pl'
