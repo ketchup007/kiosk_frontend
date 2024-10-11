@@ -4,7 +4,7 @@ import os
 print(f"Current working directory: {os.getcwd()}")
 
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from flask_babel import Babel, _
+from flask_babel import Babel, gettext as _, _
 from services.order_service import OrderService
 from services.aps_service import ApsService
 from services.menu_service import MenuService
@@ -22,18 +22,16 @@ app.secret_key = os.getenv("SECRET_KEY", "default_secret_key")
 # Konfiguracja obsługiwanych języków
 LANGUAGES = ['pl', 'en', 'uk']
 
-# Funkcja selektora języka
-def get_locale():
-    lang = session.get('language', request.accept_languages.best_match(LANGUAGES))
-    print(f"Current language: {lang}")  # Dodaj tę linię
-    return lang
-
-# Konfiguracja Flask-Babel
-babel = Babel(app, locale_selector=get_locale)
-
 # Konfiguracja domyślnego języka i katalogu tłumaczeń
 app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
+app.config['LANGUAGES'] = LANGUAGES
 app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'translations')
+
+# Funkcja selektora języka
+def get_locale():
+    return session.get('language', request.accept_languages.best_match(LANGUAGES))
+
+babel = Babel(app, locale_selector=get_locale)
 
 @app.route('/')
 def start_screen():

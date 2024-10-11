@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-11 14:00+0200\n"
+"POT-Creation-Date: 2024-10-11 15:47+0200\n"
 "PO-Revision-Date: 2024-10-11 14:03+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -19,167 +19,291 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/main.py:37
+#: app/main.py:42
+msgid "Dotknij ekranu, aby rozpocząć"
+msgstr ""
+
+#: app/main.py:50
 msgid "Przepraszamy za niedogodności. Prosimy spróbować później."
-msgstr "Przepraszamy za niedogodności. Prosimy spróbować później."
+msgstr ""
 
-#: app/main.py:58
-msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
-msgstr "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
+#: app/main.py:72
+msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie pźniej."
+msgstr ""
 
-#: app/main.py:82 app/main.py:96 app/main.py:116 app/main.py:129
-#: app/main.py:153 app/main.py:166 app/main.py:189 app/main.py:202
+#: app/main.py:96 app/main.py:110 app/main.py:130 app/main.py:143
+#: app/main.py:167 app/main.py:180 app/main.py:203 app/main.py:216
 msgid "Nie znaleziono aktywnego zamówienia."
-msgstr "Nie znaleziono aktywnego zamówienia."
-
-#: app/main.py:91
-msgid "Nie udało się anulować zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się anulować zamówienia. Spróbuj ponownie."
+msgstr ""
 
 #: app/main.py:105
+msgid "Nie udało się anulować zamówienia. Spróbuj ponownie."
+msgstr ""
+
+#: app/main.py:119
 msgid "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
+msgstr ""
 
-#: app/main.py:142
+#: app/main.py:156
 msgid "Nie udało się przejść do płatności. Spróbuj ponownie."
-msgstr "Nie udało się przejść do płatności. Spróbuj ponownie."
+msgstr ""
 
-#: app/main.py:161
+#: app/main.py:175
 msgid "Nie udało się anulować płatności. Spróbuj ponownie."
-msgstr "Nie udało się anulować płatności. Spróbuj ponownie."
-
-#: app/main.py:197
-msgid "Nie udało się pobrać szczegółów zamówienia."
-msgstr "Nie udało się pobrać szczegółów zamówienia."
+msgstr ""
 
 #: app/main.py:211
+msgid "Nie udało się pobrać szczegółów zamówienia."
+msgstr ""
+
+#: app/main.py:225
 msgid "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
-msgstr "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
+msgstr ""
 
 #: templates/order_confirmation.html:6
 msgid "Potwierdzenie zamówienia - Kiosk Munchies"
-msgstr "Potwierdzenie zamówienia - Kiosk Munchies"
+msgstr ""
 
 #: templates/order_confirmation.html:19
 msgid "Potwierdzenie zamówienia"
-msgstr "Potwierdzenie zamówienia"
+msgstr ""
 
 #: templates/order_confirmation.html:22
 msgid "Numer zamówienia:"
-msgstr "Numer zamówienia:"
+msgstr ""
 
 #: templates/order_confirmation.html:23
 msgid "Szacowany czas oczekiwania:"
-msgstr "Szacowany czas oczekiwania:"
+msgstr ""
 
 #: templates/order_confirmation.html:23
 msgid "minut"
-msgstr "minut"
+msgstr ""
 
 #: templates/order_confirmation.html:27
 msgid "Instrukcje odbioru"
-msgstr "Instrukcje odbioru"
+msgstr ""
 
 #: templates/order_confirmation.html:28
 msgid "Prosimy o odebranie zamówienia z okienka numer"
-msgstr "Prosimy o odebranie zamówienia z okienka numer"
+msgstr ""
 
 #: templates/order_confirmation.html:29
 msgid "Dziękujemy za skorzystanie z naszych usług!"
-msgstr "Dziękujemy za skorzystanie z naszych usług!"
+msgstr ""
 
 #: templates/order_confirmation.html:32
 msgid "Powrót do ekranu głównego"
-msgstr "Powrót do ekranu głównego"
+msgstr ""
 
 #: templates/order_page.html:6
 msgid "Zamówienie - Kiosk Munchies"
-msgstr "Zamówienie - Kiosk Munchies"
+msgstr ""
 
 #: templates/order_page.html:20
 msgid "Wszystkie"
-msgstr "Wszystkie"
+msgstr ""
 
 #: templates/order_page.html:21
 msgid "Przekąski"
-msgstr "Przekąski"
+msgstr ""
 
 #: templates/order_page.html:22
 msgid "Napoje"
-msgstr "Napoje"
+msgstr ""
 
 #: templates/order_page.html:23
 msgid "Kawa"
-msgstr "Kawa"
+msgstr ""
 
 #: templates/order_page.html:24
 msgid "Opakowania"
-msgstr "Opakowania"
+msgstr ""
 
 #: templates/order_page.html:25
 msgid "Sosy"
-msgstr "Sosy"
+msgstr ""
 
 #: templates/order_page.html:33 templates/order_summary.html:35
 msgid "Anuluj zamówienie"
-msgstr "Anuluj zamówienie"
+msgstr ""
 
 #: templates/order_page.html:34
 msgid "Suma: "
-msgstr "Suma: "
+msgstr ""
 
 #: templates/order_page.html:35 templates/order_summary.html:19
 msgid "Podsumowanie zamówienia"
-msgstr "Podsumowanie zamówienia"
+msgstr ""
 
 #: templates/order_summary.html:6
 msgid "Podsumowanie zamówienia - Kiosk Munchies"
-msgstr "Podsumowanie zamówienia - Kiosk Munchies"
+msgstr ""
 
 #: templates/order_summary.html:26
 msgid "Sugerowane produkty"
-msgstr "Sugerowane produkty"
+msgstr ""
 
 #: templates/order_summary.html:31
 msgid "Suma zamówienia:"
-msgstr "Suma zamówienia:"
+msgstr ""
 
 #: templates/order_summary.html:36
 msgid "Przejdź do płatności"
-msgstr "Przejdź do płatności"
+msgstr ""
 
 #: templates/payment.html:6
 msgid "Płatność - Kiosk Munchies"
-msgstr "Płatność - Kiosk Munchies"
+msgstr ""
 
 #: templates/payment.html:19
 msgid "Płatność"
-msgstr "Płatność"
+msgstr ""
 
 #: templates/payment.html:26
 msgid "Wybierz metodę płatności"
-msgstr "Wybierz metodę płatności"
+msgstr ""
 
 #: templates/payment.html:28
 msgid "Karta płatnicza"
-msgstr "Karta płatnicza"
+msgstr ""
 
 #: templates/payment.html:38
 msgid "Anuluj płatność"
-msgstr "Anuluj płatność"
+msgstr ""
 
 #: templates/payment.html:39
 msgid "Potwierdź płatność"
-msgstr "Potwierdź płatność"
+msgstr ""
 
 #: templates/start_screen.html:6
 msgid "Kiosk Munchies"
-msgstr "Kiosk Munchies"
+msgstr ""
 
-#: templates/start_screen.html:22
-msgid "Dotknij ekranu, aby rozpocząć"
-msgstr "Dotknij ekranu, aby rozpocząć"
-
-#: templates/start_screen.html:24
+#: templates/start_screen.html:26
 msgid "Kiosk jest chwilowo wyłączony"
-msgstr "Kiosk jest chwilowo wyłączony"
+msgstr ""
+
+#~ msgid "Przepraszamy za niedogodności. Prosimy spróbować później."
+#~ msgstr "Przepraszamy za niedogodności. Prosimy spróbować później."
+
+#~ msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
+#~ msgstr "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
+
+#~ msgid "Nie znaleziono aktywnego zamówienia."
+#~ msgstr "Nie znaleziono aktywnego zamówienia."
+
+#~ msgid "Nie udało się anulować zamówienia. Spróbuj ponownie."
+#~ msgstr "Nie udało się anulować zamówienia. Spróbuj ponownie."
+
+#~ msgid "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
+#~ msgstr "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
+
+#~ msgid "Nie udało się przejść do płatności. Spróbuj ponownie."
+#~ msgstr "Nie udało się przejść do płatności. Spróbuj ponownie."
+
+#~ msgid "Nie udało się anulować płatności. Spróbuj ponownie."
+#~ msgstr "Nie udało się anulować płatności. Spróbuj ponownie."
+
+#~ msgid "Nie udało się pobrać szczegółów zamówienia."
+#~ msgstr "Nie udało się pobrać szczegółów zamówienia."
+
+#~ msgid "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
+#~ msgstr "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
+
+#~ msgid "Potwierdzenie zamówienia - Kiosk Munchies"
+#~ msgstr "Potwierdzenie zamówienia - Kiosk Munchies"
+
+#~ msgid "Potwierdzenie zamówienia"
+#~ msgstr "Potwierdzenie zamówienia"
+
+#~ msgid "Numer zamówienia:"
+#~ msgstr "Numer zamówienia:"
+
+#~ msgid "Szacowany czas oczekiwania:"
+#~ msgstr "Szacowany czas oczekiwania:"
+
+#~ msgid "minut"
+#~ msgstr "minut"
+
+#~ msgid "Instrukcje odbioru"
+#~ msgstr "Instrukcje odbioru"
+
+#~ msgid "Prosimy o odebranie zamówienia z okienka numer"
+#~ msgstr "Prosimy o odebranie zamówienia z okienka numer"
+
+#~ msgid "Dziękujemy za skorzystanie z naszych usług!"
+#~ msgstr "Dziękujemy za skorzystanie z naszych usług!"
+
+#~ msgid "Powrót do ekranu głównego"
+#~ msgstr "Powrót do ekranu głównego"
+
+#~ msgid "Zamówienie - Kiosk Munchies"
+#~ msgstr "Zamówienie - Kiosk Munchies"
+
+#~ msgid "Wszystkie"
+#~ msgstr "Wszystkie"
+
+#~ msgid "Przekąski"
+#~ msgstr "Przekąski"
+
+#~ msgid "Napoje"
+#~ msgstr "Napoje"
+
+#~ msgid "Kawa"
+#~ msgstr "Kawa"
+
+#~ msgid "Opakowania"
+#~ msgstr "Opakowania"
+
+#~ msgid "Sosy"
+#~ msgstr "Sosy"
+
+#~ msgid "Anuluj zamówienie"
+#~ msgstr "Anuluj zamówienie"
+
+#~ msgid "Suma: "
+#~ msgstr "Suma: "
+
+#~ msgid "Podsumowanie zamówienia"
+#~ msgstr "Podsumowanie zamówienia"
+
+#~ msgid "Podsumowanie zamówienia - Kiosk Munchies"
+#~ msgstr "Podsumowanie zamówienia - Kiosk Munchies"
+
+#~ msgid "Sugerowane produkty"
+#~ msgstr "Sugerowane produkty"
+
+#~ msgid "Suma zamówienia:"
+#~ msgstr "Suma zamówienia:"
+
+#~ msgid "Przejdź do płatności"
+#~ msgstr "Przejdź do płatności"
+
+#~ msgid "Płatność - Kiosk Munchies"
+#~ msgstr "Płatność - Kiosk Munchies"
+
+#~ msgid "Płatność"
+#~ msgstr "Płatność"
+
+#~ msgid "Wybierz metodę płatności"
+#~ msgstr "Wybierz metodę płatności"
+
+#~ msgid "Karta płatnicza"
+#~ msgstr "Karta płatnicza"
+
+#~ msgid "Anuluj płatność"
+#~ msgstr "Anuluj płatność"
+
+#~ msgid "Potwierdź płatność"
+#~ msgstr "Potwierdź płatność"
+
+#~ msgid "Kiosk Munchies"
+#~ msgstr "Kiosk Munchies"
+
+#~ msgid "Dotknij ekranu, aby rozpocząć"
+#~ msgstr "Dotknij ekranu, aby rozpocząć"
+
+#~ msgid "Kiosk jest chwilowo wyłączony"
+#~ msgstr "Kiosk jest chwilowo wyłączony"
+

@@ -1,18 +1,17 @@
-# English translations for PROJECT.
+# Translations template for PROJECT.
 # Copyright (C) 2024 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-11 15:47+0200\n"
-"PO-Revision-Date: 2024-10-11 14:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: en\n"
-"Language-Team: en <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,7 +23,7 @@ msgstr ""
 
 #: app/main.py:50
 msgid "Przepraszamy za niedogodności. Prosimy spróbować później."
-msgstr "We apologize for the inconvenience. Please try again later."
+msgstr ""
 
 #: app/main.py:72
 msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie pźniej."
@@ -182,127 +181,4 @@ msgstr ""
 #: templates/start_screen.html:26
 msgid "Kiosk jest chwilowo wyłączony"
 msgstr ""
-
-#~ msgid "Przepraszamy za niedogodności. Prosimy spróbować później."
-#~ msgstr "We apologize for the inconvenience. Please try again later."
-
-#~ msgid "Nie można rozpocząć zamówienia. Spróbuj ponownie później."
-#~ msgstr "Unable to start the order. Please try again later."
-
-#~ msgid "Nie znaleziono aktywnego zamówienia."
-#~ msgstr "No active order found."
-
-#~ msgid "Nie udało się anulować zamówienia. Spróbuj ponownie."
-#~ msgstr "Failed to cancel the order. Please try again."
-
-#~ msgid "Nie udało się zaktualizować zamówienia. Spróbuj ponownie."
-#~ msgstr "Failed to update the order. Please try again."
-
-#~ msgid "Nie udało się przejść do płatności. Spróbuj ponownie."
-#~ msgstr "Failed to proceed to payment. Please try again."
-
-#~ msgid "Nie udało się anulować płatności. Spróbuj ponownie."
-#~ msgstr "Failed to cancel the payment. Please try again."
-
-#~ msgid "Nie udało się pobrać szczegółów zamówienia."
-#~ msgstr "Failed to retrieve order details."
-
-#~ msgid "Nie udało się zakończyć zamówienia. Spróbuj ponownie."
-#~ msgstr "Failed to complete the order. Please try again."
-
-#~ msgid "Potwierdzenie zamówienia - Kiosk Munchies"
-#~ msgstr "Order Confirmation - Kiosk Munchies"
-
-#~ msgid "Potwierdzenie zamówienia"
-#~ msgstr "Order Confirmation"
-
-#~ msgid "Numer zamówienia:"
-#~ msgstr "Order number:"
-
-#~ msgid "Szacowany czas oczekiwania:"
-#~ msgstr "Estimated waiting time:"
-
-#~ msgid "minut"
-#~ msgstr "minutes"
-
-#~ msgid "Instrukcje odbioru"
-#~ msgstr "Pick-up Instructions"
-
-#~ msgid "Prosimy o odebranie zamówienia z okienka numer"
-#~ msgstr "Please collect your order from window number"
-
-#~ msgid "Dziękujemy za skorzystanie z naszych usług!"
-#~ msgstr "Thank you for using our services!"
-
-#~ msgid "Powrót do ekranu głównego"
-#~ msgstr "Return to main screen"
-
-#~ msgid "Zamówienie - Kiosk Munchies"
-#~ msgstr "Order - Kiosk Munchies"
-
-#~ msgid "Wszystkie"
-#~ msgstr "All"
-
-#~ msgid "Przekąski"
-#~ msgstr "Snacks"
-
-#~ msgid "Napoje"
-#~ msgstr "Drinks"
-
-#~ msgid "Kawa"
-#~ msgstr "Coffee"
-
-#~ msgid "Opakowania"
-#~ msgstr "Packaging"
-
-#~ msgid "Sosy"
-#~ msgstr "Sauces"
-
-#~ msgid "Anuluj zamówienie"
-#~ msgstr "Cancel order"
-
-#~ msgid "Suma: "
-#~ msgstr "Total: "
-
-#~ msgid "Podsumowanie zamówienia"
-#~ msgstr "Order summary"
-
-#~ msgid "Podsumowanie zamówienia - Kiosk Munchies"
-#~ msgstr "Order Summary - Kiosk Munchies"
-
-#~ msgid "Sugerowane produkty"
-#~ msgstr "Suggested products"
-
-#~ msgid "Suma zamówienia:"
-#~ msgstr "Order total:"
-
-#~ msgid "Przejdź do płatności"
-#~ msgstr "Proceed to payment"
-
-#~ msgid "Płatność - Kiosk Munchies"
-#~ msgstr "Payment - Kiosk Munchies"
-
-#~ msgid "Płatność"
-#~ msgstr "Payment"
-
-#~ msgid "Wybierz metodę płatności"
-#~ msgstr "Choose payment method"
-
-#~ msgid "Karta płatnicza"
-#~ msgstr "Credit card"
-
-#~ msgid "Anuluj płatność"
-#~ msgstr "Cancel payment"
-
-#~ msgid "Potwierdź płatność"
-#~ msgstr "Confirm payment"
-
-#~ msgid "Kiosk Munchies"
-#~ msgstr "Kiosk Munchies"
-
-#~ msgid "Dotknij ekranu, aby rozpocząć"
-#~ msgstr "Touch the screen to start"
-
-#~ msgid "Kiosk jest chwilowo wyłączony"
-#~ msgstr "Kiosk is temporarily unavailable"
 
