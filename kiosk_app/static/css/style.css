@@ -35,6 +35,7 @@ body {
     align-items: center;
     justify-content: space-around;
     padding: 20px;
+    background: transparent; /* Upewniamy się, że tło jest przezroczyste */
 }
 
 .language-selector {
@@ -74,6 +75,7 @@ body {
 .logo {
     width: 50vw;
     max-width: 500px;
+    background: transparent; /* ensure transparent background */
 }
 
 .robot {
@@ -175,15 +177,6 @@ body {
 .quantity {
     margin: 0 10px;
     font-size: 18px;
-}
-
-.bottom-section {
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    background-color: #f0f0f0;
 }
 
 #cancel-order {
