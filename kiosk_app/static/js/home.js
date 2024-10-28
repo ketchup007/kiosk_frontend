@@ -95,28 +95,26 @@ function initializeHomePage() {
     const startOrderBtn = document.getElementById('start-order-btn');
     if (startOrderBtn) {
         startOrderBtn.addEventListener('click', function() {
-            fetch('/api/create_new_order', {
+            fetch('/create_order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({}),
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (data.redirect) {
-                    window.location.href = data.redirect;
-                } else if (data.error) {
-                    showError(data.error);
+                if (data.success) {
+                    if (data.order_id) {
+                        window.location.href = `/order/${data.order_id}`;
+                    }
+                } else {
+                    // Wyświetl komunikat błędu
+                    showFlashMessage(data.error || 'Failed to create order', 'error');
                 }
             })
             .catch(error => {
-                showError("Wystąpił błąd. Prosimy spróbować ponownie.");
+                showFlashMessage("Wystąpił błąd. Prosimy spróbować ponownie.", 'error');
             });
         });
     }
@@ -167,6 +165,152 @@ function checkProductAvailability() {
         .catch(error => {
             console.error('Error checking product availability:', error);
         });
+}
+
+// Dodaj na początku pliku
+const messageQueue = [];
+let isProcessingQueue = false;
+
+// Zmienna globalna dla timeoutów
+let currentMessageTimeout = null;
+let currentFadeTimeout = null;
+
+function showFlashMessage(message, category) {
+    // Wyczyść wszystkie istniejące timeouty
+    if (currentMessageTimeout) {
+        clearTimeout(currentMessageTimeout);
+    }
+    if (currentFadeTimeout) {
+        clearTimeout(currentFadeTimeout);
+    }
+
+    // Funkcja do płynnego usuwania komunikatu
+    function removeMessage(messageDiv) {
+        messageDiv.style.animation = 'fadeOut 0.3s ease-in forwards';
+        setTimeout(() => messageDiv.remove(), 300);
+    }
+
+    // Usuń wszystkie istniejące komunikaty z animacją
+    const existingMessages = document.querySelectorAll('.flash-message');
+    existingMessages.forEach(removeMessage);
+
+    // Poczekaj na zakończenie animacji usuwania
+    setTimeout(() => {
+        // Upewnij się, że kontener istnieje
+        let flashContainer = document.querySelector('.flash-messages');
+        if (!flashContainer) {
+            flashContainer = document.createElement('div');
+            flashContainer.className = 'flash-messages';
+            document.body.appendChild(flashContainer);
+        } else {
+            // Wyczyść kontener
+            flashContainer.innerHTML = '';
+        }
+
+        // Stwórz nowy komunikat
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flash-message ${category}`;
+        messageDiv.textContent = message;
+
+        // Dodaj przycisk zamknięcia
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = '×';
+        closeButton.style.cssText = `
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+        `;
+        
+        closeButton.onclick = (e) => {
+            e.stopPropagation();
+            clearTimeout(currentMessageTimeout);
+            clearTimeout(currentFadeTimeout);
+            removeMessage(messageDiv);
+        };
+
+        messageDiv.style.position = 'relative';
+        messageDiv.appendChild(closeButton);
+        flashContainer.appendChild(messageDiv);
+
+        // Animacja wejścia
+        messageDiv.style.animation = 'slideIn 0.5s ease-out forwards';
+
+        // Ustaw nowe timeouty dla automatycznego znikania
+        currentMessageTimeout = setTimeout(() => {
+            removeMessage(messageDiv);
+        }, 8000);
+    }, 300);
+}
+
+function processMessageQueue() {
+    if (messageQueue.length === 0) {
+        isProcessingQueue = false;
+        return;
+    }
+
+    isProcessingQueue = true;
+    const { message, category } = messageQueue[0];
+
+    const flashContainer = document.querySelector('.flash-messages');
+    if (!flashContainer) {
+        const newFlashContainer = document.createElement('div');
+        newFlashContainer.className = 'flash-messages';
+        document.body.appendChild(newFlashContainer);
+    }
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `flash-message ${category}`;
+    messageDiv.textContent = message;
+
+    // Dodaj przycisk zamknięcia
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '×';
+    closeButton.style.cssText = `
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0 5px;
+    `;
+    
+    closeButton.onclick = () => {
+        messageDiv.remove();
+        messageQueue.shift(); // Usuń wiadomość z kolejki
+        processMessageQueue(); // Przetwórz następną wiadomość
+    };
+
+    messageDiv.style.position = 'relative';
+    messageDiv.appendChild(closeButton);
+
+    const container = document.querySelector('.flash-messages');
+    container.appendChild(messageDiv);
+
+    // Animacja wejścia
+    messageDiv.style.animation = 'slideIn 0.5s ease-out';
+    messageDiv.style.opacity = '1';
+
+    // Automatyczne usuwanie po dłuższym czasie (np. 8 sekund)
+    setTimeout(() => {
+        // Animacja wyjścia
+        messageDiv.style.animation = 'fadeOut 0.5s ease-in';
+        setTimeout(() => {
+            messageDiv.remove();
+            messageQueue.shift(); // Usuń wiadomość z kolejki
+            processMessageQueue(); // Przetwórz następną wiadomość
+        }, 500);
+    }, 8000);
 }
 
 // Nasłuchiwanie na załadowanie DOM

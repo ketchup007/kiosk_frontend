@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify, session, redirect, url_for, current_app, abort
+from flask import render_template, request, jsonify, session, redirect, url_for, current_app, abort, flash
 from app import app
 from flask_babel import _
 from services.database import db
@@ -39,25 +39,27 @@ def get_aps_state():
         })
     except Exception as e:
         logging_service.error(f"Error in get_aps_state: {str(e)}")
+        flash(str(e), 'error')
         return jsonify({
             'state': 'error',
-            'error': str(e),
             'timestamp': datetime.now().isoformat()
-        }), 500
+        })
 
 @app.route('/create_order', methods=['POST'])
 def create_order():
     aps_id = app.config['APS_ID']
     aps_state = db.get_aps_state(aps_id)
     if aps_state != APSState.ACTIVE.value:
-        return jsonify(error=app.config['APS_STATE_MESSAGES'].get(aps_state, "Kiosk is not available")), 400
+        error_msg = app.config['APS_STATE_MESSAGES'].get(aps_state, _("Kiosk is not available"))
+        return jsonify(success=False, error=error_msg)
     
     try:
         order_id = db.create_order(aps_id)
-        return jsonify(order_id=order_id)
+        return jsonify(success=True, order_id=order_id)
     except Exception as e:
         logging_service.error(f"Failed to create order: {str(e)}")
-        return jsonify(error="Failed to create order"), 500
+        error_msg = _('Failed to create order: {}').format(str(e))
+        return jsonify(success=False, error=error_msg)
 
 @app.route('/order/<int:order_id>')
 def order(order_id):
@@ -84,13 +86,16 @@ def add_to_order():
     quantity = request.json.get('quantity', 1)
 
     if not all([order_id, item_id]) or not isinstance(quantity, int) or quantity <= 0:
-        abort(400, description="Invalid input data")
+        flash(_('Invalid input data'), 'error')
+        return jsonify(success=False)
 
     try:
         db.add_item_to_order(order_id, item_id, quantity)
+        flash(_('Item added successfully'), 'success')
         return jsonify(success=True)
     except DatabaseError as e:
-        return jsonify(error=str(e)), 500
+        flash(str(e), 'error')
+        return jsonify(success=False)
 
 @app.route('/remove_from_order', methods=['POST'])
 def remove_from_order():
@@ -218,12 +223,15 @@ def process_payment():
             db.update_order_status(order_id, OrderStatus.PAID.value)
             kds_number = db.generate_next_kds_order_number(app.config['APS_ID'])
             db.update_order_kds_number(order_id, kds_number)
+            flash(_('Payment processed successfully'), 'success')
             return jsonify(success=True, kds_number=kds_number)
         else:
-            return jsonify(success=False, error="Payment failed"), 400
+            flash(_('Payment failed'), 'error')
+            return jsonify(success=False)
     except PaymentError as e:
         logging_service.error(f"Payment processing failed: {str(e)}")
-        return jsonify(success=False, error=str(e)), 500
+        flash(str(e), 'error')
+        return jsonify(success=False)
 
 @app.route('/cancel_payment', methods=['POST'])
 def cancel_payment():
@@ -321,7 +329,8 @@ def order_confirmation(kds_number):
 def handle_exception(e):
     logging_service.error(f'Unhandled exception: {str(e)}')
     logging_service.error(traceback.format_exc())
-    return jsonify(error="An unexpected error occurred"), 500
+    flash(_('An unexpected error occurred'), 'error')
+    return jsonify(success=False)
 
 @app.route('/long_running_task')
 async def long_running_task():
