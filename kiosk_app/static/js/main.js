@@ -10,20 +10,148 @@ function changeLanguage(lang) {
     });
  }
 
-// Dodaj to do istniejącego pliku main.js
-document.addEventListener('DOMContentLoaded', function() {
-    const flashMessages = document.querySelectorAll('.flash-message');
-    
-    flashMessages.forEach(message => {
-        // Usuń wiadomość po 5 sekundach
-        setTimeout(() => {
-            message.remove();
-        }, 5000);
+// Globalne zmienne dla kolejki komunikatów
+const messageQueue = [];
+let isProcessingQueue = false;
+let currentMessageTimeout = null;
+let currentFadeTimeout = null;
 
-        // Opcjonalnie: dodaj przycisk zamknięcia
+function showFlashMessage(message, category) {
+    // Wyczyść wszystkie istniejące timeouty
+    if (currentMessageTimeout) {
+        clearTimeout(currentMessageTimeout);
+    }
+    if (currentFadeTimeout) {
+        clearTimeout(currentFadeTimeout);
+    }
+
+    // Funkcja do płynnego usuwania komunikatu
+    function removeMessage(messageDiv) {
+        messageDiv.style.animation = 'fadeOut 0.3s ease-in forwards';
+        setTimeout(() => messageDiv.remove(), 300);
+    }
+
+    // Usuń wszystkie istniejące komunikaty z animacją
+    const existingMessages = document.querySelectorAll('.flash-message');
+    existingMessages.forEach(removeMessage);
+
+    // Poczekaj na zakończenie animacji usuwania
+    setTimeout(() => {
+        // Upewnij się, że kontener istnieje
+        let flashContainer = document.querySelector('.flash-messages');
+        if (!flashContainer) {
+            flashContainer = document.createElement('div');
+            flashContainer.className = 'flash-messages';
+            document.body.appendChild(flashContainer);
+        } else {
+            // Wyczyść kontener
+            flashContainer.innerHTML = '';
+        }
+
+        // Stwórz nowy komunikat
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `flash-message ${category}`;
+        messageDiv.textContent = message;
+
+        // Dodaj przycisk zamknięcia
         const closeButton = document.createElement('button');
         closeButton.innerHTML = '×';
-        closeButton.style.cssText = `
+        closeButton.className = 'close-button';
+        
+        closeButton.onclick = (e) => {
+            e.stopPropagation();
+            clearTimeout(currentMessageTimeout);
+            clearTimeout(currentFadeTimeout);
+            removeMessage(messageDiv);
+        };
+
+        messageDiv.appendChild(closeButton);
+        flashContainer.appendChild(messageDiv);
+
+        // Animacja wejścia
+        messageDiv.style.animation = 'slideIn 0.5s ease-out forwards';
+
+        // Ustaw nowe timeouty dla automatycznego znikania
+        currentMessageTimeout = setTimeout(() => {
+            removeMessage(messageDiv);
+        }, 8000);
+    }, 300);
+}
+
+function processMessageQueue() {
+    if (messageQueue.length === 0) {
+        isProcessingQueue = false;
+        return;
+    }
+
+    isProcessingQueue = true;
+    const { message, category } = messageQueue.shift();
+    showFlashMessage(message, category);
+
+    // Kontynuuj przetwarzanie kolejki po określonym czasie
+    setTimeout(processMessageQueue, 8500);
+}
+
+// Funkcja pomocnicza do obsługi błędów fetch
+function handleFetchError(error, defaultMessage = 'An error occurred') {
+    console.error('Fetch error:', error);
+    showFlashMessage(error.message || defaultMessage, 'error');
+}
+
+// Funkcja pomocnicza do wykonywania zapytań fetch
+async function fetchWithErrorHandling(url, options = {}) {
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        handleFetchError(error);
+        throw error;
+    }
+}
+
+// Dodaj style CSS do head dokumentu
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        .flash-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .flash-message {
+            padding: 15px 40px 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            color: white;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .flash-message.error {
+            background-color: #ff4444;
+        }
+
+        .flash-message.success {
+            background-color: #00C851;
+        }
+
+        .flash-message.warning {
+            background-color: #ffbb33;
+        }
+
+        .flash-message.info {
+            background-color: #33b5e5;
+        }
+
+        .close-button {
             position: absolute;
             right: 10px;
             top: 50%;
@@ -34,10 +162,26 @@ document.addEventListener('DOMContentLoaded', function() {
             font-size: 20px;
             cursor: pointer;
             padding: 0 5px;
-        `;
-        
-        closeButton.onclick = () => message.remove();
-        message.style.position = 'relative';
-        message.appendChild(closeButton);
-    });
-});
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+`);

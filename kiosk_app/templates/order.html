@@ -58,28 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateQuantity(itemId, change) {
-        const quantityElement = document.querySelector(`.quantity[data-item-id="${itemId}"]`);
-        let quantity = parseInt(quantityElement.textContent) + change;
-        quantity = Math.max(0, quantity);
-        quantityElement.textContent = quantity;
-
-        if (quantity > 0) {
-            if (!orderItems[itemId]) {
-                orderItems[itemId] = {
-                    quantity: 0,
-                    price: parseFloat(document.querySelector(`.product-item[data-item-id="${itemId}"] .price`).textContent)
-                };
-            }
-            orderItems[itemId].quantity = quantity;
-        } else {
-            delete orderItems[itemId];
-        }
-
-        total = Object.values(orderItems).reduce((sum, item) => sum + item.quantity * item.price, 0);
-        updateTotal();
-
-        // Send update to server
-        fetch('/add_to_order', {
+        fetchWithErrorHandling('/add_to_order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,12 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 item_id: itemId,
                 quantity: change
             })
-        }).then(response => response.json())
-          .then(data => {
-              if (!data.success) {
-                  alert('{{ _("Failed to update order. Please try again.") }}');
-              }
-          });
+        })
+        .then(data => {
+            if (!data.success) {
+                showFlashMessage('{{ _("Failed to update order. Please try again.") }}', 'error');
+            }
+        });
     }
 
     document.querySelectorAll('.increase-quantity').forEach(button => {
@@ -124,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('cancel-order').addEventListener('click', function() {
         if (confirm('{{ _("Are you sure you want to cancel your order?") }}')) {
-            fetch('/cancel_order', {
+            fetchWithErrorHandling('/cancel_order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -132,14 +111,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({
                     order_id: {{ order_id }}
                 })
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      window.location.href = '/';
-                  } else {
-                      alert('{{ _("Failed to cancel order. Please try again.") }}');
-                  }
-              });
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/';
+                } else {
+                    showFlashMessage('{{ _("Failed to cancel order. Please try again.") }}', 'error');
+                }
+            });
         }
     });
 

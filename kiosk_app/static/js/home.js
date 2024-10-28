@@ -43,13 +43,7 @@ function updatePageTranslations(translations) {
 // Funkcja inicjalizująca stronę główną
 function initializeHomePage() {
     function updateApsState() {
-        fetch('/get_aps_state')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
+        fetchWithErrorHandling('/get_aps_state')
             .then(data => {
                 const startOrderBtn = document.getElementById('start-order-btn');
                 
@@ -64,9 +58,6 @@ function initializeHomePage() {
                     startOrderBtn.disabled = false;
                     startOrderBtn.textContent = startOrderBtn.dataset.defaultText;
                 }
-            })
-            .catch(error => {
-                console.error('Error in updateApsState:', error);
             });
     }
 
@@ -81,40 +72,25 @@ function initializeHomePage() {
         return messages[state.toLowerCase()] || messages.default;
     }
 
-    function showError(message) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = message;
-        document.body.appendChild(errorDiv);
-        setTimeout(() => {
-            errorDiv.remove();
-        }, 10000);
-    }
-
     // Initialize order button click handler
     const startOrderBtn = document.getElementById('start-order-btn');
     if (startOrderBtn) {
         startOrderBtn.addEventListener('click', function() {
-            fetch('/create_order', {
+            fetchWithErrorHandling('/create_order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({}),
             })
-            .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     if (data.order_id) {
                         window.location.href = `/order/${data.order_id}`;
                     }
                 } else {
-                    // Wyświetl komunikat błędu
                     showFlashMessage(data.error || 'Failed to create order', 'error');
                 }
-            })
-            .catch(error => {
-                showFlashMessage("Wystąpił błąd. Prosimy spróbować ponownie.", 'error');
             });
         });
     }
@@ -135,182 +111,25 @@ function initializeHomePage() {
 }
 
 function updateWaitingTime() {
-    fetch('/calculate_estimated_waiting_time')
-        .then(response => response.json())
+    fetchWithErrorHandling('/calculate_estimated_waiting_time')
         .then(data => {
             const waitingTimeSpan = document.getElementById('waiting-time');
             if (waitingTimeSpan) {
                 const waitingTime = parseInt(data.waiting_time) || 0;
                 waitingTimeSpan.textContent = waitingTime.toString();
             }
-        })
-        .catch(error => {
-            const waitingTimeSpan = document.getElementById('waiting-time');
-            if (waitingTimeSpan) {
-                waitingTimeSpan.textContent = '0';
-            }
         });
 }
 
 function checkProductAvailability() {
-    fetch('/get_product_availability')
-        .then(response => response.json())
+    fetchWithErrorHandling('/get_product_availability')
         .then(data => {
             const startOrderBtn = document.getElementById('start-order-btn');
             if (!data.snacks_available && !data.drinks_available && !data.coffee_available) {
                 startOrderBtn.disabled = true;
                 startOrderBtn.textContent = "Przepraszamy, obecnie wszystkie produkty są niedostępne. Prosimy spróbować później.";
             }
-        })
-        .catch(error => {
-            console.error('Error checking product availability:', error);
         });
-}
-
-// Dodaj na początku pliku
-const messageQueue = [];
-let isProcessingQueue = false;
-
-// Zmienna globalna dla timeoutów
-let currentMessageTimeout = null;
-let currentFadeTimeout = null;
-
-function showFlashMessage(message, category) {
-    // Wyczyść wszystkie istniejące timeouty
-    if (currentMessageTimeout) {
-        clearTimeout(currentMessageTimeout);
-    }
-    if (currentFadeTimeout) {
-        clearTimeout(currentFadeTimeout);
-    }
-
-    // Funkcja do płynnego usuwania komunikatu
-    function removeMessage(messageDiv) {
-        messageDiv.style.animation = 'fadeOut 0.3s ease-in forwards';
-        setTimeout(() => messageDiv.remove(), 300);
-    }
-
-    // Usuń wszystkie istniejące komunikaty z animacją
-    const existingMessages = document.querySelectorAll('.flash-message');
-    existingMessages.forEach(removeMessage);
-
-    // Poczekaj na zakończenie animacji usuwania
-    setTimeout(() => {
-        // Upewnij się, że kontener istnieje
-        let flashContainer = document.querySelector('.flash-messages');
-        if (!flashContainer) {
-            flashContainer = document.createElement('div');
-            flashContainer.className = 'flash-messages';
-            document.body.appendChild(flashContainer);
-        } else {
-            // Wyczyść kontener
-            flashContainer.innerHTML = '';
-        }
-
-        // Stwórz nowy komunikat
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `flash-message ${category}`;
-        messageDiv.textContent = message;
-
-        // Dodaj przycisk zamknięcia
-        const closeButton = document.createElement('button');
-        closeButton.innerHTML = '×';
-        closeButton.style.cssText = `
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 5px;
-        `;
-        
-        closeButton.onclick = (e) => {
-            e.stopPropagation();
-            clearTimeout(currentMessageTimeout);
-            clearTimeout(currentFadeTimeout);
-            removeMessage(messageDiv);
-        };
-
-        messageDiv.style.position = 'relative';
-        messageDiv.appendChild(closeButton);
-        flashContainer.appendChild(messageDiv);
-
-        // Animacja wejścia
-        messageDiv.style.animation = 'slideIn 0.5s ease-out forwards';
-
-        // Ustaw nowe timeouty dla automatycznego znikania
-        currentMessageTimeout = setTimeout(() => {
-            removeMessage(messageDiv);
-        }, 8000);
-    }, 300);
-}
-
-function processMessageQueue() {
-    if (messageQueue.length === 0) {
-        isProcessingQueue = false;
-        return;
-    }
-
-    isProcessingQueue = true;
-    const { message, category } = messageQueue[0];
-
-    const flashContainer = document.querySelector('.flash-messages');
-    if (!flashContainer) {
-        const newFlashContainer = document.createElement('div');
-        newFlashContainer.className = 'flash-messages';
-        document.body.appendChild(newFlashContainer);
-    }
-
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `flash-message ${category}`;
-    messageDiv.textContent = message;
-
-    // Dodaj przycisk zamknięcia
-    const closeButton = document.createElement('button');
-    closeButton.innerHTML = '×';
-    closeButton.style.cssText = `
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        padding: 0 5px;
-    `;
-    
-    closeButton.onclick = () => {
-        messageDiv.remove();
-        messageQueue.shift(); // Usuń wiadomość z kolejki
-        processMessageQueue(); // Przetwórz następną wiadomość
-    };
-
-    messageDiv.style.position = 'relative';
-    messageDiv.appendChild(closeButton);
-
-    const container = document.querySelector('.flash-messages');
-    container.appendChild(messageDiv);
-
-    // Animacja wejścia
-    messageDiv.style.animation = 'slideIn 0.5s ease-out';
-    messageDiv.style.opacity = '1';
-
-    // Automatyczne usuwanie po dłuższym czasie (np. 8 sekund)
-    setTimeout(() => {
-        // Animacja wyjścia
-        messageDiv.style.animation = 'fadeOut 0.5s ease-in';
-        setTimeout(() => {
-            messageDiv.remove();
-            messageQueue.shift(); // Usuń wiadomość z kolejki
-            processMessageQueue(); // Przetwórz następną wiadomość
-        }, 500);
-    }, 8000);
 }
 
 // Nasłuchiwanie na załadowanie DOM
