@@ -243,9 +243,21 @@ class Database:
     def get_order_summary(self, order_id: int) -> APSOrderWithItems:
         try:
             result = self.client.table('aps_order_with_items').select('*').eq('id', order_id).execute()
+            logging_service.info(f"get_order_summary result: {result}")
             
-            if result.data:
-                return APSOrderWithItems(**result.data[0])
+            if result.data and len(result.data) > 0:
+                # Bierzemy pierwszy element z listy
+                order_data = result.data[0]
+                
+                # Konwertujemy dane do odpowiedniego formatu
+                for item in order_data.get('items', []):
+                    # Konwertuj category na enum
+                    if isinstance(item.get('category'), str):
+                        item['category'] = ItemCategory(item['category'])
+                
+                # Tworzymy obiekt APSOrderWithItems
+                return APSOrderWithItems(**order_data)
+                
             raise DatabaseError("Order summary not found")
         except Exception as e:
             logging_service.error(f"Database error in get_order_summary: {str(e)}")

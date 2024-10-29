@@ -145,7 +145,7 @@ def get_order_summary():
     try:
         summary = db.get_order_summary(order_id)
         logging_service.info(f"Order summary: {summary}")
-        return jsonify(summary=summary)
+        return jsonify(summary=summary.to_dict())
     except DatabaseError as e:
         logging_service.error(f"Database error in get_order_summary: {str(e)}")
         return jsonify(error=str(e)), 500

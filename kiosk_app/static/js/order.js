@@ -5,7 +5,7 @@ class OrderPage {
         this.orderItems = {};
         this.inactivityTimer = null;
         this.inactivityTimeout = 10 * 60 * 1000; // 10 minutes
-        this.availabilityCheckInterval = 1000; // 1 second
+        this.availabilityCheckInterval = 30 * 1000; // 30 seconds
         this.initializeEventListeners();
         this.startMonitoring();
         
