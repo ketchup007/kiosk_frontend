@@ -162,18 +162,18 @@ def get_order_total():
         logging_service.error(f"Database error in get_order_total: {str(e)}")
         return jsonify(error=str(e)), 500
 
-@app.route('/get_available_items', methods=['GET'])
-def get_available_items():
+@app.route('/get_available_quantities', methods=['GET'])
+def get_available_quantities():
     aps_id = app.config['APS_ID']
     item_ids = request.args.getlist('item_ids', type=int)
     try:
-        available_items = db.get_available_items(aps_id, item_ids)
+        available_items = db.get_available_quantities(aps_id, item_ids)
         # Użyj Pydantic do konwersji obiektów na słowniki
         items_dict = [item.model_dump() for item in available_items]  # lub .dict() w starszych wersjach
         logging_service.info(f"Available items: {items_dict}")
         return jsonify(available_items=items_dict)
     except DatabaseError as e:
-        logging_service.error(f"Database error in get_available_items: {str(e)}")
+        logging_service.error(f"Database error in get_available_quantities: {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/cancel_order', methods=['POST'])

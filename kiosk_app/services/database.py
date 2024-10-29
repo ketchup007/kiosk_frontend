@@ -16,19 +16,20 @@ class Database:
     def __init__(self):
         self.client = Config.get_local_client()
 
-    def get_available_items(self, aps_id: int, item_ids: List[int]) -> List[AvailableItem]:
+    def get_available_quantities(self, aps_id: int, item_ids: List[int]) -> List[AvailableItem]:
         try:
-            result = self.client.rpc('get_available_items', {
+            result = self.client.rpc('get_available_quantities', {
                 'aps_id_input': aps_id,
                 'item_ids': item_ids
             }).execute()
             
+            logging_service.info(f"get_available_quantities result: {result}")
             if result.data:
                 return [AvailableItem(**item) for item in result.data]
             return []
         except Exception as e:
-            logging_service.error(f"Database error in get_available_items: {str(e)}")
-            raise DatabaseError("Error getting available items")
+            logging_service.error(f"Database error in get_available_quantities: {str(e)}")
+            raise DatabaseError("Error getting available quantities")
 
     def get_order_total(self, order_id: int, aps_id: int) -> float:
         try:
@@ -312,7 +313,7 @@ class Database:
             if not category_item_ids:
                 return False
                 
-            available_items = self.get_available_items(aps_id, category_item_ids)
+            available_items = self.get_available_quantities(aps_id, category_item_ids)
             
             return any(
                 item.available_quantity > 0 
