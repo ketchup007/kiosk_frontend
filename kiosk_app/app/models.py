@@ -224,3 +224,9 @@ class EstimatedWaitingTime(BaseModel):
     aps_id: int
     order_id: int
     estimated_time: int
+
+class Config:
+    json_encoders = {
+        datetime: lambda v: v.isoformat(),
+        Enum: lambda v: v.value
+    }

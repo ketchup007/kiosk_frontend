@@ -85,7 +85,7 @@ def order(order_id):
             return redirect(url_for('index'))
             
         menu_data = db.get_menu(aps_id)
-        menu_items = menu_data.menu_items if menu_data else []
+        menu_items = [item.model_dump() for item in menu_data.menu_items] if menu_data else []
         logging_service.info(f"Menu items: {menu_items}")
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
         logging_service.info(f"Estimated waiting time: {estimated_waiting_time}")
@@ -102,9 +102,12 @@ def order(order_id):
 @app.route('/get_menu', methods=['GET'])
 def get_menu():
     aps_id = app.config['APS_ID']
-    menu = db.get_menu(aps_id)
-    logging_service.info(f"Menu: {menu}")
-    return jsonify(menu=menu)
+    try:
+        menu = db.get_menu(aps_id)
+        return jsonify(menu=menu.model_dump())
+    except DatabaseError as e:
+        logging_service.error(f"Error getting menu: {str(e)}")
+        return jsonify(error=str(e)), 500
 
 @app.route('/add_to_order', methods=['POST'])
 def add_to_order():
@@ -144,8 +147,7 @@ def get_order_summary():
     order_id = request.args.get('order_id', type=int)
     try:
         summary = db.get_order_summary(order_id)
-        logging_service.info(f"Order summary: {summary}")
-        return jsonify(summary=summary.to_dict())
+        return jsonify(summary=summary.model_dump())
     except DatabaseError as e:
         logging_service.error(f"Database error in get_order_summary: {str(e)}")
         return jsonify(error=str(e)), 500
@@ -156,8 +158,7 @@ def get_order_total():
     aps_id = app.config['APS_ID']
     try:
         total = db.get_order_total(order_id, aps_id)
-        logging_service.info(f"Order total: {total}")
-        return jsonify(total=total)
+        return jsonify(total=float(total))
     except DatabaseError as e:
         logging_service.error(f"Database error in get_order_total: {str(e)}")
         return jsonify(error=str(e)), 500
@@ -168,8 +169,7 @@ def get_available_quantities():
     item_ids = request.args.getlist('item_ids', type=int)
     try:
         available_items = db.get_available_quantities(aps_id, item_ids)
-        # Użyj Pydantic do konwersji obiektów na słowniki
-        items_dict = [item.model_dump() for item in available_items]  # lub .dict() w starszych wersjach
+        items_dict = [item.model_dump() for item in available_items]
         logging_service.info(f"Available items: {items_dict}")
         return jsonify(available_items=items_dict)
     except DatabaseError as e:
@@ -287,11 +287,12 @@ def order_summary(order_id):
         order_details = db.get_order_details_with_items(order_id)
         suggested_products = db.get_suggested_products(aps_id, order_id)
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
+        
         return render_template('order_summary.html', 
-                               order_details=order_details,
-                               suggested_products=suggested_products,
-                               order_id=order_id,
-                               estimated_waiting_time=estimated_waiting_time)
+                           order_details=order_details.model_dump(),
+                           suggested_products=[p.model_dump() for p in suggested_products],
+                           order_id=order_id,
+                           estimated_waiting_time=estimated_waiting_time)
     except Exception as e:
         logging_service.error(f"Error in order_summary: {str(e)}")
         return jsonify(error="An error occurred while processing your request"), 500
