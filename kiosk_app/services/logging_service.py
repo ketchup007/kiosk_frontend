@@ -28,7 +28,7 @@ class LoggingService:
 
     def initialize_logging(self, app):
         self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
 
         formatter = logging.Formatter('[%(levelname)s] - [%(asctime)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 

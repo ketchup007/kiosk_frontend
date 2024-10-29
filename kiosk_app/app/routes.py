@@ -16,16 +16,16 @@ from datetime import datetime
 
 @app.route('/')
 def index():
-    logging_service.debug("Index route called (home.html)")
+    logging_service.info("Index route called (home.html)")
     return render_template('home.html')
 
 
 @app.route('/set_language/<lang>', methods=['POST'])
 def set_language(lang):
-    logging_service.debug(f"Setting language to: {lang}")
+    logging_service.info(f"Setting language to: {lang}")
     if lang in app.config['LANGUAGES']:
         session['language'] = lang
-        logging_service.debug(f"Language set to: {lang}")
+        logging_service.info(f"Language set to: {lang}")
         return jsonify(success=True)
     return jsonify(success=False), 400
 
@@ -33,7 +33,7 @@ def set_language(lang):
 @app.route('/get_aps_state')
 def get_aps_state():
     try:
-        logging_service.debug("get_aps_state endpoint called")
+        logging_service.info("get_aps_state endpoint called")
         aps_id = app.config['APS_ID']
         state = db.get_aps_state(aps_id)
         logging_service.info(f"APS state retrieved: {state}")
@@ -53,15 +53,15 @@ def get_aps_state():
 def create_order():
     aps_id = app.config['APS_ID']
     aps_state = db.get_aps_state(aps_id)
-    logging_service.debug(f"APS state retrieved: {aps_state}")
+    logging_service.info(f"APS state retrieved: {aps_state}")
     if aps_state != APSState.ACTIVE.value:
         error_msg = app.config['APS_STATE_MESSAGES'].get(aps_state, _("Kiosk is not available"))
-        logging_service.debug(f"Error message: {error_msg}")
+        logging_service.info(f"Error message: {error_msg}")
         return jsonify(success=False, error=error_msg)
     
     try:
         order = db.create_order(aps_id)  # Zwraca obiekt APSOrder
-        logging_service.debug(f"Order created: {order}")
+        logging_service.info(f"Order created: {order}")
         return jsonify(success=True, order_id=order.id)  # Zwracamy tylko ID zamówienia
     except Exception as e:
         logging_service.error(f"Failed to create order: {str(e)}")
@@ -75,7 +75,7 @@ def order(order_id):
         
         try:
             order_status = db.get_order_status(order_id)
-            logging_service.debug(f"Order status: {order_status}")
+            logging_service.info(f"Order status: {order_status}")
             if order_status not in [OrderStatus.DURING_ORDERING.value]:
                 flash(_("This order is no longer active"), "error")
                 return redirect(url_for('index'))
@@ -86,9 +86,9 @@ def order(order_id):
             
         menu_data = db.get_menu(aps_id)
         menu_items = menu_data.menu_items if menu_data else []
-        logging_service.debug(f"Menu items: {menu_items}")
+        logging_service.info(f"Menu items: {menu_items}")
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
-        logging_service.debug(f"Estimated waiting time: {estimated_waiting_time}")
+        logging_service.info(f"Estimated waiting time: {estimated_waiting_time}")
         
         return render_template('order.html', 
                            menu_items=menu_items,
@@ -103,7 +103,7 @@ def order(order_id):
 def get_menu():
     aps_id = app.config['APS_ID']
     menu = db.get_menu(aps_id)
-    logging_service.debug(f"Menu: {menu}")
+    logging_service.info(f"Menu: {menu}")
     return jsonify(menu=menu)
 
 @app.route('/add_to_order', methods=['POST'])
@@ -111,7 +111,7 @@ def add_to_order():
     order_id = request.json.get('order_id')
     item_id = request.json.get('item_id')
     quantity = request.json.get('quantity', 1)
-    logging_service.debug(f"Adding to order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
+    logging_service.info(f"Adding to order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
 
     if not all([order_id, item_id]) or not isinstance(quantity, int) or quantity <= 0:
         logging_service.error("Invalid input data")
@@ -119,7 +119,7 @@ def add_to_order():
 
     try:
         db.add_item_to_order(order_id, item_id, quantity)
-        logging_service.debug("Item added successfully")
+        logging_service.info("Item added successfully")
         return jsonify(success=True, message=_('Item added successfully'))
     except DatabaseError as e:
         logging_service.error(f"Database error in add_to_order: {str(e)}")
@@ -130,10 +130,10 @@ def remove_from_order():
     order_id = request.json.get('order_id')
     item_id = request.json.get('item_id')
     quantity = request.json.get('quantity', 1)
-    logging_service.debug(f"Removing from order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
+    logging_service.info(f"Removing from order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
     try:
         db.remove_item_from_order(order_id, item_id, quantity)
-        logging_service.debug("Item removed successfully")
+        logging_service.info("Item removed successfully")
         return jsonify(success=True)
     except DatabaseError as e:
         logging_service.error(f"Database error in remove_from_order: {str(e)}")
@@ -144,7 +144,7 @@ def get_order_summary():
     order_id = request.args.get('order_id', type=int)
     try:
         summary = db.get_order_summary(order_id)
-        logging_service.debug(f"Order summary: {summary}")
+        logging_service.info(f"Order summary: {summary}")
         return jsonify(summary=summary)
     except DatabaseError as e:
         logging_service.error(f"Database error in get_order_summary: {str(e)}")
@@ -156,7 +156,7 @@ def get_order_total():
     aps_id = app.config['APS_ID']
     try:
         total = db.get_order_total(order_id, aps_id)
-        logging_service.debug(f"Order total: {total}")
+        logging_service.info(f"Order total: {total}")
         return jsonify(total=total)
     except DatabaseError as e:
         logging_service.error(f"Database error in get_order_total: {str(e)}")
@@ -168,7 +168,7 @@ def get_available_items():
     item_ids = request.args.getlist('item_ids', type=int)
     try:
         available_items = db.get_available_items(aps_id, item_ids)
-        logging_service.debug(f"Available items: {available_items}")
+        logging_service.info(f"Available items: {available_items}")
         return jsonify(available_items=available_items)
     except DatabaseError as e:
         logging_service.error(f"Database error in get_available_items: {str(e)}")
@@ -178,22 +178,14 @@ def get_available_items():
 def cancel_order():
     order_id = request.json.get('order_id')
     aps_id = app.config['APS_ID']
-    logging_service.debug(f"Cancelling order: order_id={order_id}")
+    logging_service.info(f"Cancelling order: order_id={order_id}")
     try:
         db.cancel_order(order_id)
-        logging_service.debug("Order cancelled successfully")
+        logging_service.info("Order cancelled successfully")
         return jsonify(success=True)
     except DatabaseError as e:
         logging_service.error(f"Database error in cancel_order: {str(e)}")
         return jsonify(error=str(e)), 500
-
-
-@app.route('/get_public_image_url', methods=['GET'])
-def get_public_image_url():
-    filename = request.args.get('filename')
-    url = Config.get_central_client.storage.from_('images').get_public_url(filename)    
-    logging_service.debug(f"Public image URL: {url}")
-    return jsonify(url=url)
 
 
 @app.route('/calculate_estimated_waiting_time', methods=['GET'])
@@ -378,7 +370,7 @@ def example_route():
 
 def perform_operation():
     # Simulating an operation
-    logging_service.debug("Performing operation")
+    logging_service.info("Performing operation")
     # ... operation logic ...
     return "Operation result"
 
@@ -404,4 +396,17 @@ def get_product_availability():
         return jsonify({
             'error': _('Failed to check product availability. Please try again.')
         }), 500
+
+@app.route('/get_public_image_url', methods=['GET'])
+def get_public_image_url():
+    try:
+        filename = request.args.get('filename')
+        # Konstruuj publiczny URL dla Supabase Storage
+        # url = f"{Config.SUPABASE_URL}/storage/v1/object/public/images/{filename}"
+        url = Config.get_central_client().storage.from_('images').get_public_url(filename)
+        logging_service.info(f"Public image URL: {url}")
+        return jsonify(url=url)
+    except Exception as e:
+        logging_service.error(f"Error in get_public_image_url: {str(e)}")
+        return jsonify(error=str(e)), 500
 

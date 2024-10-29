@@ -44,8 +44,13 @@
         <!-- Lista produktów - Dodajmy overflow-y: auto -->
         <div class="order-product-list">
             {% for item in menu_items %}
-                <article class="order-product-item" data-category="{{ item.category }}" data-item-id="{{ item.item_id }}">
-                    <img src="{{ item.image }}" alt="{{ item['name_' + session.get('language', 'pl')] }}" class="order-product-image">
+                <article class="order-product-item" data-category="{{ item.category.value }}" data-item-id="{{ item.item_id }}">
+                    <div class="order-product-image-container">
+                        <img src="" 
+                             data-image-filename="{{ item.image }}"
+                             alt="{{ item['name_' + session.get('language', 'pl')] }}" 
+                             class="order-product-image">
+                    </div>
                     <div class="order-product-info">
                         <h3 class="order-product-name">{{ item['name_' + session.get('language', 'pl')] }}</h3>
                         <p class="order-product-description">{{ item['description_' + session.get('language', 'pl')] }}</p>

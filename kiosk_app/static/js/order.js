@@ -17,6 +17,8 @@ class OrderPage {
 
         // Initialize language handlers
         this.initializeLanguageHandlers();
+
+        this.loadImages();
     }
 
     updateTotal(newTotal) {
@@ -60,7 +62,7 @@ class OrderPage {
 
     async checkItemAvailability() {
         try {
-            const data = await fetchWithErrorHandling(`/get_available_items?order_id=${this.orderId}`);
+            const data = await fetchWithErrorHandling(`/get_available_items`);
             if (data.available_items) {
                 this.updateProductAvailability(data.available_items);
             }
@@ -114,20 +116,45 @@ class OrderPage {
         // Add active class to clicked button
         button.classList.add('active');
         
-        const category = button.dataset.category;
+        const selectedCategory = button.dataset.category;
         const productList = document.querySelector('.order-product-list');
+        
+        console.log('Selected category:', selectedCategory);
         
         // Add transition class for smooth animation
         productList.classList.add('changing');
         
         setTimeout(() => {
-            if (category === 'sum') {
+            if (selectedCategory === 'sum') {
                 // Handle summary view
                 this.showOrderSummary();
             } else {
-                // Show all products for now
-                document.querySelectorAll('.order-product-item').forEach(item => {
-                    item.style.display = 'flex';
+                // Show only products from selected category
+                const products = document.querySelectorAll('.order-product-item');
+                console.log('Total products found:', products.length);
+                
+                products.forEach(item => {
+                    const itemCategory = item.dataset.category;
+                    console.log('Product:', {
+                        id: item.dataset.itemId,
+                        category: itemCategory,
+                        selectedCategory: selectedCategory,
+                        matches: itemCategory === selectedCategory,
+                        element: item,
+                        display: item.style.display
+                    });
+                    
+                    // Convert both to lowercase for comparison
+                    const normalizedItemCategory = itemCategory.toLowerCase();
+                    const normalizedSelectedCategory = selectedCategory.toLowerCase();
+                    
+                    if (normalizedItemCategory === normalizedSelectedCategory) {
+                        console.log('Showing product:', item.dataset.itemId);
+                        item.style.display = 'flex';
+                    } else {
+                        console.log('Hiding product:', item.dataset.itemId);
+                        item.style.display = 'none';
+                    }
                 });
             }
             
@@ -157,15 +184,17 @@ class OrderPage {
                 });
                 
                 // Display items grouped by category
-                Object.entries(itemsByCategory).forEach(([category, items]) => {
+                for (const [category, items] of Object.entries(itemsByCategory)) {
                     summaryHTML += `<div class="summary-category">`;
                     summaryHTML += `<h3>${_(category)}</h3>`;
-                    items.forEach(item => {
+                    for (const item of items) {
                         const quantity = document.querySelector(`.quantity[data-item-id="${item.item_id}"]`)?.textContent || '0';
                         if (parseInt(quantity) > 0) {
+                            const imageUrl = `${window.SUPABASE_URL}/storage/v1/object/public/images/${item.image}`;
+                            
                             summaryHTML += `
                                 <div class="summary-item">
-                                    <img src="${item.image}" alt="${item['name_' + document.documentElement.lang]}" class="summary-item-image">
+                                    <img src="${imageUrl}" alt="${item['name_' + document.documentElement.lang]}" class="summary-item-image" onerror="this.onerror=null; this.src='/static/images/placeholder.png';">
                                     <div class="summary-item-details">
                                         <h4>${item['name_' + document.documentElement.lang]}</h4>
                                         <p>${_('Quantity')}: ${quantity}</p>
@@ -174,9 +203,9 @@ class OrderPage {
                                 </div>
                             `;
                         }
-                    });
+                    }
                     summaryHTML += `</div>`;
-                });
+                }
                 
                 summaryHTML += `
                     <div class="summary-total">
@@ -366,6 +395,23 @@ class OrderPage {
 
         // Update order total
         this.updateTotal(this.total);
+    }
+
+    async loadImages() {
+        const images = document.querySelectorAll('.order-product-image');
+        for (const img of images) {
+            const filename = img.dataset.imageFilename;
+            try {
+                const response = await fetch(`/get_public_image_url?filename=${filename}`);
+                const data = await response.json();
+                if (data.url) {
+                    img.src = data.url;
+                }
+            } catch (error) {
+                console.error('Error loading image:', error);
+                img.src = img.getAttribute('onerror').match(/this\.src='([^']+)'/)[1];
+            }
+        }
     }
 }
 
