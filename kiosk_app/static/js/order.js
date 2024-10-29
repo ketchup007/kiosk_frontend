@@ -10,7 +10,7 @@ class OrderPage {
         this.startMonitoring();
         
         // Set initial active category
-        const firstCategoryButton = document.querySelector('.category-button');
+        const firstCategoryButton = document.querySelector('.order-category-button');
         if (firstCategoryButton) {
             this.handleCategoryClick(firstCategoryButton);
         }
@@ -107,7 +107,7 @@ class OrderPage {
 
     handleCategoryClick(button) {
         // Remove active class from all buttons
-        document.querySelectorAll('.category-button').forEach(btn => {
+        document.querySelectorAll('.order-category-button').forEach(btn => {
             btn.classList.remove('active');
         });
         
@@ -115,23 +115,82 @@ class OrderPage {
         button.classList.add('active');
         
         const category = button.dataset.category;
-        const productList = document.querySelector('.product-list');
+        const productList = document.querySelector('.order-product-list');
         
         // Add transition class for smooth animation
         productList.classList.add('changing');
         
         setTimeout(() => {
-            document.querySelectorAll('.product-item').forEach(item => {
-                if (category === 'sum' || item.dataset.category === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+            if (category === 'sum') {
+                // Handle summary view
+                this.showOrderSummary();
+            } else {
+                // Show all products for now
+                document.querySelectorAll('.order-product-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+            }
             
             // Remove transition class
             productList.classList.remove('changing');
         }, 300);
+    }
+
+    // Add new method to handle summary view
+    async showOrderSummary() {
+        try {
+            const response = await fetchWithErrorHandling(`/get_order_summary?order_id=${this.orderId}`);
+            if (response.summary) {
+                const productList = document.querySelector('.order-product-list');
+                
+                // Create summary HTML
+                let summaryHTML = '<div class="order-summary">';
+                summaryHTML += '<h2>' + _('Order Summary') + '</h2>';
+                
+                // Group items by category
+                const itemsByCategory = {};
+                response.summary.items.forEach(item => {
+                    if (!itemsByCategory[item.category]) {
+                        itemsByCategory[item.category] = [];
+                    }
+                    itemsByCategory[item.category].push(item);
+                });
+                
+                // Display items grouped by category
+                Object.entries(itemsByCategory).forEach(([category, items]) => {
+                    summaryHTML += `<div class="summary-category">`;
+                    summaryHTML += `<h3>${_(category)}</h3>`;
+                    items.forEach(item => {
+                        const quantity = document.querySelector(`.quantity[data-item-id="${item.item_id}"]`)?.textContent || '0';
+                        if (parseInt(quantity) > 0) {
+                            summaryHTML += `
+                                <div class="summary-item">
+                                    <img src="${item.image}" alt="${item['name_' + document.documentElement.lang]}" class="summary-item-image">
+                                    <div class="summary-item-details">
+                                        <h4>${item['name_' + document.documentElement.lang]}</h4>
+                                        <p>${_('Quantity')}: ${quantity}</p>
+                                        <p>${_('Price')}: ${(item.price * parseInt(quantity)).toFixed(2)}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+                    summaryHTML += `</div>`;
+                });
+                
+                summaryHTML += `
+                    <div class="summary-total">
+                        <h3>${_('Total')}: ${this.total.toFixed(2)}</h3>
+                    </div>
+                </div>`;
+                
+                // Update the product list with summary
+                productList.innerHTML = summaryHTML;
+            }
+        } catch (error) {
+            console.error('Error showing order summary:', error);
+            showFlashMessage(_('Failed to load order summary'), 'error');
+        }
     }
 
     resetInactivityTimer() {
@@ -201,7 +260,7 @@ class OrderPage {
         });
 
         // Category buttons
-        document.querySelectorAll('.category-button').forEach(button => {
+        document.querySelectorAll('.order-category-button').forEach(button => {
             button.addEventListener('click', () => this.handleCategoryClick(button));
         });
 
