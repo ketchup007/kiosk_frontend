@@ -15,7 +15,7 @@ class OrderPage {
             this.handleCategoryClick(firstCategoryButton);
         }
 
-        // Dodaj obsługę zmiany języka
+        // Initialize language handlers
         this.initializeLanguageHandlers();
     }
 
@@ -49,6 +49,9 @@ class OrderPage {
                 // Update total
                 const orderTotal = await fetchWithErrorHandling(`/get_order_total?order_id=${this.orderId}`);
                 this.updateTotal(orderTotal.total);
+
+                // Check availability and update buttons
+                this.checkItemAvailability();
             }
         } catch (error) {
             console.error('Error updating quantity:', error);
@@ -69,19 +72,27 @@ class OrderPage {
     updateProductAvailability(availableItems) {
         availableItems.forEach(item => {
             const productItem = document.querySelector(`.product-item[data-item-id="${item.item_id}"]`);
-            const increaseButton = productItem?.querySelector('.increase-quantity');
-            const decreaseButton = productItem?.querySelector('.decrease-quantity');
+            const quantityControl = productItem?.querySelector('.order-quantity-control');
             const quantityDisplay = productItem?.querySelector('.quantity');
             
             if (productItem) {
                 const currentQuantity = parseInt(quantityDisplay?.textContent) || 0;
 
                 if (item.available_quantity > 0) {
-                    increaseButton.disabled = false;
+                    // Restore buttons if available
+                    if (!quantityControl.querySelector('.increase-quantity')) {
+                        quantityControl.innerHTML = `
+                            <button class="decrease-quantity" data-item-id="${item.item_id}" ${currentQuantity <= 0 ? 'disabled' : ''}>-</button>
+                            <span class="quantity" data-item-id="${item.item_id}">${currentQuantity}</span>
+                            <button class="increase-quantity" data-item-id="${item.item_id}">+</button>
+                        `;
+                        this.initializeEventListeners(); // Re-initialize event listeners for new buttons
+                    }
                     productItem.classList.remove('unavailable');
                     productItem.title = '';
                 } else {
-                    increaseButton.disabled = true;
+                    // Replace buttons with out of stock message
+                    quantityControl.innerHTML = `<span class="out-of-stock-message">${_('Out of stock')}</span>`;
                     productItem.classList.add('unavailable');
                     productItem.title = _('Product temporarily unavailable');
                     
@@ -90,9 +101,6 @@ class OrderPage {
                         showFlashMessage(_('Some selected items are no longer available'), 'warning');
                     }
                 }
-
-                // Disable decrease button if quantity is 0
-                decreaseButton.disabled = currentQuantity <= 0;
             }
         });
     }
@@ -128,15 +136,15 @@ class OrderPage {
 
     resetInactivityTimer() {
         console.log('Resetting inactivity timer');
-        // Wyczyść istniejący timer
+        // Clear existing timer
         if (this.inactivityTimer) {
             clearTimeout(this.inactivityTimer);
         }
     
-        // Ustaw nowy timer
+        // Set new timer
         this.inactivityTimer = setTimeout(() => {
             console.log('Inactivity timeout reached, canceling order');
-            this.cancelOrder(true); // Automatyczne anulowanie
+            this.cancelOrder(true); // Automatic cancellation
         }, this.inactivityTimeout);
     }
 
@@ -146,7 +154,7 @@ class OrderPage {
         const errorMessage = cancelButton.dataset.errorMessage;
 
         try {
-            // Wyłącz przycisk podczas anulowania
+            // Disable button during cancellation
             cancelButton.disabled = true;
 
             const response = await fetchWithErrorHandling('/cancel_order', {
@@ -164,10 +172,10 @@ class OrderPage {
             if (response.success) {
                 if (!isAutomatic) {
                     showFlashMessage(successMessage, 'success');
-                    // Krótkie opóźnienie tylko dla manualnego anulowania
+                    // Short delay only for manual cancellation
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 }
-                // Przekieruj do strony głównej
+                // Redirect to home page
                 window.location.href = '/';
             } else {
                 throw new Error(response.error || errorMessage);
@@ -177,7 +185,7 @@ class OrderPage {
             if (!isAutomatic) {
                 showFlashMessage(error.message || errorMessage, 'error');
             }
-            // Włącz z powrotem przycisk w przypadku błędu
+            // Re-enable button in case of error
             cancelButton.disabled = false;
         }
     }
@@ -215,7 +223,7 @@ class OrderPage {
             }
         });
 
-        // Dodaj nasłuchiwanie na wszystkie istotne zdarzenia
+        // Add listeners for all relevant events
         const events = ['touchstart', 'click', 'scroll', 'mousemove', 'keypress'];
         events.forEach(eventType => {
             document.addEventListener(eventType, () => {
@@ -223,28 +231,28 @@ class OrderPage {
             });
         });
 
-        // Dodaj wywołanie restoreState po inicjalizacji
+        // Call restoreState after initialization
         this.restoreState();
     }
 
     startMonitoring() {
         this.checkItemAvailability();
         setInterval(() => this.checkItemAvailability(), this.availabilityCheckInterval);
-        this.resetInactivityTimer(); // Inicjalne ustawienie timera
+        this.resetInactivityTimer(); // Initial timer setup
     }
 
-    // Dodaj nową metodę do obsługi zmiany języka
+    // Add new method for handling language change
     initializeLanguageHandlers() {
         document.querySelectorAll('.order-flag-button').forEach(button => {
             button.addEventListener('click', (e) => {
-                e.preventDefault(); // Zapobiegaj domyślnej akcji przycisku
+                e.preventDefault(); // Prevent default button action
                 const lang = button.querySelector('img').alt.toLowerCase();
                 this.changeLanguage(lang);
             });
         });
     }
 
-    // Dodaj metodę do zmiany języka
+    // Add method for changing language
     changeLanguage(lang) {
         fetch('/set_language/' + lang, {
             method: 'POST',
@@ -252,17 +260,17 @@ class OrderPage {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                // Zapisz aktualny stan zamówienia przed odświeżeniem
+                // Save current order state before refreshing
                 const currentState = {
                     orderId: this.orderId,
                     total: this.total,
                     orderItems: this.orderItems
                 };
                 
-                // Zapisz stan w sessionStorage
+                // Save state in sessionStorage
                 sessionStorage.setItem('orderState', JSON.stringify(currentState));
                 
-                // Odśwież stronę
+                // Refresh page
                 location.reload();
             }
         })
@@ -272,7 +280,7 @@ class OrderPage {
         });
     }
 
-    // Dodaj metodę do przywracania stanu po odświeżeniu
+    // Add method for restoring state after refresh
     restoreState() {
         const savedState = sessionStorage.getItem('orderState');
         if (savedState) {
@@ -282,14 +290,14 @@ class OrderPage {
                 this.orderItems = state.orderItems;
                 this.updateDisplay();
             }
-            // Wyczyść zapisany stan
+            // Clear saved state
             sessionStorage.removeItem('orderState');
         }
     }
 
-    // Dodaj metodę do aktualizacji wyświetlania
+    // Add method for updating display
     updateDisplay() {
-        // Aktualizuj wyświetlane ilości produktów
+        // Update displayed product quantities
         Object.entries(this.orderItems).forEach(([itemId, quantity]) => {
             const quantityElement = document.querySelector(`.quantity[data-item-id="${itemId}"]`);
             if (quantityElement) {
@@ -297,7 +305,7 @@ class OrderPage {
             }
         });
 
-        // Aktualizuj sumę zamówienia
+        // Update order total
         this.updateTotal(this.total);
     }
 }

@@ -1,6 +1,8 @@
 from flask import render_template, request, jsonify, session, redirect, url_for, current_app, abort, flash
+import supabase
 from app import app
 from flask_babel import _
+from kiosk_app.config import Config
 from services.database import db
 from app.models import APSState, OrderStatus, OrderOrigin
 import os
@@ -14,14 +16,16 @@ from datetime import datetime
 
 @app.route('/')
 def index():
+    logging_service.debug("Index route called (home.html)")
     return render_template('home.html')
 
 
 @app.route('/set_language/<lang>', methods=['POST'])
 def set_language(lang):
+    logging_service.debug(f"Setting language to: {lang}")
     if lang in app.config['LANGUAGES']:
         session['language'] = lang
-        print(f"Language set to: {lang}")  # Dodaj debugowanie
+        logging_service.debug(f"Language set to: {lang}")
         return jsonify(success=True)
     return jsonify(success=False), 400
 
@@ -49,12 +53,15 @@ def get_aps_state():
 def create_order():
     aps_id = app.config['APS_ID']
     aps_state = db.get_aps_state(aps_id)
+    logging_service.debug(f"APS state retrieved: {aps_state}")
     if aps_state != APSState.ACTIVE.value:
         error_msg = app.config['APS_STATE_MESSAGES'].get(aps_state, _("Kiosk is not available"))
+        logging_service.debug(f"Error message: {error_msg}")
         return jsonify(success=False, error=error_msg)
     
     try:
         order = db.create_order(aps_id)  # Zwraca obiekt APSOrder
+        logging_service.debug(f"Order created: {order}")
         return jsonify(success=True, order_id=order.id)  # Zwracamy tylko ID zamówienia
     except Exception as e:
         logging_service.error(f"Failed to create order: {str(e)}")
@@ -68,16 +75,20 @@ def order(order_id):
         
         try:
             order_status = db.get_order_status(order_id)
+            logging_service.debug(f"Order status: {order_status}")
             if order_status not in [OrderStatus.DURING_ORDERING.value]:
                 flash(_("This order is no longer active"), "error")
                 return redirect(url_for('index'))
         except DatabaseError:
+            logging_service.error("Database error in order route: Order not found")
             flash(_("Order not found"), "error")
             return redirect(url_for('index'))
             
         menu_data = db.get_menu(aps_id)
         menu_items = menu_data.menu_items if menu_data else []
+        logging_service.debug(f"Menu items: {menu_items}")
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
+        logging_service.debug(f"Estimated waiting time: {estimated_waiting_time}")
         
         return render_template('order.html', 
                            menu_items=menu_items,
@@ -92,6 +103,7 @@ def order(order_id):
 def get_menu():
     aps_id = app.config['APS_ID']
     menu = db.get_menu(aps_id)
+    logging_service.debug(f"Menu: {menu}")
     return jsonify(menu=menu)
 
 @app.route('/add_to_order', methods=['POST'])
@@ -99,14 +111,18 @@ def add_to_order():
     order_id = request.json.get('order_id')
     item_id = request.json.get('item_id')
     quantity = request.json.get('quantity', 1)
+    logging_service.debug(f"Adding to order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
 
     if not all([order_id, item_id]) or not isinstance(quantity, int) or quantity <= 0:
+        logging_service.error("Invalid input data")
         return jsonify(success=False, error=_('Invalid input data'))
 
     try:
         db.add_item_to_order(order_id, item_id, quantity)
+        logging_service.debug("Item added successfully")
         return jsonify(success=True, message=_('Item added successfully'))
     except DatabaseError as e:
+        logging_service.error(f"Database error in add_to_order: {str(e)}")
         return jsonify(success=False, error=str(e))
 
 @app.route('/remove_from_order', methods=['POST'])
@@ -114,10 +130,13 @@ def remove_from_order():
     order_id = request.json.get('order_id')
     item_id = request.json.get('item_id')
     quantity = request.json.get('quantity', 1)
+    logging_service.debug(f"Removing from order: order_id={order_id}, item_id={item_id}, quantity={quantity}")
     try:
         db.remove_item_from_order(order_id, item_id, quantity)
+        logging_service.debug("Item removed successfully")
         return jsonify(success=True)
     except DatabaseError as e:
+        logging_service.error(f"Database error in remove_from_order: {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/get_order_summary', methods=['GET'])
@@ -125,8 +144,10 @@ def get_order_summary():
     order_id = request.args.get('order_id', type=int)
     try:
         summary = db.get_order_summary(order_id)
+        logging_service.debug(f"Order summary: {summary}")
         return jsonify(summary=summary)
     except DatabaseError as e:
+        logging_service.error(f"Database error in get_order_summary: {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/get_order_total', methods=['GET'])
@@ -135,8 +156,10 @@ def get_order_total():
     aps_id = app.config['APS_ID']
     try:
         total = db.get_order_total(order_id, aps_id)
+        logging_service.debug(f"Order total: {total}")
         return jsonify(total=total)
     except DatabaseError as e:
+        logging_service.error(f"Database error in get_order_total: {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/get_available_items', methods=['GET'])
@@ -145,50 +168,33 @@ def get_available_items():
     item_ids = request.args.getlist('item_ids', type=int)
     try:
         available_items = db.get_available_items(aps_id, item_ids)
+        logging_service.debug(f"Available items: {available_items}")
         return jsonify(available_items=available_items)
     except DatabaseError as e:
+        logging_service.error(f"Database error in get_available_items: {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/cancel_order', methods=['POST'])
 def cancel_order():
     order_id = request.json.get('order_id')
     aps_id = app.config['APS_ID']
-    # This is a placeholder. In a real scenario, you'd cancel the order in the database.
-    success = True
-    return jsonify(success=success)
+    logging_service.debug(f"Cancelling order: order_id={order_id}")
+    try:
+        db.cancel_order(order_id)
+        logging_service.debug("Order cancelled successfully")
+        return jsonify(success=True)
+    except DatabaseError as e:
+        logging_service.error(f"Database error in cancel_order: {str(e)}")
+        return jsonify(error=str(e)), 500
 
-@app.route('/add_item', methods=['POST'])
-def add_item():
-    order_id = request.json.get('order_id')
-    item_id = request.json.get('item_id')
-    quantity = request.json.get('quantity')
-    aps_id = app.config['APS_ID']
-    # This is a placeholder. In a real scenario, you'd add the item to the order in the database.
-    success = True
-    return jsonify(success=success)
-
-@app.route('/remove_item', methods=['POST'])
-def remove_item():
-    order_id = request.json.get('order_id')
-    item_id = request.json.get('item_id')
-    aps_id = app.config['APS_ID']
-    # This is a placeholder. In a real scenario, you'd remove the item from the order in the database.
-    success = True
-    return jsonify(success=success)
 
 @app.route('/get_public_image_url', methods=['GET'])
 def get_public_image_url():
     filename = request.args.get('filename')
-    # This is a placeholder. In a real scenario, you'd generate this URL using Supabase.
-    url = f"https://example.com/images/{filename}"
+    url = Config.get_central_client.storage.from_('images').get_public_url(filename)    
+    logging_service.debug(f"Public image URL: {url}")
     return jsonify(url=url)
 
-@app.route('/detect_inactivity', methods=['POST'])
-def detect_inactivity():
-    order_id = request.json.get('order_id')
-    # This is a placeholder. In a real scenario, you'd cancel the order and perform any necessary cleanup.
-    success = True
-    return jsonify(success=success)
 
 @app.route('/calculate_estimated_waiting_time', methods=['GET'])
 def calculate_estimated_waiting_time():

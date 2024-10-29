@@ -309,5 +309,14 @@ class Database:
         except Exception as e:
             logging_service.error(f"Database error in get_order_status: {str(e)}")
             raise DatabaseError(_("Error getting order status"))
+        
+    def cancel_order(self, order_id: int) -> bool:
+        try:
+            self.client.table('aps_order').update({'status': OrderStatus.CANCELED.value}).eq('id', order_id).execute()
+            self.client.table('aps_order_item').delete().eq('aps_order_id', order_id).execute()
+            return True
+        except Exception as e:
+            logging_service.error(f"Database error in cancel_order: {str(e)}")
+            raise DatabaseError(_("Error cancelling order"))
 
 db = Database()
