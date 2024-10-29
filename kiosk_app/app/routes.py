@@ -39,11 +39,11 @@ def get_aps_state():
         })
     except Exception as e:
         logging_service.error(f"Error in get_aps_state: {str(e)}")
-        flash(str(e), 'error')
         return jsonify({
             'state': 'error',
+            'error': _('Failed to get APS state. Please try again.'),
             'timestamp': datetime.now().isoformat()
-        })
+        }), 500
 
 @app.route('/create_order', methods=['POST'])
 def create_order():
@@ -54,24 +54,39 @@ def create_order():
         return jsonify(success=False, error=error_msg)
     
     try:
-        order_id = db.create_order(aps_id)
-        return jsonify(success=True, order_id=order_id)
+        order = db.create_order(aps_id)  # Zwraca obiekt APSOrder
+        return jsonify(success=True, order_id=order.id)  # Zwracamy tylko ID zamówienia
     except Exception as e:
         logging_service.error(f"Failed to create order: {str(e)}")
-        error_msg = _('Failed to create order: {}').format(str(e))
+        error_msg = _('Failed to create order. Please try again.')
         return jsonify(success=False, error=error_msg)
 
 @app.route('/order/<int:order_id>')
 def order(order_id):
-    aps_id = app.config['APS_ID']
-    menu = db.get_menu(aps_id)
-    order_items = db.get_order_items(order_id)
-    estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
-    return render_template('order.html', 
-                           menu=menu, 
-                           order_items=order_items, 
+    try:
+        aps_id = app.config['APS_ID']
+        
+        try:
+            order_status = db.get_order_status(order_id)
+            if order_status not in [OrderStatus.DURING_ORDERING.value]:
+                flash(_("This order is no longer active"), "error")
+                return redirect(url_for('index'))
+        except DatabaseError:
+            flash(_("Order not found"), "error")
+            return redirect(url_for('index'))
+            
+        menu_data = db.get_menu(aps_id)
+        menu_items = menu_data.menu_items if menu_data else []
+        estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
+        
+        return render_template('order.html', 
+                           menu_items=menu_items,
                            order_id=order_id,
                            estimated_waiting_time=estimated_waiting_time)
+    except Exception as e:
+        logging_service.error(f"Error in order route: {str(e)}")
+        flash(_("An error occurred while loading the order page"), "error")
+        return redirect(url_for('index'))
 
 @app.route('/get_menu', methods=['GET'])
 def get_menu():
@@ -86,16 +101,13 @@ def add_to_order():
     quantity = request.json.get('quantity', 1)
 
     if not all([order_id, item_id]) or not isinstance(quantity, int) or quantity <= 0:
-        flash(_('Invalid input data'), 'error')
-        return jsonify(success=False)
+        return jsonify(success=False, error=_('Invalid input data'))
 
     try:
         db.add_item_to_order(order_id, item_id, quantity)
-        flash(_('Item added successfully'), 'success')
-        return jsonify(success=True)
+        return jsonify(success=True, message=_('Item added successfully'))
     except DatabaseError as e:
-        flash(str(e), 'error')
-        return jsonify(success=False)
+        return jsonify(success=False, error=str(e))
 
 @app.route('/remove_from_order', methods=['POST'])
 def remove_from_order():
@@ -223,15 +235,12 @@ def process_payment():
             db.update_order_status(order_id, OrderStatus.PAID.value)
             kds_number = db.generate_next_kds_order_number(app.config['APS_ID'])
             db.update_order_kds_number(order_id, kds_number)
-            flash(_('Payment processed successfully'), 'success')
-            return jsonify(success=True, kds_number=kds_number)
+            return jsonify(success=True, message=_('Payment processed successfully'), kds_number=kds_number)
         else:
-            flash(_('Payment failed'), 'error')
-            return jsonify(success=False)
+            return jsonify(success=False, error=_('Payment failed'))
     except PaymentError as e:
         logging_service.error(f"Payment processing failed: {str(e)}")
-        flash(str(e), 'error')
-        return jsonify(success=False)
+        return jsonify(success=False, error=_('Payment processing failed. Please try again.'))
 
 @app.route('/cancel_payment', methods=['POST'])
 def cancel_payment():
@@ -325,12 +334,19 @@ def order_confirmation(kds_number):
                            kds_number=kds_number,
                            estimated_waiting_time=estimated_waiting_time)
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify(error=_('Page not found')), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify(error=_('An unexpected error occurred. Please try again.')), 500
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     logging_service.error(f'Unhandled exception: {str(e)}')
     logging_service.error(traceback.format_exc())
-    flash(_('An unexpected error occurred'), 'error')
-    return jsonify(success=False)
+    return jsonify(success=False, error=_('An unexpected error occurred. Please try again.')), 500
 
 @app.route('/long_running_task')
 async def long_running_task():
@@ -368,14 +384,18 @@ def get_product_availability():
         drinks_available = db.check_category_availability(aps_id, 'drink')
         coffee_available = db.check_category_availability(aps_id, 'coffee')
         
+        if not any([snacks_available, drinks_available, coffee_available]):
+            message = _("Sorry, all products are currently unavailable. Please try again later.")
+        
         return jsonify({
             'snacks_available': snacks_available,
             'drinks_available': drinks_available,
-            'coffee_available': coffee_available
+            'coffee_available': coffee_available,
+            'message': message if 'message' in locals() else None
         })
     except Exception as e:
         logging_service.error(f"Error checking product availability: {str(e)}")
         return jsonify({
-            'error': str(e)
+            'error': _('Failed to check product availability. Please try again.')
         }), 500
 

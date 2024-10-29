@@ -93,19 +93,36 @@ function processMessageQueue() {
 }
 
 // Funkcja pomocnicza do obsługi błędów fetch
-function handleFetchError(error, defaultMessage = 'An error occurred') {
+function handleFetchError(error, defaultMessage = null) {
     console.error('Fetch error:', error);
-    showFlashMessage(error.message || defaultMessage, 'error');
+    // Używamy komunikatu błędu z serwera, jeśli jest dostępny
+    if (error.message && error.message.startsWith('HTTP error')) {
+        // Dla błędów HTTP czekamy na odpowiedź z serwera
+        return;
+    }
+    showFlashMessage(error.message || defaultMessage || error, 'error');
 }
 
 // Funkcja pomocnicza do wykonywania zapytań fetch
 async function fetchWithErrorHandling(url, options = {}) {
     try {
         const response = await fetch(url, options);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
         const data = await response.json();
+        
+        if (!response.ok) {
+            // Jeśli serwer zwrócił błąd, używamy przetłumaczonego komunikatu z serwera
+            throw new Error(data.error || response.statusText);
+        }
+        
+        // Jeśli jest komunikat o błędzie w danych, wyświetl go
+        if (data.error) {
+            showFlashMessage(data.error, 'error');
+        }
+        // Jeśli jest komunikat sukcesu, wyświetl go
+        if (data.message) {
+            showFlashMessage(data.message, 'success');
+        }
+        
         return data;
     } catch (error) {
         handleFetchError(error);

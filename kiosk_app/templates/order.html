@@ -1,184 +1,94 @@
 {% extends "base.html" %}
 
+{% block head %}
+{{ super() }}
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <div class="top-section">
-        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="logo">
-        <div class="language-selector">
-            <button onclick="changeLanguage('pl')">
-                <img src="{{ url_for('static', filename='images/plFlag.png') }}" alt="PL">
-            </button>
-            <button onclick="changeLanguage('en')">
-                <img src="{{ url_for('static', filename='images/angFlag.png') }}" alt="EN">
-            </button>
-            <button onclick="changeLanguage('uk')">
-                <img src="{{ url_for('static', filename='images/uaFlag.png') }}" alt="UK">
-            </button>
+<div class="order-container" data-order-id="{{ order_id }}" data-aps-id="{{ aps_id }}">
+    <!-- Górna sekcja (10% wysokości) - OK, ale dodajmy flex-shrink: 0 -->
+    <header class="order-top-section">
+        <div class="order-logo-section">
+            <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="order-logo">
+            <h2 class="order-menu-title">{{ _('Menu') }}</h2>
         </div>
-        <p class="estimated-time">{{ _('Estimated waiting time: %(time)d min', time=estimated_waiting_time) }}</p>
-    </div>
-    <div class="middle-section">
-        <div class="category-bar">
+        <div class="order-flags-section">
+            <div class="order-flags">
+                <button class="order-flag-button">
+                    <img src="{{ url_for('static', filename='images/plFlag.png') }}" alt="pl" class="order-flag-icon">
+                </button>
+                <button class="order-flag-button">
+                    <img src="{{ url_for('static', filename='images/angFlag.png') }}" alt="en" class="order-flag-icon">
+                </button>
+                <button class="order-flag-button">
+                    <img src="{{ url_for('static', filename='images/uaFlag.png') }}" alt="uk" class="order-flag-icon">
+                </button>
+            </div>
+            <p class="order-estimated-time">
+                {{ _('Estimated waiting time: %(time)d min', time=estimated_waiting_time) }}
+            </p>
+        </div>
+    </header>
+
+    <!-- Środkowa sekcja (80% wysokości) - Dodajmy flex-grow: 1 -->
+    <main class="order-middle-section">
+        <!-- Pasek kategorii - Dodajmy position: sticky -->
+        <nav class="order-category-bar">
             {% for category in ['snack', 'drink', 'coffee', 'take_away_box', 'sauce', 'sum'] %}
-                <button class="category-button" data-category="{{ category }}">{{ _(category) }}</button>
+                <button class="order-category-button {% if loop.first %}active{% endif %}" data-category="{{ category }}">
+                    {{ _(category) }}
+                </button>
             {% endfor %}
-        </div>
-        <div class="product-list">
-            {% for item in menu %}
-                <div class="product-item" data-category="{{ item.category }}">
-                    <img src="{{ item.image }}" alt="{{ item.name }}" class="product-image">
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.description }}</p>
-                    <p>{{ _('Price: %(price).2f', price=item.price) }}</p>
-                    <div class="quantity-control">
-                        <button class="decrease-quantity" data-item-id="{{ item.id }}">-</button>
-                        <span class="quantity" data-item-id="{{ item.id }}">0</span>
-                        <button class="increase-quantity" data-item-id="{{ item.id }}">+</button>
+        </nav>
+
+        <!-- Lista produktów - Dodajmy overflow-y: auto -->
+        <div class="order-product-list">
+            {% for item in menu_items %}
+                <article class="order-product-item" data-category="{{ item.category }}" data-item-id="{{ item.item_id }}">
+                    <img src="{{ item.image }}" alt="{{ item['name_' + session.get('language', 'pl')] }}" class="order-product-image">
+                    <div class="order-product-info">
+                        <h3 class="order-product-name">{{ item['name_' + session.get('language', 'pl')] }}</h3>
+                        <p class="order-product-description">{{ item['description_' + session.get('language', 'pl')] }}</p>
+                        {% if item['allergens_' + session.get('language', 'pl')] %}
+                            <p class="order-product-allergens">
+                                {{ _('Allergens: ') }}{{ item['allergens_' + session.get('language', 'pl')] }}
+                            </p>
+                        {% endif %}
+                        <p class="order-product-price">{{ _('Price: %(price).2f', price=item.price) }}</p>
+                        <div class="order-quantity-control">
+                            <button class="decrease-quantity" data-item-id="{{ item.item_id }}" disabled>-</button>
+                            <span class="quantity" data-item-id="{{ item.item_id }}">0</span>
+                            <button class="increase-quantity" data-item-id="{{ item.item_id }}" disabled>+</button>
+                        </div>
+                        <p class="order-item-total" data-item-id="{{ item.item_id }}">
+                            {{ _('Total: %(total).2f', total=0.00) }}
+                        </p>
                     </div>
-                </div>
+                </article>
             {% endfor %}
         </div>
-    </div>
-    <div class="bottom-section">
-        <button id="cancel-order" class="action-button">{{ _('Cancel') }}</button>
-        <button id="proceed-to-summary" class="action-button">{{ _('Total: %(total).2f', total=0.00) }}</button>
-    </div>
+    </main>
+
+    <!-- Dolna sekcja (10% wysokości) - OK, ale dodajmy flex-shrink: 0 -->
+    <footer class="order-bottom-section">
+        <button id="cancel-order" 
+                class="order-action-button order-cancel-button"
+                data-confirm-message="{{ _('Are you sure you want to cancel your order?') }}"
+                data-success-message="{{ _('Order cancelled successfully') }}"
+                data-error-message="{{ _('Failed to cancel order') }}">
+            {{ _('Cancel') }}
+        </button>
+        <button id="proceed-to-summary" 
+                class="order-action-button order-total-button"
+                data-template="{{ _('Total: %(total).2f', total=0.00) }}"
+                data-empty-cart-message="{{ _('Please add items to your order before proceeding.') }}"
+                data-inactivity-message="{{ _('You have been inactive for a while. Do you want to continue your order?') }}">
+            {{ _('Total: %(total).2f', total=0.00) }}
+        </button>
+    </footer>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    let total = 0;
-    const orderItems = {};
-
-    function updateTotal() {
-        const totalElement = document.getElementById('proceed-to-summary');
-        totalElement.textContent = '{{ _("Total: %(total).2f", total=0.00) }}'.replace('0.00', total.toFixed(2));
-    }
-
-    function updateQuantity(itemId, change) {
-        fetchWithErrorHandling('/add_to_order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                order_id: {{ order_id }},
-                item_id: itemId,
-                quantity: change
-            })
-        })
-        .then(data => {
-            if (!data.success) {
-                showFlashMessage('{{ _("Failed to update order. Please try again.") }}', 'error');
-            }
-        });
-    }
-
-    document.querySelectorAll('.increase-quantity').forEach(button => {
-        button.addEventListener('click', function() {
-            updateQuantity(this.dataset.itemId, 1);
-        });
-    });
-
-    document.querySelectorAll('.decrease-quantity').forEach(button => {
-        button.addEventListener('click', function() {
-            updateQuantity(this.dataset.itemId, -1);
-        });
-    });
-
-    document.querySelectorAll('.category-button').forEach(button => {
-        button.addEventListener('click', function() {
-            const category = this.dataset.category;
-            document.querySelectorAll('.product-item').forEach(item => {
-                if (category === 'sum' || item.dataset.category === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-
-    document.getElementById('cancel-order').addEventListener('click', function() {
-        if (confirm('{{ _("Are you sure you want to cancel your order?") }}')) {
-            fetchWithErrorHandling('/cancel_order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    order_id: {{ order_id }}
-                })
-            })
-            .then(data => {
-                if (data.success) {
-                    window.location.href = '/';
-                } else {
-                    showFlashMessage('{{ _("Failed to cancel order. Please try again.") }}', 'error');
-                }
-            });
-        }
-    });
-
-    document.getElementById('proceed-to-summary').addEventListener('click', function() {
-        if (total > 0) {
-            window.location.href = `/order/summary/{{ order_id }}`;
-        } else {
-            alert('{{ _("Please add items to your order before proceeding.") }}');
-        }
-    });
-
-    // Check item availability every second
-    setInterval(function() {
-        fetch('/get_available_items?order_id={{ order_id }}')
-            .then(response => response.json())
-            .then(data => {
-                data.available_items.forEach(item => {
-                    const quantityElement = document.querySelector(`.quantity[data-item-id="${item.id}"]`);
-                    const increaseButton = document.querySelector(`.increase-quantity[data-item-id="${item.id}"]`);
-                    if (item.available_quantity > 0) {
-                        increaseButton.disabled = false;
-                    } else {
-                        increaseButton.disabled = true;
-                        if (parseInt(quantityElement.textContent) > 0) {
-                            updateQuantity(item.id, -parseInt(quantityElement.textContent));
-                        }
-                    }
-                });
-            });
-    }, 1000);
-
-    // Inactivity detection
-    let inactivityTimer;
-    function resetInactivityTimer() {
-        clearTimeout(inactivityTimer);
-        inactivityTimer = setTimeout(function() {
-            if (confirm('{{ _("You have been inactive for a while. Do you want to continue your order?") }}')) {
-                resetInactivityTimer();
-            } else {
-                fetch('/cancel_order', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        order_id: {{ order_id }}
-                    })
-                }).then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          window.location.href = '/';
-                      } else {
-                          alert('{{ _("Failed to cancel order. Please try again.") }}');
-                      }
-                  });
-            }
-        }, 600000); // 10 minutes
-    }
-    document.addEventListener('touchstart', resetInactivityTimer);
-    resetInactivityTimer();
-});
-</script>
+<script src="{{ url_for('static', filename='js/order.js') }}"></script>
 {% endblock %}

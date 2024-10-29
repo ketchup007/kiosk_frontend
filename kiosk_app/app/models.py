@@ -123,8 +123,7 @@ class APSOrder(BaseModel):
     pickup_number: Optional[PickupNumber]
     kds_order_number: Optional[int]
     client_phone_number: Optional[str]
-    estimated_time: int = 0
-    estimated_waiting_time: Optional[int]  # Nowe pole
+    estimated_time: int = 0 
     created_at: datetime
     updated_at: datetime
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-28 11:32+0100\n"
+"POT-Creation-Date: 2024-10-28 13:47+0100\n"
 "PO-Revision-Date: 2024-10-28 10:25+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -19,33 +19,49 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/routes.py:28 templates/home.html:25 templates/home.html:30
-msgid "Touch Screen to Order"
-msgstr "Натисни екран, щоб замовити"
-
-#: app/routes.py:29 templates/home.html:18
-msgid "Estimated waiting time: "
-msgstr "Оцінка часу очікування: "
-
-#: app/routes.py:30 templates/home.html:18
-msgid "min"
-msgstr "хв"
-
-#: app/routes.py:31 templates/home.html:26
-msgid "Kiosk is temporarily unavailable"
-msgstr "Kiosk є тимчасово недоступний"
-
-#: app/routes.py:32 templates/home.html:27
-msgid "Kiosk is experiencing technical difficulties"
-msgstr "Kiosk має технічні проблеми"
-
-#: app/routes.py:33 templates/home.html:28
-msgid "Kiosk is being restocked"
-msgstr "Kiosk є в процесі поповнення"
-
-#: app/routes.py:34 templates/home.html:29
+#: app/routes.py:53 templates/home.html:29
 msgid "Kiosk is not available"
 msgstr "Kiosk недоступний"
+
+#: app/routes.py:61
+msgid "Failed to create order. Please try again."
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:89
+msgid "Invalid input data"
+msgstr ""
+
+#: app/routes.py:93
+msgid "Item added successfully"
+msgstr "Оплата успішна!"
+
+#: app/routes.py:223
+msgid "Payment processed successfully"
+msgstr "Оплата успішна!"
+
+#: app/routes.py:225
+msgid "Payment failed"
+msgstr ""
+
+#: app/routes.py:228
+msgid "Payment processing failed. Please try again."
+msgstr "Оплата не вдалася. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:326
+msgid "An unexpected error occurred. Please try again."
+msgstr ""
+"Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
+"пізніше."
+
+#: app/routes.py:365
+msgid "Sorry, all products are currently unavailable. Please try again later."
+msgstr ""
+"Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
+"пізніше."
+
+#: app/routes.py:376
+msgid "Failed to check product availability. Please try again."
+msgstr "Не вдалося додати товар. Будь ласка, спробуйте ще раз."
 
 #: templates/404.html:3
 msgid "Page not found"
@@ -69,7 +85,6 @@ msgid "Server error"
 msgstr "Помилка сервера"
 
 #: templates/500.html:11
-#, fuzzy
 msgid "500 - Server error"
 msgstr "500 - Помилка сервера"
 
@@ -78,6 +93,30 @@ msgid "We're sorry, but a server error occurred. Please try again later."
 msgstr ""
 "Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
 "пізніше."
+
+#: templates/home.html:18
+msgid "Estimated waiting time: "
+msgstr "Оцінка часу очікування: "
+
+#: templates/home.html:18
+msgid "min"
+msgstr "хв"
+
+#: templates/home.html:25 templates/home.html:30
+msgid "Touch Screen to Order"
+msgstr "Натисни екран, щоб замовити"
+
+#: templates/home.html:26
+msgid "Kiosk is temporarily unavailable"
+msgstr "Kiosk є тимчасово недоступний"
+
+#: templates/home.html:27
+msgid "Kiosk is experiencing technical difficulties"
+msgstr "Kiosk має технічні проблеми"
+
+#: templates/home.html:28
+msgid "Kiosk is being restocked"
+msgstr "Kiosk є в процесі поповнення"
 
 #: templates/order.html:18 templates/order_confirmation.html:11
 #, python-format
@@ -99,24 +138,24 @@ msgstr "Скасувати"
 msgid "Total: %(total).2f"
 msgstr "Загальна сума: %(total).2f"
 
-#: templates/order.html:95 templates/order_summary.html:75
+#: templates/order.html:74 templates/order_summary.html:75
 msgid "Failed to update order. Please try again."
 msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
 
-#: templates/order.html:126 templates/order_summary.html:143
+#: templates/order.html:105 templates/order_summary.html:143
 msgid "Are you sure you want to cancel your order?"
 msgstr "Ви впевнені, що хочете скасувати замовлення?"
 
-#: templates/order.html:140 templates/order.html:195
+#: templates/order.html:119 templates/order.html:174
 #: templates/order_summary.html:132 templates/order_summary.html:154
 msgid "Failed to cancel order. Please try again."
 msgstr "Не вдалося скасувати замовлення. Будь ласка, спробуйте ще раз."
 
-#: templates/order.html:150
+#: templates/order.html:129
 msgid "Please add items to your order before proceeding."
 msgstr "Будь ласка, додайте товари до свого замовлення перед продовженням."
 
-#: templates/order.html:179 templates/order_summary.html:119
+#: templates/order.html:158 templates/order_summary.html:119
 msgid "You have been inactive for a while. Do you want to continue your order?"
 msgstr ""
 "Ви були неактивними для деякого часу. Ви хочете продовжити своє "
@@ -243,4 +282,10 @@ msgstr "Ви були неактивними для деякого часу. В�
 
 #~ msgid "An error occurred. Please try again."
 #~ msgstr "Сталася помилка. Будь ласка, спробуйте ще раз."
+
+#~ msgid "Failed to create order: {}"
+#~ msgstr ""
+
+#~ msgid "An unexpected error occurred"
+#~ msgstr ""
 

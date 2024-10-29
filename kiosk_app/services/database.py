@@ -3,11 +3,14 @@ from functools import lru_cache
 from config import Config
 from app.models import (
     APSMenuItems, APSMenuItem, AvailableItem, APSOrder, APSOrderWithItems,
-    SuggestedProduct, EstimatedWaitingTime, ItemCategory, OrderStatus, ItemStatus
+    SuggestedProduct, EstimatedWaitingTime, ItemCategory, OrderStatus, ItemStatus,
+    OrderOrigin, PickupNumber
 )
 from typing import List, Dict, Any
 import json
 from services.logging_service import logging_service
+from datetime import datetime
+from flask_babel import _
 
 class Database:
     def __init__(self):
@@ -134,18 +137,39 @@ class Database:
 
     def create_order(self, aps_id: int) -> APSOrder:
         try:
-            result = self.client.table('aps_order').insert({
-                'aps_id': aps_id,
-                'origin': 'kiosk',
-                'status': 'during_ordering'
-            }).execute()
+            # Przygotuj dane początkowe dla nowego zamówienia
+            current_time = datetime.now().isoformat()  # Konwertuj datetime na string ISO            
+            order_data = {
+                'aps_id': aps_id,  # Przypisany punkt APS
+                'origin': OrderOrigin.KIOSK.value,  # Typ źródła zamówienia
+                'status': OrderStatus.DURING_ORDERING.value,  # Status początkowy
+                'pickup_number': None,  # Zostanie przypisane później po zapłacie
+                'kds_order_number': None,  # Zostanie przypisane później po zapłacie
+                'client_phone_number': None,  # Opcjonalne dla kiosku
+                'estimated_time': 0,  # Początkowy szacowany czas
+                'created_at': current_time,  # Czas utworzenia
+                'updated_at': current_time  # Czas ostatniej aktualizacji
+            }
             
-            if result.data:
+            # Wstaw zamówienie do bazy danych
+            logging_service.info(f"Inserting order data: {order_data}")
+            result = self.client.table('aps_order').insert(order_data).execute()
+            logging_service.info(f"Order creation result: {result}")
+            
+            if not result.data:
+                logging_service.error("No data returned from order creation")
+                raise DatabaseError(_("Failed to create order"))
+                
+            # Konwertuj wynik na obiekt APSOrder
+            try:
                 return APSOrder(**result.data[0])
-            raise DatabaseError("Failed to create order")
+            except Exception as e:
+                logging_service.error(f"Error creating APSOrder object: {str(e)}")
+                raise DatabaseError(_("Error processing order data"))
+                
         except Exception as e:
             logging_service.error(f"Database error in create_order: {str(e)}")
-            raise DatabaseError("Error creating order")
+            raise DatabaseError(_("Error creating order"))
 
     def get_order_items(self, order_id: int) -> List[Dict[str, Any]]:
         try:
@@ -158,16 +182,29 @@ class Database:
 
     def add_item_to_order(self, order_id: int, item_id: int, quantity: int) -> bool:
         try:
-            items_to_insert = [{'aps_order_id': order_id, 'item_id': item_id, 'status': 'reserved'} for _ in range(quantity)]
+            # Używamy enuma ItemStatus dla statusu przedmiotu
+            items_to_insert = [{
+                'aps_order_id': order_id, 
+                'item_id': item_id, 
+                'status': ItemStatus.RESERVED.value
+            } for _ in range(quantity)]
+            
             self.client.table('aps_order_item').insert(items_to_insert).execute()
             return True
         except Exception as e:
             logging_service.error(f"Database error in add_item_to_order: {str(e)}")
-            raise DatabaseError("Error adding item to order")
+            raise DatabaseError(_("Error adding item to order"))
 
     def remove_item_from_order(self, order_id: int, item_id: int, quantity: int) -> bool:
         try:
-            items_to_remove = self.client.table('aps_order_item').select('id').eq('aps_order_id', order_id).eq('item_id', item_id).eq('status', 'reserved').limit(quantity).execute()
+            # Używamy enuma ItemStatus dla statusu przedmiotu
+            items_to_remove = self.client.table('aps_order_item')\
+                .select('id')\
+                .eq('aps_order_id', order_id)\
+                .eq('item_id', item_id)\
+                .eq('status', ItemStatus.RESERVED.value)\
+                .limit(quantity)\
+                .execute()
             
             if items_to_remove.data:
                 ids_to_remove = [item['id'] for item in items_to_remove.data]
@@ -175,7 +212,7 @@ class Database:
             return True
         except Exception as e:
             logging_service.error(f"Database error in remove_item_from_order: {str(e)}")
-            raise DatabaseError("Error removing item from order")
+            raise DatabaseError(_("Error removing item from order"))
 
     def get_order_summary(self, order_id: int) -> APSOrderWithItems:
         try:
@@ -239,21 +276,19 @@ class Database:
 
     def check_category_availability(self, aps_id: int, category: str) -> bool:
         try:
-            # Pobierz wszystkie ID produktów z danej kategorii z menu
+            # Używamy enuma ItemCategory dla kategorii
             menu = self.get_menu(aps_id)
             category_item_ids = [
                 item.item_id 
                 for item in menu.menu_items 
-                if item.category.value == category
+                if item.category == ItemCategory(category)  # Konwertujemy string na enum
             ]
             
             if not category_item_ids:
                 return False
                 
-            # Użyj istniejącej funkcji get_available_items do sprawdzenia dostępności
             available_items = self.get_available_items(aps_id, category_item_ids)
             
-            # Sprawdź czy jakikolwiek produkt z kategorii jest dostępny
             return any(
                 item.available_quantity > 0 
                 for item in available_items
@@ -261,6 +296,18 @@ class Database:
             
         except Exception as e:
             logging_service.error(f"Database error in check_category_availability: {str(e)}")
-            raise DatabaseError("Error checking category availability")
+            raise DatabaseError(_("Error checking category availability"))
+
+    def get_order_status(self, order_id: int) -> str:
+        """Get the current status of an order."""
+        try:
+            result = self.client.table('aps_order').select('status').eq('id', order_id).execute()
+            
+            if result.data:
+                return result.data[0]['status']
+            raise DatabaseError(_("Order not found"))
+        except Exception as e:
+            logging_service.error(f"Database error in get_order_status: {str(e)}")
+            raise DatabaseError(_("Error getting order status"))
 
 db = Database()
