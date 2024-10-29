@@ -112,7 +112,6 @@ class OrderPage {
 
             // Aktualizacja przycisku zmniejszania ilości (-)
             if (decreaseButton) {
-                // Przycisk (-) jest aktywny tylko gdy mamy produkty w koszyku
                 const canDecrease = currentQuantity > 0;
                 decreaseButton.disabled = !canDecrease;
                 decreaseButton.classList.toggle('active', canDecrease);
@@ -121,17 +120,10 @@ class OrderPage {
 
             // Aktualizacja przycisku zwiększania ilości (+)
             if (increaseButton) {
-                // Przycisk (+) jest aktywny tylko gdy możemy dodać więcej produktów
                 const canIncrease = currentQuantity < availableQuantity;
                 increaseButton.disabled = !canIncrease;
                 increaseButton.classList.toggle('active', canIncrease);
                 increaseButton.classList.toggle('disabled', !canIncrease);
-            }
-
-            // Aktualizacja wyświetlania ilości
-            if (quantityDisplay) {
-                quantityDisplay.classList.toggle('has-items', currentQuantity > 0);
-                quantityDisplay.classList.toggle('at-maximum', currentQuantity >= availableQuantity);
             }
         });
     }

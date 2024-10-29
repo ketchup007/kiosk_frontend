@@ -577,6 +577,7 @@ body {
     min-width: 50px;
     text-align: center;
     font-size: 24px;
+    color: #000;
 }
 
 /* Category bar */
@@ -784,11 +785,11 @@ body {
 }
 
 .quantity.has-items {
-    color: #2196F3;
+    color: #000;
 }
 
 .quantity.at-maximum {
-    color: #f44336;
+    color: #000;
 }
 
 /* Style dla produktów */
