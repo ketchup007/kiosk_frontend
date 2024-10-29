@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-28 13:47+0100\n"
+"POT-Creation-Date: 2024-10-29 12:20+0100\n"
 "PO-Revision-Date: 2024-10-28 10:25+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,49 +18,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/routes.py:53 templates/home.html:29
+#: app/routes.py:48
+msgid "Failed to get APS state. Please try again."
+msgstr "Failed to update order. Please try again."
+
+#: app/routes.py:58 templates/home.html:29
 msgid "Kiosk is not available"
 msgstr "Kiosk is not available"
 
-#: app/routes.py:61
+#: app/routes.py:68
 msgid "Failed to create order. Please try again."
 msgstr "Failed to update order. Please try again."
 
-#: app/routes.py:89
+#: app/routes.py:80
+msgid "This order is no longer active"
+msgstr "This order is no longer active"
+
+#: app/routes.py:84 services/database.py:202 services/database.py:333
+msgid "Order not found"
+msgstr "Page not found"
+
+#: app/routes.py:99
+msgid "An error occurred while loading the order page"
+msgstr "An error occurred while loading the order page"
+
+#: app/routes.py:118
 msgid "Invalid input data"
-msgstr ""
+msgstr "Invalid input data"
 
-#: app/routes.py:93
-msgid "Item added successfully"
-msgstr "Payment successful!"
-
-#: app/routes.py:223
+#: app/routes.py:238
 msgid "Payment processed successfully"
 msgstr "Payment successful!"
 
-#: app/routes.py:225
+#: app/routes.py:240
 msgid "Payment failed"
-msgstr ""
+msgstr "Payment failed"
 
-#: app/routes.py:228 
+#: app/routes.py:243
 msgid "Payment processing failed. Please try again."
 msgstr "Payment failed. Please try again."
 
-#: app/routes.py:326 
+#: app/routes.py:339 templates/404.html:3
+msgid "Page not found"
+msgstr "Page not found"
+
+#: app/routes.py:343 app/routes.py:349
 msgid "An unexpected error occurred. Please try again."
 msgstr "We're sorry, but a server error occurred. Please try again later."
 
-#: app/routes.py:365 
+#: app/routes.py:388
 msgid "Sorry, all products are currently unavailable. Please try again later."
 msgstr "We're sorry, but a server error occurred. Please try again later."
 
-#: app/routes.py:376
+#: app/routes.py:399
 msgid "Failed to check product availability. Please try again."
 msgstr "Failed to add product. Please try again."
 
-#: templates/404.html:3
-msgid "Page not found"
-msgstr "Page not found"
+#: services/database.py:175
+msgid "Failed to create order"
+msgstr "Failed to update order. Please try again."
+
+#: services/database.py:182
+msgid "Error processing order data"
+msgstr "Error processing order data"
+
+#: services/database.py:186
+msgid "Error creating order"
+msgstr "Failed to update order. Please try again."
+
+#: services/database.py:221
+msgid "Error adding item to order"
+msgstr "Failed to add product. Please try again."
+
+#: services/database.py:240
+msgid "Error removing item from order"
+msgstr "Failed to remove product. Please try again."
+
+#: services/database.py:324
+msgid "Error checking category availability"
+msgstr "Error checking category availability"
+
+#: services/database.py:336
+msgid "Error getting order status"
+msgstr "Error getting order status"
+
+#: services/database.py:345
+msgid "Error cancelling order"
+msgstr "Failed to cancel order. Please try again."
 
 #: templates/404.html:11
 msgid "404 - Page not found"
@@ -111,44 +155,78 @@ msgstr "Kiosk is experiencing technical difficulties"
 msgid "Kiosk is being restocked"
 msgstr "Kiosk is being restocked"
 
-#: templates/order.html:18 templates/order_confirmation.html:11
+#: templates/order.html:27 templates/order_confirmation.html:11
 #, python-format
 msgid "Estimated waiting time: %(time)d min"
 msgstr "Estimated waiting time: %(time)d min"
 
-#: templates/order.html:32 templates/order_summary.html:30
-#: templates/order_summary.html:40
-#, python-format
-msgid "Price: %(price).2f"
-msgstr "Price: %(price).2f"
+#: templates/order.html:37
+msgid "Snacks"
+msgstr "Snacks"
 
-#: templates/order.html:43
-msgid "Cancel"
-msgstr "Cancel"
+#: templates/order.html:38
+msgid "Drinks"
+msgstr "Drinks"
 
-#: templates/order.html:44 templates/order.html:57 templates/payment.html:9
-#, python-format
-msgid "Total: %(total).2f"
-msgstr "Total: %(total).2f"
+#: templates/order.html:39
+msgid "Coffee"
+msgstr "Coffee"
 
-#: templates/order.html:74 templates/order_summary.html:75
-msgid "Failed to update order. Please try again."
-msgstr "Failed to update order. Please try again."
+#: templates/order.html:40
+msgid "Take Away"
+msgstr "Take Away"
 
-#: templates/order.html:105 templates/order_summary.html:143
+#: templates/order.html:41
+msgid "Sauces"
+msgstr "Sauces"
+
+#: templates/order.html:42
+msgid "Summary"
+msgstr "Order Summary"
+
+#: templates/order.html:71
+msgid "Allergens"
+msgstr "Allergens"
+
+#: templates/order.html:74
+msgid "Price"
+msgstr "Price"
+
+#: templates/order.html:74 templates/order.html:81 templates/order.html:100
+#: templates/order.html:103
+msgid "PLN"
+msgstr "PLN"
+
+#: templates/order.html:81 templates/order.html:103
+msgid "Total"
+msgstr "Total:"
+
+#: templates/order.html:93 templates/order_summary.html:143
 msgid "Are you sure you want to cancel your order?"
 msgstr "Are you sure you want to cancel your order?"
 
-#: templates/order.html:119 templates/order.html:174
-#: templates/order_summary.html:132 templates/order_summary.html:154
-msgid "Failed to cancel order. Please try again."
-msgstr "Failed to cancel order. Please try again."
+#: templates/order.html:94
+msgid "Order cancelled successfully"
+msgstr "Payment successful!"
 
-#: templates/order.html:129
+#: templates/order.html:95
+msgid "Failed to cancel order"
+msgstr "Cancel Order"
+
+#: templates/order.html:96
+msgid "Cancel"
+msgstr "Cancel"
+
+#: templates/order.html:100
+#, python-format
+msgid "Total: %(total).2f %(currency)s"
+msgstr "Suma: %(total).2f %(currency)s"
+
+#: templates/order.html:101
 msgid "Please add items to your order before proceeding."
 msgstr "Please add items to your order before proceeding."
 
-#: templates/order.html:158 templates/order_summary.html:119
+#: templates/order.html:102 templates/order_summary.html:119
 msgid "You have been inactive for a while. Do you want to continue your order?"
 msgstr "You have been inactive for a while. Do you want to continue your order?"
 
@@ -173,6 +251,11 @@ msgstr "Please pick up your order when your number is called."
 msgid "Order Summary"
 msgstr "Order Summary"
 
+#: templates/order_summary.html:30 templates/order_summary.html:40
+#, python-format
+msgid "Price: %(price).2f"
+msgstr "Price: %(price).2f"
+
 #: templates/order_summary.html:35
 msgid "Suggested Products"
 msgstr "Suggested Products"
@@ -194,9 +277,22 @@ msgstr "Cancel Order"
 msgid "Proceed to Payment"
 msgstr "Proceed to Payment"
 
+#: templates/order_summary.html:75
+msgid "Failed to update order. Please try again."
+msgstr "Failed to update order. Please try again."
+
 #: templates/order_summary.html:109
 msgid "Failed to add product. Please try again."
 msgstr "Failed to add product. Please try again."
+
+#: templates/order_summary.html:132 templates/order_summary.html:154
+msgid "Failed to cancel order. Please try again."
+msgstr "Failed to cancel order. Please try again."
+
+#: templates/payment.html:9
+#, python-format
+msgid "Total: %(total).2f"
+msgstr "Total: %(total).2f"
 
 #: templates/payment.html:13
 msgid "Payment Instructions"
@@ -246,37 +342,4 @@ msgstr "Failed to cancel payment. Please try again."
 #: templates/payment.html:100
 msgid "You have been inactive for a while. Do you want to continue your payment?"
 msgstr "You have been inactive for a while. Do you want to continue your payment?"
-
-#~ msgid "Page not found"
-#~ msgstr "Page not found"
-
-#~ msgid "404 - Page not found"
-#~ msgstr "404 - Page not found"
-
-#~ msgid "We're sorry, but the page you're looking for doesn't exist."
-#~ msgstr "We're sorry, but the page you're looking for doesn't exist."
-
-#~ msgid "Server error"
-#~ msgstr "Server error"
-
-#~ msgid "We're sorry, but a server error occurred. Please try again later."
-#~ msgstr "We're sorry, but a server error occurred. Please try again later."
-
-#~ msgid "Estimated waiting time: "
-#~ msgstr "Estimated waiting time: "
-
-#~ msgid "Kiosk has technical issues"
-#~ msgstr "Kiosk has technical issues"
-
-#~ msgid "Failed to create order. Please try again."
-#~ msgstr "Failed to create order. Please try again."
-
-#~ msgid "An error occurred. Please try again."
-#~ msgstr "An error occurred. Please try again."
-
-#~ msgid "Failed to create order: {}"
-#~ msgstr ""
-
-#~ msgid "An unexpected error occurred"
-#~ msgstr ""
 

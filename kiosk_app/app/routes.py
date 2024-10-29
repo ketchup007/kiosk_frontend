@@ -120,7 +120,7 @@ def add_to_order():
     try:
         db.add_item_to_order(order_id, item_id, quantity)
         logging_service.info("Item added successfully")
-        return jsonify(success=True, message=_('Item added successfully'))
+        return jsonify(success=True)
     except DatabaseError as e:
         logging_service.error(f"Database error in add_to_order: {str(e)}")
         return jsonify(success=False, error=str(e))
@@ -168,8 +168,10 @@ def get_available_items():
     item_ids = request.args.getlist('item_ids', type=int)
     try:
         available_items = db.get_available_items(aps_id, item_ids)
-        logging_service.info(f"Available items: {available_items}")
-        return jsonify(available_items=available_items)
+        # Użyj Pydantic do konwersji obiektów na słowniki
+        items_dict = [item.model_dump() for item in available_items]  # lub .dict() w starszych wersjach
+        logging_service.info(f"Available items: {items_dict}")
+        return jsonify(available_items=items_dict)
     except DatabaseError as e:
         logging_service.error(f"Database error in get_available_items: {str(e)}")
         return jsonify(error=str(e)), 500

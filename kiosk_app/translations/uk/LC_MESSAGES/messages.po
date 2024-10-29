@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-28 13:47+0100\n"
+"POT-Creation-Date: 2024-10-29 12:20+0100\n"
 "PO-Revision-Date: 2024-10-28 10:25+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -19,53 +19,95 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/routes.py:53 templates/home.html:29
+#: app/routes.py:48
+msgid "Failed to get APS state. Please try again."
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:58 templates/home.html:29
 msgid "Kiosk is not available"
 msgstr "Kiosk недоступний"
 
-#: app/routes.py:61
+#: app/routes.py:68
 msgid "Failed to create order. Please try again."
 msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
 
-#: app/routes.py:89
+#: app/routes.py:80
+msgid "This order is no longer active"
+msgstr "Цей замовлення більше не активне"
+
+#: app/routes.py:84 services/database.py:202 services/database.py:333
+msgid "Order not found"
+msgstr "Сторінка не знайдена"
+
+#: app/routes.py:99
+msgid "An error occurred while loading the order page"
+msgstr "Виникла помилка під час завантаження сторінки замовлення"
+
+#: app/routes.py:118
 msgid "Invalid input data"
-msgstr ""
+msgstr "Неправильні дані"
 
-#: app/routes.py:93
-msgid "Item added successfully"
-msgstr "Оплата успішна!"
-
-#: app/routes.py:223
+#: app/routes.py:238
 msgid "Payment processed successfully"
 msgstr "Оплата успішна!"
 
-#: app/routes.py:225
+#: app/routes.py:240
 msgid "Payment failed"
-msgstr ""
+msgstr "Оплата не вдалася"
 
-#: app/routes.py:228
+#: app/routes.py:243
 msgid "Payment processing failed. Please try again."
 msgstr "Оплата не вдалася. Будь ласка, спробуйте ще раз."
 
-#: app/routes.py:326
-msgid "An unexpected error occurred. Please try again."
-msgstr ""
-"Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
-"пізніше."
+#: app/routes.py:339 templates/404.html:3
+msgid "Page not found"
+msgstr "Сторінка не знайдена"
 
-#: app/routes.py:365
+#: app/routes.py:343 app/routes.py:349
+msgid "An unexpected error occurred. Please try again."
+msgstr "Виникла непередбачена помилка. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:388
 msgid "Sorry, all products are currently unavailable. Please try again later."
 msgstr ""
-"Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
-"пізніше."
+"Вибачте, але всі товари в даний момент недоступні. Будь ласка, спробуйте "
+"ще раз пізніше."
 
-#: app/routes.py:376
+#: app/routes.py:399
 msgid "Failed to check product availability. Please try again."
 msgstr "Не вдалося додати товар. Будь ласка, спробуйте ще раз."
 
-#: templates/404.html:3
-msgid "Page not found"
-msgstr "Сторінка не знайдена"
+#: services/database.py:175
+msgid "Failed to create order"
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: services/database.py:182
+msgid "Error processing order data"
+msgstr "Виникла помилка під час обробки даних замовлення"
+
+#: services/database.py:186
+msgid "Error creating order"
+msgstr "Виникла помилка під час створення замовлення"
+
+#: services/database.py:221
+msgid "Error adding item to order"
+msgstr "Виникла помилка під час додавання товару до замовлення"
+
+#: services/database.py:240
+msgid "Error removing item from order"
+msgstr "Виникла помилка під час видалення товару з замовлення"
+
+#: services/database.py:324
+msgid "Error checking category availability"
+msgstr "Виникла помилка під час перевірки доступності категорії"
+
+#: services/database.py:336
+msgid "Error getting order status"
+msgstr "Виникла помилка під час перевірки статусу замовлення"
+
+#: services/database.py:345
+msgid "Error cancelling order"
+msgstr "Скасувати замовлення"
 
 #: templates/404.html:11
 msgid "404 - Page not found"
@@ -118,44 +160,78 @@ msgstr "Kiosk має технічні проблеми"
 msgid "Kiosk is being restocked"
 msgstr "Kiosk є в процесі поповнення"
 
-#: templates/order.html:18 templates/order_confirmation.html:11
+#: templates/order.html:27 templates/order_confirmation.html:11
 #, python-format
 msgid "Estimated waiting time: %(time)d min"
 msgstr "Оцінка часу очікування: %(time)d хв"
 
-#: templates/order.html:32 templates/order_summary.html:30
-#: templates/order_summary.html:40
-#, python-format
-msgid "Price: %(price).2f"
-msgstr "Ціна: %(price).2f"
+#: templates/order.html:37
+msgid "Snacks"
+msgstr "Закуски"
 
-#: templates/order.html:43
-msgid "Cancel"
-msgstr "Скасувати"
+#: templates/order.html:38
+msgid "Drinks"
+msgstr "Напої"
 
-#: templates/order.html:44 templates/order.html:57 templates/payment.html:9
-#, python-format
-msgid "Total: %(total).2f"
-msgstr "Загальна сума: %(total).2f"
+#: templates/order.html:39
+msgid "Coffee"
+msgstr "Кава"
 
-#: templates/order.html:74 templates/order_summary.html:75
-msgid "Failed to update order. Please try again."
-msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+#: templates/order.html:40
+msgid "Take Away"
+msgstr "З собою"
 
-#: templates/order.html:105 templates/order_summary.html:143
+#: templates/order.html:41
+msgid "Sauces"
+msgstr "Соуси"
+
+#: templates/order.html:42
+msgid "Summary"
+msgstr "Сума замовлення"
+
+#: templates/order.html:71
+msgid "Allergens"
+msgstr "Алергени"
+
+#: templates/order.html:74
+msgid "Price"
+msgstr "Ціна"
+
+#: templates/order.html:74 templates/order.html:81 templates/order.html:100
+#: templates/order.html:103
+msgid "PLN"
+msgstr "грн"
+
+#: templates/order.html:81 templates/order.html:103
+msgid "Total"
+msgstr "Загальна сума:"
+
+#: templates/order.html:93 templates/order_summary.html:143
 msgid "Are you sure you want to cancel your order?"
 msgstr "Ви впевнені, що хочете скасувати замовлення?"
 
-#: templates/order.html:119 templates/order.html:174
-#: templates/order_summary.html:132 templates/order_summary.html:154
-msgid "Failed to cancel order. Please try again."
-msgstr "Не вдалося скасувати замовлення. Будь ласка, спробуйте ще раз."
+#: templates/order.html:94
+msgid "Order cancelled successfully"
+msgstr "Оплата успішна!"
 
-#: templates/order.html:129
+#: templates/order.html:95
+msgid "Failed to cancel order"
+msgstr "Скасувати замовлення"
+
+#: templates/order.html:96
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: templates/order.html:100
+#, python-format
+msgid "Total: %(total).2f %(currency)s"
+msgstr "Загальна сума: %(total).2f грн"
+
+#: templates/order.html:101
 msgid "Please add items to your order before proceeding."
 msgstr "Будь ласка, додайте товари до свого замовлення перед продовженням."
 
-#: templates/order.html:158 templates/order_summary.html:119
+#: templates/order.html:102 templates/order_summary.html:119
 msgid "You have been inactive for a while. Do you want to continue your order?"
 msgstr ""
 "Ви були неактивними для деякого часу. Ви хочете продовжити своє "
@@ -182,6 +258,11 @@ msgstr "Будь ласка, заберіть своє замовлення, к�
 msgid "Order Summary"
 msgstr "Сума замовлення"
 
+#: templates/order_summary.html:30 templates/order_summary.html:40
+#, python-format
+msgid "Price: %(price).2f"
+msgstr "Ціна: %(price).2f"
+
 #: templates/order_summary.html:35
 msgid "Suggested Products"
 msgstr "Рекомендовані товари"
@@ -203,9 +284,22 @@ msgstr "Скасувати замовлення"
 msgid "Proceed to Payment"
 msgstr "Перейти до оплати   "
 
+#: templates/order_summary.html:75
+msgid "Failed to update order. Please try again."
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
 #: templates/order_summary.html:109
 msgid "Failed to add product. Please try again."
 msgstr "Не вдалося додати товар. Будь ласка, спробуйте ще раз."
+
+#: templates/order_summary.html:132 templates/order_summary.html:154
+msgid "Failed to cancel order. Please try again."
+msgstr "Не вдалося скасувати замовлення. Будь ласка, спробуйте ще раз."
+
+#: templates/payment.html:9
+#, python-format
+msgid "Total: %(total).2f"
+msgstr "Загальна сума: %(total).2f"
 
 #: templates/payment.html:13
 msgid "Payment Instructions"
@@ -255,37 +349,4 @@ msgstr "Не вдалося скасувати оплату. Будь ласка
 #: templates/payment.html:100
 msgid "You have been inactive for a while. Do you want to continue your payment?"
 msgstr "Ви були неактивними для деякого часу. Ви хочете продовжити свою оплату?"
-
-#~ msgid "Page not found"
-#~ msgstr "Сторінка не знайдена"
-
-#~ msgid "404 - Page not found"
-#~ msgstr "404 - Сторінка не знайдена"
-
-#~ msgid "Sorry, but the page you are looking for does not exist."
-#~ msgstr "Вибачте, але сторінка, яку ви шукаєте, не існує."
-
-#~ msgid "Server error"
-#~ msgstr "Помилка сервера"
-
-#~ msgid "Sorry, a server error occurred. Please try again later."
-#~ msgstr "Вибачте, сталася помилка сервера. Будь ласка, спробуйте ще раз пізніше."
-
-#~ msgid "Estimated waiting time: "
-#~ msgstr "Оцінка часу очікування: "
-
-#~ msgid "Kiosk has technical issues"
-#~ msgstr "Kiosk має технічні проблеми"
-
-#~ msgid "Failed to create order. Please try again."
-#~ msgstr "Не вдалося створити замовлення. Будь ласка, спробуйте ще раз."
-
-#~ msgid "An error occurred. Please try again."
-#~ msgstr "Сталася помилка. Будь ласка, спробуйте ще раз."
-
-#~ msgid "Failed to create order: {}"
-#~ msgstr ""
-
-#~ msgid "An unexpected error occurred"
-#~ msgstr ""
 

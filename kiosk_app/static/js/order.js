@@ -62,9 +62,24 @@ class OrderPage {
 
     async checkItemAvailability() {
         try {
-            const data = await fetchWithErrorHandling(`/get_available_items`);
-            if (data.available_items) {
-                this.updateProductAvailability(data.available_items);
+            // Get the active category
+            const activeButton = document.querySelector('.order-category-button.active');
+            if (!activeButton) return;
+            
+            const activeCategory = activeButton.dataset.category;
+            if (activeCategory === 'sum') return;
+
+            // Get all items from active category
+            const activeCategoryItems = document.querySelectorAll(`.order-product-item[data-category="${activeCategory}"]`);
+            const itemIds = Array.from(activeCategoryItems).map(item => item.dataset.itemId);
+
+            // Only make the request if we have items to check
+            if (itemIds.length > 0) {
+                const queryParams = itemIds.map(id => `item_ids=${id}`).join('&');
+                const data = await fetchWithErrorHandling(`/get_available_items?${queryParams}`);
+                if (data.available_items) {
+                    this.updateProductAvailability(data.available_items);
+                }
             }
         } catch (error) {
             console.error('Error checking availability:', error);
@@ -73,32 +88,37 @@ class OrderPage {
 
     updateProductAvailability(availableItems) {
         availableItems.forEach(item => {
-            const productItem = document.querySelector(`.product-item[data-item-id="${item.item_id}"]`);
-            const quantityControl = productItem?.querySelector('.order-quantity-control');
+            const productItem = document.querySelector(`.order-product-item[data-item-id="${item.item_id}"]`);
+            const increaseButton = productItem?.querySelector('.increase-quantity');
+            const decreaseButton = productItem?.querySelector('.decrease-quantity');
             const quantityDisplay = productItem?.querySelector('.quantity');
             
-            if (productItem) {
-                const currentQuantity = parseInt(quantityDisplay?.textContent) || 0;
+            if (productItem && quantityDisplay) {
+                const currentQuantity = parseInt(quantityDisplay.textContent) || 0;
 
                 if (item.available_quantity > 0) {
-                    // Restore buttons if available
-                    if (!quantityControl.querySelector('.increase-quantity')) {
-                        quantityControl.innerHTML = `
-                            <button class="decrease-quantity" data-item-id="${item.item_id}" ${currentQuantity <= 0 ? 'disabled' : ''}>-</button>
-                            <span class="quantity" data-item-id="${item.item_id}">${currentQuantity}</span>
-                            <button class="increase-quantity" data-item-id="${item.item_id}">+</button>
-                        `;
-                        this.initializeEventListeners(); // Re-initialize event listeners for new buttons
+                    // Aktywuj/deaktywuj przyciski na podstawie ilości
+                    if (increaseButton) {
+                        // Przycisk "+" jest aktywny tylko jeśli można dodać więcej produktów
+                        increaseButton.disabled = currentQuantity >= item.available_quantity;
                     }
+                    if (decreaseButton) {
+                        // Przycisk "-" jest aktywny tylko jeśli są produkty w koszyku
+                        decreaseButton.disabled = currentQuantity <= 0;
+                    }
+
                     productItem.classList.remove('unavailable');
-                    productItem.title = '';
+                    productItem.title = currentQuantity >= item.available_quantity ? 
+                        _('Maximum available quantity reached') : '';
                 } else {
-                    // Replace buttons with out of stock message
-                    quantityControl.innerHTML = `<span class="out-of-stock-message">${_('Out of stock')}</span>`;
+                    // Produkt niedostępny
+                    if (increaseButton) increaseButton.disabled = true;
+                    if (decreaseButton) decreaseButton.disabled = currentQuantity <= 0;
+                    
                     productItem.classList.add('unavailable');
                     productItem.title = _('Product temporarily unavailable');
                     
-                    // If item is in cart, show warning
+                    // Pokaż ostrzeżenie jeśli produkt jest w koszyku
                     if (currentQuantity > 0) {
                         showFlashMessage(_('Some selected items are no longer available'), 'warning');
                     }

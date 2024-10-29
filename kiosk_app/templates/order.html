@@ -6,11 +6,10 @@
 
 {% block content %}
 <div class="order-container" data-order-id="{{ order_id }}" data-aps-id="{{ aps_id }}">
-    <!-- Górna sekcja (10% wysokości) - OK, ale dodajmy flex-shrink: 0 -->
+    <!-- Górna sekcja -->
     <header class="order-top-section">
         <div class="order-logo-section">
             <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="order-logo">
-            <h2 class="order-menu-title">{{ _('Menu') }}</h2>
         </div>
         <div class="order-flags-section">
             <div class="order-flags">
@@ -30,43 +29,56 @@
         </div>
     </header>
 
-    <!-- Środkowa sekcja (80% wysokości) - Dodajmy flex-grow: 1 -->
+    <!-- Środkowa sekcja -->
     <main class="order-middle-section">
-        <!-- Pasek kategorii - Dodajmy position: sticky -->
+        <!-- Pasek kategorii -->
         <nav class="order-category-bar">
-            {% for category in ['snack', 'drink', 'coffee', 'take_away_box', 'sauce', 'sum'] %}
-                <button class="order-category-button {% if loop.first %}active{% endif %}" data-category="{{ category }}">
-                    {{ _(category) }}
+            {% set categories = [
+                ('snack', _('Snacks')),
+                ('drink', _('Drinks')),
+                ('coffee', _('Coffee')),
+                ('take_away_box', _('Take Away')),
+                ('sauce', _('Sauces')),
+                ('sum', _('Summary'))
+            ] %}
+            {% for category_id, category_name in categories %}
+                <button class="order-category-button {% if loop.first %}active{% endif %}" data-category="{{ category_id }}">
+                    {{ category_name }}
                 </button>
             {% endfor %}
         </nav>
 
-        <!-- Lista produktów - Dodajmy overflow-y: auto -->
+        <!-- Lista produktów -->
         <div class="order-product-list">
             {% for item in menu_items %}
+                {# Mapowanie kodów języków #}
+                {% set lang_code = 'ua' if session.get('language') == 'uk' else session.get('language', 'pl') %}
                 <article class="order-product-item" data-category="{{ item.category.value }}" data-item-id="{{ item.item_id }}">
                     <div class="order-product-image-container">
                         <img src="" 
                              data-image-filename="{{ item.image }}"
-                             alt="{{ item['name_' + session.get('language', 'pl')] }}" 
-                             class="order-product-image">
+                             alt="{{ item['name_' + lang_code] }}" 
+                             class="order-product-image"
+                             onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder.png') }}'">
                     </div>
                     <div class="order-product-info">
-                        <h3 class="order-product-name">{{ item['name_' + session.get('language', 'pl')] }}</h3>
-                        <p class="order-product-description">{{ item['description_' + session.get('language', 'pl')] }}</p>
-                        {% if item['allergens_' + session.get('language', 'pl')] %}
+                        <h3 class="order-product-name">{{ item['name_' + lang_code] }}</h3>
+                        {% if item['description_' + lang_code] %}
+                            <p class="order-product-description">{{ item['description_' + lang_code] }}</p>
+                        {% endif %}
+                        {% if item['allergens_' + lang_code] %}
                             <p class="order-product-allergens">
-                                {{ _('Allergens: ') }}{{ item['allergens_' + session.get('language', 'pl')] }}
+                                {{ _('Allergens') }}: {{ item['allergens_' + lang_code] }}
                             </p>
                         {% endif %}
-                        <p class="order-product-price">{{ _('Price: %(price).2f', price=item.price) }}</p>
+                        <p class="order-product-price">{{ _('Price') }}: {{ "%.2f"|format(item.price) }} {{ _('PLN') }}</p>
                         <div class="order-quantity-control">
                             <button class="decrease-quantity" data-item-id="{{ item.item_id }}" disabled>-</button>
                             <span class="quantity" data-item-id="{{ item.item_id }}">0</span>
                             <button class="increase-quantity" data-item-id="{{ item.item_id }}" disabled>+</button>
                         </div>
                         <p class="order-item-total" data-item-id="{{ item.item_id }}">
-                            {{ _('Total: %(total).2f', total=0.00) }}
+                            {{ _('Total') }}: {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
                         </p>
                     </div>
                 </article>
@@ -74,7 +86,7 @@
         </div>
     </main>
 
-    <!-- Dolna sekcja (10% wysokości) - OK, ale dodajmy flex-shrink: 0 -->
+    <!-- Dolna sekcja -->
     <footer class="order-bottom-section">
         <button id="cancel-order" 
                 class="order-action-button order-cancel-button"
@@ -85,10 +97,10 @@
         </button>
         <button id="proceed-to-summary" 
                 class="order-action-button order-total-button"
-                data-template="{{ _('Total: %(total).2f', total=0.00) }}"
+                data-template="{{ _('Total: %(total).2f %(currency)s', total=0.00, currency=_('PLN')) }}"
                 data-empty-cart-message="{{ _('Please add items to your order before proceeding.') }}"
                 data-inactivity-message="{{ _('You have been inactive for a while. Do you want to continue your order?') }}">
-            {{ _('Total: %(total).2f', total=0.00) }}
+            {{ _('Total') }}: {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
         </button>
     </footer>
 </div>

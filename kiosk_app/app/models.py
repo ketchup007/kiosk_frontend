@@ -1,7 +1,7 @@
 from enum import Enum
 from datetime import datetime
 from typing import List, Optional, Dict
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class ItemCategory(Enum):
     SNACK = 'snack'
@@ -127,14 +127,13 @@ class APSOrder(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-class APSOrderItem(BaseModel):
-    id: int
+class APSOrderItemCreate(BaseModel):
     aps_order_id: int
     aps_id: int
     item_id: int
     status: ItemStatus
-    created_at: datetime
-    updated_at: datetime
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
 
 class APSOrderWithItems(BaseModel):
     id: int

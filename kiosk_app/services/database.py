@@ -4,7 +4,7 @@ from config import Config
 from app.models import (
     APSMenuItems, APSMenuItem, AvailableItem, APSOrder, APSOrderWithItems,
     SuggestedProduct, EstimatedWaitingTime, ItemCategory, OrderStatus, ItemStatus,
-    OrderOrigin, PickupNumber
+    OrderOrigin, PickupNumber, APSOrderItemCreate
 )
 from typing import List, Dict, Any
 import json
@@ -37,7 +37,21 @@ class Database:
                 'input_aps_id': aps_id
             }).execute()
             
-            return float(result.data[0]['get_order_total'])
+            # Sprawdź czy mamy dane
+            if not result.data:
+                return 0.0
+                
+            # Jeśli result.data jest liczbą
+            if isinstance(result.data, (int, float)):
+                return float(result.data)
+                
+            # Jeśli result.data jest listą lub słownikiem
+            if isinstance(result.data, list) and result.data:
+                if isinstance(result.data[0], dict):
+                    return float(result.data[0].get('get_order_total', 0))
+                return float(result.data[0])
+                
+            return 0.0
         except Exception as e:
             logging_service.error(f"Database error in get_order_total: {str(e)}")
             raise DatabaseError("Error getting order total")
@@ -182,12 +196,23 @@ class Database:
 
     def add_item_to_order(self, order_id: int, item_id: int, quantity: int) -> bool:
         try:
-            # Używamy enuma ItemStatus dla statusu przedmiotu
-            items_to_insert = [{
-                'aps_order_id': order_id, 
-                'item_id': item_id, 
-                'status': ItemStatus.RESERVED.value
-            } for _ in range(quantity)]
+            # Najpierw pobierz aps_id z zamówienia
+            order_result = self.client.table('aps_order').select('aps_id').eq('id', order_id).execute()
+            if not order_result.data:
+                raise DatabaseError(_("Order not found"))
+            
+            aps_id = order_result.data[0]['aps_id']
+            
+            # Utwórz listę obiektów APSOrderItemCreate
+            items_to_insert = [
+                APSOrderItemCreate(
+                    aps_order_id=order_id,
+                    aps_id=aps_id,
+                    item_id=item_id,
+                    status=ItemStatus.RESERVED
+                ).model_dump(mode='json')
+                for _ in range(quantity)
+            ]
             
             self.client.table('aps_order_item').insert(items_to_insert).execute()
             return True
