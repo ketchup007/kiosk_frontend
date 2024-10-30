@@ -215,8 +215,10 @@ def calculate_estimated_waiting_time():
 def init_payment():
     order_id = request.json.get('order_id')
     amount = request.json.get('amount')
+    logging_service.info(f"Initializing payment: order_id={order_id}, amount={amount}")
     try:
         result = payment_service.init_transaction(amount)
+        logging_service.info(f"Payment initialization result: {result}")
         return jsonify(success=True, result=result)
     except PaymentError as e:
         logging_service.error(f"Payment initialization failed: {str(e)}")
@@ -243,9 +245,9 @@ def process_payment():
 def update_order_status():
     order_id = request.json.get('order_id')
     new_status = request.json.get('status')
-    # This is a placeholder. In a real scenario, you'd update the order status in the database.
-    success = True
-    return jsonify(success=success)
+    result = db.update_order_status(order_id, new_status)
+    logging_service.info(f"Order status updated: {result}")
+    return jsonify(success=result)
 
 @app.route('/handle_payment_error', methods=['POST'])
 def handle_payment_error():

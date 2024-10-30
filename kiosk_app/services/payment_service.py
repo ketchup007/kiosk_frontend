@@ -1,10 +1,9 @@
 import socket
-import time
-import os
+import time 
 import struct
 from app.errors import PaymentError
-from kiosk_app.services import logging_service
 from kiosk_app.config import Config
+from services.logging_service import logging_service
 
 class PaymentService:
     def __init__(self):
@@ -15,6 +14,7 @@ class PaymentService:
 
     def check_state(self):
         try:
+            logging_service.info(f"Checking terminal state")
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(5)
                 s.connect((self.terminal_ip, self.terminal_port_state))
@@ -31,7 +31,9 @@ class PaymentService:
         self.ped_state = 0
         retry_count = 0
         max_retries = 3
+        logging_service.info(f"Initializing transaction with price: {price}")
         while retry_count < max_retries:
+            logging_service.info(f"Attempt {retry_count + 1} of {max_retries}")
             try:
                 self.check_state()
                 if self.ped_state == 1:
@@ -41,11 +43,14 @@ class PaymentService:
             except PaymentError as e:
                 logging_service.warning(f"Attempt {retry_count + 1} failed: {str(e)}")
                 if retry_count == max_retries - 1:
+                    logging_service.error(f"Unable to initialize transaction after multiple attempts")
                     raise PaymentError("Unable to initialize transaction after multiple attempts")
+        logging_service.error(f"Terminal not ready after multiple attempts")
         raise PaymentError("Terminal not ready after multiple attempts")
 
     def start_payment(self, price):
         try:
+            logging_service.info(f"Starting payment with price: {price}")
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.settimeout(30)
                 s.connect((self.terminal_ip, self.terminal_port_payment))
