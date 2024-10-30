@@ -1,126 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="top-section">
-        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="logo">
-        <div class="order-summary">
+<div class="payment-container" data-order-id="{{ order_id }}" data-order-total="{{ total }}">
+    <div class="payment-top-section">
+        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="payment-logo">
+        <div class="payment-summary">
             <h2>{{ _('Order Summary') }}</h2>
-            <p>{{ _('Total: %(total).2f', total=order_details.total) }}</p>
+            <p>{{ _('Total: %(total).2f %(currency)s', total=total, currency=_('PLN')) }}</p>
         </div>
     </div>
-    <div class="middle-section">
+    <div class="payment-middle-section">
         <h2>{{ _('Payment Instructions') }}</h2>
         <p>{{ _('Please follow the instructions on the payment terminal.') }}</p>
         <div id="payment-status"></div>
     </div>
-    <div class="bottom-section">
-        <button id="cancel-payment" class="action-button">{{ _('Cancel Payment') }}</button>
-        <button id="finalize-payment" class="action-button">{{ _('Pay %(total).2f', total=order_details.total) }}</button>
+    <div class="payment-bottom-section">
+        <button id="cancel-payment" class="payment-action-button">{{ _('Cancel Payment') }}</button>
+        <button id="finalize-payment" class="payment-action-button">
+            {{ _('Pay %(total).2f %(currency)s', total=total, currency=_('PLN')) }}
+        </button>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const paymentStatus = document.getElementById('payment-status');
-    const finalizePaymentButton = document.getElementById('finalize-payment');
-    const cancelPaymentButton = document.getElementById('cancel-payment');
-
-    finalizePaymentButton.addEventListener('click', function() {
-        paymentStatus.textContent = '{{ _("Initializing payment...") }}';
-        fetch('/init_payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                order_id: {{ order_id }},
-                amount: {{ order_details.total }}
-            })
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  processPayment();
-              } else {
-                  paymentStatus.textContent = '{{ _("Payment initialization failed. Please try again.") }}';
-              }
-          });
-    });
-
-    function processPayment() {
-        paymentStatus.textContent = '{{ _("Processing payment...") }}';
-        fetch('/process_payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                order_id: {{ order_id }},
-                amount: {{ order_details.total }}
-            })
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  paymentStatus.textContent = '{{ _("Payment successful!") }}';
-                  window.location.href = `/order/confirmation/${data.kds_number}`;
-              } else {
-                  paymentStatus.textContent = '{{ _("Payment failed. Please try again.") }}';
-              }
-          });
-    }
-
-    cancelPaymentButton.addEventListener('click', function() {
-        if (confirm('{{ _("Are you sure you want to cancel the payment?") }}')) {
-            fetch('/cancel_payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    order_id: {{ order_id }}
-                })
-            }).then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      window.location.href = '/';
-                  } else {
-                      alert('{{ _("Failed to cancel payment. Please try again.") }}');
-                  }
-              });
-        }
-    });
-
-    // Inactivity detection
-    let inactivityTimer;
-    function resetInactivityTimer() {
-        clearTimeout(inactivityTimer);
-        inactivityTimer = setTimeout(function() {
-            if (confirm('{{ _("You have been inactive for a while. Do you want to continue your payment?") }}')) {
-                resetInactivityTimer();
-            } else {
-                fetch('/cancel_payment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        order_id: {{ order_id }}
-                    })
-                }).then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          window.location.href = '/';
-                      } else {
-                          alert('{{ _("Failed to cancel payment. Please try again.") }}');
-                      }
-                  });
-            }
-        }, 900000); // 15 minutes
-    }
-    document.addEventListener('touchstart', resetInactivityTimer);
-    resetInactivityTimer();
-});
-</script>
+<script src="{{ url_for('static', filename='js/payment.js') }}"></script>
 {% endblock %}

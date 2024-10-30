@@ -34,8 +34,30 @@ class OrderPage {
         this.availabilityCache = new Map();
         this.lastAvailabilityCheck = null;
         
+        // Pokaż loader natychmiast w konstruktorze
+        const productList = document.querySelector('.order-product-list');
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        
+        const spinner = document.createElement('div');
+        spinner.className = 'loader-spinner';
+        
+        const text = document.createElement('div');
+        text.className = 'loader-text';
+        text.textContent = 'Loading...';
+        
+        loader.appendChild(spinner);
+        loader.appendChild(text);
+        productList.innerHTML = '';
+        productList.appendChild(loader);
+        
+        // Usuń aktywną kategorię
+        document.querySelectorAll('.order-category-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        // Rozpocznij inicjalizację
         this.loadTranslations().then(() => {
-            this.showLoader();
             this.initializeMenu().then(() => {
                 this.initializeEventListeners();
                 this.startMonitoring();
@@ -63,15 +85,19 @@ class OrderPage {
         const productList = document.querySelector('.order-product-list');
         const loader = document.createElement('div');
         loader.className = 'loader';
-        loader.style.cssText = `
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            font-size: 24px;
-            color: #666;
-        `;
-        loader.textContent = 'Loading...';
+        
+        // Dodaj spinner
+        const spinner = document.createElement('div');
+        spinner.className = 'loader-spinner';
+        
+        // Dodaj tekst
+        const text = document.createElement('div');
+        text.className = 'loader-text';
+        text.textContent = this._('Loading...');
+        
+        loader.appendChild(spinner);
+        loader.appendChild(text);
+        
         productList.innerHTML = '';
         productList.appendChild(loader);
 
@@ -365,7 +391,7 @@ class OrderPage {
                     // Renderuj ponownie menu
                     await this.renderMenu();
                     
-                    // Po wyrenderowaniu menu, pokaż odpowiednią kategorię
+                    // Po wyrenderowaniu menu, pokaz odpowiednią kategorię
                     document.querySelectorAll('.order-product-item').forEach(item => {
                         const itemCategory = item.dataset.category.toLowerCase();
                         item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
@@ -493,6 +519,13 @@ class OrderPage {
                 summaryHTML += `</div>
                     <div class="summary-total">
                         <h3>${this._('Total')}: ${orderTotal.toFixed(2)} ${this._('PLN')}</h3>
+                        ${orderTotal > 0 ? `
+                            <button id="proceed-to-payment" 
+                                    class="order-action-button"
+                                    style="background-color: #00FF00; margin-top: 20px;">
+                                ${this._('Proceed to Payment')}
+                            </button>
+                        ` : ''}
                     </div>
                 </div>`;
                 
@@ -512,6 +545,14 @@ class OrderPage {
 
                 // Inicjalizuj kontrolki ilości
                 this.initializeQuantityControls();
+
+                // Dodaj obsługę przycisku płatności
+                const paymentButton = document.getElementById('proceed-to-payment');
+                if (paymentButton) {
+                    paymentButton.addEventListener('click', () => {
+                        window.location.href = `/payment/${this.orderId}`;
+                    });
+                }
                 
             } else {
                 throw new Error('Invalid summary data');

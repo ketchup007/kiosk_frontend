@@ -177,7 +177,6 @@ def get_available_quantities():
 @app.route('/cancel_order', methods=['POST'])
 def cancel_order():
     order_id = request.json.get('order_id')
-    aps_id = app.config['APS_ID']
     logging_service.info(f"Cancelling order: order_id={order_id}")
     try:
         db.cancel_order(order_id)
@@ -240,16 +239,6 @@ def process_payment():
         logging_service.error(f"Payment processing failed: {str(e)}")
         return jsonify(success=False, error=_('Payment processing failed. Please try again.'))
 
-@app.route('/cancel_payment', methods=['POST'])
-def cancel_payment():
-    order_id = request.json.get('order_id')
-    try:
-        db.update_order_status(order_id, OrderStatus.CANCELED.value)
-        return jsonify(success=True)
-    except DatabaseError as e:
-        logging_service.error(f"Payment cancellation failed: {str(e)}")
-        return jsonify(success=False, error=str(e)), 500
-
 @app.route('/update_order_status', methods=['POST'])
 def update_order_status():
     order_id = request.json.get('order_id')
@@ -301,10 +290,19 @@ def add_suggested_product():
 
 @app.route('/payment/<int:order_id>')
 def payment(order_id):
-    order_details = db.get_order_details(order_id)
-    return render_template('payment.html', 
+    try:
+        aps_id = app.config['APS_ID']
+        order_details = db.get_order_details(order_id)
+        total = db.get_order_total(order_id, aps_id)
+        
+        return render_template('payment.html', 
                            order_details=order_details,
-                           order_id=order_id)
+                           order_id=order_id,
+                           total=total)
+    except DatabaseError as e:
+        logging_service.error(f"Error in payment route: {str(e)}")
+        flash(_("An error occurred while loading the payment page"), "error")
+        return redirect(url_for('index'))
 
 @app.route('/order/confirmation/<int:kds_number>')
 def order_confirmation(kds_number):
