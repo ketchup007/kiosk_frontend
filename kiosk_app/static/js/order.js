@@ -389,9 +389,22 @@ class OrderPage {
                 summaryHTML += `<h2>${this._('Order Summary')}</h2>`;
                 summaryHTML += '<div class="summary-items">';
                 
-                // Wyświetlamy wszystkie produkty z zamówienia
-                response.summary.items.forEach(item => {
+                // Grupowanie produktów według item_id
+                const groupedItems = response.summary.items.reduce((acc, item) => {
+                    const existingItem = acc.find(i => i.id === item.id);
+                    if (existingItem) {
+                        existingItem.quantity = (existingItem.quantity || 1) + 1;
+                    } else {
+                        item.quantity = 1;
+                        acc.push(item);
+                    }
+                    return acc;
+                }, []);
+                
+                // Używamy zgrupowanych produktów zamiast oryginalnej listy
+                groupedItems.forEach(item => {
                     const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
+                    const totalItemPrice = item.price * item.quantity; // Obliczamy całkowitą cenę dla danej ilości
                     
                     summaryHTML += `
                         <article class="order-product-item" data-item-id="${item.id}">
@@ -413,11 +426,11 @@ class OrderPage {
                                 <div class="price-container">
                                     <p class="order-product-price">${this._('Price')}: ${item.price.toFixed(2)} ${this._('PLN')}</p>
                                     <p class="order-item-total">
-                                        ${this._('Total')} ${item.price.toFixed(2)} ${this._('PLN')}
+                                        ${this._('Total')} ${totalItemPrice.toFixed(2)} ${this._('PLN')}
                                     </p>
                                 </div>
                                 <div class="order-quantity-control">
-                                    <span class="quantity">1</span>
+                                    <span class="quantity">${item.quantity}</span>
                                 </div>
                             </div>
                         </article>
