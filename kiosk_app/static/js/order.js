@@ -385,10 +385,6 @@ class OrderPage {
             console.log('Items in response:', response.summary.items);
             
             if (response.summary && Array.isArray(response.summary.items)) {
-                let summaryHTML = '<div class="order-summary">';
-                summaryHTML += `<h2>${this._('Order Summary')}</h2>`;
-                summaryHTML += '<div class="summary-items">';
-                
                 // Grupowanie produktów według item_id
                 const groupedItems = response.summary.items.reduce((acc, item) => {
                     const existingItem = acc.find(i => i.id === item.id);
@@ -400,11 +396,27 @@ class OrderPage {
                     }
                     return acc;
                 }, []);
+
+                // Pobierz dostępne ilości dla wszystkich produktów
+                const itemIds = groupedItems.map(item => item.id);
+                const availabilityResponse = await fetchWithErrorHandling(
+                    `/get_available_quantities?${itemIds.map(id => `item_ids=${id}`).join('&')}`
+                );
+
+                // Utwórz mapę dostępności
+                const availabilityMap = new Map(
+                    availabilityResponse.available_items.map(item => [item.item_id, item.available_quantity])
+                );
+
+                let summaryHTML = '<div class="order-summary">';
+                summaryHTML += `<h2>${this._('Order Summary')}</h2>`;
+                summaryHTML += '<div class="summary-items">';
                 
-                // Używamy zgrupowanych produktów zamiast oryginalnej listy
                 groupedItems.forEach(item => {
                     const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
-                    const totalItemPrice = item.price * item.quantity; // Obliczamy całkowitą cenę dla danej ilości
+                    const totalItemPrice = item.price * item.quantity;
+                    const availableQuantity = availabilityMap.get(item.id) || 0;
+                    const canIncrease = item.quantity < availableQuantity;
                     
                     summaryHTML += `
                         <article class="order-product-item" data-item-id="${item.id}">
@@ -430,7 +442,13 @@ class OrderPage {
                                     </p>
                                 </div>
                                 <div class="order-quantity-control">
-                                    <span class="quantity">${item.quantity}</span>
+                                    <button class="decrease-quantity ${item.quantity <= 0 ? 'disabled' : 'active'}" 
+                                            data-item-id="${item.id}" 
+                                            ${item.quantity <= 0 ? 'disabled' : ''}>-</button>
+                                    <span class="quantity" data-item-id="${item.id}">${item.quantity}</span>
+                                    <button class="increase-quantity ${canIncrease ? 'active' : 'disabled'}" 
+                                            data-item-id="${item.id}"
+                                            ${!canIncrease ? 'disabled' : ''}>+</button>
                                 </div>
                             </div>
                         </article>
@@ -444,6 +462,18 @@ class OrderPage {
                 </div>`;
                 
                 productList.innerHTML = summaryHTML;
+
+                // Zapisz dostępności w cache
+                groupedItems.forEach(item => {
+                    this.availabilityCache.set(
+                        item.id.toString(),
+                        availabilityMap.get(item.id) || 0
+                    );
+                });
+
+                // Inicjalizuj kontrolki ilości
+                this.initializeQuantityControls();
+                
             } else {
                 throw new Error('Invalid summary data');
             }
