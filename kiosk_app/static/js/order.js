@@ -4,9 +4,17 @@ async function fetchWithErrorHandling(url, options = {}) {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return await response.json();
+        const data = await response.json();
+        
+        // Sprawdź czy odpowiedź zawiera błąd
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        return data;
     } catch (error) {
         console.error('Fetch error:', error);
+        // Przekaż błąd dalej, aby mógł być obsłużony przez wywołującą funkcję
         throw error;
     }
 }
@@ -318,16 +326,43 @@ class OrderPage {
         
         productList.classList.add('changing');
         
-        setTimeout(() => {
+        setTimeout(async () => {
             if (selectedCategory === 'sum') {
                 this.showOrderSummary();
             } else {
-                document.querySelectorAll('.order-product-item').forEach(item => {
-                    const itemCategory = item.dataset.category.toLowerCase();
-                    item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
-                });
-                
-                this.updateProductAvailability();
+                // Jeśli jesteśmy w podsumowaniu, musimy najpierw przywrócić listę produktów
+                if (productList.querySelector('.order-summary')) {
+                    // Renderuj ponownie menu
+                    await this.renderMenu();
+                    
+                    // Po wyrenderowaniu menu, pokaż odpowiednią kategorię
+                    document.querySelectorAll('.order-product-item').forEach(item => {
+                        const itemCategory = item.dataset.category.toLowerCase();
+                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
+                    });
+                    
+                    // Przywróć zdjęcia z cache'u
+                    document.querySelectorAll('.order-product-image').forEach(img => {
+                        const filename = img.dataset.imageFilename;
+                        if (filename && this.imageCache.has(filename)) {
+                            img.src = this.imageCache.get(filename);
+                        }
+                    });
+                    
+                    // Zainicjalizuj kontrolki ilości
+                    this.initializeQuantityControls();
+                    
+                    // Zaktualizuj dostępność produktów
+                    this.updateProductAvailability();
+                } else {
+                    // Standardowe przełączanie między kategoriami
+                    document.querySelectorAll('.order-product-item').forEach(item => {
+                        const itemCategory = item.dataset.category.toLowerCase();
+                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
+                    });
+                    
+                    this.updateProductAvailability();
+                }
             }
             
             productList.classList.remove('changing');
@@ -336,36 +371,51 @@ class OrderPage {
 
     async showOrderSummary() {
         try {
+            const productList = document.querySelector('.order-product-list');
+            
+            // Pokaż loader podczas ładowania
+            productList.innerHTML = '<div class="loader">Loading...</div>';
+            
             const response = await fetchWithErrorHandling(`/get_order_summary?order_id=${this.orderId}`);
+            console.log('Order summary response:', response); // Debugging
+            
             if (response.summary) {
-                const productList = document.querySelector('.order-product-list');
-                
                 let summaryHTML = '<div class="order-summary">';
                 summaryHTML += '<h2>' + this._('Order Summary') + '</h2>';
                 
+                // Grupuj produkty według kategorii
                 const itemsByCategory = {};
                 response.summary.items.forEach(item => {
-                    if (!itemsByCategory[item.category]) {
-                        itemsByCategory[item.category] = [];
+                    const category = typeof item.category === 'string' ? 
+                        item.category : 
+                        (item.category.value || item.category);
+                    
+                    if (!itemsByCategory[category]) {
+                        itemsByCategory[category] = [];
                     }
-                    itemsByCategory[item.category].push(item);
+                    itemsByCategory[category].push(item);
                 });
                 
+                // Generuj HTML dla każdej kategorii
                 for (const [category, items] of Object.entries(itemsByCategory)) {
                     summaryHTML += `<div class="summary-category">`;
                     summaryHTML += `<h3>${this._(category)}</h3>`;
+                    
                     for (const item of items) {
-                        const quantity = document.querySelector(`.quantity[data-item-id="${item.item_id}"]`)?.textContent || '0';
-                        if (parseInt(quantity) > 0) {
-                            const imageUrl = `${window.SUPABASE_URL}/storage/v1/object/public/images/${item.image}`;
+                        const quantity = this.orderItems[item.item_id] || 0;
+                        if (quantity > 0) {
+                            const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
                             
                             summaryHTML += `
                                 <div class="summary-item">
-                                    <img src="${imageUrl}" alt="${item['name_' + document.documentElement.lang]}" class="summary-item-image" onerror="this.onerror=null; this.src='/static/images/placeholder.png';">
+                                    <img src="${imageUrl}" 
+                                         alt="${item['name_' + document.documentElement.lang]}" 
+                                         class="summary-item-image" 
+                                         onerror="this.onerror=null; this.src='/static/images/placeholder.png';">
                                     <div class="summary-item-details">
                                         <h4>${item['name_' + document.documentElement.lang]}</h4>
                                         <p>${this._('Quantity')}: ${quantity}</p>
-                                        <p>${this._('Price')}: ${(item.price * parseInt(quantity)).toFixed(2)}</p>
+                                        <p>${this._('Price')}: ${(item.price * quantity).toFixed(2)} ${this._('PLN')}</p>
                                     </div>
                                 </div>
                             `;
@@ -376,15 +426,23 @@ class OrderPage {
                 
                 summaryHTML += `
                     <div class="summary-total">
-                        <h3>${this._('Total')} ${this.total.toFixed(2)}</h3>
+                        <h3>${this._('Total')}: ${this.total.toFixed(2)} ${this._('PLN')}</h3>
                     </div>
                 </div>`;
                 
                 productList.innerHTML = summaryHTML;
+            } else {
+                throw new Error('Invalid summary data');
             }
         } catch (error) {
             console.error('Error showing order summary:', error);
             showFlashMessage(this._('Failed to load order summary'), 'error');
+            
+            // Przywróć widok kategorii w przypadku błędu
+            const firstCategoryButton = document.querySelector('.order-category-button');
+            if (firstCategoryButton) {
+                this.handleCategoryClick(firstCategoryButton);
+            }
         }
     }
 
