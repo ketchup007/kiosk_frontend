@@ -278,23 +278,6 @@ def before_request():
     if 'language' not in session:
         session['language'] = request.accept_languages.best_match(app.config['LANGUAGES'])
 
-@app.route('/order/summary/<int:order_id>')
-def order_summary(order_id):
-    try:
-        aps_id = app.config['APS_ID']
-        order_details = db.get_order_details_with_items(order_id)
-        suggested_products = db.get_suggested_products(aps_id, order_id)
-        estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
-        
-        return render_template('order_summary.html', 
-                           order_details=order_details.model_dump(),
-                           suggested_products=[p.model_dump() for p in suggested_products],
-                           order_id=order_id,
-                           estimated_waiting_time=estimated_waiting_time)
-    except Exception as e:
-        logging_service.error(f"Error in order_summary: {str(e)}")
-        return jsonify(error="An error occurred while processing your request"), 500
-
 @app.route('/update_order_item', methods=['POST'])
 def update_order_item():
     order_id = request.json.get('order_id')

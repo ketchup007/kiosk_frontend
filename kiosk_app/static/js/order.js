@@ -37,24 +37,9 @@ class OrderPage {
         this.loadTranslations().then(() => {
             this.showLoader();
             this.initializeMenu().then(() => {
-                this.hideLoader();
                 this.initializeEventListeners();
                 this.startMonitoring();
-                
                 this.restoreState();
-                
-                if (!this.currentCategory) {
-                    const firstCategoryButton = document.querySelector('.order-category-button');
-                    if (firstCategoryButton) {
-                        this.handleCategoryClick(firstCategoryButton);
-                    }
-                } else {
-                    const categoryButton = document.querySelector(`.order-category-button[data-category="${this.currentCategory}"]`);
-                    if (categoryButton) {
-                        this.handleCategoryClick(categoryButton);
-                    }
-                }
-
                 this.initializeLanguageHandlers();
             });
         });
@@ -76,7 +61,24 @@ class OrderPage {
 
     showLoader() {
         const productList = document.querySelector('.order-product-list');
-        productList.innerHTML = '<div class="loader">Loading...</div>';
+        const loader = document.createElement('div');
+        loader.className = 'loader';
+        loader.style.cssText = `
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            font-size: 24px;
+            color: #666;
+        `;
+        loader.textContent = 'Loading...';
+        productList.innerHTML = '';
+        productList.appendChild(loader);
+
+        // Usuń aktywną kategorię
+        document.querySelectorAll('.order-category-button').forEach(btn => {
+            btn.classList.remove('active');
+        });
     }
 
     hideLoader() {
@@ -94,9 +96,16 @@ class OrderPage {
             if (response.menu && response.menu.menu_items) {
                 this.menuItems = response.menu.menu_items;
                 console.log('Menu items:', this.menuItems);
+                
                 await this.renderMenu();
                 await this.loadImages();
                 await this.checkItemAvailability();
+                
+                // Po załadowaniu menu i obrazów, aktywuj pierwszą kategorię
+                const firstCategoryButton = document.querySelector('.order-category-button');
+                if (firstCategoryButton) {
+                    await this.handleCategoryClick(firstCategoryButton);
+                }
             } else {
                 console.error('Invalid menu structure:', response);
                 throw new Error('Invalid menu structure');
@@ -326,6 +335,12 @@ class OrderPage {
 
     handleCategoryClick(button) {
         console.log('Category clicked:', button.dataset.category);
+        
+        // Sprawdź czy kliknięty przycisk nie jest już aktywny
+        if (button.classList.contains('active')) {
+            console.log('Category already active, skipping...');
+            return;
+        }
         
         document.querySelectorAll('.order-category-button').forEach(btn => {
             btn.classList.remove('active');
@@ -581,10 +596,10 @@ class OrderPage {
 
         const proceedButton = document.getElementById('proceed-to-summary');
         proceedButton.addEventListener('click', () => {
-            if (this.total > 0) {
-                window.location.href = `/order/summary/${this.orderId}`;
-            } else {
-                showFlashMessage(proceedButton.dataset.emptyCartMessage, 'error');
+            // Znajdź i aktywuj przycisk kategorii 'sum'
+            const summaryButton = document.querySelector('.order-category-button[data-category="sum"]');
+            if (summaryButton) {
+                this.handleCategoryClick(summaryButton);
             }
         });
 
