@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List, Optional, Dict
 from pydantic import BaseModel, Field
 
-class ItemCategory(Enum):
+class ItemCategory(str, Enum):
     SNACK = 'snack'
     DRINK = 'drink'
     COFFEE = 'coffee'
@@ -13,17 +13,17 @@ class ItemCategory(Enum):
     CUP = 'cup'
     SUGAR = 'sugar'
 
-class APSState(Enum):
+class APSState(str, Enum):
     ACTIVE = 'active'
     INACTIVE = 'inactive'
     MALFUNCTION = 'malfunction'
     DURING_DELIVERY = 'during_delivery'
 
-class OrderOrigin(Enum):
+class OrderOrigin(str, Enum):
     KIOSK = 'kiosk'
     PHONE = 'phone'
 
-class OrderStatus(Enum):
+class OrderStatus(str, Enum):
     DURING_ORDERING = 'during_ordering'
     PAYMENT_IN_PROGRESS = 'payment_in_progress'
     PAID = 'paid'
@@ -34,7 +34,7 @@ class OrderStatus(Enum):
     PICKED_UP = 'picked_up'
     CANCELED = 'canceled'
 
-class ItemStatus(Enum):
+class ItemStatus(str, Enum):
     RESERVED = 'reserved'
     QUEUED = 'queued'
     PLACING_TRAY = 'placing_tray'
@@ -54,7 +54,7 @@ class ItemStatus(Enum):
     RECEIVED = 'received'
     CANCELED = 'canceled'
 
-class PickupNumber(Enum):
+class PickupNumber(str, Enum):
     ONE = '1'
     TWO = '2'
     THREE = '3'
@@ -76,22 +76,6 @@ class ItemDescription(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'name_pl': self.name_pl,
-            'name_en': self.name_en,
-            'name_ua': self.name_ua,
-            'description_pl': self.description_pl,
-            'description_en': self.description_en,
-            'description_ua': self.description_ua,
-            'allergens_pl': self.allergens_pl,
-            'allergens_en': self.allergens_en,
-            'allergens_ua': self.allergens_ua,
-            'category': self.category.value,
-            'image': self.image,
-            'price': self.price
-        }
 
 class Menu(BaseModel):
     id: int
@@ -168,21 +152,7 @@ class APSOrderWithItems(BaseModel):
 
     class Config:
         from_attributes = True
-
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'aps_id': self.aps_id,
-            'origin': self.origin.value,
-            'status': self.status.value,
-            'pickup_number': self.pickup_number.value if self.pickup_number else None,
-            'kds_order_number': self.kds_order_number,
-            'client_phone_number': self.client_phone_number,
-            'estimated_time': self.estimated_time,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat(),
-            'items': [item.to_dict() for item in self.items]
-        }
+        
 
 class APSMenuItem(BaseModel):
     item_id: int
