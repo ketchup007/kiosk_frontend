@@ -125,7 +125,8 @@ class OrderPage {
             const savedQuantity = this.orderItems[item.item_id] || 0;
             
             menuHTML += `
-                <article class="order-product-item" data-category="${category}" data-item-id="${item.item_id}" style="display: none;">
+            <article class="order-product-item" data-category="${category}" data-item-id="${item.item_id}" style="display: none;">
+                <div class="product-left-column">
                     <div class="order-product-image-container">
                         <img src="" 
                              data-image-filename="${item.image}"
@@ -139,18 +140,23 @@ class OrderPage {
                             `<p class="order-product-description">${item['description_' + langCode]}</p>` : ''}
                         ${item['allergens_' + langCode] ? 
                             `<p class="order-product-allergens">${this._('Allergens')}: ${item['allergens_' + langCode]}</p>` : ''}
+                    </div>
+                </div>
+                <div class="product-right-column">
+                    <div class="price-container">
                         <p class="order-product-price">${this._('Price')}: ${item.price.toFixed(2)} ${this._('PLN')}</p>
-                        <div class="order-quantity-control">
-                            <button class="decrease-quantity" data-item-id="${item.item_id}" ${savedQuantity <= 0 ? 'disabled' : ''}>-</button>
-                            <span class="quantity" data-item-id="${item.item_id}">${savedQuantity}</span>
-                            <button class="increase-quantity" data-item-id="${item.item_id}">+</button>
-                        </div>
                         <p class="order-item-total" data-item-id="${item.item_id}">
                             ${this._('Total')} ${(item.price * savedQuantity).toFixed(2)} ${this._('PLN')}
                         </p>
                     </div>
-                </article>
-            `;
+                    <div class="order-quantity-control">
+                        <button class="decrease-quantity" data-item-id="${item.item_id}" ${savedQuantity <= 0 ? 'disabled' : ''}>-</button>
+                        <span class="quantity" data-item-id="${item.item_id}">${savedQuantity}</span>
+                        <button class="increase-quantity" data-item-id="${item.item_id}">+</button>
+                    </div>
+                </div>
+            </article>
+        `;
         }
 
         productList.innerHTML = menuHTML;
