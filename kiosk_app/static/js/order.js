@@ -378,59 +378,53 @@ class OrderPage {
     async showOrderSummary() {
         try {
             const productList = document.querySelector('.order-product-list');
-            
-            // Pokaż loader podczas ładowania
             productList.innerHTML = '<div class="loader">Loading...</div>';
             
             const response = await fetchWithErrorHandling(`/get_order_summary?order_id=${this.orderId}`);
-            console.log('Order summary response:', response); // Debugging
+            console.log('Raw response:', response);
+            console.log('Items in response:', response.summary.items);
             
-            if (response.summary) {
+            if (response.summary && Array.isArray(response.summary.items)) {
                 let summaryHTML = '<div class="order-summary">';
-                summaryHTML += '<h2>' + this._('Order Summary') + '</h2>';
+                summaryHTML += `<h2>${this._('Order Summary')}</h2>`;
+                summaryHTML += '<div class="summary-items">';
                 
-                // Grupuj produkty według kategorii
-                const itemsByCategory = {};
+                // Wyświetlamy wszystkie produkty z zamówienia
                 response.summary.items.forEach(item => {
-                    const category = typeof item.category === 'string' ? 
-                        item.category : 
-                        (item.category.value || item.category);
+                    const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
                     
-                    if (!itemsByCategory[category]) {
-                        itemsByCategory[category] = [];
-                    }
-                    itemsByCategory[category].push(item);
-                });
-                
-                // Generuj HTML dla każdej kategorii
-                for (const [category, items] of Object.entries(itemsByCategory)) {
-                    summaryHTML += `<div class="summary-category">`;
-                    summaryHTML += `<h3>${this._(category)}</h3>`;
-                    
-                    for (const item of items) {
-                        const quantity = this.orderItems[item.item_id] || 0;
-                        if (quantity > 0) {
-                            const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
-                            
-                            summaryHTML += `
-                                <div class="summary-item">
+                    summaryHTML += `
+                        <article class="order-product-item" data-item-id="${item.id}">
+                            <div class="product-left-column">
+                                <div class="order-product-image-container">
                                     <img src="${imageUrl}" 
                                          alt="${item['name_' + document.documentElement.lang]}" 
-                                         class="summary-item-image" 
-                                         onerror="this.onerror=null; this.src='/static/images/placeholder.png';">
-                                    <div class="summary-item-details">
-                                        <h4>${item['name_' + document.documentElement.lang]}</h4>
-                                        <p>${this._('Quantity')}: ${quantity}</p>
-                                        <p>${this._('Price')}: ${(item.price * quantity).toFixed(2)} ${this._('PLN')}</p>
-                                    </div>
+                                         class="order-product-image">
                                 </div>
-                            `;
-                        }
-                    }
-                    summaryHTML += `</div>`;
-                }
+                                <div class="order-product-info">
+                                    <h3 class="order-product-name">${item['name_' + document.documentElement.lang]}</h3>
+                                    ${item['description_' + document.documentElement.lang] ? 
+                                        `<p class="order-product-description">${item['description_' + document.documentElement.lang]}</p>` : ''}
+                                    ${item['allergens_' + document.documentElement.lang] ? 
+                                        `<p class="order-product-allergens">${this._('Allergens')}: ${item['allergens_' + document.documentElement.lang]}</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="product-right-column">
+                                <div class="price-container">
+                                    <p class="order-product-price">${this._('Price')}: ${item.price.toFixed(2)} ${this._('PLN')}</p>
+                                    <p class="order-item-total">
+                                        ${this._('Total')} ${item.price.toFixed(2)} ${this._('PLN')}
+                                    </p>
+                                </div>
+                                <div class="order-quantity-control">
+                                    <span class="quantity">1</span>
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                });
                 
-                summaryHTML += `
+                summaryHTML += `</div>
                     <div class="summary-total">
                         <h3>${this._('Total')}: ${this.total.toFixed(2)} ${this._('PLN')}</h3>
                     </div>
@@ -444,7 +438,6 @@ class OrderPage {
             console.error('Error showing order summary:', error);
             showFlashMessage(this._('Failed to load order summary'), 'error');
             
-            // Przywróć widok kategorii w przypadku błędu
             const firstCategoryButton = document.querySelector('.order-category-button');
             if (firstCategoryButton) {
                 this.handleCategoryClick(firstCategoryButton);
