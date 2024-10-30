@@ -801,3 +801,13 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* Dodaj style dla loadera */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 24px;
+    color: #666;
+}

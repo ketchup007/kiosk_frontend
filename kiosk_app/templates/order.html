@@ -2,6 +2,29 @@
 
 {% block head %}
 {{ super() }}
+<!-- Dodaj słownik tłumaczeń dla JavaScript -->
+<script>
+    window.translations = {
+        'Allergens': '{{ _("Allergens") }}',
+        'Price': '{{ _("Price") }}',
+        'PLN': '{{ _("PLN") }}',
+        'Total': '{{ _("Total") }}',
+        'Failed to load menu': '{{ _("Failed to load menu") }}',
+        'Maximum available quantity reached': '{{ _("Maximum available quantity reached") }}',
+        'Order Summary': '{{ _("Order Summary") }}',
+        'Quantity': '{{ _("Quantity") }}',
+        'Failed to load order summary': '{{ _("Failed to load order summary") }}',
+        'Failed to change language': '{{ _("Failed to change language") }}',
+        'Cancel': '{{ _("Cancel") }}',
+        'Snacks': '{{ _("Snacks") }}',
+        'Drinks': '{{ _("Drinks") }}',
+        'Coffee': '{{ _("Coffee") }}',
+        'Take Away': '{{ _("Take Away") }}',
+        'Sauces': '{{ _("Sauces") }}',
+        'Summary': '{{ _("Summary") }}',
+        'Estimated waiting time: %(time)d min': '{{ _("Estimated waiting time: %(time)d min") }}'
+    };
+</script>
 {% endblock %}
 
 {% block content %}
@@ -50,39 +73,7 @@
 
         <!-- Lista produktów -->
         <div class="order-product-list">
-            {% for item in menu_items %}
-                {# Mapowanie kodów języków #}
-                {% set lang_code = 'ua' if session.get('language') == 'uk' else session.get('language', 'pl') %}
-                <article class="order-product-item" data-category="{{ item.category.value }}" data-item-id="{{ item.item_id }}">
-                    <div class="order-product-image-container">
-                        <img src="" 
-                             data-image-filename="{{ item.image }}"
-                             alt="{{ item['name_' + lang_code] }}" 
-                             class="order-product-image"
-                             onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/placeholder.png') }}'">
-                    </div>
-                    <div class="order-product-info">
-                        <h3 class="order-product-name">{{ item['name_' + lang_code] }}</h3>
-                        {% if item['description_' + lang_code] %}
-                            <p class="order-product-description">{{ item['description_' + lang_code] }}</p>
-                        {% endif %}
-                        {% if item['allergens_' + lang_code] %}
-                            <p class="order-product-allergens">
-                                {{ _('Allergens') }}: {{ item['allergens_' + lang_code] }}
-                            </p>
-                        {% endif %}
-                        <p class="order-product-price">{{ _('Price') }}: {{ "%.2f"|format(item.price) }} {{ _('PLN') }}</p>
-                        <div class="order-quantity-control">
-                            <button class="decrease-quantity" data-item-id="{{ item.item_id }}" disabled>-</button>
-                            <span class="quantity" data-item-id="{{ item.item_id }}">0</span>
-                            <button class="increase-quantity" data-item-id="{{ item.item_id }}" disabled>+</button>
-                        </div>
-                        <p class="order-item-total" data-item-id="{{ item.item_id }}">
-                            {{ _('Total') }}: {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
-                        </p>
-                    </div>
-                </article>
-            {% endfor %}
+            <!-- Lista produktów będzie generowana dynamicznie przez JavaScript -->
         </div>
     </main>
 
@@ -97,10 +88,10 @@
         </button>
         <button id="proceed-to-summary" 
                 class="order-action-button order-total-button"
-                data-template="{{ _('Total: %(total).2f %(currency)s', total=0.00, currency=_('PLN')) }}"
+                data-template="{{ _('Total %(total).2f %(currency)s', total=0.00, currency=_('PLN')) }}"
                 data-empty-cart-message="{{ _('Please add items to your order before proceeding.') }}"
                 data-inactivity-message="{{ _('You have been inactive for a while. Do you want to continue your order?') }}">
-            {{ _('Total') }}: {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
+            {{ _('Total') }} {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
         </button>
     </footer>
 </div>

@@ -13,6 +13,7 @@ import asyncio
 import time
 from services.logging_service import logging_service
 from datetime import datetime
+from flask_babel import get_translations
 
 @app.route('/')
 def index():
@@ -84,14 +85,10 @@ def order(order_id):
             flash(_("Order not found"), "error")
             return redirect(url_for('index'))
             
-        menu_data = db.get_menu(aps_id)
-        menu_items = [item.model_dump() for item in menu_data.menu_items] if menu_data else []
-        logging_service.info(f"Menu items: {menu_items}")
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
         logging_service.info(f"Estimated waiting time: {estimated_waiting_time}")
         
         return render_template('order.html', 
-                           menu_items=menu_items,
                            order_id=order_id,
                            estimated_waiting_time=estimated_waiting_time)
     except Exception as e:
@@ -104,6 +101,7 @@ def get_menu():
     aps_id = app.config['APS_ID']
     try:
         menu = db.get_menu(aps_id)
+        logging_service.info(f"Menu retrieved: {menu}")
         return jsonify(menu=menu.model_dump())
     except DatabaseError as e:
         logging_service.error(f"Error getting menu: {str(e)}")
@@ -412,4 +410,21 @@ def get_public_image_url():
     except Exception as e:
         logging_service.error(f"Error in get_public_image_url: {str(e)}")
         return jsonify(error=str(e)), 500
+
+@app.route('/translations.json')
+def get_translations_json():
+    translations = get_translations()
+    messages = {
+        'Allergens': _('Allergens'),
+        'Price': _('Price'),
+        'PLN': _('PLN'),
+        'Total': _('Total'),
+        'Failed to load menu': _('Failed to load menu'),
+        'Maximum available quantity reached': _('Maximum available quantity reached'),
+        'Order Summary': _('Order Summary'),
+        'Quantity': _('Quantity'),
+        'Failed to load order summary': _('Failed to load order summary'),
+        'Failed to change language': _('Failed to change language')
+    }
+    return jsonify(messages)
 
