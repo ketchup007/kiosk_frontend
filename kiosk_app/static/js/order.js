@@ -219,32 +219,41 @@ class OrderPage {
             if (response.success) {
                 const newQuantity = Math.max(0, currentQuantity + change);
                 this.orderItems[itemId] = newQuantity;
-                quantityElement.textContent = newQuantity;
 
+                // Pobierz aktualną sumę zamówienia
                 const orderTotal = await fetchWithErrorHandling(`/get_order_total?order_id=${this.orderId}`);
                 this.updateTotal(orderTotal.total);
 
-                const productItem = quantityElement.closest('.order-product-item');
-                const decreaseButton = productItem.querySelector('.decrease-quantity');
-                const increaseButton = productItem.querySelector('.increase-quantity');
+                // Jeśli jesteśmy w widoku podsumowania, odśwież cały widok
+                const currentCategory = document.querySelector('.order-category-button.active');
+                if (currentCategory && currentCategory.dataset.category === 'sum') {
+                    await this.showOrderSummary();
+                } else {
+                    // Aktualizuj tylko konkretny produkt
+                    const productItem = quantityElement.closest('.order-product-item');
+                    const decreaseButton = productItem.querySelector('.decrease-quantity');
+                    const increaseButton = productItem.querySelector('.increase-quantity');
 
-                if (decreaseButton) {
-                    decreaseButton.disabled = newQuantity <= 0;
-                    decreaseButton.classList.toggle('active', newQuantity > 0);
-                    decreaseButton.classList.toggle('disabled', newQuantity <= 0);
-                }
+                    quantityElement.textContent = newQuantity;
 
-                if (increaseButton) {
-                    increaseButton.disabled = newQuantity >= availableQuantity;
-                    increaseButton.classList.toggle('active', newQuantity < availableQuantity);
-                    increaseButton.classList.toggle('disabled', newQuantity >= availableQuantity);
-                }
+                    if (decreaseButton) {
+                        decreaseButton.disabled = newQuantity <= 0;
+                        decreaseButton.classList.toggle('active', newQuantity > 0);
+                        decreaseButton.classList.toggle('disabled', newQuantity <= 0);
+                    }
 
-                const itemTotalElement = productItem.querySelector(`.order-item-total[data-item-id="${itemId}"]`);
-                if (itemTotalElement) {
-                    const price = parseFloat(productItem.querySelector('.order-product-price').textContent.match(/\d+\.?\d*/)[0]);
-                    const itemTotal = price * newQuantity;
-                    itemTotalElement.textContent = `${this._('Total')} ${itemTotal.toFixed(2)} ${this._('PLN')}`;
+                    if (increaseButton) {
+                        increaseButton.disabled = newQuantity >= availableQuantity;
+                        increaseButton.classList.toggle('active', newQuantity < availableQuantity);
+                        increaseButton.classList.toggle('disabled', newQuantity >= availableQuantity);
+                    }
+
+                    const itemTotalElement = productItem.querySelector(`.order-item-total[data-item-id="${itemId}"]`);
+                    if (itemTotalElement) {
+                        const price = parseFloat(productItem.querySelector('.order-product-price').textContent.match(/\d+\.?\d*/)[0]);
+                        const itemTotal = price * newQuantity;
+                        itemTotalElement.textContent = `${this._('Total')} ${itemTotal.toFixed(2)} ${this._('PLN')}`;
+                    }
                 }
             }
         } catch (error) {
@@ -385,12 +394,19 @@ class OrderPage {
             console.log('Items in response:', response.summary.items);
             
             if (response.summary && Array.isArray(response.summary.items)) {
+                // Utwórz mapę cen z menu
+                const priceMap = new Map(
+                    this.menuItems.map(item => [item.item_id, item.price])
+                );
+
                 // Grupowanie produktów według item_id
                 const groupedItems = response.summary.items.reduce((acc, item) => {
                     const existingItem = acc.find(i => i.id === item.id);
                     if (existingItem) {
                         existingItem.quantity = (existingItem.quantity || 1) + 1;
                     } else {
+                        // Dodaj cenę z menu
+                        item.price = priceMap.get(item.id) || 0;
                         item.quantity = 1;
                         acc.push(item);
                     }
@@ -412,9 +428,13 @@ class OrderPage {
                 summaryHTML += `<h2>${this._('Order Summary')}</h2>`;
                 summaryHTML += '<div class="summary-items">';
                 
+                let orderTotal = 0;
+                
                 groupedItems.forEach(item => {
                     const imageUrl = this.imageCache.get(item.image) || '/static/images/placeholder.png';
-                    const totalItemPrice = item.price * item.quantity;
+                    const itemPrice = item.price;
+                    const totalItemPrice = itemPrice * item.quantity;
+                    orderTotal += totalItemPrice;
                     const availableQuantity = availabilityMap.get(item.id) || 0;
                     const canIncrease = item.quantity < availableQuantity;
                     
@@ -436,7 +456,7 @@ class OrderPage {
                             </div>
                             <div class="product-right-column">
                                 <div class="price-container">
-                                    <p class="order-product-price">${this._('Price')}: ${item.price.toFixed(2)} ${this._('PLN')}</p>
+                                    <p class="order-product-price">${this._('Price')}: ${itemPrice.toFixed(2)} ${this._('PLN')}</p>
                                     <p class="order-item-total">
                                         ${this._('Total')} ${totalItemPrice.toFixed(2)} ${this._('PLN')}
                                     </p>
@@ -457,11 +477,15 @@ class OrderPage {
                 
                 summaryHTML += `</div>
                     <div class="summary-total">
-                        <h3>${this._('Total')}: ${this.total.toFixed(2)} ${this._('PLN')}</h3>
+                        <h3>${this._('Total')}: ${orderTotal.toFixed(2)} ${this._('PLN')}</h3>
                     </div>
                 </div>`;
                 
                 productList.innerHTML = summaryHTML;
+
+                // Aktualizuj total w obiekcie i w przycisku
+                this.total = orderTotal;
+                this.updateTotal(orderTotal);
 
                 // Zapisz dostępności w cache
                 groupedItems.forEach(item => {

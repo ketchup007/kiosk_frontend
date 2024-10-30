@@ -488,14 +488,16 @@ body {
 /* Kontener produktu */
 .order-product-item {
     display: grid;
-    grid-template-columns: 60% 40%; /* Lewa kolumna 60%, prawa 40% */
+    grid-template-columns: 55% 45%; /* Proporcje kolumn */
     background: white;
     border-radius: 5px;
     padding: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     height: 100px;
     min-height: 100px;
-    gap: 20px; /* Odstęp między kolumnami */
+    gap: 10px; /* Zmniejszony odstęp między kolumnami */
+    margin-bottom: 10px;
+    overflow: hidden; /* Zapobiega wychodzeniu zawartości poza kontener */
 }
 
 /* Lewa kolumna - informacje o produkcie */
@@ -505,7 +507,7 @@ body {
     gap: 15px;
     padding-right: 20px;
     min-width: 0; /* Zapobiega rozszerzaniu */
-    width: 100%; /* Pełna szerokość dostępnej przestrzeni */
+    width: 55%; /* Zmniejszamy szerokość lewej kolumny */
 }
 
 /* Kontener dla obrazka */
@@ -540,7 +542,7 @@ body {
 }
 
 .order-product-name {
-    font-size: 18px;
+    font-size: 16px; /* Zmniejszona czcionka */
     font-weight: bold;
     margin: 0;
     white-space: nowrap;
@@ -551,7 +553,7 @@ body {
 .order-product-description {
     font-size: 14px;
     color: #666;
-    margin: 0;
+    margin: 5px 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -569,10 +571,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 15px;
+    gap: 20px;
     padding-left: 20px;
-    width: 100%;
-    min-width: 0; /* Zapobiega rozszerzaniu */
+    padding-right: 10px;
+    width: 45%;
+    min-width: 0;
 }
 
 /* Ceny */
@@ -580,55 +583,61 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 8px;
-    min-width: 150px; /* Zwiększona minimalna szerokość */
+    gap: 4px;
+    min-width: 140px;
+    max-width: 180px;
     white-space: nowrap;
+    margin-right: auto;
 }
 
 .order-product-price {
-    font-size: 16px;
-    color: #666; /* Jaśniejszy kolor dla etykiety ceny */
+    font-size: 14px;
+    color: #666;
     margin: 0;
     white-space: nowrap;
 }
 
 .order-item-total {
-    font-size: 18px; /* Większa czcionka dla łącznej ceny */
-    font-weight: bold; /* Pogrubienie dla łącznej ceny */
-    color: #333; /* Ciemniejszy kolor dla łącznej ceny */
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
     margin: 0;
     white-space: nowrap;
 }
 
-/* Kontrolki ilości - dostosowanie do nowego stylu cen */
+/* Kontrolki ilości */
 .order-quantity-control {
     display: flex;
     align-items: center;
-    gap: 10px;
-    min-width: 120px;
+    gap: 8px;
+    min-width: 90px;
     justify-content: flex-end;
     white-space: nowrap;
-    margin-left: 20px; /* Dodatkowy odstęp od cen */
+    flex-shrink: 0;
+    margin-left: auto;
 }
 
 .order-quantity-control button {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: #f0f0f0;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .quantity {
-    min-width: 30px;
+    min-width: 20px;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
     color: #000;
+    margin: 0 2px;
 }
 
 .inactivity-modal {
