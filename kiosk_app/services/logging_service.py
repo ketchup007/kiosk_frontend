@@ -40,7 +40,7 @@ class LoggingService:
             log_filename = f'logs/kiosk_app_{current_time}.log'
             file_handler = RotatingFileHandler(log_filename, maxBytes=10240, backupCount=10)
             file_handler.setFormatter(formatter)
-            file_handler.setLevel(logging.INFO)
+            file_handler.setLevel(logging.DEBUG)
             self.logger.addHandler(file_handler)
 
             self.logger.info('Kiosk app file logging initialized')
@@ -50,7 +50,7 @@ class LoggingService:
         if self.console_logging_enabled:
             console_handler = logging.StreamHandler(sys.stdout)
             console_handler.setFormatter(formatter)
-            console_handler.setLevel(logging.INFO)
+            console_handler.setLevel(logging.DEBUG)
             self.logger.addHandler(console_handler)
             self.logger.info('Console logging initialized')
         else:

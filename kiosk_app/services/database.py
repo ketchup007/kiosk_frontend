@@ -63,7 +63,7 @@ class Database:
                 'input_aps_id': aps_id
             }).execute()
             
-            return int(result.data[0]['generate_next_kds_order_number'])
+            return int(result.data)
         except Exception as e:
             logging_service.error(f"Database error in generate_next_kds_order_number: {str(e)}")
             raise DatabaseError("Error generating KDS order number")
@@ -289,17 +289,6 @@ class Database:
         except Exception as e:
             logging_service.error(f"Database error in update_order_kds_number: {str(e)}")
             raise DatabaseError("Error updating order KDS number")
-
-    def get_order_details_by_kds(self, aps_id: int, kds_number: int) -> APSOrderWithItems:
-        try:
-            result = self.client.table('aps_order_with_items').select('*').eq('aps_id', aps_id).eq('kds_order_number', kds_number).execute()
-            
-            if result.data:
-                return APSOrderWithItems(**result.data[0])
-            raise DatabaseError("Order details not found")
-        except Exception as e:
-            logging_service.error(f"Database error in get_order_details_by_kds: {str(e)}")
-            raise DatabaseError("Error getting order details by KDS")
 
     def get_order_with_items(self, order_id: int) -> APSOrderWithItems:
         try:

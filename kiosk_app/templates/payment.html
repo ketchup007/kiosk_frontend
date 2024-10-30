@@ -12,7 +12,7 @@
     <div class="payment-middle-section">
         <h2>{{ _('Payment Instructions') }}</h2>
         <p>{{ _('Please follow the instructions on the payment terminal.') }}</p>
-        <div id="payment-status"></div>
+        <div id="payment-status" class="payment-status"></div>
     </div>
     <div class="payment-bottom-section">
         <button id="cancel-payment" class="payment-action-button">{{ _('Cancel Payment') }}</button>
@@ -21,6 +21,35 @@
         </button>
     </div>
 </div>
+{% endblock %}
+
+{% block head %}
+{{ super() }}
+<style>
+    .payment-status {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+    }
+
+    .payment-status.processing {
+        color: #2196F3;
+        background-color: rgba(33, 150, 243, 0.1);
+    }
+
+    .payment-status.error {
+        color: #f44336;
+        background-color: rgba(244, 67, 54, 0.1);
+    }
+
+    .payment-status.success {
+        color: #4CAF50;
+        background-color: rgba(76, 175, 80, 0.1);
+    }
+</style>
 {% endblock %}
 
 {% block scripts %}

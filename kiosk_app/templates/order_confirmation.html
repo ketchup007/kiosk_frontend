@@ -1,27 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="top-section">
-        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="logo">
-        <h1>{{ _('Order Confirmed') }}</h1>
+<div class="confirmation-container">
+    <div class="confirmation-top-section">
+        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="confirmation-logo">
+        <h1 class="confirmation-title">{{ _('Order Confirmed') }}</h1>
     </div>
-    <div class="middle-section">
-        <h2>{{ _('Order Number: %(number)s', number=kds_number) }}</h2>
-        <p>{{ _('Estimated waiting time: %(time)d min', time=estimated_waiting_time) }}</p>
-        <div class="order-details">
+    
+    <div class="confirmation-middle-section">
+        <h2 class="confirmation-order-number">{{ _('Order Number: %(number)s', number=kds_number) }}</h2>
+        <p class="confirmation-waiting-time">{{ _('Estimated waiting time: %(time)d min', time=estimated_waiting_time) }}</p>
+        
+        <div class="confirmation-details">
             <h3>{{ _('Order Details') }}</h3>
             <ul>
             {% for item in order_details.items %}
-                <li>{{ item.name }} x {{ item.quantity }}</li>
+                <li>
+                    <span>{{ item['name_' + session.get('language', 'en')] }}</span>
+                    <span>x {{ item.quantity }}</span>
+                </li>
             {% endfor %}
             </ul>
         </div>
-        <p>{{ _('Please pick up your order when your number is called.') }}</p>
+        
+        <p class="confirmation-message">{{ _('Please pick up your order when your number is called.') }}</p>
     </div>
-    <div class="bottom-section">
-        <button id="return-home" class="action-button">{{ _('Return to Home') }}</button>
-        <img src="{{ url_for('static', filename='images/robot_frame_1.svg') }}" alt="Robot" class="robot">
+    
+    <div class="confirmation-bottom-section">
+        <button id="return-home" class="confirmation-action-button">{{ _('Return to Home') }}</button>
+        <img src="{{ url_for('static', filename='images/robot_frame_1.svg') }}" alt="Robot" class="confirmation-robot">
     </div>
 </div>
 {% endblock %}

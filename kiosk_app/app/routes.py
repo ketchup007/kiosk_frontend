@@ -216,30 +216,45 @@ def init_payment():
     order_id = request.json.get('order_id')
     amount = request.json.get('amount')
     logging_service.info(f"Initializing payment: order_id={order_id}, amount={amount}")
+    
     try:
-        result = payment_service.init_transaction(amount)
-        logging_service.info(f"Payment initialization result: {result}")
-        return jsonify(success=True, result=result)
-    except PaymentError as e:
+        # Aktualizuj status zamówienia
+        db.update_order_status(order_id, OrderStatus.PAYMENT_IN_PROGRESS)
+        
+        # Inicjalizuj transakcję używając synchronicznego wrappera
+        result = payment_service.run_sync_transaction(float(amount))
+        
+        # Interpretuj wynik
+        if result == "0":  # Sukces
+            logging_service.info("Payment successful")
+            return jsonify(success=True, result=result)
+        else:
+            logging_service.error(f"Payment failed with code: {result}")
+            # Przywróć poprzedni status w przypadku błędu
+            db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
+            return jsonify(success=False, error=_("Payment failed")), 400
+            
+    except Exception as e:
         logging_service.error(f"Payment initialization failed: {str(e)}")
+        # Przywróć poprzedni status w przypadku błędu
+        db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
         return jsonify(success=False, error=str(e)), 500
 
 @app.route('/process_payment', methods=['POST'])
 def process_payment():
     order_id = request.json.get('order_id')
     amount = request.json.get('amount')
+    logging_service.info(f"Processing payment: order_id={order_id}, amount={amount}")
     try:
-        result = payment_service.start_payment(amount)
-        if result == "00":  # Assuming "00" means success
-            db.update_order_status(order_id, OrderStatus.PAID.value)
-            kds_number = db.generate_next_kds_order_number(app.config['APS_ID'])
-            db.update_order_kds_number(order_id, kds_number)
-            return jsonify(success=True, message=_('Payment processed successfully'), kds_number=kds_number)
-        else:
-            return jsonify(success=False, error=_('Payment failed'))
+        db.update_order_status(order_id, OrderStatus.PAID)
+        kds_number = db.generate_next_kds_order_number(app.config['APS_ID'])
+        db.update_order_kds_number(order_id, kds_number)
+        return jsonify(success=True, message=_('Payment processed successfully'), kds_number=kds_number)
     except PaymentError as e:
         logging_service.error(f"Payment processing failed: {str(e)}")
-        return jsonify(success=False, error=_('Payment processing failed. Please try again.'))
+        # Przywróć poprzedni status w przypadku błędu
+        db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
+        return jsonify(success=False, error=str(e))
 
 @app.route('/update_order_status', methods=['POST'])
 def update_order_status():
@@ -294,8 +309,20 @@ def add_suggested_product():
 def payment(order_id):
     try:
         aps_id = app.config['APS_ID']
+        
+        # Sprawdź status zamówienia
+        order_status = db.get_order_status(order_id)
+        if order_status != OrderStatus.DURING_ORDERING.value:
+            flash(_("This order is no longer active"), "error")
+            return redirect(url_for('index'))
+        
+        # Pobierz szczegóły zamówienia i całkowitą kwotę
         order_details = db.get_order_details(order_id)
         total = db.get_order_total(order_id, aps_id)
+        
+        if total <= 0:
+            flash(_("Cannot proceed to payment with empty order"), "error")
+            return redirect(url_for('index'))
         
         return render_template('payment.html', 
                            order_details=order_details,
@@ -306,14 +333,14 @@ def payment(order_id):
         flash(_("An error occurred while loading the payment page"), "error")
         return redirect(url_for('index'))
 
-@app.route('/order/confirmation/<int:kds_number>')
-def order_confirmation(kds_number):
+@app.route('/order/confirmation/<int:order_id>')
+def order_confirmation(order_id):
     aps_id = app.config['APS_ID']
-    order_details = db.get_order_details_by_kds(aps_id, kds_number)
-    estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_details['id'])
+    order_details = db.get_order_details(order_id)
+    estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
     return render_template('order_confirmation.html', 
                            order_details=order_details,
-                           kds_number=kds_number,
+                           kds_number=order_details.kds_order_number,
                            estimated_waiting_time=estimated_waiting_time)
 
 @app.errorhandler(404)

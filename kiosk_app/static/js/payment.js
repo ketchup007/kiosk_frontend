@@ -13,13 +13,16 @@ class PaymentPage {
     }
 
     initializeEventListeners() {
-        this.finalizePaymentButton.addEventListener('click', () => this.initializePayment());
+        this.finalizePaymentButton.addEventListener('click', () => {
+            this.finalizePaymentButton.disabled = true;
+            this.initializePayment();
+        });
         this.cancelPaymentButton.addEventListener('click', () => this.handleCancelOrder());
         document.addEventListener('touchstart', () => this.resetInactivityTimer());
     }
 
     async initializePayment() {
-        this.paymentStatus.textContent = this._('Initializing payment...');
+        this.updateStatus(this._('Initializing payment...'), 'processing');
         try {
             const response = await fetch('/init_payment', {
                 method: 'POST',
@@ -33,19 +36,36 @@ class PaymentPage {
             });
             const data = await response.json();
             
-            if (data.success) {
+            if (data.success && data.result === "0") {
+                this.updateStatus(this._('Payment successful!'), 'success');
                 await this.processPayment();
             } else {
-                this.paymentStatus.textContent = this._('Payment initialization failed. Please try again.');
+                let errorMessage;
+                switch(data.result) {
+                    case "1":
+                        errorMessage = this._('Payment cancelled by user');
+                        break;
+                    case "2":
+                        errorMessage = this._('Payment timeout');
+                        break;
+                    case "3":
+                        errorMessage = this._('Card error');
+                        break;
+                    default:
+                        errorMessage = this._('Payment failed. Please try again.');
+                }
+                this.updateStatus(errorMessage, 'error');
+                this.finalizePaymentButton.disabled = false;
             }
         } catch (error) {
             console.error('Payment initialization error:', error);
-            this.paymentStatus.textContent = this._('Payment initialization failed. Please try again.');
+            this.updateStatus(this._('Payment initialization failed. Please try again.'), 'error');
+            this.finalizePaymentButton.disabled = false;
         }
     }
 
     async processPayment() {
-        this.paymentStatus.textContent = this._('Processing payment...');
+        this.updateStatus(this._('Processing payment...'), 'processing');
         try {
             const response = await fetch('/process_payment', {
                 method: 'POST',
@@ -60,15 +80,25 @@ class PaymentPage {
             const data = await response.json();
             
             if (data.success) {
-                this.paymentStatus.textContent = this._('Payment successful!');
-                window.location.href = `/order/confirmation/${data.kds_number}`;
+                this.updateStatus(this._('Payment successful!'), 'success');
+                // Krótkie opóźnienie przed przekierowaniem
+                setTimeout(() => {
+                    window.location.href = `/order/confirmation/${this.orderId}`;
+                }, 1500);
             } else {
-                this.paymentStatus.textContent = this._('Payment failed. Please try again.');
+                this.updateStatus(this._('Payment failed. Please try again.'), 'error');
+                this.finalizePaymentButton.disabled = false;
             }
         } catch (error) {
             console.error('Payment processing error:', error);
-            this.paymentStatus.textContent = this._('Payment failed. Please try again.');
+            this.updateStatus(this._('Payment failed. Please try again.'), 'error');
+            this.finalizePaymentButton.disabled = false;
         }
+    }
+
+    updateStatus(message, type) {
+        this.paymentStatus.textContent = message;
+        this.paymentStatus.className = `payment-status ${type}`;
     }
 
     async handleCancelOrder() {
