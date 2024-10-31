@@ -449,3 +449,26 @@ def get_translations_json():
     }
     return jsonify(messages)
 
+@app.route('/update_phone_number', methods=['POST'])
+def update_phone_number():
+    try:
+        order_id = request.json.get('order_id')
+        phone_number = request.json.get('phone_number')
+        
+        logging_service.info(f"Updating phone number: order_id={order_id}, phone_number={phone_number}")
+        if not order_id or not phone_number:
+            return jsonify(success=False, error=_('Missing required data'))
+            
+        # Aktualizacja numeru telefonu w bazie
+        success = db.update_order_phone_number(order_id, phone_number)
+        logging_service.info(f"Phone number updated: {success}")
+        
+        if success:
+            return jsonify(success=True)
+        else:
+            return jsonify(success=False, error=_('Failed to update phone number'))
+            
+    except Exception as e:
+        logging_service.error(f"Error updating phone number: {str(e)}")
+        return jsonify(success=False, error=_('An error occurred while updating phone number'))
+

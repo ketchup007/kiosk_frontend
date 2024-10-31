@@ -346,4 +346,14 @@ class Database:
             logging_service.error(f"Database error in cancel_order: {str(e)}")
             raise DatabaseError(_("Error cancelling order"))
 
+    def update_order_phone_number(self, order_id: int, phone_number: str) -> bool:
+        try:
+            self.client.table('aps_order').update({
+                'client_phone_number': phone_number
+            }).eq('id', order_id).execute()
+            return True
+        except Exception as e:
+            logging_service.error(f"Database error in update_order_phone_number: {str(e)}")
+            raise DatabaseError(_("Error updating phone number"))
+
 db = Database()

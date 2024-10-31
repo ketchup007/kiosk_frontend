@@ -5,20 +5,97 @@ class PaymentPage {
         this.paymentStatus = document.getElementById('payment-status');
         this.finalizePaymentButton = document.getElementById('finalize-payment');
         this.cancelPaymentButton = document.getElementById('cancel-payment');
-        this.inactivityTimer = null;
-        this.inactivityTimeout = 900000; // 15 minutes
-
+        this.phoneInput = document.getElementById('phone');
+        this.phoneError = document.getElementById('phoneError');
+        this.savePhoneBtn = document.getElementById('savePhone');
+        
+        // Inicjalizacja modala Bootstrap
+        this.phoneModal = new bootstrap.Modal(document.getElementById('phoneModal'));
+        
         this.initializeEventListeners();
-        this.startInactivityMonitoring();
+        this.initializeNumpad();
+        this.initializePhoneMask();
     }
 
     initializeEventListeners() {
-        this.finalizePaymentButton.addEventListener('click', () => {
-            this.finalizePaymentButton.disabled = true;
-            this.initializePayment();
+        // Obsługa przycisku zapisz w modalu
+        this.savePhoneBtn.addEventListener('click', () => {
+            this.handlePhoneSubmit();
         });
+
+        // Obsługa klawisza Enter w input
+        this.phoneInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                this.handlePhoneSubmit();
+            }
+        });
+
+        // Reset błędów przy otwieraniu modala
+        document.getElementById('phoneModal').addEventListener('show.bs.modal', () => {
+            this.hideError();
+            this.phoneInput.value = '';
+        });
+
+        // Obsługa anulowania płatności
         this.cancelPaymentButton.addEventListener('click', () => this.handleCancelOrder());
-        document.addEventListener('touchstart', () => this.resetInactivityTimer());
+    }
+
+    hidePhoneModal() {
+        this.phoneModal.hide();
+    }
+
+    showPhoneModal() {
+        this.phoneModal.show();
+        setTimeout(() => this.phoneInput.focus(), 500);
+    }
+
+    showError(message) {
+        this.phoneInput.classList.add('is-invalid');
+        this.phoneError.textContent = message;
+    }
+
+    hideError() {
+        this.phoneInput.classList.remove('is-invalid');
+        this.phoneError.textContent = '';
+    }
+
+    async handlePhoneSubmit() {
+        const phoneNumber = this.phoneInput.value.trim();
+        
+        if (!this.validatePhoneNumber(phoneNumber)) {
+            this.showError(this._('Please enter a valid phone number'));
+            return;
+        }
+
+        try {
+            const response = await fetch('/update_phone_number', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    order_id: this.orderId,
+                    phone_number: phoneNumber
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                this.hidePhoneModal();
+                this.initializePayment();
+            } else {
+                this.showError(data.error || this._('Failed to save phone number'));
+            }
+        } catch (error) {
+            console.error('Error saving phone number:', error);
+            this.showError(this._('Failed to save phone number'));
+        }
+    }
+
+    validatePhoneNumber(phone) {
+        const unmaskedValue = phone.replace(/[^0-9]/g, '');
+        return unmaskedValue.length === 9;
     }
 
     async initializePayment() {
@@ -172,6 +249,82 @@ class PaymentPage {
                 alert(this._('Failed to cancel order. Please try again.'));
             }
         }
+    }
+
+    initializeNumpad() {
+        // Obsługa przycisków numerycznych
+        document.querySelectorAll('.numpad-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const number = button.dataset.number;
+                const action = button.dataset.action;
+
+                if (number) {
+                    this.appendNumber(number);
+                } else if (action === 'delete') {
+                    this.deleteNumber();
+                } else if (action === 'clear') {
+                    this.clearInput();
+                }
+            });
+        });
+    }
+
+    appendNumber(number) {
+        const currentValue = this.phoneInput.value.replace(/[^0-9]/g, '');
+        if (currentValue.length < 9) {  // Limit do 9 cyfr
+            const newValue = currentValue + number;
+            // Formatowanie XXX-XXX-XXX
+            const formattedValue = newValue.replace(/(\d{3})(\d{3})?(\d{3})?/, function(match, p1, p2, p3) {
+                let result = p1;
+                if (p2) result += '-' + p2;
+                if (p3) result += '-' + p3;
+                return result;
+            });
+            this.phoneInput.value = formattedValue;
+            this.hideError();
+        }
+    }
+
+    deleteNumber() {
+        const currentValue = this.phoneInput.value.replace(/[^0-9]/g, '');
+        if (currentValue.length > 0) {
+            const newValue = currentValue.slice(0, -1);
+            // Formatowanie XXX-XXX-XXX
+            const formattedValue = newValue.replace(/(\d{3})(\d{3})?(\d{3})?/, function(match, p1, p2, p3) {
+                let result = p1 || '';
+                if (p2) result += '-' + p2;
+                if (p3) result += '-' + p3;
+                return result;
+            });
+            this.phoneInput.value = formattedValue;
+        }
+        this.hideError();
+    }
+
+    clearInput() {
+        this.phoneInput.value = '';
+        this.hideError();
+    }
+
+    initializePhoneMask() {
+        // Inicjalizacja maski dla numeru telefonu
+        $(this.phoneInput).inputmask({
+            mask: '999-999-999',
+            placeholder: "_",
+            showMaskOnHover: false,
+            showMaskOnFocus: false,
+            clearIncomplete: true,
+            oncomplete: () => {
+                this.hideError();
+            },
+            onincomplete: () => {
+                this.showError(this._('Please enter a complete phone number'));
+            },
+            oncleared: () => {
+                this.hideError();
+            }
+        });
     }
 
     // Helper method for translations
