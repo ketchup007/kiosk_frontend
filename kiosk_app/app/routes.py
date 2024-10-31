@@ -86,12 +86,9 @@ def order(order_id):
             flash(_("Order not found"), "error")
             return redirect(url_for('index'))
             
-        estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
-        logging_service.info(f"Estimated waiting time {estimated_waiting_time}")
-        
         return render_template('order.html', 
                            order_id=order_id,
-                           estimated_waiting_time=estimated_waiting_time)
+                           aps_id=aps_id)
     except Exception as e:
         logging_service.error(f"Error in order route: {str(e)}")
         flash(_("An error occurred while loading the order page"), "error")
@@ -473,3 +470,33 @@ def update_phone_number():
         logging_service.error(f"Error updating phone number: {str(e)}")
         return jsonify(success=False, error=_('An error occurred while updating phone number'))
 
+@app.route('/get_suggested_products', methods=['GET'])
+def get_suggested_products():
+    try:
+        order_id = request.args.get('order_id', type=int)
+        max_suggestions = request.args.get('max_suggestions', default=5, type=int)
+        aps_id = app.config['APS_ID']
+        
+        suggested_products = db.get_suggested_products(aps_id, order_id, max_suggestions)
+        products_data = [product.model_dump() for product in suggested_products]
+        
+        logging_service.info(f"Suggested products for order {order_id}: {products_data}")
+        
+        return jsonify({
+            'success': True,
+            'suggested_products': products_data
+        })
+        
+    except DatabaseError as e:
+        logging_service.error(f"Database error in get_suggested_products: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': _('Failed to get suggested products')
+        }), 500
+        
+    except Exception as e:
+        logging_service.error(f"Unexpected error in get_suggested_products: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': _('An unexpected error occurred')
+        }), 500

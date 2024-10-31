@@ -186,6 +186,12 @@ class SuggestedProduct(BaseModel):
     name_pl: str
     name_en: str
     name_ua: str
+    description_pl: Optional[str]
+    description_en: Optional[str]
+    description_ua: Optional[str]
+    allergens_pl: Optional[str]
+    allergens_en: Optional[str]
+    allergens_ua: Optional[str]
     category: ItemCategory
     image: Optional[str]
     price: float
