@@ -33,6 +33,7 @@ class OrderPage {
         this.imageCache = new Map();
         this.availabilityCache = new Map();
         this.lastAvailabilityCheck = null;
+        this.suggestedProductsModal = null;
         
         // Pokaż loader natychmiast w konstruktorze
         const productList = document.querySelector('.order-product-list');
@@ -65,6 +66,8 @@ class OrderPage {
                 this.initializeLanguageHandlers();
             });
         });
+
+        this.initializeModal();
     }
 
     async loadTranslations() {
@@ -359,10 +362,9 @@ class OrderPage {
         });
     }
 
-    handleCategoryClick(button) {
+    async handleCategoryClick(button) {
         console.log('Category clicked:', button.dataset.category);
         
-        // Sprawdź czy kliknięty przycisk nie jest już aktywny
         if (button.classList.contains('active')) {
             console.log('Category already active, skipping...');
             return;
@@ -382,47 +384,53 @@ class OrderPage {
         
         productList.classList.add('changing');
         
-        setTimeout(async () => {
-            if (selectedCategory === 'sum') {
-                this.showOrderSummary();
-            } else {
-                // Jeśli jesteśmy w podsumowaniu, musimy najpierw przywrócić listę produktów
-                if (productList.querySelector('.order-summary')) {
-                    // Renderuj ponownie menu
-                    await this.renderMenu();
-                    
-                    // Po wyrenderowaniu menu, pokaz odpowiednią kategorię
-                    document.querySelectorAll('.order-product-item').forEach(item => {
-                        const itemCategory = item.dataset.category.toLowerCase();
-                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
+        if (selectedCategory === 'sum') {
+            // Najpierw pokazujemy podsumowanie zamówienia
+            await this.showOrderSummary();
+            
+            // Następnie, jeśli są produkty w koszyku, pokazujemy modal
+            if (Object.values(this.orderItems).some(quantity => quantity > 0)) {
+                try {
+                    this.showModal();
+                    await new Promise(resolve => {
+                        document.getElementById('suggestedProductsModal').addEventListener('hidden.bs.modal', () => {
+                            resolve();
+                        }, { once: true });
                     });
-                    
-                    // Przywróć zdjęcia z cache'u
-                    document.querySelectorAll('.order-product-image').forEach(img => {
-                        const filename = img.dataset.imageFilename;
-                        if (filename && this.imageCache.has(filename)) {
-                            img.src = this.imageCache.get(filename);
-                        }
-                    });
-                    
-                    // Zainicjalizuj kontrolki ilości
-                    this.initializeQuantityControls();
-                    
-                    // Zaktualizuj dostępność produktów
-                    this.updateProductAvailability();
-                } else {
-                    // Standardowe przełączanie między kategoriami
-                    document.querySelectorAll('.order-product-item').forEach(item => {
-                        const itemCategory = item.dataset.category.toLowerCase();
-                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
-                    });
-                    
-                    this.updateProductAvailability();
+                } catch (error) {
+                    console.error('Error handling modal:', error);
                 }
             }
-            
-            productList.classList.remove('changing');
-        }, 300);
+        } else {
+            // Istniejąca logika dla innych kategorii...
+            if (productList.querySelector('.order-summary')) {
+                await this.renderMenu();
+                
+                document.querySelectorAll('.order-product-item').forEach(item => {
+                    const itemCategory = item.dataset.category.toLowerCase();
+                    item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
+                });
+                
+                document.querySelectorAll('.order-product-image').forEach(img => {
+                    const filename = img.dataset.imageFilename;
+                    if (filename && this.imageCache.has(filename)) {
+                        img.src = this.imageCache.get(filename);
+                    }
+                });
+                
+                this.initializeQuantityControls();
+                this.updateProductAvailability();
+            } else {
+                document.querySelectorAll('.order-product-item').forEach(item => {
+                    const itemCategory = item.dataset.category.toLowerCase();
+                    item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
+                });
+                
+                this.updateProductAvailability();
+            }
+        }
+        
+        productList.classList.remove('changing');
     }
 
     async showOrderSummary() {
@@ -876,6 +884,107 @@ class OrderPage {
         const proceedButton = document.getElementById('proceed-to-summary');
         if (proceedButton) {
             proceedButton.textContent = `${this._('Total')} ${this.total.toFixed(2)} ${this._('PLN')}`;
+        }
+    }
+
+    initializeModal() {
+        this.suggestedProductsModal = new bootstrap.Modal(
+            document.getElementById('suggestedProductsModal'), {
+                backdrop: 'static',
+                keyboard: false
+            }
+        );
+
+        document.getElementById('suggestedProductsModal').addEventListener('show.bs.modal', () => {
+            console.log('Modal is showing');
+        });
+
+        document.getElementById('suggestedProductsModal').addEventListener('hidden.bs.modal', () => {
+            console.log('Modal is hidden');
+        });
+    }
+
+    async showModal() {
+        if (this.suggestedProductsModal) {
+            try {
+                // Pobierz sugerowane produkty
+                const response = await fetchWithErrorHandling(`/get_suggested_products?order_id=${this.orderId}`);
+                
+                if (response.success && response.suggested_products) {
+                    const productsList = document.querySelector('.suggested-products-list');
+                    productsList.innerHTML = ''; // Wyczyść poprzednią zawartość
+                    
+                    // Generuj HTML dla każdego sugerowanego produktu
+                    response.suggested_products.forEach(product => {
+                        const productElement = document.createElement('article');
+                        productElement.className = 'order-product-item';
+                        productElement.dataset.itemId = product.item_id;
+                        
+                        const lang = document.documentElement.lang;
+                        const langCode = lang === 'uk' ? 'ua' : lang;
+                        
+                        productElement.innerHTML = `
+                            <div class="product-left-column">
+                                <div class="order-product-image-container">
+                                    <img src="" 
+                                         data-image-filename="${product.image}"
+                                         alt="${product['name_' + langCode]}" 
+                                         class="order-product-image"
+                                         onerror="this.onerror=null; this.src='/static/images/placeholder.png'">
+                                </div>
+                                <div class="order-product-info">
+                                    <h3 class="order-product-name">${product['name_' + langCode]}</h3>
+                                    ${product['description_' + langCode] ? 
+                                        `<p class="order-product-description">${product['description_' + langCode]}</p>` : ''}
+                                    ${product['allergens_' + langCode] ? 
+                                        `<p class="order-product-allergens">${this._('Allergens')}: ${product['allergens_' + langCode]}</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="product-right-column">
+                                <div class="price-container">
+                                    <p class="order-product-price">${this._('Price')}: ${product.price.toFixed(2)} ${this._('PLN')}</p>
+                                </div>
+                                <div class="order-quantity-control">
+                                    <button class="increase-quantity active" data-item-id="${product.item_id}">+</button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        productsList.appendChild(productElement);
+                    });
+                    
+                    // Załaduj obrazy
+                    document.querySelectorAll('.suggested-products-list .order-product-image').forEach(img => {
+                        const filename = img.dataset.imageFilename;
+                        if (filename && this.imageCache.has(filename)) {
+                            img.src = this.imageCache.get(filename);
+                        } else {
+                            this.loadProductImage(img);
+                        }
+                    });
+                    
+                    // Dodaj obsługę przycisków
+                    document.querySelectorAll('.suggested-products-list .increase-quantity').forEach(button => {
+                        button.addEventListener('click', () => {
+                            const itemId = button.dataset.itemId;
+                            this.updateQuantity(itemId, 1);
+                            // Opcjonalnie: zamknij modal po dodaniu produktu
+                            // this.hideModal();
+                        });
+                    });
+                }
+                
+                this.suggestedProductsModal.show();
+            } catch (error) {
+                console.error('Error loading suggested products:', error);
+                showFlashMessage(this._('Failed to load suggested products'), 'error');
+            }
+        }
+    }
+
+    hideModal() {
+        if (this.suggestedProductsModal) {
+            this.suggestedProductsModal.hide();
         }
     }
 }

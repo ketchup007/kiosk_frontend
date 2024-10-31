@@ -105,14 +105,34 @@ class Database:
 
     def get_suggested_products(self, aps_id: int, order_id: int, max_suggestions: int = 5) -> List[SuggestedProduct]:
         try:
-            result = self.client.rpc('get_suggested_products', {
-                'input_aps_id': aps_id,
-                'input_order_id': order_id,
-                'max_suggestions': max_suggestions
-            }).execute()
+            # Wywołaj funkcję SQL z odpowiednimi parametrami
+            result = self.client.rpc(
+                'get_suggested_products',
+                {
+                    'input_aps_id': aps_id,
+                    'input_order_id': order_id,
+                    'max_suggestions': max_suggestions
+                }
+            ).execute()
+            
+            logging_service.info(f"Raw suggested products result: {result}")
             
             if result.data:
-                return [SuggestedProduct(**product) for product in result.data]
+                suggested_products = []
+                # Parsuj każdy produkt z wyniku JSON
+                for item in result.data:
+                    try:
+                        # Konwertuj kategorię na enum
+                        if isinstance(item.get('category'), str):
+                            item['category'] = ItemCategory(item['category'])
+                        suggested_products.append(SuggestedProduct(**item))
+                    except Exception as e:
+                        logging_service.error(f"Error mapping suggested product: {str(e)}, data: {item}")
+                        continue
+                
+                logging_service.info(f"Mapped {len(suggested_products)} suggested products")
+                return suggested_products
+                
             return []
         except Exception as e:
             logging_service.error(f"Database error in get_suggested_products: {str(e)}")

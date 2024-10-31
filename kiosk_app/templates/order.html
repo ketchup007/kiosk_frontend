@@ -1,5 +1,59 @@
 {% extends "base.html" %}
 
+{% block styles %}
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+        padding: 1.5rem;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        border-top-left-radius: 11px;
+        border-top-right-radius: 11px;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .modal-footer {
+        padding: 1.5rem;
+        border-top: 1px solid #dee2e6;
+    }
+
+    /* Tylko style dla modala, bez modyfikacji oryginalnych przycisków */
+    .modal .btn-primary {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+        padding: 0.75rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 500;
+        border-radius: 8px;
+    }
+
+    .modal .btn-primary:hover {
+        background-color: #45a049;
+        border-color: #45a049;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    .modal .btn-primary:active {
+        transform: translateY(0);
+    }
+
+    .modal-backdrop.show {
+        opacity: 0.7;
+    }
+</style>
+{% endblock %}
+
 {% block head %}
 {{ super() }}
 <!-- Dodaj słownik tłumaczeń dla JavaScript -->
@@ -25,7 +79,10 @@
         'Estimated waiting time %(time)d min': '{{ _("Estimated waiting time %(time)d min") }}',
         'Are you sure you want to cancel your order?': '{{ _("Are you sure you want to cancel your order?") }}',
         'Order cancelled successfully': '{{ _("Order cancelled successfully") }}',
-        'Failed to cancel order': '{{ _("Failed to cancel order") }}'
+        'Failed to cancel order': '{{ _("Failed to cancel order") }}',
+        'Suggested Products': '{{ _("Suggested Products") }}',
+        'Would you like to check our suggested products?': '{{ _("Would you like to check our suggested products?") }}',
+        'OK': '{{ _("OK") }}'
     };
 </script>
 {% endblock %}
@@ -49,7 +106,7 @@
                     <img src="{{ url_for('static', filename='images/uaFlag.png') }}" alt="uk" class="order-flag-icon">
                 </button>
             </div>
-            <p class="order-estimated-time">
+            <p class="order-estimated-time" data-time="{{ estimated_waiting_time }}">
                 {{ _('Estimated waiting time %(time)d min', time=estimated_waiting_time) }}
             </p>
         </div>
@@ -99,8 +156,33 @@
         </button>
     </footer>
 </div>
+
+<!-- Modal dla sugerowanych produktów -->
+<div class="modal fade" id="suggestedProductsModal" tabindex="-1" aria-labelledby="suggestedProductsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="suggestedProductsModalLabel">{{ _('Suggested Products') }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="suggested-products-list">
+                    <!-- Tu będą dynamicznie wstawiane sugerowane produkty -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ _('OK') }}</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
+<!-- jQuery (wymagany dla Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Twój skrypt -->
 <script src="{{ url_for('static', filename='js/order.js') }}"></script>
 {% endblock %}
