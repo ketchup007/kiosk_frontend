@@ -36,12 +36,15 @@ class PaymentPage {
             });
             const data = await response.json();
             
-            if (data.success && data.result === "0") {
+            if (data.success && (data.result === "0" || data.result === "7")) {
                 this.updateStatus(this._('Payment successful!'), 'success');
                 await this.processPayment();
             } else {
                 let errorMessage;
                 switch(data.result) {
+                    case "0":
+                        errorMessage = this._('Payment successful');
+                        break;
                     case "1":
                         errorMessage = this._('Payment cancelled by user');
                         break;
@@ -50,6 +53,12 @@ class PaymentPage {
                         break;
                     case "3":
                         errorMessage = this._('Card error');
+                        break;
+                    case "4":
+                        errorMessage = this._('Invalid amount');
+                        break;
+                    case "5":
+                        errorMessage = this._('Terminal error');
                         break;
                     default:
                         errorMessage = this._('Payment failed. Please try again.');

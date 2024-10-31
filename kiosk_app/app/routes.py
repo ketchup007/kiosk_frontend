@@ -14,6 +14,7 @@ import time
 from services.logging_service import logging_service
 from datetime import datetime
 from flask_babel import get_translations
+from concurrent.futures import ThreadPoolExecutor
 
 @app.route('/')
 def index():
@@ -221,18 +222,28 @@ def init_payment():
         # Aktualizuj status zamówienia
         db.update_order_status(order_id, OrderStatus.PAYMENT_IN_PROGRESS)
         
-        # Inicjalizuj transakcję używając synchronicznego wrappera
-        result = payment_service.run_sync_transaction(float(amount))
+        # Utwórz nowy event loop w osobnym wątku
+        def run_async_payment():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                return loop.run_until_complete(payment_service.start_transaction(float(amount)))
+            finally:
+                loop.close()
+        
+        # Uruchom asynchroniczną operację w osobnym wątku
+        with ThreadPoolExecutor() as executor:
+            result = executor.submit(run_async_payment).result()
         
         # Interpretuj wynik
-        if result == "0":  # Sukces
+        if result == "0" or result == "7":  # Sukces
             logging_service.info("Payment successful")
             return jsonify(success=True, result=result)
         else:
             logging_service.error(f"Payment failed with code: {result}")
             # Przywróć poprzedni status w przypadku błędu
             db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
-            return jsonify(success=False, error=_("Payment failed")), 400
+            return jsonify(success=False, result=result), 400
             
     except Exception as e:
         logging_service.error(f"Payment initialization failed: {str(e)}")

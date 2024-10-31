@@ -28,17 +28,6 @@ class Config:
     TERMINAL_ELAVON_PORT_STATE = int(os.environ.get("TERMINAL_ELAVON_PORT_STATE"))
     TERMINAL_ELAVON_PORT_PAYMENT = int(os.environ.get("TERMINAL_ELAVON_PORT_PAYMENT"))
     
-    # Mapowanie kodów odpowiedzi terminala płatniczego
-    PAYMENT_RESPONSE_CODES = {
-        "0": "Success",
-        "1": "Cancelled by user",
-        "2": "Timeout",
-        "3": "Card error",
-        "4": "Invalid amount",
-        "5": "Terminal error",
-        # ... dodaj więcej kodów według potrzeb
-    }
-
     @staticmethod
     def get_local_client() -> Client:
         return create_client(Config.SUPABASE_LOCAL_URL, Config.SUPABASE_LOCAL_KEY)

@@ -12,7 +12,9 @@
     <div class="payment-middle-section">
         <h2>{{ _('Payment Instructions') }}</h2>
         <p>{{ _('Please follow the instructions on the payment terminal.') }}</p>
-        <div id="payment-status" class="payment-status"></div>
+        <div id="payment-status" class="payment-status">
+            <div class="payment-error-details"></div>
+        </div>
     </div>
     <div class="payment-bottom-section">
         <button id="cancel-payment" class="payment-action-button">{{ _('Cancel Payment') }}</button>
@@ -48,6 +50,16 @@
     .payment-status.success {
         color: #4CAF50;
         background-color: rgba(76, 175, 80, 0.1);
+    }
+
+    .payment-error-details {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .payment-status.error .payment-error-details {
+        color: #d32f2f;
     }
 </style>
 {% endblock %}
