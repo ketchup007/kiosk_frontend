@@ -6,7 +6,7 @@
         <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="payment-logo">
         <div class="payment-summary">
             <h2>{{ _('Order Summary') }}</h2>
-            <p>{{ _('Total %(total).2f %(currency)s', total=total, currency=_('PLN')) }}</p>
+            <p>{{ _('Pay %(total).2f %(currency)s', total=total, currency=_('PLN')) }}</p>
         </div>
     </div>
     <div class="payment-middle-section">

@@ -291,5 +291,5 @@ msgstr "Anuluj płatność"
 
 #: templates/payment.html:22
 msgid "Pay %(total).2f %(currency)s"
-msgstr "Łączna cena %(total).2f zł"
+msgstr "Zapłać %(total).2f zł"
 

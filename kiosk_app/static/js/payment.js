@@ -90,7 +90,6 @@ class PaymentPage {
             
             if (data.success) {
                 this.updateStatus(this._('Payment successful!'), 'success');
-                // Krótkie opóźnienie przed przekierowaniem
                 setTimeout(() => {
                     window.location.href = `/order/confirmation/${this.orderId}`;
                 }, 1500);
