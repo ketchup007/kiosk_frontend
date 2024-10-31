@@ -22,7 +22,10 @@
         'Take Away': '{{ _("Take Away") }}',
         'Sauces': '{{ _("Sauces") }}',
         'Summary': '{{ _("Summary") }}',
-        'Estimated waiting time: %(time)d min': '{{ _("Estimated waiting time: %(time)d min") }}'
+        'Estimated waiting time %(time)d min': '{{ _("Estimated waiting time %(time)d min") }}',
+        'Are you sure you want to cancel your order?': '{{ _("Are you sure you want to cancel your order?") }}',
+        'Order cancelled successfully': '{{ _("Order cancelled successfully") }}',
+        'Failed to cancel order': '{{ _("Failed to cancel order") }}'
     };
 </script>
 {% endblock %}
@@ -47,7 +50,7 @@
                 </button>
             </div>
             <p class="order-estimated-time">
-                {{ _('Estimated waiting time: %(time)d min', time=estimated_waiting_time) }}
+                {{ _('Estimated waiting time %(time)d min', time=estimated_waiting_time) }}
             </p>
         </div>
     </header>
@@ -81,6 +84,7 @@
     <footer class="order-bottom-section">
         <button id="cancel-order" 
                 class="order-action-button order-cancel-button"
+                data-template="{{ _('Cancel') }}"
                 data-confirm-message="{{ _('Are you sure you want to cancel your order?') }}"
                 data-success-message="{{ _('Order cancelled successfully') }}"
                 data-error-message="{{ _('Failed to cancel order') }}">

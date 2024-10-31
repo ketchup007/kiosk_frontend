@@ -87,7 +87,7 @@ def order(order_id):
             return redirect(url_for('index'))
             
         estimated_waiting_time = db.calculate_estimated_waiting_time(aps_id, order_id)
-        logging_service.info(f"Estimated waiting time: {estimated_waiting_time}")
+        logging_service.info(f"Estimated waiting time {estimated_waiting_time}")
         
         return render_template('order.html', 
                            order_id=order_id,
@@ -159,7 +159,7 @@ def get_order_total():
         total = db.get_order_total(order_id, aps_id)
         return jsonify(total=float(total))
     except DatabaseError as e:
-        logging_service.error(f"Database error in get_order_total: {str(e)}")
+        logging_service.error(f"Database error in get_order_Total {str(e)}")
         return jsonify(error=str(e)), 500
 
 @app.route('/get_available_quantities', methods=['GET'])
@@ -205,7 +205,7 @@ def calculate_estimated_waiting_time():
             'timestamp': datetime.now().isoformat()
         })
     except Exception as e:
-        logging_service.error(f"Error calculating estimated waiting time: {str(e)}")
+        logging_service.error(f"Error calculating Estimated waiting time {str(e)}")
         return jsonify({
             'waiting_time': 0,
             'error': str(e),

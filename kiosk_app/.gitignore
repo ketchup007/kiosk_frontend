@@ -18,7 +18,6 @@ instance/
 
 # Translations
 *.mo
-*.pot
 
 # IDEs
 .vscode/

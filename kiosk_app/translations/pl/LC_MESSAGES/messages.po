@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-10-29 12:20+0100\n"
+"POT-Creation-Date: 2024-10-31 08:51+0100\n"
 "PO-Revision-Date: 2024-10-28 10:25+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pl\n"
@@ -19,93 +19,132 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.16.0\n"
 
-#: app/routes.py:48
+#: app/routes.py:50
 msgid "Failed to get APS state. Please try again."
 msgstr "Nie udało się zaktualizować zamówienia. Prosimy spróbować ponownie."
 
-#: app/routes.py:58 templates/home.html:29
+#: app/routes.py:60 templates/home.html:29
 msgid "Kiosk is not available"
 msgstr "Kiosk jest niedostępny"
 
-#: app/routes.py:68
+#: app/routes.py:70
 msgid "Failed to create order. Please try again."
 msgstr "Nie udało się zaktualizować zamówienia. Prosimy spróbować ponownie."
 
-#: app/routes.py:80
+#: app/routes.py:82 app/routes.py:327
 msgid "This order is no longer active"
 msgstr "To zamówienie nie jest już aktywne"
 
-#: app/routes.py:84 services/database.py:202 services/database.py:333
+#: app/routes.py:86 services/database.py:203 services/database.py:335
 msgid "Order not found"
 msgstr "Strona nie znaleziona"
 
-#: app/routes.py:99
+#: app/routes.py:97
 msgid "An error occurred while loading the order page"
 msgstr "Wystąpił błąd podczas ładowania strony zamówienia"
 
-#: app/routes.py:118
+#: app/routes.py:120
 msgid "Invalid input data"
 msgstr "Nieprawidłowe dane wejściowe"
 
-#: app/routes.py:238
+#: app/routes.py:263
 msgid "Payment processed successfully"
 msgstr "Płatność została przetworzona pomyślnie"
 
-#: app/routes.py:240
-msgid "Payment failed"
-msgstr "Płatność nie powiodła się"
+#: app/routes.py:335
+msgid "Cannot proceed to payment with empty order"
+msgstr "Przejdź do płatności"
 
-#: app/routes.py:243
-msgid "Payment processing failed. Please try again."
-msgstr "Przetwarzanie płatności nie powiodło się. Prosimy spróbować ponownie."
+#: app/routes.py:344
+msgid "An error occurred while loading the payment page"
+msgstr "Wystąpił błąd podczas ładowania strony zamówienia"
 
-#: app/routes.py:339 templates/404.html:3
+#: app/routes.py:359 templates/404.html:3
 msgid "Page not found"
 msgstr "Strona nie znaleziona"
 
-#: app/routes.py:343 app/routes.py:349
+#: app/routes.py:363 app/routes.py:369
 msgid "An unexpected error occurred. Please try again."
 msgstr "Wystąpił nieoczekiwany błąd. Prosimy spróbować ponownie."
 
-#: app/routes.py:388
+#: app/routes.py:408
 msgid "Sorry, all products are currently unavailable. Please try again later."
-msgstr ""
-"Przepraszamy, wszystkie produkty są obecnie niedostępne. Prosimy "
-"spróbować później."
+msgstr "Przepraszamy, wszystkie produkty są obecnie niedostępne. Prosimy spróbować później."
 
-#: app/routes.py:399
+#: app/routes.py:419
 msgid "Failed to check product availability. Please try again."
 msgstr "Nie udało się sprawdzić dostępności produktów. Prosimy spróbować ponownie."
 
-#: services/database.py:175
+#: app/routes.py:439 templates/order.html:8
+msgid "Allergens"
+msgstr "Alergeny"
+
+#: app/routes.py:440 templates/order.html:9
+msgid "Price"
+msgstr "Cena"
+
+#: app/routes.py:441 templates/order.html:10 templates/order.html:91
+#: templates/order.html:94 templates/payment.html:9 templates/payment.html:22
+msgid "PLN"
+msgstr "zł"
+
+#: app/routes.py:442 templates/order.html:11 templates/order.html:94
+msgid "Total"
+msgstr "Łączna cena"
+
+#: app/routes.py:443 templates/order.html:12
+msgid "Failed to load menu"
+msgstr "Nie udało się załadować menu"
+
+#: app/routes.py:444 templates/order.html:13
+msgid "Maximum available quantity reached"
+msgstr "Maksymalna dostępna ilość"
+
+#: app/routes.py:445 templates/order.html:14 templates/payment.html:8
+msgid "Order Summary"
+msgstr "Podsumowanie zamówienia"
+
+#: app/routes.py:446 templates/order.html:15
+msgid "Quantity"
+msgstr "Ilość"
+
+#: app/routes.py:447 templates/order.html:16
+msgid "Failed to load order summary"
+msgstr "Nie udało się zaktualizować zamówienia. Prosimy spróbować ponownie."
+
+#: app/routes.py:448 templates/order.html:17
+msgid "Failed to change language"
+msgstr "Anuluj zamówienie"
+
+#: services/database.py:176
 msgid "Failed to create order"
 msgstr "Nie udało się zaktualizować zamówienia. Prosimy spróbować ponownie."
 
-#: services/database.py:182
+#: services/database.py:183
 msgid "Error processing order data"
 msgstr "Wystąpił błąd podczas przetwarzania danych zamówienia"
 
-#: services/database.py:186
+#: services/database.py:187
 msgid "Error creating order"
 msgstr "Wystąpił błąd podczas tworzenia zamówienia"
 
-#: services/database.py:221
+#: services/database.py:222
 msgid "Error adding item to order"
 msgstr "Wystąpił błąd podczas dodawania produktu do zamówienia"
 
-#: services/database.py:240
+#: services/database.py:241
 msgid "Error removing item from order"
 msgstr "Wystąpił błąd podczas usuwania produktu z zamówienia"
 
-#: services/database.py:324
+#: services/database.py:326
 msgid "Error checking category availability"
 msgstr "Wystąpił błąd podczas sprawdzania dostępności kategorii"
 
-#: services/database.py:336
+#: services/database.py:338
 msgid "Error getting order status"
 msgstr "Wystąpił błąd podczas sprawdzania statusu zamówienia    "
 
-#: services/database.py:345
+#: services/database.py:347
 msgid "Error cancelling order"
 msgstr "Wystąpił błąd podczas anulowania zamówienia"
 
@@ -118,7 +157,7 @@ msgid "We're sorry, but the page you're looking for doesn't exist."
 msgstr "Przepraszamy, ale strona, której szukasz, nie istnieje."
 
 #: templates/404.html:13 templates/500.html:13
-#: templates/order_confirmation.html:23
+#: templates/order_confirmation.html:30
 msgid "Return to Home"
 msgstr "Powrót do strony głównej"
 
@@ -135,8 +174,8 @@ msgid "We're sorry, but a server error occurred. Please try again later."
 msgstr "Przepraszamy, wystąpił błąd serwera. Prosimy spróbować ponownie później."
 
 #: templates/home.html:18
-msgid "Estimated waiting time: "
-msgstr "Przewidywany czas oczekiwania: "
+msgid "Estimated waiting time "
+msgstr "Przewidywany czas oczekiwania"
 
 #: templates/home.html:18
 msgid "min"
@@ -158,78 +197,61 @@ msgstr "Kiosk ma problemy techniczne"
 msgid "Kiosk is being restocked"
 msgstr "Kiosk jest w trakcie uzupełniania"
 
-#: templates/order.html:27 templates/order_confirmation.html:11
-#, python-format
-msgid "Estimated waiting time: %(time)d min"
-msgstr "Przewidywany czas oczekiwania: %(time)d min"
-
-#: templates/order.html:37
-msgid "Snacks"
-msgstr "Przekąski"
-
-#: templates/order.html:38
-msgid "Drinks"
-msgstr "Napoje"
-
-#: templates/order.html:39
-msgid "Coffee"
-msgstr "Kawa"
-
-#: templates/order.html:40
-msgid "Take Away"
-msgstr "Na wynos"
-
-#: templates/order.html:41
-msgid "Sauces"
-msgstr "Sosy"
-
-#: templates/order.html:42
-msgid "Summary"
-msgstr "Podsumowanie zamówienia"
-
-#: templates/order.html:71
-msgid "Allergens"
-msgstr "Alergeny"
-
-#: templates/order.html:74
-msgid "Price"
-msgstr "Cena"
-
-#: templates/order.html:74 templates/order.html:81 templates/order.html:100
-#: templates/order.html:103
-msgid "PLN"
-msgstr "zł"
-
-#: templates/order.html:81 templates/order.html:103
-msgid "Total"
-msgstr "Łączna cena:"
-
-#: templates/order.html:93 templates/order_summary.html:143
-msgid "Are you sure you want to cancel your order?"
-msgstr "Jesteś pewny, że chcesz anulować swoje zamówienie?"
-
-#: templates/order.html:94
-msgid "Order cancelled successfully"
-msgstr "Produkt został dodany pomyślnie"
-
-#: templates/order.html:95
-msgid "Failed to cancel order"
-msgstr "Anuluj zamówienie"
-
-#: templates/order.html:96
+#: templates/order.html:18 templates/order.html:87
 msgid "Cancel"
 msgstr "Anuluj"
 
-#: templates/order.html:100
-#, python-format
-msgid "Total: %(total).2f %(currency)s"
-msgstr "Łączna cena: %(total).2f zł"
+#: templates/order.html:19 templates/order.html:60
+msgid "Snacks"
+msgstr "Przekąski"
 
-#: templates/order.html:101
+#: templates/order.html:20 templates/order.html:61
+msgid "Drinks"
+msgstr "Napoje"
+
+#: templates/order.html:21 templates/order.html:62
+msgid "Coffee"
+msgstr "Kawa"
+
+#: templates/order.html:22 templates/order.html:63
+msgid "Take Away"
+msgstr "Na wynos"
+
+#: templates/order.html:23 templates/order.html:64
+msgid "Sauces"
+msgstr "Sosy"
+
+#: templates/order.html:24 templates/order.html:65
+msgid "Summary"
+msgstr "Podsumowanie zamówienia"
+
+#: templates/order.html:25 templates/order.html:50
+#: templates/order_confirmation.html:12
+#, python-format
+msgid "Estimated waiting time %(time)d min"
+msgstr "Przewidywany czas oczekiwania %(time)d min"
+
+#: templates/order.html:84
+msgid "Are you sure you want to cancel your order?"
+msgstr "Jesteś pewny, że chcesz anulować swoje zamówienie?"
+
+#: templates/order.html:85
+msgid "Order cancelled successfully"
+msgstr "Produkt został dodany pomyślnie"
+
+#: templates/order.html:86
+msgid "Failed to cancel order"
+msgstr "Anuluj zamówienie"
+
+#: templates/order.html:91
+msgid "Total %(total).2f %(currency)s"
+msgstr "Łączna cena %(total).2f zł"
+
+#: templates/order.html:92
 msgid "Please add items to your order before proceeding."
 msgstr "Prosimy dodać produkty do swojego zamówienia przed kontynuowaniem."
 
-#: templates/order.html:102 templates/order_summary.html:119
+#: templates/order.html:93
 msgid "You have been inactive for a while. Do you want to continue your order?"
 msgstr "Jesteś nieaktywny od jakiś czasu. Chcesz kontynuować swoje zamówienie?"
 
@@ -237,65 +259,23 @@ msgstr "Jesteś nieaktywny od jakiś czasu. Chcesz kontynuować swoje zamówieni
 msgid "Order Confirmed"
 msgstr "Zamówienie zatwierdzone"
 
-#: templates/order_confirmation.html:10
+#: templates/order_confirmation.html:11
 #, python-format
-msgid "Order Number: %(number)s"
-msgstr "Numer zamówienia: %(number)s"
+msgid "Order Number %(number)s"
+msgstr "Numer zamówienia %(number)s"
 
-#: templates/order_confirmation.html:13
+#: templates/order_confirmation.html:15
 msgid "Order Details"
 msgstr "Szczegóły zamówienia"
 
-#: templates/order_confirmation.html:20
+#: templates/order_confirmation.html:26
 msgid "Please pick up your order when your number is called."
 msgstr "Prosimy o podjęcie swojego zamówienia, gdy zostanie wywołany twój numer."
 
-#: templates/order_summary.html:20 templates/payment.html:8
-msgid "Order Summary"
-msgstr "Podsumowanie zamówienia"
-
-#: templates/order_summary.html:30 templates/order_summary.html:40
-#, python-format
-msgid "Price: %(price).2f"
-msgstr "Cena: %(price).2f"
-
-#: templates/order_summary.html:35
-msgid "Suggested Products"
-msgstr "Produkty sugerowane"
-
-#: templates/order_summary.html:48
-msgid "Total:"
-msgstr "Łączna cena:"
-
-#: templates/order_summary.html:49 templates/order_summary.html:85
-#, python-format
-msgid "%(total).2f"
-msgstr "%(total).2f"
-
-#: templates/order_summary.html:51
-msgid "Cancel Order"
-msgstr "Anuluj zamówienie"
-
-#: templates/order_summary.html:52
-msgid "Proceed to Payment"
-msgstr "Przejdź do płatności"
-
-#: templates/order_summary.html:75
-msgid "Failed to update order. Please try again."
-msgstr "Nie udało się zaktualizować zamówienia. Prosimy spróbować ponownie."
-
-#: templates/order_summary.html:109
-msgid "Failed to add product. Please try again."
-msgstr "Nie udało się dodać produktu. Prosimy spróbować ponownie."
-
-#: templates/order_summary.html:132 templates/order_summary.html:154
-msgid "Failed to cancel order. Please try again."
-msgstr "Nie udało się anulować zamówienia. Prosimy spróbować ponownie."
-
 #: templates/payment.html:9
 #, python-format
-msgid "Total: %(total).2f"
-msgstr "Łączna cena: %(total).2f"
+msgid "Total %(total).2f %(currency)s"
+msgstr "Łączna cena %(total).2f zł"
 
 #: templates/payment.html:13
 msgid "Payment Instructions"
@@ -305,44 +285,11 @@ msgstr "Instrukcje płatności"
 msgid "Please follow the instructions on the payment terminal."
 msgstr "Prosimy zgodzić się z instrukcjami na terminalu płatniczym."
 
-#: templates/payment.html:18
+#: templates/payment.html:20
 msgid "Cancel Payment"
 msgstr "Anuluj płatność"
 
-#: templates/payment.html:19
-#, python-format
-msgid "Pay %(total).2f"
-msgstr "Zapłać %(total).2f"
-
-#: templates/payment.html:32
-msgid "Initializing payment..."
-msgstr "Inicjalizacja płatności..."
-
-#: templates/payment.html:47
-msgid "Payment initialization failed. Please try again."
-msgstr "Inicjalizacja płatności nie powiodła się. Prosimy spróbować ponownie."
-
-#: templates/payment.html:53
-msgid "Processing payment..."
-msgstr "Przetwarzanie płatności..."
-
-#: templates/payment.html:66
-msgid "Payment successful!"
-msgstr "Płatność zakończona sukcesem!"
-
-#: templates/payment.html:69
-msgid "Payment failed. Please try again."
-msgstr "Płatność nie powiodła się. Prosimy spróbować ponownie."
-
-#: templates/payment.html:75
-msgid "Are you sure you want to cancel the payment?"
-msgstr "Jesteś pewny, że chcesz anulować płatność?"
-
-#: templates/payment.html:89 templates/payment.html:116
-msgid "Failed to cancel payment. Please try again."
-msgstr "Nie udało się anulować płatności. Prosimy spróbować ponownie."
-
-#: templates/payment.html:100
-msgid "You have been inactive for a while. Do you want to continue your payment?"
-msgstr "Jesteś nieaktywny od jakiś czasu. Chcesz kontynuować swoją płatność?"
+#: templates/payment.html:22
+msgid "Pay %(total).2f %(currency)s"
+msgstr "Łączna cena %(total).2f zł"
 

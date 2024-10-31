@@ -86,7 +86,7 @@ body {
 .action-button {
     width: 60vw;
     height: 70px;
-    background-color: #00FF00;
+    background-color: #4CAF50;
     border: none;
     border-radius: 10px;
     font-family: sans-serif;
@@ -128,7 +128,7 @@ body {
 }
 
 .category-button {
-    background-color: #A0E0E0;
+    background-color: #80CBC4;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -180,11 +180,11 @@ body {
 }
 
 #cancel-order {
-    background-color: #FF0000;
+    background-color: #F44336;
 }
 
 #proceed-to-summary {
-    background-color: #00FF00;
+    background-color: #4CAF50;
 }
 
 .order-items {
@@ -223,7 +223,7 @@ body {
 }
 
 #proceed-to-payment {
-    background-color: #00FF00;
+    background-color: #4CAF50;
 }
 
 .order-summary {
@@ -238,11 +238,11 @@ body {
 }
 
 #cancel-payment {
-    background-color: #FF0000;
+    background-color: #F44336;
 }
 
 #finalize-payment {
-    background-color: #00FF00;
+    background-color: #4CAF50;
 }
 
 .order-details {
@@ -262,7 +262,7 @@ body {
 }
 
 #return-home {
-    background-color: #0000FF;
+    background-color: #2196F3;
     color: white;
 }
 
@@ -337,12 +337,12 @@ body {
 }
 
 .flash-message.error {
-    background-color: #ff5252;
+    background-color: #F44336;
     color: white;
 }
 
 .flash-message.success {
-    background-color: #4caf50;
+    background-color: #4CAF50;
     color: white;
 }
 
@@ -400,14 +400,15 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    background-color: #FFFFFF;
-    border-bottom: 1px solid #ddd;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.3);
 }
 
 /* Logo section */
 .order-logo-section {
     display: flex;
     align-items: center;
+    background-color: transparent;
 }
 
 .order-logo {
@@ -453,7 +454,7 @@ body {
 .order-middle-section {
     height: 864px; /* 80% of 1080px */
     overflow-y: auto;
-    background-color: #FFFFFF;
+    background-color: transparent;
 }
 
 /* Dolna sekcja */
@@ -463,8 +464,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
-    background-color: #FFFFFF;
-    border-top: 1px solid #ddd;
+    background-color: transparent;
+    border-top: 1px solid rgba(221, 221, 221, 0.3);
 }
 
 /* Przyciski w dolnej sekcji */
@@ -489,10 +490,10 @@ body {
 .order-product-item {
     display: grid;
     grid-template-columns: 55% 45%; /* Proporcje kolumn */
-    background: white;
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
     padding: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     height: 100px;
     min-height: 100px;
     gap: 10px; /* Zmniejszony odstęp między kolumnami */
@@ -623,7 +624,7 @@ body {
     min-width: 25px;
     border: none;
     border-radius: 4px;
-    background-color: #f0f0f0;
+    background-color: rgba(240, 240, 240, 0.7);
     cursor: pointer;
     font-size: 14px;
     display: flex;
@@ -729,7 +730,7 @@ body {
     align-items: center;
     margin: 15px 0;
     padding: 10px;
-    background: #f5f5f5;
+    background: rgba(245, 245, 245, 0.7);
     border-radius: 5px;
 }
 
@@ -774,13 +775,13 @@ body {
     border-radius: 5px;
     font-size: 24px;
     cursor: pointer;
-    background-color: #00FF00;
+    background-color: #4CAF50;
     color: #000;
     transition: background-color 0.3s ease;
 }
 
 #proceed-to-payment:hover {
-    background-color: #00DD00;
+    background-color: #388E3C;
 }
 
 .changing {
@@ -856,18 +857,18 @@ body {
     display: flex;
     justify-content: space-around;
     padding: 15px 0;
-    background-color: #f0f0f0;
+    background-color: transparent;
     position: sticky;
     top: 0;
     z-index: 1;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(221, 221, 221, 0.3);
 }
 
 /* Przyciski kategorii */
 .order-category-button {
     width: 200px;
     height: 50px;
-    background-color: #A0E0E0;
+    background-color: rgba(128, 203, 196, 0.7);
     border: none;
     border-radius: 5px;
     font-size: 20px;
@@ -879,13 +880,13 @@ body {
 }
 
 .order-category-button:hover {
-    background-color: #90D0D0;
+    background-color: rgba(77, 182, 172, 0.8);
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .order-category-button.active {
-    background-color: #70B0B0;
+    background-color: rgba(38, 166, 154, 0.9);
     color: white;
     transform: translateY(1px);
     box-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -1027,20 +1028,20 @@ body {
 }
 
 #cancel-payment {
-    background-color: #FF0000;
+    background-color: #F44336;
     color: white;
 }
 
 #cancel-payment:hover {
-    background-color: #DD0000;
+    background-color: #D32F2F;
 }
 
 #finalize-payment {
-    background-color: #00FF00;
+    background-color: #4CAF50;
 }
 
 #finalize-payment:hover {
-    background-color: #00DD00;
+    background-color: #388E3C;
 }
 
 #finalize-payment:disabled {
@@ -1108,7 +1109,7 @@ body {
 .confirmation-details {
     width: 100%;
     max-width: 800px;
-    background-color: #f5f5f5;
+    background-color: rgba(240, 240, 240, 0.7);
     border-radius: 10px;
     padding: 30px;
     margin-bottom: 40px;

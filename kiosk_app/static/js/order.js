@@ -685,7 +685,7 @@ class OrderPage {
             
             if (data.success) {
                 // Aktualizuj język dokumentu
-                document.documentElement.lang = lang === 'uk' ? 'uk' : lang;
+                document.documentElement.lang = lang;
                 
                 // Załaduj nowe tłumaczenia
                 await this.loadTranslations();
