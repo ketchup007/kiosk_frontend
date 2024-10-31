@@ -39,6 +39,26 @@ class PaymentPage {
 
         // Obsługa anulowania płatności
         this.cancelPaymentButton.addEventListener('click', () => this.handleCancelOrder());
+
+        // Obsługa checkboxa "wszystkie zgody"
+        document.getElementById('allConsents').addEventListener('change', (e) => {
+            const checkboxes = document.querySelectorAll('.consent-group input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.id !== 'allConsents') {
+                    checkbox.checked = e.target.checked;
+                }
+            });
+            this.updateAllConsentsCheckbox();
+        });
+
+        // Obsługa pojedynczych checkboxów
+        document.querySelectorAll('.consent-group input[type="checkbox"]').forEach(checkbox => {
+            if (checkbox.id !== 'allConsents') {
+                checkbox.addEventListener('change', () => {
+                    this.updateAllConsentsCheckbox();
+                });
+            }
+        });
     }
 
     hidePhoneModal() {
@@ -47,6 +67,7 @@ class PaymentPage {
 
     showPhoneModal() {
         this.phoneModal.show();
+        this.clearConsentsValidation();
         setTimeout(() => this.phoneInput.focus(), 500);
     }
 
@@ -65,6 +86,10 @@ class PaymentPage {
         
         if (!this.validatePhoneNumber(phoneNumber)) {
             this.showError(this._('Please enter a valid phone number'));
+            return;
+        }
+
+        if (!this.validateConsents()) {
             return;
         }
 
@@ -325,6 +350,49 @@ class PaymentPage {
                 this.hideError();
             }
         });
+    }
+
+    validateConsents() {
+        const requiredConsents = document.querySelectorAll('.required-consent');
+        const consentError = document.getElementById('consentError');
+        const saveButton = document.getElementById('savePhone');
+        
+        let allRequired = true;
+        requiredConsents.forEach(consent => {
+            if (!consent.checked) {
+                allRequired = false;
+                consent.classList.add('is-invalid');
+            } else {
+                consent.classList.remove('is-invalid');
+            }
+        });
+
+        if (!allRequired) {
+            consentError.style.display = 'block';
+            return false;
+        } else {
+            consentError.style.display = 'none';
+            return true;
+        }
+    }
+
+    updateAllConsentsCheckbox() {
+        const allConsentsCheckbox = document.getElementById('allConsents');
+        const otherCheckboxes = document.querySelectorAll('.consent-group input[type="checkbox"]:not(#allConsents)');
+        const allChecked = Array.from(otherCheckboxes).every(checkbox => checkbox.checked);
+        
+        allConsentsCheckbox.checked = allChecked;
+    }
+
+    // Nowa metoda do czyszczenia błędów zgód
+    clearConsentsValidation() {
+        const requiredConsents = document.querySelectorAll('.required-consent');
+        const consentError = document.getElementById('consentError');
+        
+        requiredConsents.forEach(consent => {
+            consent.classList.remove('is-invalid');
+        });
+        consentError.style.display = 'none';
     }
 
     // Helper method for translations

@@ -248,6 +248,68 @@
         font-size: 1.2rem;
         padding: 12px 30px;
     }
+
+    /* Style dla checkboxów */
+    .consents-container {
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .consent-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .form-check {
+        margin-bottom: 0;
+        padding-left: 30px;
+    }
+
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-left: -30px;
+        cursor: pointer;
+    }
+
+    .form-check-label {
+        font-size: 1rem;
+        line-height: 1.4;
+        cursor: pointer;
+    }
+
+    .consent-error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        text-align: center;
+        padding: 8px;
+        background-color: rgba(220, 53, 69, 0.1);
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    hr {
+        margin: 10px 0;
+        border-color: #dee2e6;
+    }
+
+    /* Style dla wymaganych zgód */
+    .form-check-label[for^="requiredConsent"]::after {
+        content: " *";
+        color: #dc3545;
+    }
+
+    .form-check-input:checked {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+    }
 </style>
 {% endblock %}
 
@@ -313,6 +375,52 @@
                         <button type="button" class="numpad-button delete" data-action="delete">⌫</button>
                         <button type="button" class="numpad-button" data-number="0">0</button>
                         <button type="button" class="numpad-button" data-action="clear">C</button>
+                    </div>
+
+                    <!-- Checkboxy zgód -->
+                    <div class="consents-container mt-4">
+                        <div class="consent-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="allConsents">
+                                <label class="form-check-label" for="allConsents">
+                                    {{ _('Accept all consents') }}
+                                </label>
+                            </div>
+                            <hr>
+                            <div class="form-check">
+                                <input class="form-check-input required-consent" type="checkbox" id="requiredConsent1" required>
+                                <label class="form-check-label" for="requiredConsent1">
+                                    {{ _('I accept the terms and conditions') }} *
+                                </label>
+                                <div class="invalid-feedback">
+                                    {{ _('This consent is required') }}
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input required-consent" type="checkbox" id="requiredConsent2" required>
+                                <label class="form-check-label" for="requiredConsent2">
+                                    {{ _('I accept the privacy policy') }} *
+                                </label>
+                                <div class="invalid-feedback">
+                                    {{ _('This consent is required') }}
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input optional-consent" type="checkbox" id="marketingConsent">
+                                <label class="form-check-label" for="marketingConsent">
+                                    {{ _('I agree to receive marketing information') }}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input optional-consent" type="checkbox" id="promotionalConsent">
+                                <label class="form-check-label" for="promotionalConsent">
+                                    {{ _('I want to receive promotional offers') }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="consent-error mt-2" id="consentError" style="display: none;">
+                            {{ _('Please accept required consents') }}
+                        </div>
                     </div>
                 </form>
             </div>

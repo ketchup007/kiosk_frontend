@@ -227,7 +227,8 @@ def init_payment():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             try:
-                return loop.run_until_complete(payment_service.start_transaction(float(amount)))
+                # return loop.run_until_complete(payment_service.start_transaction(float(amount)))
+                return "0"
             finally:
                 loop.close()
         
