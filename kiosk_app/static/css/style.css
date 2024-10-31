@@ -1466,12 +1466,58 @@ body {
 }
 
 .suggested-products-list .order-product-item {
+    display: grid;
+    grid-template-columns: 70% 30%; /* Zmienione proporcje z 55%/45% na 70%/30% */
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
+    gap: 10px;
+}
+
+.suggested-products-list .product-left-column {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    padding-right: 10px; /* Zmniejszony padding */
+}
+
+.suggested-products-list .order-product-info {
+    flex: 1;
+    min-width: 0; /* Zapobiega przepełnieniu */
+}
+
+.suggested-products-list .order-product-description {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+    display: block;
+    white-space: normal;
+    overflow: visible;
+    width: 100%; /* Zapewnia pełną szerokość */
+}
+
+.suggested-products-list .product-right-column {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px; /* Zmniejszony padding */
+    padding-right: 15px; /* Zwiększony padding z prawej strony */
+    width: 100%;
+}
+
+.suggested-products-list .price-container {
+    flex: 1;
+    margin-right: 15px; /* Zwiększony margines między ceną a przyciskiem */
+    white-space: nowrap;
 }
 
 .suggested-products-list .order-quantity-control {
     display: flex;
     justify-content: flex-end;
+    min-width: 40px;
+    margin-right: 5px; /* Dodany margines z prawej strony */
 }
 
 .suggested-products-list .increase-quantity {
@@ -1487,16 +1533,8 @@ body {
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-}
-
-.suggested-products-list .increase-quantity:hover {
-    background-color: #66BB6A;
-    transform: translateY(-2px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.suggested-products-list .increase-quantity:active {
-    transform: translateY(1px);
+    margin-left: auto;
+    margin-right: 0; /* Upewniamy się, że nie ma marginesu z prawej */
 }
 
 /* Dostosowanie rozmiaru modalu */
