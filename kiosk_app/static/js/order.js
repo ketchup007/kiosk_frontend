@@ -130,7 +130,7 @@ class OrderPage {
                 // Po załadowaniu menu i obrazów, aktywuj pierwszą kategorię
                 const firstCategoryButton = document.querySelector('.order-category-button');
                 if (firstCategoryButton) {
-                    await this.handleCategoryClick(firstCategoryButton);
+                    this.handleCategoryClick(firstCategoryButton);
                 }
             } else {
                 console.error('Invalid menu structure:', response);
@@ -368,13 +368,14 @@ class OrderPage {
             return;
         }
         
+        const selectedCategory = button.dataset.category;
+        
         document.querySelectorAll('.order-category-button').forEach(btn => {
             btn.classList.remove('active');
         });
         
         button.classList.add('active');
         
-        const selectedCategory = button.dataset.category;
         this.currentCategory = selectedCategory;
         const productList = document.querySelector('.order-product-list');
         
@@ -384,20 +385,20 @@ class OrderPage {
         
         setTimeout(async () => {
             if (selectedCategory === 'sum') {
-                this.showOrderSummary();
+                await this.showOrderSummary();
+                // Pokaż modal po załadowaniu podsumowania
+                const modal = new bootstrap.Modal(document.getElementById('suggestedProductsModal'));
+                modal.show();
             } else {
-                // Jeśli jesteśmy w podsumowaniu, musimy najpierw przywrócić listę produktów
+                // Standardowa logika dla innych kategorii...
                 if (productList.querySelector('.order-summary')) {
-                    // Renderuj ponownie menu
                     await this.renderMenu();
                     
-                    // Po wyrenderowaniu menu, pokaz odpowiednią kategorię
                     document.querySelectorAll('.order-product-item').forEach(item => {
                         const itemCategory = item.dataset.category.toLowerCase();
                         item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
                     });
                     
-                    // Przywróć zdjęcia z cache'u
                     document.querySelectorAll('.order-product-image').forEach(img => {
                         const filename = img.dataset.imageFilename;
                         if (filename && this.imageCache.has(filename)) {
@@ -405,13 +406,9 @@ class OrderPage {
                         }
                     });
                     
-                    // Zainicjalizuj kontrolki ilości
                     this.initializeQuantityControls();
-                    
-                    // Zaktualizuj dostępność produktów
                     this.updateProductAvailability();
                 } else {
-                    // Standardowe przełączanie między kategoriami
                     document.querySelectorAll('.order-product-item').forEach(item => {
                         const itemCategory = item.dataset.category.toLowerCase();
                         item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
@@ -637,12 +634,33 @@ class OrderPage {
 
         const proceedButton = document.getElementById('proceed-to-summary');
         proceedButton.addEventListener('click', () => {
-            // Znajdź i aktywuj przycisk kategorii 'sum'
             const summaryButton = document.querySelector('.order-category-button[data-category="sum"]');
             if (summaryButton) {
                 this.handleCategoryClick(summaryButton);
             }
         });
+
+        // Add listener for the "Continue to Summary" button in modal
+        const proceedToSummaryFromModal = document.getElementById('proceedToSummaryFromModal');
+        if (proceedToSummaryFromModal) {
+            proceedToSummaryFromModal.addEventListener('click', () => {
+                // Hide the modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('suggestedProductsModal'));
+                modal.hide();
+                
+                // Wykonaj właściwą logikę przejścia do podsumowania
+                document.querySelectorAll('.order-category-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                const summaryButton = document.querySelector('.order-category-button[data-category="sum"]');
+                if (summaryButton) {
+                    summaryButton.classList.add('active');
+                    this.currentCategory = 'sum';
+                    this.showOrderSummary();
+                }
+            });
+        }
 
         const events = ['touchstart', 'click', 'scroll', 'mousemove', 'keypress'];
         events.forEach(eventType => {
@@ -880,10 +898,33 @@ class OrderPage {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Dodaj tę funkcję na początku pliku lub przed event listenerami
+function setupOrderSummaryObserver() {
+    const orderSummarySection = document.querySelector('.order-summary');
+    if (!orderSummarySection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const modal = new bootstrap.Modal(document.getElementById('orderModal'));
+                modal.show();
+                // Przestań obserwować po pierwszym pokazaniu
+                observer.unobserve(orderSummarySection);
+            }
+        });
+    }, {
+        threshold: 0.5 // Modal pojawi się gdy 50% sekcji będzie widoczne
+    });
+
+    observer.observe(orderSummarySection);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     const orderContainer = document.querySelector('.order-container');
     if (orderContainer) {
         const orderId = orderContainer.dataset.orderId;
         new OrderPage(orderId);
     }
+    
+    setupOrderSummaryObserver();
 });
