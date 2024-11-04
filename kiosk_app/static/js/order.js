@@ -213,11 +213,14 @@ class OrderPage {
         totalButton.textContent = template.replace('0.00', this.total.toFixed(2));
     }
 
-    async updateQuantity(itemId, change) {
+    async updateQuantity(itemId, change, clickedButton) {
         try {
             console.log(`Updating quantity for item ${itemId} by ${change}`);
 
-            const quantityElement = document.querySelector(`.quantity[data-item-id="${itemId}"]`);
+            // Znajdź element quantity na podstawie klikniętego przycisku
+            const productItem = clickedButton.closest('.order-product-item');
+            const quantityElement = productItem.querySelector(`.quantity[data-item-id="${itemId}"]`);
+
             if (!quantityElement) {
                 console.error('Quantity element not found');
                 return;
@@ -800,25 +803,27 @@ class OrderPage {
     initializeQuantityControls() {
         console.log('Initializing quantity controls');
 
-        document.querySelectorAll('.increase-quantity').forEach(button => {
-            console.log('Adding increase listener for:', button);
-            button.replaceWith(button.cloneNode(true));
-            const newButton = document.querySelector(`.increase-quantity[data-item-id="${button.dataset.itemId}"]`);
-            newButton.addEventListener('click', () => {
-                console.log('Increase clicked for item:', newButton.dataset.itemId);
-                this.updateQuantity(newButton.dataset.itemId, 1);
-            });
-        });
+        // Usuń stare event listenery
+        document.removeEventListener('click', this.handleQuantityClick);
 
-        document.querySelectorAll('.decrease-quantity').forEach(button => {
-            console.log('Adding decrease listener for:', button);
-            button.replaceWith(button.cloneNode(true));
-            const newButton = document.querySelector(`.decrease-quantity[data-item-id="${button.dataset.itemId}"]`);
-            newButton.addEventListener('click', () => {
-                console.log('Decrease clicked for item:', newButton.dataset.itemId);
-                this.updateQuantity(newButton.dataset.itemId, -1);
-            });
-        });
+        // Dodaj nowy event listener używając delegacji zdarzeń
+        this.handleQuantityClick = (event) => {
+            const button = event.target;
+            
+            // Sprawdź czy kliknięty element jest przyciskiem increase lub decrease
+            if (button.classList.contains('increase-quantity')) {
+                const itemId = button.dataset.itemId;
+                console.log('Increase clicked for item:', itemId);
+                this.updateQuantity(itemId, 1, button);
+            } else if (button.classList.contains('decrease-quantity')) {
+                const itemId = button.dataset.itemId;
+                console.log('Decrease clicked for item:', itemId);
+                this.updateQuantity(itemId, -1, button);
+            }
+        };
+
+        // Dodaj event listener do dokumentu
+        document.addEventListener('click', this.handleQuantityClick);
     }
 
     // Nowa metoda do aktualizacji tekstów w menu bez przeładowania
