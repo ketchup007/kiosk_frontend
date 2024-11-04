@@ -259,17 +259,23 @@ class OrderPage {
                 const orderTotal = await fetchWithErrorHandling(`/get_order_total?order_id=${this.orderId}`);
                 this.updateTotal(orderTotal.total);
 
-                // Jeśli jesteśmy w widoku podsumowania, odśwież cały widok
+                // Sprawdź, czy jesteśmy w widoku podsumowania
                 const currentCategory = document.querySelector('.order-category-button.active');
+                
                 if (currentCategory && currentCategory.dataset.category === 'sum') {
                     await this.showOrderSummary();
-                } else {
-                    // Aktualizuj tylko konkretny produkt
-                    const productItem = quantityElement.closest('.order-product-item');
+                }
+
+                // Aktualizuj ilość produktu we wszystkich miejscach gdzie się pojawia
+                document.querySelectorAll(`.quantity[data-item-id="${itemId}"]`).forEach(quantityEl => {
+                    quantityEl.textContent = newQuantity;
+                });
+
+                // Aktualizuj przyciski i sumy dla wszystkich wystąpień produktu
+                document.querySelectorAll(`.order-product-item[data-item-id="${itemId}"]`).forEach(productItem => {
                     const decreaseButton = productItem.querySelector('.decrease-quantity');
                     const increaseButton = productItem.querySelector('.increase-quantity');
-
-                    quantityElement.textContent = newQuantity;
+                    const itemTotalElement = productItem.querySelector(`.order-item-total[data-item-id="${itemId}"]`);
 
                     if (decreaseButton) {
                         decreaseButton.disabled = newQuantity <= 0;
@@ -283,13 +289,12 @@ class OrderPage {
                         increaseButton.classList.toggle('disabled', newQuantity >= availableQuantity);
                     }
 
-                    const itemTotalElement = productItem.querySelector(`.order-item-total[data-item-id="${itemId}"]`);
                     if (itemTotalElement) {
                         const price = parseFloat(productItem.querySelector('.order-product-price').textContent.match(/\d+\.?\d*/)[0]);
                         const itemTotal = price * newQuantity;
                         itemTotalElement.textContent = `${this._('Total')} ${itemTotal.toFixed(2)} ${this._('PLN')}`;
                     }
-                }
+                });
             }
         } catch (error) {
             console.error('Error updating quantity:', error);
@@ -386,7 +391,8 @@ class OrderPage {
         setTimeout(async () => {
             if (selectedCategory === 'sum') {
                 await this.showOrderSummary();
-                // Pokaż modal po załadowaniu podsumowania
+                // Załaduj i pokaż sugerowane produkty w modalu
+                await this.loadSuggestedProducts();
                 const modal = new bootstrap.Modal(document.getElementById('suggestedProductsModal'));
                 modal.show();
             } else {
@@ -895,6 +901,93 @@ class OrderPage {
         if (proceedButton) {
             proceedButton.textContent = `${this._('Total')} ${this.total.toFixed(2)} ${this._('PLN')}`;
         }
+    }
+
+    async loadSuggestedProducts() {
+        try {
+            const response = await fetchWithErrorHandling(`/get_suggested_products?order_id=${this.orderId}`);
+            if (response.success && response.suggested_products) {
+                await this.renderSuggestedProducts(response.suggested_products);
+            } else {
+                throw new Error(response.error || this._('Failed to load suggested products'));
+            }
+        } catch (error) {
+            console.error('Error loading suggested products:', error);
+            showFlashMessage(this._('Failed to load suggested products'), 'error');
+        }
+    }
+
+    async renderSuggestedProducts(products) {
+        const productsList = document.querySelector('.suggested-products-list');
+        let productsHTML = '';
+        const lang = document.documentElement.lang;
+        const langCode = lang === 'uk' ? 'ua' : lang;
+
+        for (const item of products) {
+            const savedQuantity = this.orderItems[item.item_id] || 0;
+            
+            productsHTML += `
+            <article class="order-product-item suggested-product" data-item-id="${item.item_id}">
+                <div class="product-left-column">
+                    <div class="order-product-image-container">
+                        <img src="" 
+                             data-image-filename="${item.image}"
+                             alt="${item['name_' + langCode]}" 
+                             class="order-product-image"
+                             onerror="this.onerror=null; this.src='/static/images/placeholder.png'">
+                    </div>
+                    <div class="order-product-info">
+                        <h3 class="order-product-name">${item['name_' + langCode]}</h3>
+                        ${item['description_' + langCode] ? 
+                            `<p class="order-product-description">${item['description_' + langCode]}</p>` : ''}
+                        ${item['allergens_' + langCode] ? 
+                            `<p class="order-product-allergens">${this._('Allergens')}: ${item['allergens_' + langCode]}</p>` : ''}
+                    </div>
+                </div>
+                <div class="product-right-column">
+                    <div class="price-container">
+                        <p class="order-product-price">${this._('Price')}: ${item.price.toFixed(2)} ${this._('PLN')}</p>
+                        <p class="order-item-total" data-item-id="${item.item_id}">
+                            ${this._('Total')} ${(item.price * savedQuantity).toFixed(2)} ${this._('PLN')}
+                        </p>
+                    </div>
+                    <div class="order-quantity-control">
+                        <button class="decrease-quantity" data-item-id="${item.item_id}" ${savedQuantity <= 0 ? 'disabled' : ''}>-</button>
+                        <span class="quantity" data-item-id="${item.item_id}">${savedQuantity}</span>
+                        <button class="increase-quantity" data-item-id="${item.item_id}">+</button>
+                    </div>
+                </div>
+            </article>
+            `;
+        }
+
+        productsList.innerHTML = productsHTML;
+
+        // Załaduj obrazy dla sugerowanych produktów
+        const images = productsList.querySelectorAll('.order-product-image');
+        for (const img of images) {
+            const filename = img.dataset.imageFilename;
+            if (filename && this.imageCache.has(filename)) {
+                img.src = this.imageCache.get(filename);
+            } else if (filename) {
+                try {
+                    const response = await fetch(`/get_public_image_url?filename=${filename}`);
+                    const data = await response.json();
+                    if (data.url) {
+                        this.imageCache.set(filename, data.url);
+                        img.src = data.url;
+                    }
+                } catch (error) {
+                    console.error('Error loading image:', error);
+                    img.src = '/static/images/placeholder.png';
+                }
+            }
+        }
+
+        // Inicjalizuj kontrolki ilości dla sugerowanych produktów
+        this.initializeQuantityControls();
+        await this.checkItemAvailability();
+        this.updateProductAvailability();
     }
 }
 
