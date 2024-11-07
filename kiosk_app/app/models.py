@@ -9,9 +9,10 @@ class ItemCategory(str, Enum):
     COFFEE = 'coffee'
     TAKE_AWAY_BOX = 'take_away_box'
     SAUCE = 'sauce'
-    PAPER_TRAY = 'paper_tray'
     CUP = 'cup'
     SUGAR = 'sugar'
+    CONTAINER = 'container'
+    PAPER_TRAY = 'paper_tray'
 
 class APSState(str, Enum):
     ACTIVE = 'active'
@@ -70,7 +71,7 @@ class ItemDescription(BaseModel):
     allergens_pl: Optional[str]
     allergens_en: Optional[str]
     allergens_ua: Optional[str]
-    category: ItemCategory
+    item_category: ItemCategory
     image: Optional[str]
     price: Optional[float] = 0.0
     created_at: Optional[datetime] = None
@@ -91,9 +92,17 @@ class MenuItemPrice(BaseModel):
     created_at: datetime
     updated_at: datetime
 
+class StorageCategory(str, Enum):
+    CENTRAL = 'central'
+    REGION = 'region'
+    TRANSPORT_TROLLEY = 'transport_trolley'
+    PARTIAL_TRANSPORT_TROLLEY = 'partial_transport_trolley'
+    APS = 'aps'
+
 class Storage(BaseModel):
     id: int
     storage_name: str
+    storage_category: StorageCategory
     created_at: datetime
     updated_at: datetime
 
@@ -110,7 +119,7 @@ class APSDescription(BaseModel):
     id: int
     name: str
     address: str
-    location: str  # This should be a Point type, but we'll use string for simplicity
+    location: str  # This represents geography(POINT)
     storage_id: int
     menu_id: int
     state: APSState
@@ -166,7 +175,7 @@ class APSMenuItem(BaseModel):
     allergens_pl: Optional[str]
     allergens_en: Optional[str]
     allergens_ua: Optional[str]
-    category: ItemCategory
+    item_category: ItemCategory
     image: Optional[str]
     price: float
 
@@ -192,7 +201,7 @@ class SuggestedProduct(BaseModel):
     allergens_pl: Optional[str]
     allergens_en: Optional[str]
     allergens_ua: Optional[str]
-    category: ItemCategory
+    item_category: ItemCategory
     image: Optional[str]
     price: float
     stock_quantity: int

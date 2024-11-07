@@ -1,6 +1,8 @@
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, get_key
 from supabase import create_client, Client
+
+from services.logging_service import logging_service
 
 # Load environment variables from .env file
 load_dotenv()
@@ -30,8 +32,10 @@ class Config:
     
     @staticmethod
     def get_local_client() -> Client:
+        logging_service.info(f'SUPABASE_LOCAL_URL: {os.environ.get("SUPABASE_LOCAL_URL")}')
         return create_client(Config.SUPABASE_LOCAL_URL, Config.SUPABASE_LOCAL_KEY)
 
     @staticmethod
     def get_central_client() -> Client:
+        logging_service.info(f"SUPABASE_CENTRAL_URL: {Config.SUPABASE_CENTRAL_URL}")
         return create_client(Config.SUPABASE_CENTRAL_URL, Config.SUPABASE_CENTRAL_KEY)

@@ -150,14 +150,25 @@ def get_order_summary():
 
 @app.route('/get_order_total', methods=['GET'])
 def get_order_total():
-    order_id = request.args.get('order_id', type=int)
-    aps_id = app.config['APS_ID']
     try:
+        order_id = request.args.get('order_id', type=int)
+        if not order_id:
+            return jsonify(error=_("Order ID is required")), 400
+            
+        aps_id = app.config['APS_ID']
         total = db.get_order_total(order_id, aps_id)
+        
+        if total is None:
+            return jsonify(error=_("Could not calculate order total")), 500
+            
         return jsonify(total=float(total))
+        
     except DatabaseError as e:
-        logging_service.error(f"Database error in get_order_Total {str(e)}")
+        logging_service.error(f"Database error in get_order_total: {str(e)}")
         return jsonify(error=str(e)), 500
+    except Exception as e:
+        logging_service.error(f"Unexpected error in get_order_total: {str(e)}")
+        return jsonify(error=_("An unexpected error occurred")), 500
 
 @app.route('/get_available_quantities', methods=['GET'])
 def get_available_quantities():

@@ -3,11 +3,10 @@ from functools import lru_cache
 from config import Config
 from app.models import (
     APSMenuItems, APSMenuItem, AvailableItem, APSOrder, APSOrderWithItems,
-    SuggestedProduct, EstimatedWaitingTime, ItemCategory, OrderStatus, ItemStatus,
-    OrderOrigin, PickupNumber, APSOrderItemCreate
+    SuggestedProduct, ItemCategory, OrderStatus, ItemStatus,
+    OrderOrigin, APSOrderItemCreate, StorageCategory
 )
 from typing import List, Dict, Any
-import json
 from services.logging_service import logging_service
 from datetime import datetime
 from flask_babel import _
@@ -144,20 +143,31 @@ class Database:
         try:
             result = self.client.table('aps_menu_items').select('*').eq('aps_id', aps_id).execute()
             
-            if result.data:
-                menu_data = result.data[0]
-                menu_items = [APSMenuItem(**item) for item in menu_data['menu_items']]
-                return APSMenuItems(
-                    aps_id=menu_data['aps_id'],
-                    aps_name=menu_data['aps_name'],
-                    menu_id=menu_data['menu_id'],
-                    menu_name=menu_data['menu_name'],
-                    menu_items=menu_items
-                )
-            raise DatabaseError("Menu not found")
+            if not result.data:
+                raise DatabaseError(_("Menu not found"))
+                
+            menu_data = result.data[0]
+            menu_items = []
+            
+            for item in menu_data.get('menu_items', []):
+                try:
+                    if isinstance(item.get('item_category'), str):
+                        item['item_category'] = ItemCategory(item['item_category'])
+                    menu_items.append(APSMenuItem(**item))
+                except Exception as e:
+                    logging_service.error(f"Error mapping menu item: {str(e)}, data: {item}")
+                    continue
+                
+            return APSMenuItems(
+                aps_id=menu_data['aps_id'],
+                aps_name=menu_data['aps_name'],
+                menu_id=menu_data['menu_id'],
+                menu_name=menu_data['menu_name'],
+                menu_items=menu_items
+            )
         except Exception as e:
             logging_service.error(f"Database error in get_menu: {str(e)}")
-            raise DatabaseError("Error getting menu")
+            raise DatabaseError(_("Error getting menu"))
 
     def get_aps_state(self, aps_id: int) -> str:
         try:
@@ -324,12 +334,11 @@ class Database:
 
     def check_category_availability(self, aps_id: int, category: str) -> bool:
         try:
-            # Używamy enuma ItemCategory dla kategorii
             menu = self.get_menu(aps_id)
             category_item_ids = [
                 item.item_id 
                 for item in menu.menu_items 
-                if item.category == ItemCategory(category)  # Konwertujemy string na enum
+                if item.item_category == ItemCategory(category)
             ]
             
             if not category_item_ids:
