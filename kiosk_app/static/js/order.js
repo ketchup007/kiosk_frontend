@@ -399,32 +399,28 @@ class OrderPage {
                 const modal = new bootstrap.Modal(document.getElementById('suggestedProductsModal'));
                 modal.show();
             } else {
-                // Standardowa logika dla innych kategorii...
+                // Sprawdź czy jesteśmy w widoku podsumowania
                 if (productList.querySelector('.order-summary')) {
                     await this.renderMenu();
-                    
-                    document.querySelectorAll('.order-product-item').forEach(item => {
-                        const itemCategory = item.dataset.category.toLowerCase();
-                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
-                    });
-                    
-                    document.querySelectorAll('.order-product-image').forEach(img => {
-                        const filename = img.dataset.imageFilename;
-                        if (filename && this.imageCache.has(filename)) {
-                            img.src = this.imageCache.get(filename);
-                        }
-                    });
-                    
-                    this.initializeQuantityControls();
-                    this.updateProductAvailability();
-                } else {
-                    document.querySelectorAll('.order-product-item').forEach(item => {
-                        const itemCategory = item.dataset.category.toLowerCase();
-                        item.style.display = itemCategory === selectedCategory ? 'flex' : 'none';
-                    });
-                    
-                    this.updateProductAvailability();
                 }
+                
+                // Pokaż/ukryj produkty dla wybranej kategorii
+                document.querySelectorAll('.order-product-item').forEach(item => {
+                    const itemCategory = item.dataset.category.toLowerCase();
+                    if (itemCategory === selectedCategory) {
+                        item.style.display = 'flex';
+                        item.style.opacity = '1'; // Przywróć pełną nieprzezroczystość
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Załaduj obrazy na nowo
+                await this.loadImages();
+                
+                // Odśwież kontrolki ilości i dostępność
+                await this.checkItemAvailability();
+                this.updateProductAvailability();
             }
             
             productList.classList.remove('changing');
