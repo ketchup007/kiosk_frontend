@@ -99,7 +99,7 @@ def get_menu():
     aps_id = app.config['APS_ID']
     try:
         menu = db.get_menu(aps_id)
-        logging_service.info(f"Menu retrieved: {menu}")
+        logging_service.info(f"Menu retrieved: {menu.menu_id}")
         return jsonify(menu=menu.model_dump())
     except DatabaseError as e:
         logging_service.error(f"Error getting menu: {str(e)}")

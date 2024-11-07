@@ -118,18 +118,15 @@ class Database:
             
             if result.data:
                 suggested_products = []
-                # Parsuj każdy produkt z wyniku JSON
                 for item in result.data:
                     try:
-                        # Konwertuj kategorię na enum
-                        if isinstance(item.get('category'), str):
-                            item['category'] = ItemCategory(item['category'])
+                        if isinstance(item.get('item_category'), str):
+                            item['item_category'] = ItemCategory(item['item_category'])
                         suggested_products.append(SuggestedProduct(**item))
                     except Exception as e:
                         logging_service.error(f"Error mapping suggested product: {str(e)}, data: {item}")
                         continue
                 
-                logging_service.info(f"Mapped {len(suggested_products)} suggested products")
                 return suggested_products
                 
             return []
@@ -198,7 +195,7 @@ class Database:
             }
             
             # Wstaw zamówienie do bazy danych
-            logging_service.info(f"Inserting order data: {order_data}")
+            logging_service.info(f"Inserting order data...")
             result = self.client.table('aps_order').insert(order_data).execute()
             logging_service.info(f"Order creation result: {result}")
             
@@ -274,7 +271,6 @@ class Database:
     def get_order_summary(self, order_id: int) -> APSOrderWithItems:
         try:
             result = self.client.table('aps_order_with_items').select('*').eq('id', order_id).execute()
-            logging_service.info(f"get_order_summary result: {result}")
             
             if result.data and len(result.data) > 0:
                 # Bierzemy pierwszy element z listy

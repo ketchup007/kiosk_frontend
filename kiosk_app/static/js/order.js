@@ -153,9 +153,9 @@ class OrderPage {
         console.log('Current order items:', this.orderItems);
 
         for (const item of this.menuItems) {
-            const category = typeof item.category === 'string' ? 
-                item.category : 
-                (item.category.value || item.category);
+            const category = typeof item.item_category === 'string' ? 
+                item.item_category : 
+                (item.item_category.value || item.item_category);
             
             const savedQuantity = this.orderItems[item.item_id] || 0;
             
@@ -772,22 +772,28 @@ class OrderPage {
             if (!filename) continue;
 
             try {
+                // Check if image is already in cache
                 if (this.imageCache.has(filename)) {
                     img.src = this.imageCache.get(filename);
                     continue;
                 }
 
-                const response = await fetch(`/get_public_image_url?filename=${filename}`);
-                const data = await response.json();
-                if (data.url) {
-                    this.imageCache.set(filename, data.url);
-                    img.src = data.url;
+                // Find corresponding menu item
+                const menuItem = this.menuItems.find(item => item.image === filename);
+                
+                if (menuItem && menuItem.image.startsWith('data:image')) {
+                    // If image is base64, use it directly
+                    this.imageCache.set(filename, menuItem.image);
+                    img.src = menuItem.image;
+                } else {
+                    // Fallback to placeholder
+                    img.src = '/static/images/placeholder.png';
+                    this.imageCache.set(filename, '/static/images/placeholder.png');
                 }
             } catch (error) {
                 console.error('Error loading image:', error);
-                const fallbackSrc = img.getAttribute('onerror').match(/this\.src='([^']+)'/)[1];
-                img.src = fallbackSrc;
-                this.imageCache.set(filename, fallbackSrc);
+                img.src = '/static/images/placeholder.png';
+                this.imageCache.set(filename, '/static/images/placeholder.png');
             }
         }
     }
