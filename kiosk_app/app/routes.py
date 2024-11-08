@@ -63,7 +63,6 @@ def create_order():
     
     try:
         order = db.create_order(aps_id)  # Zwraca obiekt APSOrder
-        logging_service.info(f"Order created: {order}")
         return jsonify(success=True, order_id=order.id)  # Zwracamy tylko ID zamówienia
     except Exception as e:
         logging_service.error(f"Failed to create order: {str(e)}")
@@ -177,7 +176,6 @@ def get_available_quantities():
     try:
         available_items = db.get_available_quantities(aps_id, item_ids)
         items_dict = [item.model_dump() for item in available_items]
-        logging_service.info(f"Available items: {items_dict}")
         return jsonify(available_items=items_dict)
     except DatabaseError as e:
         logging_service.error(f"Database error in get_available_quantities: {str(e)}")

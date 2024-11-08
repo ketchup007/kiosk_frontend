@@ -59,7 +59,7 @@ if __name__ == "__main__":
     logging_service.info(f"Static folder: {static_folder}")
     
     app.run(
-        debug=True,
+        debug=False,
         host='0.0.0.0',
         port=5000,
         use_reloader=True

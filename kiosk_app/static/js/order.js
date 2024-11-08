@@ -394,10 +394,12 @@ class OrderPage {
         setTimeout(async () => {
             if (selectedCategory === 'sum') {
                 await this.showOrderSummary();
-                // Załaduj i pokaż sugerowane produkty w modalu
-                await this.loadSuggestedProducts();
-                const modal = new bootstrap.Modal(document.getElementById('suggestedProductsModal'));
-                modal.show();
+                // Załaduj sugerowane produkty i pokaż modal tylko jeśli są jakieś produkty
+                const suggestedProducts = await this.loadSuggestedProducts();
+                if (suggestedProducts && suggestedProducts.length > 0) {
+                    const modal = new bootstrap.Modal(document.getElementById('suggestedProductsModal'));
+                    modal.show();
+                }
             } else {
                 // Sprawdź czy jesteśmy w widoku podsumowania
                 if (productList.querySelector('.order-summary')) {
@@ -915,12 +917,13 @@ class OrderPage {
             const response = await fetchWithErrorHandling(`/get_suggested_products?order_id=${this.orderId}`);
             if (response.success && response.suggested_products) {
                 await this.renderSuggestedProducts(response.suggested_products);
-            } else {
-                throw new Error(response.error || this._('Failed to load suggested products'));
+                return response.suggested_products; // Return the products array
             }
+            return []; // Return empty array if no products
         } catch (error) {
             console.error('Error loading suggested products:', error);
             showFlashMessage(this._('Failed to load suggested products'), 'error');
+            return []; // Return empty array on error
         }
     }
 

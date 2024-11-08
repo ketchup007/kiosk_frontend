@@ -22,7 +22,6 @@ class Database:
                 'item_ids': item_ids
             }).execute()
             
-            logging_service.info(f"get_available_quantities result: {result}")
             if result.data:
                 return [AvailableItem(**item) for item in result.data]
             return []
@@ -114,8 +113,6 @@ class Database:
                 }
             ).execute()
             
-            logging_service.info(f"Raw suggested products result: {result}")
-            
             if result.data:
                 suggested_products = []
                 for item in result.data:
@@ -171,7 +168,6 @@ class Database:
             result = self.client.table('aps_description').select('state').eq('id', aps_id).execute()
             if result.data:
                 state = result.data[0]['state']
-                logging_service.info(f"APS state retrieved: {state}")
                 return state
             raise DatabaseError("APS state not found")
         except Exception as e:
@@ -194,10 +190,7 @@ class Database:
                 'updated_at': current_time  # Czas ostatniej aktualizacji
             }
             
-            # Wstaw zamówienie do bazy danych
-            logging_service.info(f"Inserting order data...")
             result = self.client.table('aps_order').insert(order_data).execute()
-            logging_service.info(f"Order creation result: {result}")
             
             if not result.data:
                 logging_service.error("No data returned from order creation")
