@@ -379,34 +379,6 @@ def handle_exception(e):
     logging_service.error(traceback.format_exc())
     return jsonify(success=False, error=_('An unexpected error occurred. Please try again.')), 500
 
-@app.route('/long_running_task')
-async def long_running_task():
-    def run_task():
-        # Symulacja długotrwałego zadania
-        time.sleep(5)
-        return "Task completed"
-
-    loop = asyncio.get_event_loop()
-    result = await loop.run_in_executor(None, run_task)
-    return result
-
-@app.route('/example')
-def example_route():
-    try:
-        # Some operation
-        result = perform_operation()
-        logging_service.info(f"Operation completed successfully: {result}")
-        return jsonify(result=result)
-    except Exception as e:
-        logging_service.error(f"Error in example_route: {str(e)}")
-        return jsonify(error="An error occurred"), 500
-
-def perform_operation():
-    # Simulating an operation
-    logging_service.info("Performing operation")
-    # ... operation logic ...
-    return "Operation result"
-
 @app.route('/get_product_availability')
 def get_product_availability():
     try:
@@ -429,36 +401,6 @@ def get_product_availability():
         return jsonify({
             'error': _('Failed to check product availability. Please try again.')
         }), 500
-
-@app.route('/get_public_image_url', methods=['GET'])
-def get_public_image_url():
-    try:
-        filename = request.args.get('filename')
-        # Konstruuj publiczny URL dla Supabase Storage
-        # url = f"{Config.SUPABASE_URL}/storage/v1/object/public/images/{filename}"
-        url = Config.get_central_client().storage.from_('images').get_public_url(filename)
-        logging_service.info(f"Public image URL: {url}")
-        return jsonify(url=url)
-    except Exception as e:
-        logging_service.error(f"Error in get_public_image_url: {str(e)}")
-        return jsonify(error=str(e)), 500
-
-@app.route('/translations.json')
-def get_translations_json():
-    translations = get_translations()
-    messages = {
-        'Allergens': _('Allergens'),
-        'Price': _('Price'),
-        'PLN': _('PLN'),
-        'Total': _('Total'),
-        'Failed to load menu': _('Failed to load menu'),
-        'Maximum available quantity reached': _('Maximum available quantity reached'),
-        'Order Summary': _('Order Summary'),
-        'Quantity': _('Quantity'),
-        'Failed to load order summary': _('Failed to load order summary'),
-        'Failed to change language': _('Failed to change language')
-    }
-    return jsonify(messages)
 
 @app.route('/update_phone_number', methods=['POST'])
 def update_phone_number():
@@ -492,8 +434,6 @@ def get_suggested_products():
         
         suggested_products = db.get_suggested_products(aps_id, order_id, max_suggestions)
         products_data = [product.model_dump() for product in suggested_products]
-        
-        logging_service.info(f"Suggested products for order {order_id}: {products_data}")
         
         return jsonify({
             'success': True,

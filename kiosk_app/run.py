@@ -58,9 +58,12 @@ if __name__ == "__main__":
     logging_service.info("Starting Flask development server...")
     logging_service.info(f"Static folder: {static_folder}")
     
-    app.run(
-        debug=False,
-        host='0.0.0.0',
-        port=5000,
-        use_reloader=True
-    )
+    from waitress import serve
+    serve(app, host='0.0.0.0', port=5000)
+    
+    # app.run(
+    #     debug=False,
+    #     host='0.0.0.0',
+    #     port=5000,
+    #     use_reloader=True
+    # )
