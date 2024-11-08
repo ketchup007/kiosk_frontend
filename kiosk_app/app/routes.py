@@ -227,36 +227,40 @@ def init_payment():
     logging_service.info(f"Initializing payment: order_id={order_id}, amount={amount}")
     
     try:
-        # Aktualizuj status zamówienia
+        # Update order status
         db.update_order_status(order_id, OrderStatus.PAYMENT_IN_PROGRESS)
         
-        # Utwórz nowy event loop w osobnym wątku
-        def run_async_payment():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                # return loop.run_until_complete(payment_service.start_transaction(float(amount)))
-                return "0"
-            finally:
-                loop.close()
+        if Config.is_production_mode():
+            # Production mode - use real payment terminal
+            def run_async_payment():
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                try:
+                    return loop.run_until_complete(payment_service.start_transaction(float(amount)))
+                finally:
+                    loop.close()
+            
+            with ThreadPoolExecutor() as executor:
+                result = executor.submit(run_async_payment).result()
+        else:
+            # Development mode - simulate payment
+            logging_service.info("Development mode - simulating successful payment")
+            time.sleep(1.5)  # Simulate payment processing time
+            result = "0"  # Simulate successful payment
         
-        # Uruchom asynchroniczną operację w osobnym wątku
-        with ThreadPoolExecutor() as executor:
-            result = executor.submit(run_async_payment).result()
-        
-        # Interpretuj wynik
-        if result == "0" or result == "7":  # Sukces
+        # Interpret result
+        if result == "0" or result == "7":  # Success
             logging_service.info("Payment successful")
             return jsonify(success=True, result=result)
         else:
             logging_service.error(f"Payment failed with code: {result}")
-            # Przywróć poprzedni status w przypadku błędu
+            # Restore previous status in case of error
             db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
             return jsonify(success=False, result=result), 400
             
     except Exception as e:
         logging_service.error(f"Payment initialization failed: {str(e)}")
-        # Przywróć poprzedni status w przypadku błędu
+        # Restore previous status in case of error
         db.update_order_status(order_id, OrderStatus.DURING_ORDERING)
         return jsonify(success=False, error=str(e)), 500
 

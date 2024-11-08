@@ -30,6 +30,8 @@ class Config:
     TERMINAL_ELAVON_PORT_STATE = int(os.environ.get("TERMINAL_ELAVON_PORT_STATE"))
     TERMINAL_ELAVON_PORT_PAYMENT = int(os.environ.get("TERMINAL_ELAVON_PORT_PAYMENT"))
     
+    FLASK_MODE = os.environ.get("FLASK_MODE")
+    
     @staticmethod
     def get_local_client() -> Client:
         logging_service.info(f'SUPABASE_LOCAL_URL: {os.environ.get("SUPABASE_LOCAL_URL")}')
@@ -39,3 +41,11 @@ class Config:
     def get_central_client() -> Client:
         logging_service.info(f"SUPABASE_CENTRAL_URL: {Config.SUPABASE_CENTRAL_URL}")
         return create_client(Config.SUPABASE_CENTRAL_URL, Config.SUPABASE_CENTRAL_KEY)
+
+    @staticmethod
+    def is_development_mode() -> bool:
+        return Config.FLASK_MODE == "development"
+    
+    @staticmethod
+    def is_production_mode() -> bool:
+        return Config.FLASK_MODE == "production"
