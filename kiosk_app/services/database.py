@@ -177,7 +177,6 @@ class Database:
     def create_order(self, aps_id: int) -> APSOrder:
         try:
             # Przygotuj dane początkowe dla nowego zamówienia
-            current_time = datetime.now().isoformat()  # Konwertuj datetime na string ISO            
             order_data = {
                 'aps_id': aps_id,  # Przypisany punkt APS
                 'origin': OrderOrigin.KIOSK.value,  # Typ źródła zamówienia
@@ -186,8 +185,6 @@ class Database:
                 'kds_order_number': None,  # Zostanie przypisane później po zapłacie
                 'client_phone_number': None,  # Opcjonalne dla kiosku
                 'estimated_time': 0,  # Początkowy szacowany czas
-                'created_at': current_time,  # Czas utworzenia
-                'updated_at': current_time  # Czas ostatniej aktualizacji
             }
             
             result = self.client.table('aps_order').insert(order_data).execute()
