@@ -389,7 +389,16 @@ class OrderPage {
         
         console.log('Selected category:', selectedCategory);
         
-        productList.classList.add('changing');
+        // Usuń klasę changing jeśli istnieje
+        productList.classList.remove('changing');
+        
+        // Resetuj style wszystkich produktów
+        document.querySelectorAll('.order-product-item').forEach(item => {
+            item.style.removeProperty('opacity');
+            item.style.removeProperty('filter');
+            item.style.removeProperty('transition');
+            item.style.display = 'none';
+        });
         
         setTimeout(async () => {
             if (selectedCategory === 'sum') {
@@ -404,14 +413,15 @@ class OrderPage {
                     await this.renderMenu();
                 }
                 
-                // Pokaż/ukryj produkty dla wybranej kategorii
+                // Pokaż produkty dla wybranej kategorii
                 document.querySelectorAll('.order-product-item').forEach(item => {
                     const itemCategory = item.dataset.category.toLowerCase();
                     if (itemCategory === selectedCategory) {
+                        // Resetuj style przed pokazaniem
+                        item.style.removeProperty('opacity');
+                        item.style.removeProperty('filter');
+                        item.style.removeProperty('transition');
                         item.style.display = 'flex';
-                        item.style.opacity = '1'; // Przywróć pełną nieprzezroczystość
-                    } else {
-                        item.style.display = 'none';
                     }
                 });
                 
@@ -422,8 +432,6 @@ class OrderPage {
                 await this.checkItemAvailability();
                 this.updateProductAvailability();
             }
-            
-            productList.classList.remove('changing');
         }, 300);
     }
 
