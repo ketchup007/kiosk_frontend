@@ -1,3 +1,0 @@
-#!/bin/sh
-# This hook will be called when snap configuration changes
-exit 0 

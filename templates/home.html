@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <div class="top-section">
+        <div class="language-selector">
+            <button onclick="changeLanguage('pl')">
+                <img src="{{ url_for('static', filename='images/plFlag.png') }}" alt="Polski" class="flag-icon">
+            </button>
+            <button onclick="changeLanguage('en')">
+                <img src="{{ url_for('static', filename='images/angFlag.png') }}" alt="English" class="flag-icon">
+            </button>
+            <button onclick="changeLanguage('uk')">
+                <img src="{{ url_for('static', filename='images/uaFlag.png') }}" alt="Українська" class="flag-icon">
+            </button>
+        </div>
+        <div class="estimated-time">
+            {{ _('Estimated waiting time ') }}<span id="waiting-time">0</span> {{ _('min') }}
+        </div>
+    </div>
+    <div class="bottom-section">
+        <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="logo">
+        <img src="{{ url_for('static', filename='images/robot_frame_1.svg') }}" alt="Robot" class="robot">
+        <button id="start-order-btn" class="action-button" 
+            data-default-text="{{ _('Touch Screen to Order') }}"
+            data-inactive-text="{{ _('Kiosk is temporarily unavailable') }}"
+            data-malfunction-text="{{ _('Kiosk is experiencing technical difficulties') }}"
+            data-during-delivery-text="{{ _('Kiosk is being restocked') }}"
+            data-default-error-text="{{ _('Kiosk is not available') }}">
+            {{ _('Touch Screen to Order') }}
+        </button>
+        <img src="{{ url_for('static', filename='images/touch.svg') }}" alt="Touch Icon" class="touch-icon">
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/home.js', v=1) }}"></script>
+{% endblock %}

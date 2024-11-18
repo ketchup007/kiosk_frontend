@@ -1,0 +1,661 @@
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-18 11:49+0100\n"
+"PO-Revision-Date: 2024-10-28 10:25+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: app/routes.py:50
+msgid "Failed to get APS state. Please try again."
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:60 templates/home.html:29
+msgid "Kiosk is not available"
+msgstr "Kiosk недоступний"
+
+#: app/routes.py:69
+msgid "Failed to create order. Please try again."
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:81 app/routes.py:338
+msgid "This order is no longer active"
+msgstr "Цей замовлення більше не активне"
+
+#: app/routes.py:85 services/database.py:221 services/database.py:351
+msgid "Order not found"
+msgstr "Сторінка не знайдена"
+
+#: app/routes.py:93
+msgid "An error occurred while loading the order page"
+msgstr "Виникла помилка під час завантаження сторінки замовлення"
+
+#: app/routes.py:116
+msgid "Invalid input data"
+msgstr "Неправильні дані"
+
+#: app/routes.py:155
+msgid "Order ID is required"
+msgstr ""
+
+#: app/routes.py:161
+msgid "Could not calculate order total"
+msgstr ""
+
+#: app/routes.py:170 app/routes.py:454
+#, fuzzy
+msgid "An unexpected error occurred"
+msgstr "Виникла непередбачена помилка. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:274
+msgid "Payment processed successfully"
+msgstr "Оплата успішна!"
+
+#: app/routes.py:346
+msgid "Cannot proceed to payment with empty order"
+msgstr "Перейти до оплати"
+
+#: app/routes.py:355
+msgid "An error occurred while loading the payment page"
+msgstr "Виникла помилка під час завантаження сторінки замовлення"
+
+#: app/routes.py:370 templates/404.html:7
+msgid "Page not found"
+msgstr "Сторінка не знайдена"
+
+#: app/routes.py:374 app/routes.py:380
+msgid "An unexpected error occurred. Please try again."
+msgstr "Виникла непередбачена помилка. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:391
+msgid "Sorry, all products are currently unavailable. Please try again later."
+msgstr ""
+"Вибачте, але всі товари в даний момент недоступні. Будь ласка, спробуйте "
+"ще раз пізніше."
+
+#: app/routes.py:402
+msgid "Failed to check product availability. Please try again."
+msgstr "Не вдалося додати товар. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:413
+msgid "Missing required data"
+msgstr ""
+
+#: app/routes.py:422
+#, fuzzy
+msgid "Failed to update phone number"
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: app/routes.py:426
+#, fuzzy
+msgid "An error occurred while updating phone number"
+msgstr "Виникла помилка під час завантаження сторінки замовлення"
+
+#: app/routes.py:447
+msgid "Failed to get suggested products"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/_termui_impl.py:518
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/_termui_impl.py:522
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1120
+msgid "Aborted!"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1309
+#: env/lib/python3.10/site-packages/click/decorators.py:559
+msgid "Show this message and exit."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1340
+#: env/lib/python3.10/site-packages/click/core.py:1370
+msgid "(Deprecated) {text}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1387
+msgid "Options"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1415
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1428
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1636
+msgid "Commands"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1668
+msgid "Missing command."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:1746
+msgid "No such command {name!r}."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2310
+msgid "Value must be an iterable."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2333
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2778
+msgid "env var: {var}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2808
+msgid "(dynamic)"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2821
+msgid "default: {default}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/core.py:2834
+msgid "required"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/decorators.py:465
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/decorators.py:528
+msgid "Show the version and exit."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:44
+#: env/lib/python3.10/site-packages/click/exceptions.py:80
+msgid "Error: {message}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:72
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:121
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:123
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:179
+msgid "Missing argument"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:181
+msgid "Missing option"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:183
+msgid "Missing parameter"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:185
+msgid "Missing {param_type}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:192
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:212
+msgid "No such option: {name}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:226
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:262
+msgid "unknown error"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/exceptions.py:269
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/parser.py:231
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/parser.py:413
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/parser.py:473
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/shell_completion.py:318
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/shell_completion.py:326
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/termui.py:176
+msgid "Error: {e.message}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/termui.py:243
+#, fuzzy
+msgid "Error: invalid input"
+msgstr "Неправильні дані"
+
+#: env/lib/python3.10/site-packages/click/termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:266
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:300
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/types.py:394
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: env/lib/python3.10/site-packages/click/types.py:414
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:470
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:611
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:635
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:822
+msgid "file"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:824
+msgid "directory"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:826
+msgid "path"
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:877
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:886
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:894
+msgid "{name} '{filename}' is a directory."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:903
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:912
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:921
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: env/lib/python3.10/site-packages/click/types.py:987
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: services/database.py:141
+#, fuzzy
+msgid "Menu not found"
+msgstr "Сторінка не знайдена"
+
+#: services/database.py:164
+#, fuzzy
+msgid "Error getting menu"
+msgstr "Виникла помилка під час перевірки статусу замовлення"
+
+#: services/database.py:194
+msgid "Failed to create order"
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: services/database.py:201
+msgid "Error processing order data"
+msgstr "Виникла помилка під час обробки даних замовлення"
+
+#: services/database.py:205
+msgid "Error creating order"
+msgstr "Виникла помилка під час створення замовлення"
+
+#: services/database.py:240
+msgid "Error adding item to order"
+msgstr "Виникла помилка під час додавання товару до замовлення"
+
+#: services/database.py:259
+msgid "Error removing item from order"
+msgstr "Виникла помилка під час видалення товару з замовлення"
+
+#: services/database.py:342
+msgid "Error checking category availability"
+msgstr "Виникла помилка під час перевірки доступності категорії"
+
+#: services/database.py:354
+msgid "Error getting order status"
+msgstr "Виникла помилка під час перевірки статусу замовлення"
+
+#: services/database.py:363
+msgid "Error cancelling order"
+msgstr "Скасувати замовлення"
+
+#: services/database.py:373
+#, fuzzy
+msgid "Error updating phone number"
+msgstr "Виникла помилка під час створення замовлення"
+
+#: templates/404.html:17
+msgid "404 - Page not found"
+msgstr "404 - Сторінка не знайдена"
+
+#: templates/404.html:18
+msgid "We're sorry, but the page you're looking for doesn't exist."
+msgstr "Вибачте, але сторінка, яку ви шукаєте, не існує."
+
+#: templates/404.html:19 templates/500.html:19
+#: templates/order_confirmation.html:30
+msgid "Return to Home"
+msgstr "Повернутися на головну"
+
+#: templates/500.html:7
+msgid "Server error"
+msgstr "Помилка сервера"
+
+#: templates/500.html:17
+msgid "500 - Server error"
+msgstr "500 - Помилка сервера"
+
+#: templates/500.html:18
+msgid "We're sorry, but a server error occurred. Please try again later."
+msgstr ""
+"Вибачте, але сталася помилка сервера. Будь ласка, спробуйте ще раз "
+"пізніше."
+
+#: templates/home.html:18
+msgid "Estimated waiting time "
+msgstr "Оцінка часу очікування"
+
+#: templates/home.html:18
+msgid "min"
+msgstr "хв"
+
+#: templates/home.html:25 templates/home.html:30
+msgid "Touch Screen to Order"
+msgstr "Натисни екран, щоб замовити"
+
+#: templates/home.html:26
+msgid "Kiosk is temporarily unavailable"
+msgstr "Kiosk є тимчасово недоступний"
+
+#: templates/home.html:27
+msgid "Kiosk is experiencing technical difficulties"
+msgstr "Kiosk має технічні проблеми"
+
+#: templates/home.html:28
+msgid "Kiosk is being restocked"
+msgstr "Kiosk є в процесі поповнення"
+
+#: templates/order.html:15
+msgid "Allergens"
+msgstr "Алергени"
+
+#: templates/order.html:16
+msgid "Price"
+msgstr "Ціна"
+
+#: templates/order.html:17 templates/order.html:102 templates/order.html:105
+#: templates/payment.html:322 templates/payment.html:339
+msgid "PLN"
+msgstr "грн"
+
+#: templates/order.html:18 templates/order.html:105
+msgid "Total"
+msgstr "Загальна сума"
+
+#: templates/order.html:19
+msgid "Failed to load menu"
+msgstr "Не вдалося завантажити меню"
+
+#: templates/order.html:20
+msgid "Maximum available quantity reached"
+msgstr "Досягнуто максимальної доступної кількості"
+
+#: templates/order.html:21 templates/payment.html:321
+msgid "Order Summary"
+msgstr "Сума замовлення"
+
+#: templates/order.html:22
+msgid "Quantity"
+msgstr "Кількість"
+
+#: templates/order.html:23
+msgid "Failed to load order summary"
+msgstr "Не вдалося оновити замовлення. Будь ласка, спробуйте ще раз."
+
+#: templates/order.html:24
+msgid "Failed to change language"
+msgstr "Скасувати замовлення"
+
+#: templates/order.html:25 templates/order.html:94 templates/order.html:98
+#: templates/payment.html:428
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: templates/order.html:26 templates/order.html:70
+msgid "Snacks"
+msgstr "Закуски"
+
+#: templates/order.html:27 templates/order.html:71
+msgid "Drinks"
+msgstr "Напої"
+
+#: templates/order.html:28 templates/order.html:72
+msgid "Coffee"
+msgstr "Кава"
+
+#: templates/order.html:29 templates/order.html:73
+msgid "Take Away"
+msgstr "З собою"
+
+#: templates/order.html:30 templates/order.html:74
+msgid "Sauces"
+msgstr "Соуси"
+
+#: templates/order.html:31 templates/order.html:75
+msgid "Summary"
+msgstr "Сума замовлення"
+
+#: templates/order.html:32 templates/order.html:95
+msgid "Are you sure you want to cancel your order?"
+msgstr "Ви впевнені, що хочете скасувати замовлення?"
+
+#: templates/order.html:33 templates/order.html:96
+msgid "Order cancelled successfully"
+msgstr "Оплата успішна!"
+
+#: templates/order.html:34 templates/order.html:97
+msgid "Failed to cancel order"
+msgstr "Скасувати замовлення"
+
+#: templates/order.html:102
+#, python-format
+msgid "Total %(total).2f %(currency)s"
+msgstr "Загальна сума: %(total).2f грн"
+
+#: templates/order.html:103
+msgid "Please add items to your order before proceeding."
+msgstr "Будь ласка, додайте товари до свого замовлення перед продовженням."
+
+#: templates/order.html:104
+msgid "You have been inactive for a while. Do you want to continue your order?"
+msgstr ""
+"Ви були неактивними для деякого часу. Ви хочете продовжити своє "
+"замовлення?"
+
+#: templates/order.html:133
+msgid "Suggested Products"
+msgstr ""
+
+#: templates/order.html:142
+#, fuzzy
+msgid "Continue to Summary"
+msgstr "Сума замовлення"
+
+#: templates/order_confirmation.html:7
+msgid "Order Confirmed"
+msgstr "Замовлення підтверджено"
+
+#: templates/order_confirmation.html:11
+#, python-format
+msgid "Order Number %(number)s"
+msgstr "Номер замовлення: %(number)s"
+
+#: templates/order_confirmation.html:12
+#, python-format
+msgid "Estimated waiting time %(time)d min"
+msgstr "Оцінка часу очікування: %(time)d хв"
+
+#: templates/order_confirmation.html:15
+msgid "Order Details"
+msgstr "Деталі замовлення"
+
+#: templates/order_confirmation.html:26
+msgid "Please pick up your order when your number is called."
+msgstr "Будь ласка, заберіть своє замовлення, коли ваш номер буде викликаний."
+
+#: templates/payment.html:322 templates/payment.html:339
+#, python-format
+msgid "Pay %(total).2f %(currency)s"
+msgstr "Загальна сума: %(total).2f грн"
+
+#: templates/payment.html:326
+msgid "Payment Instructions"
+msgstr "Інструкції для оплати"
+
+#: templates/payment.html:327
+msgid "Please follow the instructions on the payment terminal."
+msgstr "Будь ласка, дотримуйтесь інструкцій на терміналі оплати."
+
+#: templates/payment.html:333
+msgid "Cancel Payment"
+msgstr "Скасувати оплату"
+
+#: templates/payment.html:349
+msgid "Enter your phone number"
+msgstr ""
+
+#: templates/payment.html:359
+msgid "Enter phone number"
+msgstr ""
+
+#: templates/payment.html:386
+msgid "Accept all consents"
+msgstr ""
+
+#: templates/payment.html:393
+msgid "I accept the terms and conditions"
+msgstr ""
+
+#: templates/payment.html:396 templates/payment.html:405
+msgid "This consent is required"
+msgstr ""
+
+#: templates/payment.html:402
+msgid "I accept the privacy policy"
+msgstr ""
+
+#: templates/payment.html:411
+msgid "I agree to receive marketing information"
+msgstr ""
+
+#: templates/payment.html:417
+msgid "I want to receive promotional offers"
+msgstr ""
+
+#: templates/payment.html:422
+msgid "Please accept required consents"
+msgstr ""
+
+#: templates/payment.html:429
+msgid "Continue"
+msgstr ""
+

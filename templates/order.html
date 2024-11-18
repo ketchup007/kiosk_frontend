@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="{{ session.get('language', 'pl') }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Munchies Kiosk</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v=1) }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
+    <!-- Słownik tłumaczeń dla JavaScript -->
+    <script>
+        window.translations = {
+            'Allergens': '{{ _("Allergens") }}',
+            'Price': '{{ _("Price") }}',
+            'PLN': '{{ _("PLN") }}',
+            'Total': '{{ _("Total") }}',
+            'Failed to load menu': '{{ _("Failed to load menu") }}',
+            'Maximum available quantity reached': '{{ _("Maximum available quantity reached") }}',
+            'Order Summary': '{{ _("Order Summary") }}',
+            'Quantity': '{{ _("Quantity") }}',
+            'Failed to load order summary': '{{ _("Failed to load order summary") }}',
+            'Failed to change language': '{{ _("Failed to change language") }}',
+            'Cancel': '{{ _("Cancel") }}',
+            'Snacks': '{{ _("Snacks") }}',
+            'Drinks': '{{ _("Drinks") }}',
+            'Coffee': '{{ _("Coffee") }}',
+            'Take Away': '{{ _("Take Away") }}',
+            'Sauces': '{{ _("Sauces") }}',
+            'Summary': '{{ _("Summary") }}',
+            'Are you sure you want to cancel your order?': '{{ _("Are you sure you want to cancel your order?") }}',
+            'Order cancelled successfully': '{{ _("Order cancelled successfully") }}',
+            'Failed to cancel order': '{{ _("Failed to cancel order") }}'
+        };
+    </script>
+
+    <!-- Add these in the <head> section, after the existing stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div id="error-container"></div>
+    
+    <div class="order-container" data-order-id="{{ order_id }}" data-aps-id="{{ aps_id }}">
+        <!-- Górna sekcja -->
+        <header class="order-top-section">
+            <div class="order-logo-section">
+                <img src="{{ url_for('static', filename='images/MunchiesLogoPlain.svg') }}" alt="Munchies Logo" class="order-logo">
+            </div>
+            <div class="order-flags-section">
+                <div class="order-flags">
+                    <button class="order-flag-button">
+                        <img src="{{ url_for('static', filename='images/plFlag.png') }}" alt="pl" class="order-flag-icon">
+                    </button>
+                    <button class="order-flag-button">
+                        <img src="{{ url_for('static', filename='images/angFlag.png') }}" alt="en" class="order-flag-icon">
+                    </button>
+                    <button class="order-flag-button">
+                        <img src="{{ url_for('static', filename='images/uaFlag.png') }}" alt="uk" class="order-flag-icon">
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Środkowa sekcja -->
+        <main class="order-middle-section">
+            <!-- Pasek kategorii -->
+            <nav class="order-category-bar">
+                {% set categories = [
+                    ('snack', _('Snacks')),
+                    ('drink', _('Drinks')),
+                    ('coffee', _('Coffee')),
+                    ('take_away_box', _('Take Away')),
+                    ('sauce', _('Sauces')),
+                    ('sum', _('Summary'))
+                ] %}
+                {% for category_id, category_name in categories %}
+                    <button class="order-category-button {% if loop.first %}active{% endif %}" data-category="{{ category_id }}">
+                        {{ category_name }}
+                    </button>
+                {% endfor %}
+            </nav>
+
+            <!-- Lista produktów -->
+            <div class="order-product-list">
+                <!-- Lista produktów będzie generowana dynamicznie przez JavaScript -->
+            </div>
+        </main>
+
+        <!-- Dolna sekcja -->
+        <footer class="order-bottom-section">
+            <button id="cancel-order" 
+                    class="order-action-button order-cancel-button"
+                    data-template="{{ _('Cancel') }}"
+                    data-confirm-message="{{ _('Are you sure you want to cancel your order?') }}"
+                    data-success-message="{{ _('Order cancelled successfully') }}"
+                    data-error-message="{{ _('Failed to cancel order') }}">
+                {{ _('Cancel') }}
+            </button>
+            <button id="proceed-to-summary" 
+                    class="order-action-button order-total-button"
+                    data-template="{{ _('Total %(total).2f %(currency)s', total=0.00, currency=_('PLN')) }}"
+                    data-empty-cart-message="{{ _('Please add items to your order before proceeding.') }}"
+                    data-inactivity-message="{{ _('You have been inactive for a while. Do you want to continue your order?') }}">
+                {{ _('Total') }} {{ "%.2f"|format(0.00) }} {{ _('PLN') }}
+            </button>
+        </footer>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js', v=1) }}"></script>
+    <script src="{{ url_for('static', filename='js/order.js') }}"></script>
+
+    <!-- Add these just before the closing </body> tag, before your other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add this just before the closing </body> tag -->
+    <div class="modal fade" id="suggestedProductsModal" tabindex="-1" aria-labelledby="suggestedProductsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="suggestedProductsModalLabel">{{ _('Suggested Products') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="suggested-products-list">
+                        <!-- Produkty będą dodawane dynamicznie -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="proceedToSummaryFromModal">{{ _('Continue to Summary') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upewnij się, że sekcja order summary ma odpowiednią klasę -->
+    <div class="order-summary">
+        <!-- Istniejąca zawartość order summary -->
+    </div>
+</body>
+</html>
